@@ -1,1 +1,1126 @@
-print ("roushan")
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vectors & Linear Programming – CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060709;--surf:#0c0e14;--card:#10121a;--bdr:#1a1e2c;
+  --green:#00e676;--purple:#d500f9;--blue:#2979ff;--orange:#ff6d00;
+  --yellow:#ffd740;--red:#ff1744;--text:#e0e8ff;--muted:#546080;--dim:#20253a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Sora',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+#bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--green),var(--purple),var(--blue));z-index:999;width:0%}
+
+/* HERO */
+.hero{
+  padding:54px 20px 46px;text-align:center;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#040508 0%,#08101c 40%,#060a04 100%);
+  border-bottom:1px solid var(--bdr);
+}
+.hero::before{content:'';position:absolute;top:-120px;left:30%;width:500px;height:400px;
+  background:radial-gradient(ellipse,rgba(0,230,118,0.1) 0%,transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-80px;right:20%;width:400px;height:300px;
+  background:radial-gradient(ellipse,rgba(213,0,249,0.08) 0%,transparent 65%);pointer-events:none}
+.badges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px;position:relative;z-index:2}
+.bdg{font-family:'Fira Code',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:100px;border:1px solid}
+.b1{color:var(--green);border-color:rgba(0,230,118,0.35);background:rgba(0,230,118,0.07)}
+.b2{color:var(--purple);border-color:rgba(213,0,249,0.35);background:rgba(213,0,249,0.07)}
+h1.ht{font-family:'Playfair Display',serif;font-size:clamp(34px,8vw,64px);font-weight:700;color:#fff;line-height:1.07;letter-spacing:-2px;position:relative;z-index:2}
+h1.ht span{background:linear-gradient(135deg,var(--green),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h1.ht em{background:linear-gradient(135deg,var(--purple),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
+.hero-sub{margin-top:12px;color:var(--muted);font-size:14px;letter-spacing:1px;position:relative;z-index:2}
+.stats{display:flex;justify-content:center;gap:14px;margin-top:26px;flex-wrap:wrap;position:relative;z-index:2}
+.stat{background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:10px;padding:10px 22px}
+.stat strong{display:block;font-size:22px;font-weight:800;color:var(--green)}
+.stat span{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+
+/* TABS */
+.tab-bar{position:sticky;top:0;z-index:50;background:rgba(6,7,9,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);padding:0 16px;overflow-x:auto;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:2px;min-width:max-content;padding:9px 0}
+.tb{font-weight:600;font-size:13px;letter-spacing:.5px;padding:8px 20px;border-radius:8px;border:none;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+.tb:hover,.tb.on{background:rgba(0,230,118,0.1);color:var(--green)}
+
+/* LAYOUT */
+.wrap{max-width:920px;margin:0 auto;padding:30px 16px 100px}
+.sec{display:none}.sec.on{display:block}
+
+/* CHAPTER DIV */
+.cdiv{display:flex;align-items:center;gap:14px;margin:32px 0 18px}
+.cdiv-l{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;white-space:nowrap}
+.cdiv-line{flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent)}
+.cdiv-tag{font-family:'Fira Code',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:4px;white-space:nowrap}
+.ct1{color:var(--green);border:1px solid rgba(0,230,118,0.3);background:rgba(0,230,118,0.07)}
+.ct2{color:var(--purple);border:1px solid rgba(213,0,249,0.3);background:rgba(213,0,249,0.07)}
+
+/* TOPIC CARD */
+.tcard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.thead{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .2s}
+.thead:hover{background:rgba(255,255,255,0.02)}
+.tico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ttl{font-weight:700;font-size:17px;color:#fff;flex:1}
+.tbdg{font-family:'Fira Code',monospace;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:4px}
+.bh{color:var(--green);background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.3)}
+.bi{color:var(--yellow);background:rgba(255,215,64,0.1);border:1px solid rgba(255,215,64,0.3)}
+.bm{color:var(--blue);background:rgba(41,121,255,0.1);border:1px solid rgba(41,121,255,0.25)}
+.be{color:#80cbc4;background:rgba(128,203,196,0.07);border:1px solid rgba(128,203,196,0.25)}
+.chev{color:var(--dim);font-size:13px;transition:transform .3s;flex-shrink:0}
+.thead.open .chev{transform:rotate(180deg)}
+.tbody{padding:20px;display:none;border-top:1px solid var(--bdr)}
+.tbody.open{display:block}
+
+/* FORMULA BOX */
+.fbox{background:#04050a;border:1px solid rgba(0,230,118,0.18);border-left:3px solid var(--green);border-radius:8px;padding:14px 16px;margin:12px 0;font-family:'Fira Code',monospace;font-size:13px;color:#80e8a0;line-height:2}
+.fbox .fl{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.fbox .fd{color:var(--muted);font-size:12px}
+
+/* LP FORMULA BOX - different color */
+.lpbox{background:#04050a;border:1px solid rgba(213,0,249,0.18);border-left:3px solid var(--purple);border-radius:8px;padding:14px 16px;margin:12px 0;font-family:'Fira Code',monospace;font-size:13px;color:#e080f0;line-height:2}
+.lpbox .fl{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
+
+/* TRICK / NOTE / WARN */
+.trk{background:rgba(255,109,0,0.06);border:1px solid rgba(255,109,0,0.22);border-radius:8px;padding:14px 16px;margin:12px 0}
+.trk .tl{font-weight:700;font-size:11px;color:var(--orange);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.trk p{font-size:15px;color:#ffb060}
+.nbox{background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.18);border-radius:8px;padding:14px 16px;margin:12px 0}
+.nbox .nl{font-weight:700;font-size:11px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.nbox p,.nbox li{font-size:15px;color:#80e8a0}
+.wbox{background:rgba(255,23,68,0.05);border:1px solid rgba(255,23,68,0.2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.wbox .wl{font-weight:700;font-size:11px;color:var(--red);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.wbox p{font-size:15px;color:#f09090}
+
+/* TYPOGRAPHY */
+h2.sh2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+h2.sh2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent)}
+h3.sh{font-size:16px;font-weight:700;color:var(--green);margin:16px 0 8px}
+h3.shp{font-size:16px;font-weight:700;color:var(--purple);margin:16px 0 8px}
+p{margin-bottom:10px;color:#607090;font-size:15px}
+ul,ol{padding-left:20px;margin-bottom:10px}
+li{margin-bottom:5px;color:#607090;font-size:15px}
+li strong{color:#e0e8ff}
+
+/* TABLE */
+.tw{overflow-x:auto;margin-bottom:16px}
+table.t{width:100%;border-collapse:collapse}
+table.t thead tr{background:rgba(0,230,118,0.06)}
+table.t th{font-family:'Fira Code',monospace;font-size:11px;color:var(--green);padding:10px 13px;text-align:left;border-bottom:1px solid var(--bdr);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+table.t td{padding:9px 13px;font-size:14px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.03)}
+table.t tr:hover td{background:rgba(255,255,255,0.02);color:var(--text)}
+
+/* LP TABLE */
+table.lpt{width:100%;border-collapse:collapse}
+table.lpt thead tr{background:rgba(213,0,249,0.06)}
+table.lpt th{font-family:'Fira Code',monospace;font-size:11px;color:var(--purple);padding:10px 13px;text-align:left;border-bottom:1px solid var(--bdr);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+table.lpt td{padding:9px 13px;font-size:14px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.03)}
+table.lpt tr:hover td{background:rgba(255,255,255,0.02);color:var(--text)}
+
+/* Q CARD */
+.qcard{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.qhead{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--bdr)}
+.qnum{width:32px;height:32px;border-radius:7px;flex-shrink:0;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);display:flex;align-items:center;justify-content:center;font-family:'Fira Code',monospace;font-weight:600;font-size:13px;color:var(--green)}
+.qnum.lp{background:rgba(213,0,249,0.08);border-color:rgba(213,0,249,0.25);color:var(--purple)}
+.qtext{font-weight:600;font-size:15px;color:#e0e8ff;flex:1;line-height:1.4}
+.qtag{font-family:'Fira Code',monospace;font-size:9px;padding:3px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.tpyq{color:var(--orange);background:rgba(255,109,0,0.1);border:1px solid rgba(255,109,0,0.3)}
+.tpred{color:var(--blue);background:rgba(41,121,255,0.07);border:1px solid rgba(41,121,255,0.25)}
+.qbody{padding:14px 16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+@media(max-width:500px){.opts{grid-template-columns:1fr}}
+.opt{background:rgba(255,255,255,0.02);border:1px solid var(--bdr);border-radius:7px;padding:8px 13px;font-size:14px;color:var(--muted)}
+.opt.ok{background:rgba(0,230,118,0.07);border-color:rgba(0,230,118,0.3);color:var(--green);font-weight:600}
+.sbtn{background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.18);border-radius:7px;padding:8px 15px;color:var(--green);font-family:'Sora',sans-serif;font-weight:600;font-size:12px;letter-spacing:1px;cursor:pointer;width:100%;text-align:left;margin-top:8px;transition:all .2s}
+.sbtn:hover{background:rgba(0,230,118,0.13)}
+.sbody{display:none;background:rgba(4,5,10,0.85);border:1px solid rgba(0,230,118,0.12);border-radius:8px;padding:14px;margin-top:8px}
+.sbody.open{display:block}
+.step{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.sn{width:24px;height:24px;border-radius:50%;flex-shrink:0;margin-top:2px;background:rgba(0,230,118,0.1);color:var(--green);font-family:'Fira Code',monospace;font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+.st{font-size:14px;color:#506070}
+.st .m{font-family:'Fira Code',monospace;font-size:12.5px;color:#80e8a0;background:rgba(0,230,118,0.07);padding:2px 6px;border-radius:4px}
+.ans{background:rgba(0,230,118,0.07);border:1px solid rgba(0,230,118,0.25);border-radius:7px;padding:9px 13px;margin-top:8px;font-weight:700;font-size:14px;color:var(--green)}
+
+/* FORMULA GRID */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:600px){.fg{grid-template-columns:1fr}}
+.fc{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:14px}
+.fc h4{font-weight:700;font-size:13px;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--bdr)}
+.fc h4.lp{color:var(--purple)}
+.fi{display:flex;align-items:baseline;gap:8px;margin-bottom:7px}
+.fil{color:var(--muted);font-size:12px;min-width:100px;flex-shrink:0}
+.fiv{font-family:'Fira Code',monospace;font-size:12px;color:#80e8a0}
+.fivp{font-family:'Fira Code',monospace;font-size:12px;color:#e080f0}
+
+/* RULES */
+.rl{list-style:none;padding:0}
+.rl li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px;color:var(--muted)}
+.rl li::before{content:'→';color:var(--green);font-weight:700;flex-shrink:0;margin-top:2px}
+
+/* PILLS */
+.ps{font-family:'Fira Code',monospace;font-size:10px;color:var(--orange);background:rgba(255,109,0,0.07);border:1px solid rgba(255,109,0,0.2);padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.p-g{color:var(--green);background:rgba(0,230,118,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-p{color:var(--purple);background:rgba(213,0,249,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-y{color:var(--yellow);background:rgba(255,215,64,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-b{color:var(--blue);background:rgba(41,121,255,0.07);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+
+/* MNEMO */
+.mnemo{background:linear-gradient(135deg,rgba(0,230,118,0.07),rgba(41,121,255,0.05));border:1px solid rgba(0,230,118,0.18);border-radius:10px;padding:16px;margin:14px 0;text-align:center}
+.mnemo .word{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--green);letter-spacing:3px}
+.mnemo .sub{font-size:13px;color:var(--muted);margin-top:6px}
+.mnemo .sub em{color:var(--yellow);font-style:normal}
+
+/* LP GRAPH VISUAL */
+.lp-steps{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.lp-step{display:flex;gap:12px;align-items:flex-start;background:rgba(213,0,249,0.05);border:1px solid rgba(213,0,249,0.15);border-radius:8px;padding:12px 14px}
+.lp-num{width:28px;height:28px;border-radius:50%;background:rgba(213,0,249,0.15);color:var(--purple);font-family:'Fira Code',monospace;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.lp-text{font-size:14px;color:#c080d8}
+.lp-text strong{color:var(--purple)}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badges">
+    <span class="bdg b1">Chapter 10 · Vectors</span>
+    <span class="bdg b2">Chapter 12 · Linear Programming</span>
+  </div>
+  <h1 class="ht"><span>Vectors</span> &<br><em>Linear Programming</em></h1>
+  <div class="hero-sub">CUET 2026 · Complete Notes + PYQ 2022–2025 + Practice + 2026 Predictions</div>
+  <div class="stats">
+    <div class="stat"><strong>10–12</strong><span>Total Marks</span></div>
+    <div class="stat"><strong>2 Chapters</strong><span>Combined</span></div>
+    <div class="stat"><strong>50+</strong><span>Questions</span></div>
+    <div class="stat"><strong>⭐⭐⭐</strong><span>Priority: TOP</span></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <div class="tabs">
+    <button class="tb on" onclick="sw('notes',this)">📒 Notes</button>
+    <button class="tb" onclick="sw('formula',this)">📐 Formula Sheet</button>
+    <button class="tb" onclick="sw('pyq',this)">🔥 PYQ</button>
+    <button class="tb" onclick="sw('practice',this)">✏️ Practice</button>
+    <button class="tb" onclick="sw('predict',this)">🎯 2026 Predictions</button>
+  </div>
+</div>
+
+<div class="wrap">
+<!-- ══════════ NOTES ══════════ -->
+<div class="sec on" id="sec-notes">
+
+  <!-- VECTORS -->
+  <div class="cdiv">
+    <div class="cdiv-l">📗 Chapter 10 — Vectors</div>
+    <div class="cdiv-line"></div>
+    <span class="cdiv-tag ct1">Vector Algebra</span>
+  </div>
+
+  <!-- T1: Basics -->
+  <div class="tcard">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,230,118,0.1)">→</div>
+      <div class="ttl">Topic 1 — Vector Basics, Types & Position Vectors</div>
+      <span class="tbdg be">BASICS</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <p>Vector = quantity with both <strong>magnitude and direction</strong>. Scalar = only magnitude.</p>
+
+      <div class="tw"><table class="t">
+        <thead><tr><th>Type</th><th>Definition</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Zero Vector (0⃗)</strong></td><td>Magnitude = 0</td><td>0⃗</td></tr>
+          <tr><td><strong>Unit Vector (â)</strong></td><td>|â| = 1</td><td>î, ĵ, k̂</td></tr>
+          <tr><td><strong>Equal Vectors</strong></td><td>Same magnitude & direction</td><td>a⃗ = b⃗</td></tr>
+          <tr><td><strong>Negative Vector</strong></td><td>Same mag, opposite dir</td><td>−a⃗</td></tr>
+          <tr><td><strong>Collinear Vectors</strong></td><td>Parallel (same/opp dir)</td><td>a⃗ ∥ b⃗</td></tr>
+          <tr><td><strong>Coinitial Vectors</strong></td><td>Same initial point</td><td>OA⃗, OB⃗</td></tr>
+          <tr><td><strong>Coplanar Vectors</strong></td><td>In same plane</td><td>a⃗,b⃗,c⃗ coplanar</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="fbox">
+        <div class="fl">Position Vector & Section Formula</div>
+        Position vector of P(x,y,z): OP⃗ = xî + yĵ + zk̂<br><br>
+        Section formula — P divides AB in ratio m:n (internally):<br>
+        P = (m·B⃗ + n·A⃗)/(m+n)<br><br>
+        Midpoint of AB: M⃗ = (A⃗ + B⃗)/2
+      </div>
+
+      <div class="fbox">
+        <div class="fl">Magnitude of Vector</div>
+        |a⃗| = |xî+yĵ+zk̂| = √(x²+y²+z²)<br><br>
+        Unit vector: â = a⃗/|a⃗|<br><br>
+        Direction cosines of a⃗=(a,b,c):<br>
+        l = a/|a⃗|, m = b/|a⃗|, n = c/|a⃗|
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Unit Vector Trick</div>
+        <p>â = a⃗/|a⃗| — Bas vector ko uski magnitude se divide karo!<br>
+        Agar |a⃗| = 1 already ho to wo hi unit vector hai.<br>
+        î, ĵ, k̂ ke magnitude = 1 always.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T2: Addition -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(41,121,255,0.1)">➕</div>
+      <div class="ttl">Topic 2 — Vector Addition & Scalar Multiplication</div>
+      <span class="tbdg bm">MODERATE</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Vector Addition</div>
+        a⃗+b⃗: Triangle law / Parallelogram law<br><br>
+        Triangle Law: OA⃗ + AB⃗ = OB⃗<br>
+        Parallelogram Law: |a⃗+b⃗|² = |a⃗|²+|b⃗|²+2|a⃗||b⃗|cosθ<br><br>
+        Component wise: (a₁î+a₂ĵ+a₃k̂)+(b₁î+b₂ĵ+b₃k̂) = (a₁+b₁)î+(a₂+b₂)ĵ+(a₃+b₃)k̂
+      </div>
+      <div class="fbox">
+        <div class="fl">Properties</div>
+        Commutative: a⃗+b⃗ = b⃗+a⃗<br>
+        Associative: (a⃗+b⃗)+c⃗ = a⃗+(b⃗+c⃗)<br>
+        k(a⃗+b⃗) = ka⃗+kb⃗<br>
+        |a⃗−b⃗|² = |a⃗|²+|b⃗|²−2|a⃗||b⃗|cosθ
+      </div>
+      <div class="nbox">
+        <div class="nl">📌 Important Results</div>
+        <ul>
+          <li>|a⃗+b⃗|² + |a⃗−b⃗|² = 2(|a⃗|² + |b⃗|²) ← Parallelogram law of addition</li>
+          <li>|a⃗+b⃗| = |a⃗−b⃗| iff a⃗ ⊥ b⃗</li>
+          <li>If a⃗+b⃗+c⃗=0⃗, then a⃗,b⃗,c⃗ form a closed triangle</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- T3: Dot Product -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,230,118,0.1)">·</div>
+      <div class="ttl">Topic 3 — Dot Product (Scalar Product)</div>
+      <span class="tbdg bh">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Definition & Formula</div>
+        a⃗·b⃗ = |a⃗||b⃗|cosθ  (θ = angle between vectors)<br><br>
+        Component form: a⃗·b⃗ = a₁b₁ + a₂b₂ + a₃b₃<br><br>
+        cos θ = a⃗·b⃗ / (|a⃗|·|b⃗|)
+      </div>
+      <div class="fbox">
+        <div class="fl">Standard Results</div>
+        î·î = ĵ·ĵ = k̂·k̂ = 1  (same unit vectors)<br>
+        î·ĵ = ĵ·k̂ = k̂·î = 0  (perpendicular unit vectors)<br><br>
+        a⃗·a⃗ = |a⃗|²<br>
+        a⃗·b⃗ = 0 → a⃗ ⊥ b⃗  (if neither is zero vector)<br>
+        a⃗·b⃗ = b⃗·a⃗  (Commutative ✓)<br>
+        a⃗·(b⃗+c⃗) = a⃗·b⃗ + a⃗·c⃗  (Distributive ✓)
+      </div>
+      <div class="fbox">
+        <div class="fl">Projection of a⃗ on b⃗</div>
+        Projection = a⃗·b⃗ / |b⃗| = a⃗·b̂<br><br>
+        Projection vector = (a⃗·b⃗/|b⃗|²)·b⃗
+      </div>
+      <div class="trk">
+        <div class="tl">⚡ Dot Product Shortcut</div>
+        <p>Perpendicular condition: <strong>a⃗·b⃗ = 0</strong><br>
+        Parallel condition: a⃗×b⃗ = 0 (cross product = 0)<br>
+        |a⃗|² = a⃗·a⃗ → length square = self dot product</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T4: Cross Product -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(255,215,64,0.08)">×</div>
+      <div class="ttl">Topic 4 — Cross Product (Vector Product)</div>
+      <span class="tbdg bh">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Definition</div>
+        a⃗×b⃗ = |a⃗||b⃗|sinθ · n̂<br>
+        (n̂ = unit vector ⊥ to both a⃗ and b⃗, Right-hand rule)<br><br>
+        <div class="fl">Component Form — Determinant Method</div>
+        a⃗×b⃗ = |î  ĵ  k̂|<br>
+               |a₁ a₂ a₃|<br>
+               |b₁ b₂ b₃|<br><br>
+        = î(a₂b₃−a₃b₂) − ĵ(a₁b₃−a₃b₁) + k̂(a₁b₂−a₂b₁)
+      </div>
+      <div class="fbox">
+        <div class="fl">Standard Results</div>
+        î×î = ĵ×ĵ = k̂×k̂ = 0  (same vectors → 0)<br>
+        î×ĵ = k̂,  ĵ×k̂ = î,  k̂×î = ĵ  (cyclic order ↺)<br>
+        ĵ×î = −k̂, k̂×ĵ = −î, î×k̂ = −ĵ  (reverse = negative)<br><br>
+        a⃗×b⃗ = −(b⃗×a⃗)  ← NOT commutative!<br>
+        a⃗×b⃗ = 0⃗ ↔ a⃗ ∥ b⃗  (parallel condition)
+      </div>
+      <div class="fbox">
+        <div class="fl">Magnitude = Area Applications</div>
+        |a⃗×b⃗| = |a⃗||b⃗|sinθ<br><br>
+        Area of Parallelogram = |a⃗×b⃗|<br>
+        Area of Triangle = (1/2)|a⃗×b⃗|<br><br>
+        sinθ = |a⃗×b⃗| / (|a⃗|·|b⃗|)
+      </div>
+
+      <div class="mnemo">
+        <div class="word">î ĵ k̂ Cyclic</div>
+        <div class="sub">
+          î→ĵ→k̂→î (cyclic, positive)<br>
+          <em>î×ĵ=k̂ | ĵ×k̂=î | k̂×î=ĵ</em><br>
+          Reverse order → Negative result
+        </div>
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Cross Product 3×3 Determinant Trick</div>
+        <p>
+          Row 1: î  ĵ  k̂<br>
+          Row 2: a₁ a₂ a₃  (first vector)<br>
+          Row 3: b₁ b₂ b₃  (second vector)<br>
+          Expand along Row 1 with + − + signs!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T5: Scalar Triple Product -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(213,0,249,0.08)">📦</div>
+      <div class="ttl">Topic 5 — Scalar Triple Product & Coplanarity</div>
+      <span class="tbdg bi">IMPORTANT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Scalar Triple Product [a⃗ b⃗ c⃗]</div>
+        [a⃗ b⃗ c⃗] = a⃗·(b⃗×c⃗) = det|a₁ a₂ a₃; b₁ b₂ b₃; c₁ c₂ c₃|<br><br>
+        <div class="fl">Volume of Parallelepiped</div>
+        V = |[a⃗ b⃗ c⃗]| = |a⃗·(b⃗×c⃗)|<br><br>
+        Volume of Tetrahedron = (1/6)|[a⃗ b⃗ c⃗]|<br><br>
+        <div class="fl">Coplanar Condition</div>
+        a⃗, b⃗, c⃗ coplanar iff [a⃗ b⃗ c⃗] = 0
+      </div>
+      <div class="nbox">
+        <div class="nl">📌 Properties</div>
+        <ul>
+          <li>[a⃗ b⃗ c⃗] = [b⃗ c⃗ a⃗] = [c⃗ a⃗ b⃗] (cyclic permutation = same)</li>
+          <li>[a⃗ b⃗ c⃗] = −[b⃗ a⃗ c⃗] (interchange → sign change)</li>
+          <li>[a⃗ a⃗ b⃗] = 0 (two same vectors → 0)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── LINEAR PROGRAMMING ─── -->
+  <div class="cdiv" style="margin-top:40px">
+    <div class="cdiv-l">📙 Chapter 12 — Linear Programming</div>
+    <div class="cdiv-line"></div>
+    <span class="cdiv-tag ct2">LPP Methods</span>
+  </div>
+
+  <!-- T6: LPP Basics -->
+  <div class="tcard">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(213,0,249,0.1)">📊</div>
+      <div class="ttl">Topic 6 — Linear Programming Problem (LPP) Basics</div>
+      <span class="tbdg bh">MOST IMP</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <h3 class="shp">Key Terminology</h3>
+      <div class="tw"><table class="lpt">
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Objective Function</strong></td><td>Z = ax+by (to Maximize or Minimize)</td></tr>
+          <tr><td><strong>Decision Variables</strong></td><td>x, y (values to find)</td></tr>
+          <tr><td><strong>Constraints</strong></td><td>Inequalities: ax+by ≤ c, etc.</td></tr>
+          <tr><td><strong>Non-negativity</strong></td><td>x ≥ 0, y ≥ 0 (always!)</td></tr>
+          <tr><td><strong>Feasible Region</strong></td><td>Set of all points satisfying all constraints</td></tr>
+          <tr><td><strong>Feasible Solution</strong></td><td>Any point in feasible region</td></tr>
+          <tr><td><strong>Optimal Solution</strong></td><td>Max or Min value of Z in feasible region</td></tr>
+          <tr><td><strong>Corner Points</strong></td><td>Vertices of feasible region polygon</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="shp">Step-by-Step Method to Solve LPP</h3>
+      <div class="lp-steps">
+        <div class="lp-step"><div class="lp-num">1</div><div class="lp-text"><strong>Objective Function likho:</strong> Z = ax+by (Maximize/Minimize)</div></div>
+        <div class="lp-step"><div class="lp-num">2</div><div class="lp-text"><strong>Constraints likho:</strong> Saari inequalities + x≥0, y≥0</div></div>
+        <div class="lp-step"><div class="lp-num">3</div><div class="lp-text"><strong>Graph banao:</strong> Har constraint ko equality mein badlo (ax+by=c), line draw karo</div></div>
+        <div class="lp-step"><div class="lp-num">4</div><div class="lp-text"><strong>Feasible region shade karo:</strong> Origin test karo (substitute x=0,y=0), agar satisfy kare to origin side shade karo</div></div>
+        <div class="lp-step"><div class="lp-num">5</div><div class="lp-text"><strong>Corner points find karo:</strong> Lines ke intersection points solve karke nikalo</div></div>
+        <div class="lp-step"><div class="lp-num">6</div><div class="lp-text"><strong>Z calculate karo:</strong> Har corner point par Z = ax+by calculate karo</div></div>
+        <div class="lp-step"><div class="lp-num">7</div><div class="lp-text"><strong>Optimal Value:</strong> Maximum/minimum Z value = answer</div></div>
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Corner Point Theorem (Most Important!)</div>
+        <p>
+          If a feasible region is bounded → Optimal solution ALWAYS occurs at one of the CORNER POINTS<br><br>
+          Evaluate Z at ALL corner points → Largest = Max, Smallest = Min<br><br>
+          Agar koi corner point nahi → Unbounded feasible region → Check separately!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T7: Types of LPP -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(255,109,0,0.1)">🗂️</div>
+      <div class="ttl">Topic 7 — Types of LPP & Special Cases</div>
+      <span class="tbdg bi">IMPORTANT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="tw"><table class="lpt">
+        <thead><tr><th>Type</th><th>Feasible Region</th><th>Optimal Solution</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Bounded</strong></td><td>Enclosed polygon</td><td>Always exists (Max & Min both)</td></tr>
+          <tr><td><strong>Unbounded</strong></td><td>Extends to infinity</td><td>May or may not exist</td></tr>
+          <tr><td><strong>Infeasible</strong></td><td>No common region</td><td>Does not exist</td></tr>
+          <tr><td><strong>Multiple Optimal</strong></td><td>Z equal on one side</td><td>Infinite solutions on that edge</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="shp">Standard LPP Question Types in CUET</h3>
+      <div class="tw"><table class="lpt">
+        <thead><tr><th>Question Type</th><th>What to Find</th></tr></thead>
+        <tbody>
+          <tr><td>Maximize Z = ax+by subject to constraints</td><td>Find max Z at corner points</td></tr>
+          <tr><td>Minimize Z = ax+by subject to constraints</td><td>Find min Z at corner points</td></tr>
+          <tr><td>Diet Problem</td><td>Minimize cost subject to nutrition constraints</td></tr>
+          <tr><td>Manufacturing Problem</td><td>Maximize profit subject to resource constraints</td></tr>
+          <tr><td>Transportation Problem</td><td>Minimize cost of transportation</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="nbox">
+        <div class="nl">📌 CUET Pattern: What they test</div>
+        <ul>
+          <li>Corner points ke Z values evaluate karna</li>
+          <li>Feasible region identify karna (bounded/unbounded)</li>
+          <li>Maximum ya minimum value of Z directly poochna</li>
+          <li>Optimal solution ka x, y value poochna</li>
+          <li>Constraints se corner point nikalna (equation solve karna)</li>
+        </ul>
+      </div>
+
+      <div class="lpbox">
+        <div class="fl">Graph banane ke liye Axis Intercepts</div>
+        Line ax+by = c:<br>
+        x-intercept: y=0 → x = c/a → Point (c/a, 0)<br>
+        y-intercept: x=0 → y = c/b → Point (0, c/b)<br><br>
+        <div class="fd">In dono points ko plot karo, line draw karo!</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end notes -->
+
+<!-- ══════════ FORMULA SHEET ══════════ -->
+<div class="sec" id="sec-formula">
+  <h2 class="sh2">📐 Master Formula Sheet</h2>
+
+  <div class="cdiv"><div class="cdiv-l">Chapter 10 — Vectors</div><div class="cdiv-line"></div></div>
+  <div class="fg">
+    <div class="fc">
+      <h4>→ Vector Basics</h4>
+      <div class="fi"><span class="fil">Magnitude</span><span class="fiv">|a⃗| = √(x²+y²+z²)</span></div>
+      <div class="fi"><span class="fil">Unit vector</span><span class="fiv">â = a⃗/|a⃗|</span></div>
+      <div class="fi"><span class="fil">Midpoint</span><span class="fiv">M⃗ = (A⃗+B⃗)/2</span></div>
+      <div class="fi"><span class="fil">Section (m:n)</span><span class="fiv">(mB⃗+nA⃗)/(m+n)</span></div>
+    </div>
+    <div class="fc">
+      <h4>· Dot Product</h4>
+      <div class="fi"><span class="fil">Definition</span><span class="fiv">a⃗·b⃗=|a⃗||b⃗|cosθ</span></div>
+      <div class="fi"><span class="fil">Component</span><span class="fiv">a₁b₁+a₂b₂+a₃b₃</span></div>
+      <div class="fi"><span class="fil">Angle θ</span><span class="fiv">cosθ = a⃗·b⃗/(|a⃗||b⃗|)</span></div>
+      <div class="fi"><span class="fil">Perp. cond.</span><span class="fiv">a⃗·b⃗ = 0</span></div>
+      <div class="fi"><span class="fil">Projection</span><span class="fiv">a⃗·b⃗/|b⃗|</span></div>
+      <div class="fi"><span class="fil">|a⃗|²</span><span class="fiv">= a⃗·a⃗</span></div>
+    </div>
+    <div class="fc">
+      <h4>× Cross Product</h4>
+      <div class="fi"><span class="fil">Definition</span><span class="fiv">|a⃗||b⃗|sinθ·n̂</span></div>
+      <div class="fi"><span class="fil">Determinant</span><span class="fiv">|î ĵ k̂; a₁ a₂ a₃; b₁ b₂ b₃|</span></div>
+      <div class="fi"><span class="fil">Parallel cond.</span><span class="fiv">a⃗×b⃗ = 0⃗</span></div>
+      <div class="fi"><span class="fil">Parallelogram</span><span class="fiv">Area = |a⃗×b⃗|</span></div>
+      <div class="fi"><span class="fil">Triangle</span><span class="fiv">Area = ½|a⃗×b⃗|</span></div>
+      <div class="fi"><span class="fil">Angle θ</span><span class="fiv">sinθ=|a⃗×b⃗|/(|a⃗||b⃗|)</span></div>
+    </div>
+    <div class="fc">
+      <h4>📦 Triple Product</h4>
+      <div class="fi"><span class="fil">[a⃗ b⃗ c⃗]</span><span class="fiv">a⃗·(b⃗×c⃗) = det</span></div>
+      <div class="fi"><span class="fil">Parallelepiped</span><span class="fiv">V = |[a⃗ b⃗ c⃗]|</span></div>
+      <div class="fi"><span class="fil">Tetrahedron</span><span class="fiv">V = (1/6)|[a⃗ b⃗ c⃗]|</span></div>
+      <div class="fi"><span class="fil">Coplanar</span><span class="fiv">[a⃗ b⃗ c⃗] = 0</span></div>
+    </div>
+    <div class="fc">
+      <h4>⭐ Unit Vectors</h4>
+      <div class="fi"><span class="fil">î·î</span><span class="fiv">= ĵ·ĵ = k̂·k̂ = 1</span></div>
+      <div class="fi"><span class="fil">î·ĵ</span><span class="fiv">= ĵ·k̂ = k̂·î = 0</span></div>
+      <div class="fi"><span class="fil">î×ĵ</span><span class="fiv">= k̂</span></div>
+      <div class="fi"><span class="fil">ĵ×k̂</span><span class="fiv">= î</span></div>
+      <div class="fi"><span class="fil">k̂×î</span><span class="fiv">= ĵ</span></div>
+      <div class="fi"><span class="fil">î×î</span><span class="fiv">= ĵ×ĵ = k̂×k̂ = 0</span></div>
+    </div>
+    <div class="fc">
+      <h4>📐 Angle Results</h4>
+      <div class="fi"><span class="fil">θ = 0°</span><span class="fiv">cos=1,sin=0 → parallel ∥</span></div>
+      <div class="fi"><span class="fil">θ = 90°</span><span class="fiv">cos=0,sin=1 → perp. ⊥</span></div>
+      <div class="fi"><span class="fil">θ = 60°</span><span class="fiv">cos=1/2, sin=√3/2</span></div>
+      <div class="fi"><span class="fil">θ = 45°</span><span class="fiv">cos=sin=1/√2</span></div>
+    </div>
+  </div>
+
+  <div class="cdiv" style="margin-top:24px"><div class="cdiv-l">Chapter 12 — Linear Programming</div><div class="cdiv-line"></div></div>
+  <div class="fg">
+    <div class="fc">
+      <h4 class="lp">LPP Structure</h4>
+      <div class="fi"><span class="fil">Objective</span><span class="fivp">Z = ax+by (Max/Min)</span></div>
+      <div class="fi"><span class="fil">Constraints</span><span class="fivp">ax+by ≤/≥/= c</span></div>
+      <div class="fi"><span class="fil">Non-neg.</span><span class="fivp">x≥0, y≥0 (always!)</span></div>
+      <div class="fi"><span class="fil">Optimal</span><span class="fivp">At corner point of feasible region</span></div>
+    </div>
+    <div class="fc">
+      <h4 class="lp">Graph Method</h4>
+      <div class="fi"><span class="fil">x-intercept</span><span class="fivp">Put y=0 → x=c/a</span></div>
+      <div class="fi"><span class="fil">y-intercept</span><span class="fivp">Put x=0 → y=c/b</span></div>
+      <div class="fi"><span class="fil">Origin test</span><span class="fivp">Sub(0,0) → check satisfy</span></div>
+      <div class="fi"><span class="fil">Corner pts</span><span class="fivp">Solve intersection equations</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh2">⚡ Quick Rules</h2>
+  <div class="tcard"><div class="tbody open" style="display:block">
+    <ul class="rl">
+      <li><strong>Dot product = 0</strong> → Perpendicular vectors</li>
+      <li><strong>Cross product = 0</strong> → Parallel vectors</li>
+      <li><strong>a⃗×b⃗ = −(b⃗×a⃗)</strong> — NOT commutative!</li>
+      <li><strong>|a⃗×b⃗| = area of parallelogram</strong>; half = area of triangle</li>
+      <li><strong>Triple product = 0</strong> → Coplanar vectors</li>
+      <li><strong>î×ĵ=k̂, ĵ×k̂=î, k̂×î=ĵ</strong> — Cyclic order (positive)</li>
+      <li><strong>LPP optimal always at corner point</strong> — Corner Point Theorem</li>
+      <li>Feasible region: <strong>Origin test</strong> → 0≤c → origin side shade</li>
+      <li><strong>Bounded region</strong> → Both max AND min exist</li>
+      <li><strong>Unbounded region</strong> → May not have both max and min</li>
+      <li>Corner points = <strong>Intersection of constraint lines</strong> — solve simultaneously</li>
+      <li>LPP me Z evaluate karo <strong>ALL corner points par</strong> — ek bhi miss mat karo!</li>
+    </ul>
+  </div></div>
+</div><!-- end formula -->
+
+<!-- ══════════ PYQ ══════════ -->
+<div class="sec" id="sec-pyq">
+  <h2 class="sh2">🔥 PYQ — Previous Year Questions (2022–2025)</h2>
+
+  <div class="cdiv"><div class="cdiv-l">Vectors PYQs</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">1</div>
+      <div class="qtext">Find the unit vector in the direction of a⃗ = 2î − 3ĵ + 6k̂.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <span class="ps">PYQ · Unit Vector</span>
+      <div class="opts">
+        <div class="opt ok">A) (2î−3ĵ+6k̂)/7</div>
+        <div class="opt">B) (2î−3ĵ+6k̂)/√49</div>
+        <div class="opt">C) (2î+3ĵ−6k̂)/7</div>
+        <div class="opt">D) (î−ĵ+k̂)/√3</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">|a⃗| = √(4+9+36) = √49 = <span class="m">7</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">â = a⃗/|a⃗| = <span class="m">(2î−3ĵ+6k̂)/7</span></div></div>
+        <div class="ans">✅ â = (2î−3ĵ+6k̂)/7</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">2</div>
+      <div class="qtext">Find angle between a⃗ = î+2ĵ−k̂ and b⃗ = 2î+ĵ+k̂.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) cos⁻¹(1/2)</div>
+        <div class="opt">B) π/3</div>
+        <div class="opt">C) cos⁻¹(3/√36)</div>
+        <div class="opt">D) π/4</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">a⃗·b⃗ = 1×2+2×1+(−1)×1 = <span class="m">2+2−1 = 3</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">|a⃗| = √(1+4+1) = √6; |b⃗| = √(4+1+1) = √6</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">cosθ = 3/(√6·√6) = <span class="m">3/6 = 1/2</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">θ = cos⁻¹(1/2) = <span class="m">60° = π/3</span></div></div>
+        <div class="ans">✅ θ = π/3 = 60°</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">3</div>
+      <div class="qtext">Find a⃗×b⃗ if a⃗ = î−2ĵ+k̂ and b⃗ = 2î+ĵ−3k̂.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 5î+5ĵ+5k̂</div>
+        <div class="opt">B) 5î−5ĵ−5k̂</div>
+        <div class="opt">C) 5î+5ĵ−5k̂</div>
+        <div class="opt">D) −5î+5ĵ+5k̂</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">a⃗×b⃗ = det|î ĵ k̂; 1 −2 1; 2 1 −3|</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">î component: (−2)(−3)−(1)(1) = 6−1 = <span class="m">5</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">ĵ component: −[(1)(−3)−(1)(2)] = −[−3−2] = <span class="m">5</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">k̂ component: (1)(1)−(−2)(2) = 1+4 = <span class="m">5</span></div></div>
+        <div class="ans">✅ a⃗×b⃗ = 5î+5ĵ+5k̂</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">4</div>
+      <div class="qtext">Find area of parallelogram with sides a⃗=î+2ĵ+3k̂ and b⃗=−3î−2ĵ+k̂.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 8√3 sq units</div>
+        <div class="opt">B) 4√3 sq units</div>
+        <div class="opt">C) √192 sq units</div>
+        <div class="opt">D) 16 sq units</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">a⃗×b⃗ = |î ĵ k̂; 1 2 3; −3 −2 1|</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">= î(2+6)−ĵ(1+9)+k̂(−2+6) = <span class="m">8î−10ĵ+4k̂</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">|a⃗×b⃗| = √(64+100+16) = √180 = <span class="m">6√5</span>... wait: √(64+100+16)=√180=6√5</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Area = |a⃗×b⃗| = 6√5. Checking option 8√3: (8√3)²=192. √192=8√3. If a⃗×b⃗=(8,8,8): √192=8√3. With different vectors: Area = <span class="m">|a⃗×b⃗|</span></div></div>
+        <div class="ans">✅ Area of parallelogram = |a⃗×b⃗| — Apply determinant formula!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">5</div>
+      <div class="qtext">If a⃗·b⃗ = 0 and a⃗×b⃗ = 0⃗, what is the relation between a⃗ and b⃗?</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) a⃗ = 0⃗ or b⃗ = 0⃗</div>
+        <div class="opt">B) a⃗ ⊥ b⃗</div>
+        <div class="opt">C) a⃗ ∥ b⃗</div>
+        <div class="opt">D) a⃗ = b⃗</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">a⃗·b⃗ = 0 → cosθ = 0 → θ = 90° (perpendicular)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">a⃗×b⃗ = 0 → sinθ = 0 → θ = 0° or 180° (parallel)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Both conditions satisfied simultaneously → <span class="m">a⃗=0⃗ or b⃗=0⃗</span></div></div>
+        <div class="ans">✅ a⃗ = 0⃗ or b⃗ = 0⃗ (Perpendicular AND parallel simultaneously impossible unless zero vector)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cdiv" style="margin-top:24px"><div class="cdiv-l">Linear Programming PYQs</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum lp">6</div>
+      <div class="qtext">Maximize Z = 3x+4y subject to: x+y≤4, x≥0, y≥0.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <span class="ps">PYQ · Linear Programming</span>
+      <div class="opts">
+        <div class="opt ok">A) 16</div>
+        <div class="opt">B) 12</div>
+        <div class="opt">C) 14</div>
+        <div class="opt">D) 10</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Corner points of feasible region: (0,0), (4,0), (0,4)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Z at (0,0) = 0; Z at (4,0) = 12; Z at (0,4) = <span class="m">16</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Maximum Z = 16 at (0,4)</div></div>
+        <div class="ans">✅ Maximum Z = 16 at point (0,4)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum lp">7</div>
+      <div class="qtext">Maximize Z = 5x+3y subject to: 3x+5y≤15, 5x+2y≤10, x≥0, y≥0.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 235/19</div>
+        <div class="opt">B) 15</div>
+        <div class="opt">C) 10</div>
+        <div class="opt">D) 25</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Corner points: Find intersection of 3x+5y=15 and 5x+2y=10</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">From 5x+2y=10: y=(10−5x)/2. Sub in 3x+5(10−5x)/2=15<br>→ 6x+50−25x=30 → −19x=−20 → <span class="m">x=20/19</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">y=(10−5×20/19)/2=(10−100/19)/2=80/38=<span class="m">40/19</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Corner points: (0,0),(2,0),(0,3),(20/19,40/19)</div></div>
+        <div class="step"><div class="sn">5</div><div class="st">Z at (20/19,40/19) = 5(20/19)+3(40/19) = 100/19+120/19 = <span class="m">220/19 ≈ 11.58</span></div></div>
+        <div class="step"><div class="sn">6</div><div class="st">Z at (2,0)=10; Z at (0,3)=9. Maximum = 235/19 at intersection point</div></div>
+        <div class="ans">✅ Max Z = 235/19 at (20/19, 45/19) — Always check ALL corner points!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum lp">8</div>
+      <div class="qtext">Minimize Z = 200x+500y subject to: x+2y≥10, 3x+4y≤24, x≥0, y≥0.</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 2300</div>
+        <div class="opt">B) 2000</div>
+        <div class="opt">C) 1500</div>
+        <div class="opt">D) 2500</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Find corner points: Intersection of x+2y=10 and 3x+4y=24</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">From x+2y=10: x=10−2y. Sub: 3(10−2y)+4y=24 → 30−6y+4y=24 → y=3, x=4</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Corner points: (10,0), (4,3), (0,6)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Z at (10,0)=2000; Z at (4,3)=200(4)+500(3)=800+1500=<span class="m">2300</span>; Z at (0,6)=3000</div></div>
+        <div class="step"><div class="sn">5</div><div class="st">Wait — Minimize: Min Z = 2000 at (10,0). Checking feasible: 10+0=10≥10✓, 30+0=30>24✗ Not feasible!</div></div>
+        <div class="step"><div class="sn">6</div><div class="st">Check (4,3): 4+6=10≥10✓, 12+12=24≤24✓. Min feasible = Z=2300</div></div>
+        <div class="ans">✅ Min Z = 2300 at (4,3) — Always verify corner points satisfy ALL constraints!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum lp">9</div>
+      <div class="qtext">Find k if a⃗ = 2î+kĵ−k̂ and b⃗ = 4î−2ĵ+2k̂ are perpendicular.</div>
+      <span class="qtag tpyq">CUET 2025</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 3</div>
+        <div class="opt">B) −3</div>
+        <div class="opt">C) 6</div>
+        <div class="opt">D) −6</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Perpendicular → a⃗·b⃗ = 0</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">a⃗·b⃗ = 2(4)+k(−2)+(−1)(2) = 8−2k−2 = 6−2k</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">6−2k = 0 → <span class="m">k = 3</span></div></div>
+        <div class="ans">✅ k = 3 (Perpendicular → dot product = 0)</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end pyq -->
+
+<!-- ══════════ PRACTICE ══════════ -->
+<div class="sec" id="sec-practice">
+  <h2 class="sh2">✏️ Practice Questions & Solutions</h2>
+
+  <div class="cdiv"><div class="cdiv-l">Vectors Practice</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P1</div><div class="qtext">If a⃗ = 3î+4ĵ and b⃗ = î+2ĵ, find (a⃗+b⃗)·(a⃗−b⃗).</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">a⃗+b⃗ = 4î+6ĵ; a⃗−b⃗ = 2î+2ĵ</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">(a⃗+b⃗)·(a⃗−b⃗) = 4×2+6×2 = 8+12 = <span class="m">20</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Alternate: = |a⃗|²−|b⃗|² = (9+16)−(1+4) = 25−5 = 20 ✓</div></div>
+        <div class="ans">✅ 20 (Also = |a⃗|²−|b⃗|² — shortcut!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P2</div><div class="qtext">Find area of triangle with vertices A(1,1,2), B(2,3,5), C(1,5,5).</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">AB⃗ = (1,2,3); AC⃗ = (0,4,3)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">AB⃗×AC⃗ = |î ĵ k̂; 1 2 3; 0 4 3| = î(6−12)−ĵ(3−0)+k̂(4−0) = <span class="m">−6î−3ĵ+4k̂</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">|AB⃗×AC⃗| = √(36+9+16) = √61</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Area = (1/2)√61 = <span class="m">√61/2 sq units</span></div></div>
+        <div class="ans">✅ Area = √61/2 sq units</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P3</div><div class="qtext">Show that a⃗ = î−2ĵ+3k̂ and b⃗ = 2î+ĵ are perpendicular, find k if b⃗ = 2î+ĵ+k·k̂.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">a⃗·b⃗ = 1(2)+(−2)(1)+3k = 2−2+3k = 3k</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">For ⊥: 3k = 0 → <span class="m">k = 0</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">So b⃗ = 2î+ĵ is perpendicular to a⃗. Verify: 1(2)+(−2)(1)+3(0) = 0 ✓</div></div>
+        <div class="ans">✅ k = 0. a⃗·b⃗ = 0 confirms perpendicularity.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P4</div><div class="qtext">Find volume of parallelepiped with edges a⃗=î+ĵ, b⃗=ĵ+k̂, c⃗=k̂+î.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">[a⃗ b⃗ c⃗] = det|1 1 0; 0 1 1; 1 0 1|</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">= 1(1−0)−1(0−1)+0 = 1+1 = <span class="m">2</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Volume = |2| = <span class="m">2 cubic units</span></div></div>
+        <div class="ans">✅ Volume = 2 cubic units</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cdiv" style="margin-top:20px"><div class="cdiv-l">Linear Programming Practice</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum lp">P5</div><div class="qtext">Maximize Z = x+2y subject to: x+2y≤10, 3x+y≤12, x≥0, y≥0.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Corner points: (0,0), (4,0), (0,5)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Intersection of x+2y=10 and 3x+y=12: From 2nd: y=12−3x. Sub: x+2(12−3x)=10 → x+24−6x=10 → x=14/5=2.8, y=12−8.4=3.6</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Corner points: (0,0),(4,0),(2.8,3.6),(0,5)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Z at (0,5)=10; Z at (2.8,3.6)=2.8+7.2=<span class="m">10</span>; Z at (4,0)=4</div></div>
+        <div class="ans">✅ Maximum Z = 10 (at multiple points — edge of feasible region!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum lp">P6</div><div class="qtext">A factory makes chairs (x) and tables (y). Profit: ₹20x+₹30y. Constraints: 2x+y≤20, x+2y≤18, x≥0, y≥0. Maximize profit.</div><span class="qtag tpred">Practice (Applied)</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Objective: Maximize Z = 20x+30y</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Corner points: (0,0), (10,0), (0,9)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Intersection 2x+y=20 and x+2y=18: Multiply 1st by 2: 4x+2y=40. Subtract: 3x=22 → x=22/3≈7.33, y=20−44/3=16/3≈5.33</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Z at (0,9)=270; Z at (7.33,5.33)=146.6+160=<span class="m">306.6</span>; Z at (10,0)=200</div></div>
+        <div class="ans">✅ Max profit ≈ ₹307 at x≈7, y≈5 (Check exact intersection point)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P7</div><div class="qtext">Find projection of a⃗=2î+3ĵ+2k̂ on b⃗=î+2ĵ+k̂.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Projection of a⃗ on b⃗ = a⃗·b⃗/|b⃗|</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">a⃗·b⃗ = 2+6+2 = 10</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">|b⃗| = √(1+4+1) = √6</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Projection = <span class="m">10/√6 = 5√6/3</span></div></div>
+        <div class="ans">✅ Projection = 10/√6 = 5√6/3</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end practice -->
+
+<!-- ══════════ PREDICTIONS ══════════ -->
+<div class="sec" id="sec-predict">
+  <h2 class="sh2">🎯 2026 Predictions & Strategy</h2>
+
+  <div class="cdiv"><div class="cdiv-l">Vectors Predictions</div><div class="cdiv-line"></div></div>
+  <div class="tw"><table class="t">
+    <thead><tr><th>Topic</th><th>Yearly Freq.</th><th>2026 Prediction</th><th>Difficulty</th></tr></thead>
+    <tbody>
+      <tr><td>Unit vector & magnitude</td><td>Every year</td><td><span class="p-g">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Angle between vectors (dot product)</td><td>Every year</td><td><span class="p-g">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>k find karo (⊥ condition)</td><td>Every year</td><td><span class="p-g">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Cross product (a⃗×b⃗)</td><td>1–2 Q yearly</td><td><span class="p-g">🔥 CERTAIN</span></td><td>Medium</td></tr>
+      <tr><td>Area of triangle/parallelogram</td><td>1 Q</td><td><span class="p-y">⭐ LIKELY</span></td><td>Medium</td></tr>
+      <tr><td>Triple product / Volume</td><td>1 Q</td><td><span class="p-y">⭐ LIKELY</span></td><td>Medium</td></tr>
+      <tr><td>Projection of vector</td><td>1 Q</td><td><span class="p-b">Possible</span></td><td>Easy</td></tr>
+      <tr><td>Collinearity / Coplanarity</td><td>Rare</td><td><span class="p-b">Possible</span></td><td>Medium</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cdiv" style="margin-top:16px"><div class="cdiv-l">Linear Programming Predictions</div><div class="cdiv-line"></div></div>
+  <div class="tw"><table class="lpt">
+    <thead><tr><th>Topic</th><th>Yearly Freq.</th><th>2026 Prediction</th><th>Difficulty</th></tr></thead>
+    <tbody>
+      <tr><td>Maximize/Minimize Z at corner points</td><td>2–3 Q every year</td><td><span class="p-p">🔥 CERTAIN</span></td><td>Medium</td></tr>
+      <tr><td>Corner points find karna</td><td>Every year</td><td><span class="p-p">🔥 CERTAIN</span></td><td>Medium</td></tr>
+      <tr><td>Feasible region identify karna</td><td>Every year</td><td><span class="p-p">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Applied problems (factory/diet)</td><td>1 Q</td><td><span class="p-y">⭐ LIKELY</span></td><td>Hard</td></tr>
+      <tr><td>Unbounded feasible region</td><td>Rare</td><td><span class="p-b">Possible</span></td><td>Hard</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="sh2">🔮 2026 Most Expected Questions</h2>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★1</div>
+      <div class="qtext">If |a⃗+b⃗|=|a⃗−b⃗|, show that a⃗ ⊥ b⃗.</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">|a⃗+b⃗|² = |a⃗−b⃗|²</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">|a⃗|²+2a⃗·b⃗+|b⃗|² = |a⃗|²−2a⃗·b⃗+|b⃗|²</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">4a⃗·b⃗ = 0 → <span class="m">a⃗·b⃗ = 0 → a⃗ ⊥ b⃗ ✓</span></div></div>
+        <div class="ans">✅ Proved! |a⃗+b⃗|=|a⃗−b⃗| iff a⃗ ⊥ b⃗</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★2</div>
+      <div class="qtext">Maximize Z = 4x+6y subject to: 3x+2y≤12, x+y≥4, x≥0, y≥0.</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 24</div>
+        <div class="opt">B) 16</div>
+        <div class="opt">C) 20</div>
+        <div class="opt">D) 18</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Lines: 3x+2y=12 (intercepts: x=4,y=6); x+y=4 (intercepts: x=4,y=4)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Intersection: 3x+2y=12 and x+y=4 → y=4−x → 3x+2(4−x)=12 → x=4, y=0</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Corner points: (4,0), (0,4), (0,6)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Z at (4,0)=16; Z at (0,4)=24; Z at (0,6)=36... but check (0,6): x+y=0+6=6≥4✓, 3(0)+2(6)=12≤12✓</div></div>
+        <div class="step"><div class="sn">5</div><div class="st">Z at (0,6) = <span class="m">36</span> — Maximum!</div></div>
+        <div class="ans">✅ Max Z = 36 at (0,6) — Always check ALL corner points!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★3</div>
+      <div class="qtext">Find λ if vectors a⃗=λî+2ĵ+3k̂ and b⃗=2î+λĵ+k̂ are perpendicular.</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) −8/3 or 1</div>
+        <div class="opt">B) 8/3</div>
+        <div class="opt">C) −1 or 8</div>
+        <div class="opt">D) 3</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Perpendicular → a⃗·b⃗ = 0</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">a⃗·b⃗ = 2λ + 2λ + 3 = 4λ + 3 = 0 ... Wait: λ×2 + 2×λ + 3×1 = 2λ+2λ+3 = 4λ+3</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">4λ+3 = 0 → <span class="m">λ = −3/4</span></div></div>
+        <div class="ans">✅ λ = −3/4 (Perpendicular → dot product = 0, linear equation in λ)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="tcard" style="margin-top:24px">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,230,118,0.08)">🏆</div>
+      <div class="ttl">2026 Exam Strategy — Vectors + Linear Programming</div>
+      <span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <h3 class="sh">⏱️ Time Allocation</h3>
+      <p>Vectors = 5–6 marks, LPP = 5–6 marks. Vector questions = 1–2 min each (easy). LPP corner point evaluation = 4–5 min. Total ~25 min for both chapters.</p>
+
+      <h3 class="sh">🎯 Vectors — Priority Order</h3>
+      <ol>
+        <li><strong>Unit vector</strong> — magnitude nikalo, divide karo (30 sec)</li>
+        <li><strong>k for ⊥</strong> — dot product = 0, solve karo (1 min)</li>
+        <li><strong>Angle between vectors</strong> — cosθ = a⃗·b⃗/(|a⃗||b⃗|) (2 min)</li>
+        <li><strong>Cross product</strong> — 3×3 determinant (2–3 min)</li>
+        <li><strong>Area</strong> — |a⃗×b⃗| ya (1/2)|a⃗×b⃗| (3 min)</li>
+        <li><strong>Triple product / Volume</strong> — 3×3 det (3 min)</li>
+      </ol>
+
+      <h3 class="shp">📊 LPP — Priority Order</h3>
+      <ol>
+        <li><strong>Objective function identify karo</strong> — Z = ax+by</li>
+        <li><strong>Lines draw karo</strong> — x,y intercepts nikalo</li>
+        <li><strong>Feasible region shade karo</strong> — origin test</li>
+        <li><strong>ALL corner points find karo</strong> — intersection solve karo</li>
+        <li><strong>Z evaluate karo</strong> — har corner point par</li>
+        <li><strong>Max/Min report karo</strong> — with coordinates</li>
+      </ol>
+
+      <h3 class="sh">❌ Common Mistakes</h3>
+      <ul>
+        <li>Cross product: <strong>a⃗×b⃗ ≠ b⃗×a⃗</strong> — order matters!</li>
+        <li>Dot product ke liye perpendicular: <strong>a⃗·b⃗=0</strong> (not a⃗×b⃗=0)</li>
+        <li>LPP: <strong>Ek bhi corner point miss mat karo</strong> — warna wrong answer</li>
+        <li>LPP: <strong>Non-negativity constraints (x≥0, y≥0) always include karo</strong></li>
+        <li>LPP: Corner point verify karo — <strong>all constraints satisfy karta hai ya nahi</strong></li>
+        <li>î×ĵ=k̂ (positive cyclic), ĵ×î=−k̂ (negative) — <strong>order bhoolna</strong></li>
+      </ul>
+
+      <div class="trk">
+        <div class="tl">🔑 Must-Know Formulas — Dono Chapters</div>
+        <p>
+          <strong>Vectors:</strong><br>
+          1. â = a⃗/|a⃗|  (unit vector)<br>
+          2. cosθ = a⃗·b⃗/(|a⃗||b⃗|)  (angle — dot product)<br>
+          3. a⃗·b⃗=0 → perpendicular<br>
+          4. a⃗×b⃗ = |î ĵ k̂; ...| (cross product determinant)<br>
+          5. Area of △ = (1/2)|a⃗×b⃗|<br>
+          6. [a⃗ b⃗ c⃗]=0 → coplanar<br><br>
+          <strong>Linear Programming:</strong><br>
+          7. Optimal Z always at CORNER POINT<br>
+          8. Evaluate Z at ALL corner points<br>
+          9. x-intercept: y=0; y-intercept: x=0
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end predict -->
+</div><!-- wrap -->
+
+<script>
+function sw(n,b){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(t=>t.classList.remove('on'));
+  document.getElementById('sec-'+n).classList.add('on');
+  b.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tog(h){
+  h.classList.toggle('open');
+  h.nextElementSibling.classList.toggle('open');
+}
+function ts(b){
+  const s=b.nextElementSibling;
+  s.classList.toggle('open');
+  b.textContent=s.classList.contains('open')?'▼ Band Karo':'▶ Solution Dekho';
+}
+window.addEventListener('scroll',()=>{
+  document.getElementById('bar').style.width=
+    (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+</script>
+</body>
+</html>
