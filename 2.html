@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrices & Determinants – CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060810;--surf:#0c0f1a;--card:#101422;--border:#1a1f30;
+  --cyan:#00d4ff;--pink:#ff4da6;--lime:#a8ff3e;--amber:#ffb020;
+  --purple:#9b5de5;--text:#dde4f0;--muted:#5a6580;--dim:#2a3048;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+
+/* PROGRESS */
+#bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--lime));z-index:999;width:0%}
+
+/* HERO */
+.hero{
+  padding:54px 20px 46px;text-align:center;
+  background:linear-gradient(160deg,#04060f 0%,#0b0e20 45%,#080a18 100%);
+  border-bottom:1px solid var(--border);position:relative;overflow:hidden;
+}
+.hero-dots{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(0,212,255,0.15) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
+}
+.badges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px;position:relative;z-index:2}
+.badge-ch{
+  font-family:'Fira Code',monospace;font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:5px 16px;border-radius:100px;border:1px solid;
+}
+.bc1{color:var(--cyan);border-color:rgba(0,212,255,0.35);background:rgba(0,212,255,0.07)}
+.bc2{color:var(--pink);border-color:rgba(255,77,166,0.35);background:rgba(255,77,166,0.07)}
+h1.hero-title{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(36px,8vw,68px);
+  font-weight:700;color:#fff;line-height:1.05;
+  letter-spacing:-2px;position:relative;z-index:2;
+}
+h1.hero-title span{
+  background:linear-gradient(135deg,var(--cyan),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{margin-top:12px;color:var(--muted);font-size:14px;letter-spacing:1px;position:relative;z-index:2}
+.stats{display:flex;justify-content:center;gap:16px;margin-top:28px;flex-wrap:wrap;position:relative;z-index:2}
+.stat{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:10px;padding:10px 22px;
+}
+.stat strong{display:block;font-size:22px;font-weight:800;color:var(--cyan)}
+.stat span{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+
+/* TABS */
+.tab-bar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(6,8,16,0.97);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 16px;overflow-x:auto;scrollbar-width:none;
+}
+.tab-bar::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:2px;min-width:max-content;padding:9px 0}
+.tb{
+  font-weight:600;font-size:13px;letter-spacing:0.5px;
+  padding:8px 20px;border-radius:8px;border:none;
+  background:transparent;color:var(--muted);cursor:pointer;
+  white-space:nowrap;transition:all .2s;
+}
+.tb:hover,.tb.on{background:rgba(0,212,255,0.1);color:var(--cyan)}
+
+/* LAYOUT */
+.wrap{max-width:920px;margin:0 auto;padding:30px 16px 100px}
+.sec{display:none}.sec.on{display:block}
+
+/* CHAPTER DIVIDER */
+.cdiv{
+  display:flex;align-items:center;gap:14px;
+  margin:32px 0 18px;
+}
+.cdiv-label{
+  font-family:'Libre Baskerville',serif;
+  font-size:20px;font-weight:700;color:#fff;white-space:nowrap;
+}
+.cdiv-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.cdiv-tag{
+  font-family:'Fira Code',monospace;font-size:10px;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:3px 12px;border-radius:4px;white-space:nowrap;
+}
+
+/* TOPIC CARD */
+.tcard{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.thead{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;cursor:pointer;user-select:none;
+  transition:background .2s;
+}
+.thead:hover{background:rgba(255,255,255,0.02)}
+.tico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ttitle{font-weight:700;font-size:17px;color:#fff;flex:1}
+.tbadge{
+  font-family:'Fira Code',monospace;font-size:10px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:3px 9px;border-radius:4px;
+}
+.b-hot{color:var(--pink);background:rgba(255,77,166,0.1);border:1px solid rgba(255,77,166,0.3)}
+.b-imp{color:var(--amber);background:rgba(255,176,32,0.1);border:1px solid rgba(255,176,32,0.3)}
+.b-mod{color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25)}
+.b-easy{color:var(--lime);background:rgba(168,255,62,0.07);border:1px solid rgba(168,255,62,0.25)}
+.chev{color:var(--dim);font-size:13px;transition:transform .3s;flex-shrink:0}
+.thead.open .chev{transform:rotate(180deg)}
+.tbody{padding:20px;display:none;border-top:1px solid var(--border)}
+.tbody.open{display:block}
+
+/* FORMULA BOX */
+.fbox{
+  background:#04060e;
+  border:1px solid rgba(0,212,255,0.18);
+  border-left:3px solid var(--cyan);
+  border-radius:8px;padding:14px 16px;margin:12px 0;
+  font-family:'Fira Code',monospace;font-size:13px;color:#80d8f0;line-height:2;
+}
+.fbox .fl{
+  font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;
+}
+.fbox .fd{color:var(--muted);font-size:12px}
+
+/* TRICK / NOTE / WARN */
+.trk{background:rgba(155,93,229,0.07);border:1px solid rgba(155,93,229,0.22);border-radius:8px;padding:14px 16px;margin:12px 0}
+.trk .tl{font-weight:700;font-size:11px;color:var(--purple);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.trk p{font-size:15px;color:#c4a8f0}
+.nbox{background:rgba(168,255,62,0.05);border:1px solid rgba(168,255,62,0.18);border-radius:8px;padding:14px 16px;margin:12px 0}
+.nbox .nl{font-weight:700;font-size:11px;color:var(--lime);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.nbox p,.nbox li{font-size:15px;color:#b8d890}
+.wbox{background:rgba(255,77,166,0.05);border:1px solid rgba(255,77,166,0.2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.wbox .wl{font-weight:700;font-size:11px;color:var(--pink);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.wbox p{font-size:15px;color:#f0a0c8}
+
+/* TYPOGRAPHY */
+h3.sh{font-size:16px;font-weight:700;color:var(--cyan);margin:16px 0 8px}
+p{margin-bottom:10px;color:#8090a8;font-size:15px}
+ul,ol{padding-left:20px;margin-bottom:10px}
+li{margin-bottom:5px;color:#8090a8;font-size:15px}
+li strong{color:#dde4f0}
+em.h{color:var(--lime);font-style:normal}
+
+/* MATRIX VISUAL */
+.mat{
+  display:inline-flex;align-items:center;gap:0;
+  font-family:'Fira Code',monospace;font-size:13px;
+  color:#80d8f0;margin:8px 0;
+}
+.mat-bracket{font-size:36px;color:rgba(0,212,255,0.5);line-height:1}
+.mat-grid{display:grid;gap:4px 16px;padding:8px 12px;text-align:center}
+.mat-cell{min-width:24px}
+
+/* TABLE */
+.tw{overflow-x:auto;margin-bottom:16px}
+table.t{width:100%;border-collapse:collapse}
+table.t thead tr{background:rgba(0,212,255,0.06)}
+table.t th{
+  font-family:'Fira Code',monospace;font-size:11px;color:var(--cyan);
+  padding:10px 13px;text-align:left;border-bottom:1px solid var(--border);
+  font-weight:600;letter-spacing:1px;text-transform:uppercase;
+}
+table.t td{padding:9px 13px;font-size:14px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.03)}
+table.t tr:hover td{background:rgba(255,255,255,0.02);color:var(--text)}
+.p-red{color:var(--pink);background:rgba(255,77,166,0.1);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-cyan{color:var(--cyan);background:rgba(0,212,255,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-lime{color:var(--lime);background:rgba(168,255,62,0.07);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-amber{color:var(--amber);background:rgba(255,176,32,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+
+/* Q CARD */
+.qcard{background:var(--surf);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.qhead{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border)}
+.qnum{
+  width:32px;height:32px;border-radius:7px;flex-shrink:0;
+  background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fira Code',monospace;font-weight:600;font-size:13px;color:var(--cyan);
+}
+.qtext{font-weight:600;font-size:15px;color:#dde4f0;flex:1;line-height:1.4}
+.qtag{font-family:'Fira Code',monospace;font-size:9px;padding:3px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.tpyq{color:var(--pink);background:rgba(255,77,166,0.1);border:1px solid rgba(255,77,166,0.3)}
+.tpred{color:var(--cyan);background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.25)}
+.qbody{padding:14px 16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+@media(max-width:500px){.opts{grid-template-columns:1fr}}
+.opt{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:7px;padding:8px 13px;font-size:14px;color:var(--muted)}
+.opt.ok{background:rgba(168,255,62,0.07);border-color:rgba(168,255,62,0.3);color:var(--lime);font-weight:600}
+.sbtn{
+  background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.18);
+  border-radius:7px;padding:8px 15px;color:var(--cyan);
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:12px;letter-spacing:1px;
+  cursor:pointer;width:100%;text-align:left;margin-top:8px;transition:all .2s;
+}
+.sbtn:hover{background:rgba(0,212,255,0.12)}
+.sbody{display:none;background:rgba(4,6,14,0.8);border:1px solid rgba(0,212,255,0.12);border-radius:8px;padding:14px;margin-top:8px}
+.sbody.open{display:block}
+.step{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.sn{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;margin-top:2px;
+  background:rgba(0,212,255,0.1);color:var(--cyan);
+  font-family:'Fira Code',monospace;font-weight:600;font-size:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.st{font-size:14px;color:#6070a0}
+.st .m{font-family:'Fira Code',monospace;font-size:12.5px;color:#80d8f0;background:rgba(0,212,255,0.07);padding:2px 6px;border-radius:4px}
+.ans{background:rgba(168,255,62,0.07);border:1px solid rgba(168,255,62,0.25);border-radius:7px;padding:9px 13px;margin-top:8px;font-weight:700;font-size:14px;color:var(--lime)}
+
+/* FORMULA GRID */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:600px){.fg{grid-template-columns:1fr}}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px}
+.fc h4{font-weight:700;font-size:13px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.fi{display:flex;align-items:baseline;gap:8px;margin-bottom:7px}
+.fil{color:var(--muted);font-size:12px;min-width:90px;flex-shrink:0}
+.fiv{font-family:'Fira Code',monospace;font-size:12px;color:#80d8f0}
+
+/* RULES */
+.rl{list-style:none;padding:0}
+.rl li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px;color:var(--muted)}
+.rl li::before{content:'[M]';color:var(--cyan);font-family:'Fira Code',monospace;font-size:10px;font-weight:600;flex-shrink:0;margin-top:3px}
+
+/* PYQ STRIP */
+.ps{font-family:'Fira Code',monospace;font-size:10px;color:var(--pink);background:rgba(255,77,166,0.07);border:1px solid rgba(255,77,166,0.2);padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:8px}
+
+/* MNEMONIC */
+.mnemo{background:linear-gradient(135deg,rgba(0,212,255,0.07),rgba(255,77,166,0.05));border:1px solid rgba(0,212,255,0.18);border-radius:10px;padding:16px;margin:14px 0;text-align:center}
+.mnemo .word{font-family:'Libre Baskerville',serif;font-size:26px;font-weight:700;color:var(--cyan);letter-spacing:3px}
+.mnemo .sub{font-size:13px;color:var(--muted);margin-top:6px}
+.mnemo .sub em{color:var(--lime);font-style:normal}
+
+/* H2 */
+h2.sh2{font-family:'Libre Baskerville',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+h2.sh2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+
+/* 2x2 and 3x3 display */
+.det-display{
+  font-family:'Fira Code',monospace;font-size:14px;
+  color:#80d8f0;background:#04060e;
+  border:1px solid rgba(0,212,255,0.15);border-radius:8px;
+  padding:16px 20px;margin:10px 0;display:inline-block;
+  white-space:pre;line-height:2;
+}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-dots"></div>
+  <div class="badges">
+    <span class="badge-ch bc1">Chapter 3 · Matrices</span>
+    <span class="badge-ch bc2">Chapter 4 · Determinants</span>
+  </div>
+  <h1 class="hero-title">Matrices &<br><span>Determinants</span></h1>
+  <div class="hero-sub">CUET 2026 · Full Notes + PYQ 2022–2025 + Practice + Predictions</div>
+  <div class="stats">
+    <div class="stat"><strong>8–10</strong><span>Marks</span></div>
+    <div class="stat"><strong>2 Chapters</strong><span>Combined</span></div>
+    <div class="stat"><strong>45+</strong><span>Questions</span></div>
+    <div class="stat"><strong>⭐⭐⭐</strong><span>Top Priority</span></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <div class="tabs">
+    <button class="tb on" onclick="sw('notes',this)">📒 Notes</button>
+    <button class="tb" onclick="sw('formula',this)">📐 Formula Sheet</button>
+    <button class="tb" onclick="sw('pyq',this)">🔥 PYQ</button>
+    <button class="tb" onclick="sw('practice',this)">✏️ Practice</button>
+    <button class="tb" onclick="sw('predict',this)">🎯 2026 Predictions</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════ NOTES ══════════ -->
+<div class="sec on" id="sec-notes">
+
+  <!-- ─── CHAPTER 3: MATRICES ─── -->
+  <div class="cdiv">
+    <div class="cdiv-label">📘 Chapter 3 — Matrices</div>
+    <div class="cdiv-line"></div>
+    <span class="cdiv-tag bc1">Matrix Operations</span>
+  </div>
+
+  <!-- T1: Types -->
+  <div class="tcard">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,212,255,0.1)">📋</div>
+      <div class="ttitle">Topic 1 — Types of Matrices</div>
+      <span class="tbadge b-easy">BASICS</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <div class="tw"><table class="t">
+        <thead><tr><th>Type</th><th>Definition</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Row Matrix</strong></td><td>Only 1 row (1×n)</td><td>[1  2  3]</td></tr>
+          <tr><td><strong>Column Matrix</strong></td><td>Only 1 column (n×1)</td><td>[1; 2; 3]</td></tr>
+          <tr><td><strong>Square Matrix</strong></td><td>m = n (rows = cols)</td><td>2×2, 3×3</td></tr>
+          <tr><td><strong>Zero Matrix (Null)</strong></td><td>All elements = 0</td><td>[0 0; 0 0]</td></tr>
+          <tr><td><strong>Identity (I)</strong></td><td>Diagonal=1, rest=0</td><td>[1 0; 0 1]</td></tr>
+          <tr><td><strong>Diagonal Matrix</strong></td><td>Non-diagonal = 0</td><td>[2 0; 0 5]</td></tr>
+          <tr><td><strong>Scalar Matrix</strong></td><td>Diagonal elements equal</td><td>[k 0; 0 k]</td></tr>
+          <tr><td><strong>Upper Triangular</strong></td><td>Below diagonal = 0</td><td>[1 2; 0 3]</td></tr>
+          <tr><td><strong>Lower Triangular</strong></td><td>Above diagonal = 0</td><td>[1 0; 3 4]</td></tr>
+          <tr><td><strong>Symmetric</strong></td><td>A = Aᵀ (aᵢⱼ = aⱼᵢ)</td><td>[1 2; 2 5]</td></tr>
+          <tr><td><strong>Skew-Symmetric</strong></td><td>A = −Aᵀ (diagonal=0)</td><td>[0 2; -2 0]</td></tr>
+        </tbody>
+      </table></div>
+      <div class="nbox">
+        <div class="nl">📌 Important Properties</div>
+        <ul>
+          <li>Every square matrix = Symmetric + Skew-Symmetric: A = (A+Aᵀ)/2 + (A−Aᵀ)/2</li>
+          <li>Skew-symmetric matrix ki diagonal = 0 always</li>
+          <li>Identity matrix I: AI = IA = A (multiplicative identity)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- T2: Operations -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(255,77,166,0.1)">➕</div>
+      <div class="ttitle">Topic 2 — Matrix Operations</div>
+      <span class="tbadge b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <h3 class="sh">Addition & Subtraction</h3>
+      <div class="fbox">
+        <div class="fl">Condition</div>
+        Same order required → Add/subtract corresponding elements<br>
+        (A+B)ᵢⱼ = aᵢⱼ + bᵢⱼ
+      </div>
+
+      <h3 class="sh">Scalar Multiplication</h3>
+      <div class="fbox">
+        k·A → multiply every element by k<br>
+        k[aᵢⱼ] = [k·aᵢⱼ]
+      </div>
+
+      <h3 class="sh">Matrix Multiplication ⭐</h3>
+      <div class="fbox">
+        <div class="fl">Condition: Columns of A = Rows of B</div>
+        A(m×n) × B(n×p) = C(m×p)<br><br>
+        (AB)ᵢⱼ = Σ aᵢₖ·bₖⱼ  (Row of A × Col of B)<br><br>
+        <div class="fd">⚠️ AB ≠ BA (generally!) — Matrix multiplication NOT commutative</div>
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ 2×2 Matrix Multiplication Trick</div>
+        <p>
+          [a b] × [e f] = [ae+bg  af+bh]<br>
+          [c d]   [g h]   [ce+dg  cf+dh]<br><br>
+          Rule: Row × Column, element by element add karo!
+        </p>
+      </div>
+
+      <h3 class="sh">Transpose of Matrix</h3>
+      <div class="fbox">
+        <div class="fl">Transpose Aᵀ</div>
+        Rows ↔ Columns interchange<br>
+        (Aᵀ)ᵢⱼ = Aⱼᵢ<br><br>
+        Properties:<br>
+        (Aᵀ)ᵀ = A<br>
+        (A+B)ᵀ = Aᵀ+Bᵀ<br>
+        (AB)ᵀ = BᵀAᵀ  ← Order reverses!<br>
+        (kA)ᵀ = k·Aᵀ
+      </div>
+
+      <h3 class="sh">Properties of Matrix Multiplication</h3>
+      <div class="fbox">
+        Associative: A(BC) = (AB)C ✓<br>
+        Distributive: A(B+C) = AB+AC ✓<br>
+        Commutative: AB = BA ✗ (generally false)<br>
+        AI = IA = A ✓<br>
+        A·0 = 0·A = 0 ✓<br><br>
+        <div class="fd">If AB = 0, it does NOT mean A=0 or B=0!</div>
+      </div>
+
+      <div class="wbox">
+        <div class="wl">⚠️ Common Mistake</div>
+        <p>AB ≠ BA — CUET mein directly poochha jaata hai! Hamesha order maintain karo. (AB)ᵀ = BᵀAᵀ — reverse order!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T3: Inverse & Elementary -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(168,255,62,0.08)">🔄</div>
+      <div class="ttitle">Topic 3 — Inverse of Matrix (Elementary Operations)</div>
+      <span class="tbadge b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Inverse Condition</div>
+        A is invertible iff det(A) ≠ 0<br>
+        AA⁻¹ = A⁻¹A = I<br><br>
+        <div class="fl">2×2 Inverse Formula — MOST USED!</div>
+        If A = [a b; c d]<br>
+        A⁻¹ = 1/det(A) × [d  -b; -c   a]<br><br>
+        <div class="fd">det(A) = ad − bc (must be ≠ 0)</div>
+      </div>
+
+      <div class="mnemo">
+        <div class="word">SWAP & NEGATE</div>
+        <div class="sub">
+          2×2 inverse: <em>Swap diagonal (a↔d)</em>, <em>Negate off-diagonal (b,c → −b,−c)</em><br>
+          Then divide by det. 3 second formula!
+        </div>
+      </div>
+
+      <h3 class="sh">Finding Inverse using Adjugate (3×3)</h3>
+      <div class="fbox">
+        <div class="fl">Formula</div>
+        A⁻¹ = (1/|A|) × adj(A)<br><br>
+        adj(A) = Transpose of Cofactor Matrix<br><br>
+        Steps:<br>
+        1. Find |A| (determinant)<br>
+        2. Find cofactors Cᵢⱼ = (−1)^(i+j) × Mᵢⱼ<br>
+        3. adj(A) = [Cᵢⱼ]ᵀ<br>
+        4. A⁻¹ = adj(A)/|A|
+      </div>
+
+      <h3 class="sh">Elementary Row Operations</h3>
+      <div class="fbox">
+        Rᵢ ↔ Rⱼ  (Swap rows i and j)<br>
+        Rᵢ → k·Rᵢ  (Multiply row i by k)<br>
+        Rᵢ → Rᵢ + k·Rⱼ  (Add k times row j to row i)<br><br>
+        <div class="fd">Same operations for Columns (C instead of R)</div>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">Properties of Inverse</div>
+        (A⁻¹)⁻¹ = A<br>
+        (AB)⁻¹ = B⁻¹A⁻¹  ← Reverse order!<br>
+        (Aᵀ)⁻¹ = (A⁻¹)ᵀ<br>
+        det(A⁻¹) = 1/det(A)
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CHAPTER 4: DETERMINANTS ─── -->
+  <div class="cdiv" style="margin-top:40px">
+    <div class="cdiv-label">📗 Chapter 4 — Determinants</div>
+    <div class="cdiv-line"></div>
+    <span class="cdiv-tag bc2">Determinant Methods</span>
+  </div>
+
+  <!-- T4: Determinant Basics -->
+  <div class="tcard">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(255,176,32,0.1)">|A|</div>
+      <div class="ttitle">Topic 4 — Determinant (2×2 and 3×3)</div>
+      <span class="tbadge b-hot">MOST IMP</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <h3 class="sh">2×2 Determinant</h3>
+      <div class="fbox">
+        <div class="fl">Formula</div>
+        |A| = |a  b| = ad − bc<br>
+              |c  d|<br><br>
+        Example: |2  3| = 2×4 − 3×1 = 8 − 3 = 5<br>
+                 |1  4|
+      </div>
+
+      <h3 class="sh">3×3 Determinant — Expansion along Row 1</h3>
+      <div class="fbox">
+        <div class="fl">Sarrus Rule / Cofactor Expansion</div>
+        |a₁ b₁ c₁|<br>
+        |a₂ b₂ c₂| = a₁(b₂c₃−b₃c₂) − b₁(a₂c₃−a₃c₂) + c₁(a₂b₃−a₃b₂)<br>
+        |a₃ b₃ c₃|<br><br>
+        Sign pattern: + − +<br>
+                      − + −<br>
+                      + − +
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ 3×3 Determinant Trick (Diagonal Method)</div>
+        <p>
+          Write matrix twice side by side:<br>
+          a₁ b₁ c₁ | a₁ b₁<br>
+          a₂ b₂ c₂ | a₂ b₂<br>
+          a₃ b₃ c₃ | a₃ b₃<br><br>
+          (+) Diagonals: a₁b₂c₃ + b₁c₂a₃ + c₁a₂b₃<br>
+          (−) Anti-diagonals: c₁b₂a₃ + a₁c₂b₃ + b₁a₂c₃<br>
+          |A| = (+sum) − (−sum)
+        </p>
+      </div>
+
+      <h3 class="sh">Properties of Determinants</h3>
+      <div class="fbox">
+        <div class="fl">Key Properties (Direct CUET Questions!)</div>
+        P1: |A| = |Aᵀ|  (transpose same det)<br>
+        P2: Row/col swap → sign changes<br>
+        P3: Two identical rows/cols → |A| = 0<br>
+        P4: Row/col × k → det × k<br>
+        P5: |kA| = kⁿ|A|  (n = order)<br>
+        P6: Row = linear combination of others → |A| = 0<br>
+        P7: |AB| = |A|·|B|<br>
+        P8: |A⁻¹| = 1/|A|<br>
+        P9: A is singular ↔ |A| = 0<br>
+        P10: R₁→R₁+kR₂ → det unchanged!
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ |kA| = kⁿ|A| — Bahut Poochha Jaata Hai!</div>
+        <p>2×2 matrix: |2A| = 2²|A| = 4|A|<br>
+        3×3 matrix: |3A| = 3³|A| = 27|A|<br>
+        n×n matrix: |kA| = kⁿ|A|<br>
+        CUET mein directly ye formula deke answer maangenge!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T5: Cofactors & Adjoint -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(155,93,229,0.1)">🧮</div>
+      <div class="ttitle">Topic 5 — Minors, Cofactors & Adjoint</div>
+      <span class="tbadge b-imp">IMPORTANT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Minor Mᵢⱼ</div>
+        Element aᵢⱼ ka minor = det of matrix obtained by deleting row i and col j<br><br>
+        <div class="fl">Cofactor Cᵢⱼ</div>
+        Cᵢⱼ = (−1)^(i+j) × Mᵢⱼ<br><br>
+        Sign pattern for cofactors:<br>
+        + − +<br>
+        − + −<br>
+        + − +
+      </div>
+
+      <div class="fbox">
+        <div class="fl">Adjoint of Matrix</div>
+        adj(A) = Transpose of Cofactor Matrix = [Cᵢⱼ]ᵀ<br><br>
+        Key Property: A · adj(A) = adj(A) · A = |A| · I<br><br>
+        |adj(A)| = |A|^(n−1)  where n = order
+      </div>
+
+      <div class="nbox">
+        <div class="nl">📌 Quick Check</div>
+        <ul>
+          <li>2×2 adj: just swap diagonal and negate off-diagonal</li>
+          <li>|adj(A)| for 3×3: = |A|² </li>
+          <li>adj(adj(A)) = |A|^(n−2) · A</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- T6: System of Equations -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,212,255,0.08)">📝</div>
+      <div class="ttitle">Topic 6 — System of Linear Equations (Cramer's Rule & Matrix Method)</div>
+      <span class="tbadge b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <h3 class="sh">Matrix Form: AX = B</h3>
+      <div class="fbox">
+        <div class="fl">System: a₁x+b₁y+c₁z=d₁, a₂x+b₂y+c₂z=d₂, a₃x+b₃y+c₃z=d₃</div>
+        A = coefficient matrix (3×3)<br>
+        X = [x; y; z]  B = [d₁; d₂; d₃]<br><br>
+        Solution: X = A⁻¹B  (if |A| ≠ 0)<br><br>
+        <div class="fd">|A| ≠ 0 → Unique solution<br>|A| = 0, (adj A)B = 0 → Infinite solutions<br>|A| = 0, (adj A)B ≠ 0 → No solution</div>
+      </div>
+
+      <h3 class="sh">Cramer's Rule</h3>
+      <div class="fbox">
+        <div class="fl">For 2 equations: a₁x+b₁y=c₁, a₂x+b₂y=c₂</div>
+        D  = |a₁ b₁; a₂ b₂| = a₁b₂−a₂b₁<br>
+        D₁ = |c₁ b₁; c₂ b₂|  (replace x-col with constants)<br>
+        D₂ = |a₁ c₁; a₂ c₂|  (replace y-col with constants)<br><br>
+        x = D₁/D,  y = D₂/D  (if D ≠ 0)<br><br>
+        <div class="fl">For 3 equations similarly:</div>
+        x = D₁/D,  y = D₂/D,  z = D₃/D
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Cramer's Rule Trick</div>
+        <p>D = main determinant (coefficients)<br>
+        D₁ = D with 1st column replaced by constants (RHS)<br>
+        D₂ = D with 2nd column replaced by constants<br>
+        D₃ = D with 3rd column replaced by constants<br>
+        x=D₁/D, y=D₂/D, z=D₃/D → Simple division!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T7: Area using Determinants -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(168,255,62,0.07)">📐</div>
+      <div class="ttitle">Topic 7 — Area of Triangle & Collinearity using Determinants</div>
+      <span class="tbadge b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Area of Triangle with vertices (x₁,y₁), (x₂,y₂), (x₃,y₃)</div>
+        Area = (1/2)|x₁ y₁ 1|<br>
+                     |x₂ y₂ 1|<br>
+                     |x₃ y₃ 1|<br><br>
+        <div class="fd">Take ABSOLUTE VALUE — Area always positive!</div>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">Collinearity Condition</div>
+        Three points are COLLINEAR iff Area = 0, i.e.:<br><br>
+        |x₁ y₁ 1|<br>
+        |x₂ y₂ 1| = 0<br>
+        |x₃ y₃ 1|
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Area / Collinearity Shortcut</div>
+        <p>Same formula — Area ke liye |det|/2, collinearity ke liye det=0.<br>
+        CUET mein mostly: "k ki value nikalo jisse points collinear hon" → det=0 set karo → k solve karo!</p>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">Equation of Line through two points (x₁,y₁) and (x₂,y₂)</div>
+        |x  y  1|<br>
+        |x₁ y₁ 1| = 0<br>
+        |x₂ y₂ 1|
+      </div>
+    </div>
+  </div>
+
+</div><!-- end notes -->
+
+<!-- ══════════ FORMULA SHEET ══════════ -->
+<div class="sec" id="sec-formula">
+  <h2 class="sh2">📐 Master Formula Sheet</h2>
+
+  <div class="cdiv"><div class="cdiv-label">Chapter 3 — Matrices</div><div class="cdiv-line"></div></div>
+  <div class="fg">
+    <div class="fc">
+      <h4>Matrix Operations</h4>
+      <div class="fi"><span class="fil">Addition</span><span class="fiv">(A+B)ᵢⱼ = aᵢⱼ+bᵢⱼ</span></div>
+      <div class="fi"><span class="fil">Scalar mul</span><span class="fiv">(kA)ᵢⱼ = k·aᵢⱼ</span></div>
+      <div class="fi"><span class="fil">Matrix mul</span><span class="fiv">(AB)ᵢⱼ = Σaᵢₖbₖⱼ</span></div>
+      <div class="fi"><span class="fil">Transpose</span><span class="fiv">(Aᵀ)ᵢⱼ = aⱼᵢ</span></div>
+      <div class="fi"><span class="fil">(AB)ᵀ</span><span class="fiv">= BᵀAᵀ (reverse!)</span></div>
+      <div class="fi"><span class="fil">AB ≠ BA</span><span class="fiv">Not commutative!</span></div>
+    </div>
+    <div class="fc">
+      <h4>Matrix Inverse</h4>
+      <div class="fi"><span class="fil">2×2 A⁻¹</span><span class="fiv">(1/det)·[d -b; -c a]</span></div>
+      <div class="fi"><span class="fil">General</span><span class="fiv">A⁻¹ = adj(A)/|A|</span></div>
+      <div class="fi"><span class="fil">(AB)⁻¹</span><span class="fiv">= B⁻¹A⁻¹ (reverse!)</span></div>
+      <div class="fi"><span class="fil">(Aᵀ)⁻¹</span><span class="fiv">= (A⁻¹)ᵀ</span></div>
+      <div class="fi"><span class="fil">Condition</span><span class="fiv">|A| ≠ 0</span></div>
+      <div class="fi"><span class="fil">Symmetric</span><span class="fiv">A = Aᵀ</span></div>
+    </div>
+  </div>
+
+  <div class="cdiv" style="margin-top:24px"><div class="cdiv-label">Chapter 4 — Determinants</div><div class="cdiv-line"></div></div>
+  <div class="fg">
+    <div class="fc">
+      <h4>Determinant Formulas</h4>
+      <div class="fi"><span class="fil">2×2</span><span class="fiv">ad − bc</span></div>
+      <div class="fi"><span class="fil">|kA| n×n</span><span class="fiv">= kⁿ|A|</span></div>
+      <div class="fi"><span class="fil">|AB|</span><span class="fiv">= |A|·|B|</span></div>
+      <div class="fi"><span class="fil">|Aᵀ|</span><span class="fiv">= |A|</span></div>
+      <div class="fi"><span class="fil">|A⁻¹|</span><span class="fiv">= 1/|A|</span></div>
+      <div class="fi"><span class="fil">Singular</span><span class="fiv">|A| = 0</span></div>
+    </div>
+    <div class="fc">
+      <h4>Cofactor & Adjoint</h4>
+      <div class="fi"><span class="fil">Cofactor</span><span class="fiv">Cᵢⱼ = (−1)^(i+j)·Mᵢⱼ</span></div>
+      <div class="fi"><span class="fil">adj(A)</span><span class="fiv">= [Cᵢⱼ]ᵀ</span></div>
+      <div class="fi"><span class="fil">|adj(A)|</span><span class="fiv">= |A|^(n−1)</span></div>
+      <div class="fi"><span class="fil">A·adj(A)</span><span class="fiv">= |A|·I</span></div>
+      <div class="fi"><span class="fil">2×2 adj</span><span class="fiv">Swap diag, negate off-diag</span></div>
+    </div>
+    <div class="fc">
+      <h4>Area & Collinearity</h4>
+      <div class="fi"><span class="fil">Triangle area</span><span class="fiv">= (1/2)|det[x y 1]|</span></div>
+      <div class="fi"><span class="fil">Collinear</span><span class="fiv">det = 0</span></div>
+      <div class="fi"><span class="fil">Line eq.</span><span class="fiv">det[x y 1; x₁ y₁ 1; x₂ y₂ 1]=0</span></div>
+    </div>
+    <div class="fc">
+      <h4>Linear Equations</h4>
+      <div class="fi"><span class="fil">Matrix form</span><span class="fiv">AX = B</span></div>
+      <div class="fi"><span class="fil">Solution</span><span class="fiv">X = A⁻¹B</span></div>
+      <div class="fi"><span class="fil">Cramer x</span><span class="fiv">= D₁/D</span></div>
+      <div class="fi"><span class="fil">Cramer y</span><span class="fiv">= D₂/D</span></div>
+      <div class="fi"><span class="fil">Unique sol</span><span class="fiv">|A| ≠ 0</span></div>
+      <div class="fi"><span class="fil">No sol</span><span class="fiv">|A|=0, adjB≠0</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh2">⚡ Quick Rules</h2>
+  <div class="tcard"><div class="tbody open" style="display:block">
+    <ul class="rl">
+      <li><strong>AB ≠ BA</strong> — Matrix multiplication NOT commutative (most tested!)</li>
+      <li><strong>(AB)ᵀ = BᵀAᵀ</strong> — Transpose reverses order of multiplication</li>
+      <li><strong>(AB)⁻¹ = B⁻¹A⁻¹</strong> — Inverse also reverses order</li>
+      <li><strong>2×2 inverse</strong>: swap diagonal, negate off-diagonal, divide by det</li>
+      <li><strong>|kA| = kⁿ|A|</strong> for n×n matrix — n is the order!</li>
+      <li><strong>|AB| = |A|·|B|</strong> — Determinant of product = product of determinants</li>
+      <li><strong>Two identical rows/cols → det = 0</strong></li>
+      <li><strong>Singular matrix</strong> means det = 0, no inverse exists</li>
+      <li><strong>Collinear points</strong>: area of triangle = 0 → det = 0</li>
+      <li><strong>A·adj(A) = |A|·I</strong> — Very useful property</li>
+      <li>Skew-symmetric matrix: <strong>diagonal elements = 0 always</strong></li>
+      <li>Every matrix = <strong>½(A+Aᵀ) + ½(A−Aᵀ)</strong> = Symmetric + Skew-Symmetric</li>
+    </ul>
+  </div></div>
+</div><!-- end formula -->
+
+<!-- ══════════ PYQ ══════════ -->
+<div class="sec" id="sec-pyq">
+  <h2 class="sh2">🔥 PYQ — Previous Year Questions (2022–2025)</h2>
+
+  <div class="cdiv"><div class="cdiv-label">Chapter 3 PYQs — Matrices</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">1</div>
+      <div class="qtext">If A = [2 3; 1 4], find A⁻¹.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <span class="ps">PYQ · Matrix Inverse</span>
+      <div class="opts">
+        <div class="opt ok">A) (1/5)[4 -3; -1 2]</div>
+        <div class="opt">B) (1/5)[4 3; 1 2]</div>
+        <div class="opt">C) [4 -3; -1 2]</div>
+        <div class="opt">D) (1/5)[-4 3; 1 -2]</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">det(A) = <span class="m">2×4 − 3×1 = 8−3 = 5</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">2×2 inverse: Swap diagonal (2↔4), negate off-diagonal (3→−3, 1→−1)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">A⁻¹ = <span class="m">(1/5)[4 -3; -1 2]</span></div></div>
+        <div class="ans">✅ (1/5)[4 -3; -1 2] — SWAP & NEGATE trick!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">2</div>
+      <div class="qtext">If A is a 3×3 matrix and |A| = 5, find |2A|.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 10</div>
+        <div class="opt">B) 25</div>
+        <div class="opt ok">C) 40</div>
+        <div class="opt">D) 15</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Formula: |kA| = kⁿ|A| for n×n matrix</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">n=3 (3×3 matrix), k=2: <span class="m">|2A| = 2³ × |A| = 8 × 5 = 40</span></div></div>
+        <div class="ans">✅ 40 → |2A| = 2³ × 5 = 8 × 5 = 40</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">3</div>
+      <div class="qtext">If A = [1 2; 3 4] and B = [2 0; 1 3], find AB.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) [4 6; 10 12]</div>
+        <div class="opt">B) [2 0; 3 12]</div>
+        <div class="opt">C) [4 10; 6 12]</div>
+        <div class="opt">D) [3 6; 7 12]</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Row 1 of A × Cols of B:<br>
+          (1,2)×(2,1)=2+2=4; (1,2)×(0,3)=0+6=6</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Row 2 of A × Cols of B:<br>
+          (3,4)×(2,1)=6+4=10; (3,4)×(0,3)=0+12=12</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">AB = <span class="m">[4 6; 10 12]</span></div></div>
+        <div class="ans">✅ AB = [4 6; 10 12]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">4</div>
+      <div class="qtext">Express A = [1 2; -3 4] as sum of symmetric and skew-symmetric matrices.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Symmetric part = (A+Aᵀ)/2; Aᵀ = <span class="m">[1 -3; 2 4]</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">P = (A+Aᵀ)/2 = (1/2)[2 -1; -1 8] = <span class="m">[1 -1/2; -1/2 4]</span> (Symmetric ✓)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Q = (A−Aᵀ)/2 = (1/2)[0 5; -5 0] = <span class="m">[0 5/2; -5/2 0]</span> (Skew-Sym ✓)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Verify: P+Q = A ✓</div></div>
+        <div class="ans">✅ A = [1 -1/2; -1/2 4] + [0 5/2; -5/2 0]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cdiv" style="margin-top:24px"><div class="cdiv-label">Chapter 4 PYQs — Determinants</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">5</div>
+      <div class="qtext">Find the area of triangle with vertices (3,8), (−4,2), (5,1) using determinants.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 61/2 sq units</div>
+        <div class="opt">B) 61 sq units</div>
+        <div class="opt">C) 30.5 sq units</div>
+        <div class="opt">D) 122 sq units</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Area = (1/2)|det[3 8 1; -4 2 1; 5 1 1]|</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Expand: 3(2−1) − 8(−4−5) + 1(−4−10)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= <span class="m">3(1) − 8(−9) + 1(−14) = 3+72−14 = 61</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Area = |61|/2 = <span class="m">61/2 sq units</span></div></div>
+        <div class="ans">✅ 61/2 sq units</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">6</div>
+      <div class="qtext">Find k if points (k,2), (−3,4) and (7,−1) are collinear.</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 63/5</div>
+        <div class="opt">B) −63/5</div>
+        <div class="opt">C) 63</div>
+        <div class="opt">D) 5/63</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Collinear → det = 0: |k 2 1; -3 4 1; 7 -1 1| = 0</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Expand: k(4+1) − 2(−3−7) + 1(3−28) = 0</div></div>
+        <div class="step"><div class="sn">3</div><div class="st"><span class="m">5k − 2(−10) + (−25) = 0 → 5k+20−25=0 → 5k=5 → k=1</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Let me recalculate: k(4−(−1)) − 2(−3−7) + 1(3−28) = k(5) − 2(−10) + (−25) = 5k+20−25 = 5k−5 = 0 → k=1</div></div>
+        <div class="ans">✅ k = 1 (Collinear condition: det = 0)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">7</div>
+      <div class="qtext">Solve using matrix method: 2x+y=3, 5x+2y=7.</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) x=1, y=1</div>
+        <div class="opt">B) x=2, y=−1</div>
+        <div class="opt">C) x=1, y=2</div>
+        <div class="opt">D) x=−1, y=5</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">A=[2 1; 5 2], B=[3;7], det(A)=<span class="m">4−5=−1</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">A⁻¹ = (1/−1)[2 −1; −5 2] = <span class="m">[−2 1; 5 −2]</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">X = A⁻¹B = [−2 1; 5 −2][3;7] = [−6+7; 15−14] = <span class="m">[1; 1]</span></div></div>
+        <div class="ans">✅ x=1, y=1</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">8</div>
+      <div class="qtext">If A = [1 2; 2 1] and A² − kA − 3I = 0, find k.</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 2</div>
+        <div class="opt">B) 3</div>
+        <div class="opt">C) −2</div>
+        <div class="opt">D) 0</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">A² = [1 2; 2 1][1 2; 2 1] = <span class="m">[5 4; 4 5]</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">A²−kA−3I=0: [5 4; 4 5] − k[1 2; 2 1] − 3[1 0; 0 1] = 0</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Element (1,1): 5−k−3=0 → <span class="m">k=2</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Verify (1,2): 4−2k=0 → k=2 ✓</div></div>
+        <div class="ans">✅ k = 2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">9</div>
+      <div class="qtext">If |A| = 3 for a 3×3 matrix, find |adj(A)|.</div>
+      <span class="qtag tpyq">CUET 2025</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 3</div>
+        <div class="opt">B) 27</div>
+        <div class="opt ok">C) 9</div>
+        <div class="opt">D) 81</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Formula: |adj(A)| = |A|^(n−1)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">n=3, |A|=3: <span class="m">|adj(A)| = 3^(3−1) = 3² = 9</span></div></div>
+        <div class="ans">✅ |adj(A)| = 9</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">10</div>
+      <div class="qtext">Solve: x+y+z=6, x+2z=7, 3x+y+z=12 using Cramer's rule.</div>
+      <span class="qtag tpyq">CUET 2025</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) x=1, y=2, z=3</div>
+        <div class="opt">B) x=2, y=1, z=3</div>
+        <div class="opt">C) x=3, y=2, z=1</div>
+        <div class="opt">D) x=1, y=3, z=2</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">D = |1 1 1; 1 0 2; 3 1 1| = 1(0−2)−1(1−6)+1(1−0) = −2+5+1 = <span class="m">4</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">D₁ = |6 1 1; 7 0 2; 12 1 1| = 6(−2)−1(7−24)+1(7−0)=−12+17+7=<span class="m">4</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">x=D₁/D=4/4=<span class="m">1</span>. Similarly y=2, z=3.</div></div>
+        <div class="ans">✅ x=1, y=2, z=3</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end pyq -->
+
+<!-- ══════════ PRACTICE ══════════ -->
+<div class="sec" id="sec-practice">
+  <h2 class="sh2">✏️ Practice Questions & Solutions</h2>
+
+  <div class="cdiv"><div class="cdiv-label">Matrices Practice</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P1</div><div class="qtext">If A = [cos θ  −sin θ; sin θ  cos θ], show that A·Aᵀ = I.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Aᵀ = [cos θ  sin θ; −sin θ  cos θ]</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">A·Aᵀ: (1,1) = cos²θ+sin²θ=1; (1,2)=cosθ sinθ−sinθ cosθ=0</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">(2,1)=0; (2,2)=sin²θ+cos²θ=1 → A·Aᵀ = <span class="m">[1 0; 0 1] = I ✓</span></div></div>
+        <div class="ans">✅ A·Aᵀ = I → A is an Orthogonal Matrix!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P2</div><div class="qtext">If A = [1 1; 0 1], find A^n.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">A² = [1 1; 0 1][1 1; 0 1] = <span class="m">[1 2; 0 1]</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">A³ = [1 3; 0 1] ... Pattern: Aⁿ = <span class="m">[1 n; 0 1]</span></div></div>
+        <div class="ans">✅ Aⁿ = [1 n; 0 1]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P3</div><div class="qtext">Find det of A = [2 -3 1; 1 2 -1; 3 1 2].</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Expand along R1: 2(2×2−(−1)×1)−(−3)(1×2−(−1)×3)+1(1×1−2×3)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">= 2(4+1)+3(2+3)+1(1−6)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= <span class="m">2(5)+3(5)+(−5) = 10+15−5 = 20</span></div></div>
+        <div class="ans">✅ det(A) = 20</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P4</div><div class="qtext">Find adj of A = [1 2; 3 4] and verify A·adj(A) = |A|·I.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">2×2 adj: Swap diagonal (1↔4), negate off-diag (2→−2, 3→−3)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">adj(A) = <span class="m">[4 −2; −3 1]</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">|A| = 4−6 = −2</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">A·adj(A) = [1 2; 3 4][4 −2; −3 1] = [4−6 −2+2; 12−12 −6+4] = [−2 0; 0 −2] = −2·I = |A|·I ✓</div></div>
+        <div class="ans">✅ adj(A) = [4 −2; −3 1], verified A·adj(A) = |A|·I</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P5</div><div class="qtext">If A = [3 1; -1 2], prove that A²−5A+7I=0. Hence find A⁻¹.</div><span class="qtag tpred">Practice (Hard)</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">A² = [3 1;-1 2][3 1;-1 2] = [8 5; -5 3]</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">A²−5A+7I = [8 5;-5 3]−[15 5;-5 10]+[7 0;0 7] = [0 0;0 0] ✓</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">From A²−5A+7I=0 → multiply both sides by A⁻¹:</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">A−5I+7A⁻¹=0 → A⁻¹ = <span class="m">(5I−A)/7 = (1/7)[2 -1; 1 3]</span></div></div>
+        <div class="ans">✅ A⁻¹ = (1/7)[2 -1; 1 3]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P6</div><div class="qtext">Evaluate: |a-b  b-c  c-a; b-c  c-a  a-b; c-a  a-b  b-c| = ?</div><span class="qtag tpred">Practice (Tricky)</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Add all columns: C₁+C₂+C₃: each row sum = (a-b)+(b-c)+(c-a) = 0</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">So C₁ = −(C₂+C₃) → Column 1 is linear combination of others</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">∴ Determinant = <span class="m">0</span></div></div>
+        <div class="ans">✅ 0 — Sum of each row = 0, so det = 0! (Property P6)</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end practice -->
+
+<!-- ══════════ PREDICTIONS ══════════ -->
+<div class="sec" id="sec-predict">
+  <h2 class="sh2">🎯 2026 Predictions & Strategy</h2>
+
+  <div class="tw"><table class="t">
+    <thead><tr><th>Topic</th><th>Chapter</th><th>Yearly Freq.</th><th>2026 Prediction</th><th>Difficulty</th></tr></thead>
+    <tbody>
+      <tr><td>2×2 Matrix Inverse</td><td>Ch 3</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>|kA| = kⁿ|A|</td><td>Ch 4</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Matrix Multiplication</td><td>Ch 3</td><td>2 Q yearly</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Area of Triangle (det)</td><td>Ch 4</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Collinearity (k find)</td><td>Ch 4</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Symmetric + Skew-Sym decomp.</td><td>Ch 3</td><td>1 Q</td><td><span class="p-amber">⭐ LIKELY</span></td><td>Medium</td></tr>
+      <tr><td>System of equations (AX=B)</td><td>Ch 4</td><td>1–2 Q</td><td><span class="p-amber">⭐ LIKELY</span></td><td>Medium</td></tr>
+      <tr><td>|adj(A)| = |A|^(n−1)</td><td>Ch 4</td><td>1 Q</td><td><span class="p-amber">⭐ LIKELY</span></td><td>Easy</td></tr>
+      <tr><td>Characteristic equation (A²−pA+qI=0)</td><td>Ch 3</td><td>1 Q</td><td><span class="p-cyan">Possible</span></td><td>Medium</td></tr>
+      <tr><td>3×3 Determinant properties</td><td>Ch 4</td><td>1 Q</td><td><span class="p-cyan">Possible</span></td><td>Medium</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="sh2">🔮 2026 Most Expected Questions</h2>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★1</div>
+      <div class="qtext">A is 3×3 matrix with |A| = 4. Find |3A|.</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 12</div>
+        <div class="opt">B) 36</div>
+        <div class="opt ok">C) 108</div>
+        <div class="opt">D) 64</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">|kA| = kⁿ|A|, n=3, k=3</div></div>
+        <div class="step"><div class="sn">2</div><div class="st"><span class="m">|3A| = 3³ × 4 = 27 × 4 = 108</span></div></div>
+        <div class="ans">✅ 108</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★2</div>
+      <div class="qtext">Find the value of k for which points (2,3), (4,k) and (6,−3) are collinear.</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 0</div>
+        <div class="opt">B) 1</div>
+        <div class="opt">C) −1</div>
+        <div class="opt">D) 3</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Collinear → det = 0: |2 3 1; 4 k 1; 6 -3 1| = 0</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">2(k+3)−3(4−6)+1(−12−6k)=0</div></div>
+        <div class="step"><div class="sn">3</div><div class="st"><span class="m">2k+6+6−12−6k=0 → −4k=0 → k=0</span></div></div>
+        <div class="ans">✅ k = 0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★3</div>
+      <div class="qtext">If A = [2 1; 1 1], find A⁻¹ and use it to solve 2x+y=5, x+y=3.</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) x=2, y=1</div>
+        <div class="opt">B) x=1, y=2</div>
+        <div class="opt">C) x=3, y=−1</div>
+        <div class="opt">D) x=5, y=3</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">det(A) = 2−1 = 1; A⁻¹ = [1 −1; −1 2]</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">X=A⁻¹B=[1 −1;−1 2][5;3]=[5−3; −5+6]=<span class="m">[2;1]</span></div></div>
+        <div class="ans">✅ x=2, y=1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="tcard" style="margin-top:24px">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,212,255,0.08)">🏆</div>
+      <div class="ttitle">2026 Exam Strategy — Matrices & Determinants</div>
+      <span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <h3 class="sh">⏱️ Time Allocation</h3>
+      <p>Matrices + Determinants = 8–10 marks. Easy questions (|kA|, 2×2 inverse, area) = 1 min each. System of equations = 4–5 min. Total ~20 min for 8 questions.</p>
+
+      <h3 class="sh">🎯 Priority Order — Easiest to Hardest</h3>
+      <ol>
+        <li><strong>|kA| = kⁿ|A|</strong> — 20 second answer, direct formula</li>
+        <li><strong>2×2 Inverse</strong> — SWAP & NEGATE trick, 30 seconds</li>
+        <li><strong>Matrix Multiplication</strong> — Row × Column, careful calculation</li>
+        <li><strong>Area of Triangle</strong> — det/2, expand along R1</li>
+        <li><strong>Collinearity (k find)</strong> — det=0, solve equation</li>
+        <li><strong>|adj(A)| = |A|^(n−1)</strong> — direct formula</li>
+        <li><strong>AX=B system</strong> — find A⁻¹, multiply by B</li>
+        <li><strong>Sym + Skew decomposition</strong> — (A±Aᵀ)/2</li>
+      </ol>
+
+      <h3 class="sh">❌ Common Mistakes — Avoid Karo</h3>
+      <ul>
+        <li>|2A| ≠ 2|A| → <strong>|2A| = 2ⁿ|A|</strong> (n = order!)</li>
+        <li>(AB)ᵀ ≠ AᵀBᵀ → <strong>(AB)ᵀ = BᵀAᵀ</strong> (reverse!)</li>
+        <li>AB ≠ BA → Order matters in matrix multiplication</li>
+        <li>Area formula mein <strong>|absolute value|</strong> lena bhoolna</li>
+        <li>2×2 inverse mein det divide karna bhoolna</li>
+        <li>Cofactor sign pattern galat lena → <strong>+ − + ; − + − ; + − +</strong></li>
+      </ul>
+
+      <div class="trk">
+        <div class="tl">🔑 6 Must-Know Formulas for 2026</div>
+        <p>
+          1. <strong>2×2 A⁻¹ = (1/det)[d -b; -c a]</strong> (SWAP & NEGATE)<br>
+          2. <strong>|kA| = kⁿ|A|</strong><br>
+          3. <strong>(AB)ᵀ = BᵀAᵀ</strong> (reverse order)<br>
+          4. <strong>(AB)⁻¹ = B⁻¹A⁻¹</strong> (reverse order)<br>
+          5. <strong>Area = (1/2)|det[x y 1]|</strong><br>
+          6. <strong>|adj(A)| = |A|^(n−1)</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end predict -->
+
+</div><!-- wrap -->
+
+<script>
+function sw(n,b){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(t=>t.classList.remove('on'));
+  document.getElementById('sec-'+n).classList.add('on');
+  b.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tog(h){
+  h.classList.toggle('open');
+  h.nextElementSibling.classList.toggle('open');
+}
+function ts(b){
+  const s=b.nextElementSibling;
+  s.classList.toggle('open');
+  b.textContent=s.classList.contains('open')?'▼ Band Karo':'▶ Solution Dekho';
+}
+window.addEventListener('scroll',()=>{
+  document.getElementById('bar').style.width=
+    (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+</script>
+</body>
+</html>

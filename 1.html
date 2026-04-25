@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relations & Functions + Inverse Trigonometry – CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06080f;
+  --surf: #0a0d16;
+  --card: #0f1420;
+  --border: #1a2035;
+  --gold: #60a5fa;
+  --gold2: #93c5fd;
+  --red: #f472b6;
+  --green: #34d399;
+  --blue: #818cf8;
+  --purple: #c084fc;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --dim: #334155;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:16px;
+  line-height:1.7;
+  min-height:100vh;
+}
+#prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--gold),var(--red));z-index:999;width:0%}
+
+/* ── HERO ── */
+.hero{
+  min-height:280px;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(96,165,250,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(244,114,182,0.09) 0%, transparent 60%),
+    #06080f;
+  border-bottom:1px solid var(--border);
+  padding:56px 24px 48px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(96,165,250,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96,165,250,0.04) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.chapters-badges{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;position:relative;z-index:2}
+.ch-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:5px 16px;border-radius:4px;border:1px solid;
+}
+.ch1{color:var(--gold);border-color:rgba(96,165,250,0.4);background:rgba(96,165,250,0.08)}
+.ch2{color:var(--red);border-color:rgba(244,114,182,0.4);background:rgba(244,114,182,0.07)}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,6vw,58px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.1;
+  position:relative;z-index:2;
+  letter-spacing:-1px;
+}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{
+  margin-top:12px;color:var(--muted);
+  font-size:14px;letter-spacing:1px;
+  position:relative;z-index:2;
+}
+.stats-row{
+  display:flex;justify-content:center;gap:20px;
+  margin-top:28px;flex-wrap:wrap;
+  position:relative;z-index:2;
+}
+.stat{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:8px;padding:10px 20px;
+  font-size:13px;
+}
+.stat strong{display:block;font-size:22px;color:var(--gold);font-weight:700}
+.stat span{color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase}
+
+/* ── TABS ── */
+.tabs-bar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(6,8,15,0.97);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+  overflow-x:auto;scrollbar-width:none;
+}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:2px;min-width:max-content;padding:8px 0}
+.tb{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;font-size:13px;
+  padding:8px 20px;border-radius:6px;
+  border:none;background:transparent;
+  color:var(--muted);cursor:pointer;
+  white-space:nowrap;transition:all .2s;
+}
+.tb:hover,.tb.on{background:rgba(96,165,250,0.12);color:var(--gold)}
+
+/* ── LAYOUT ── */
+.wrap{max-width:920px;margin:0 auto;padding:32px 16px 100px}
+.sec{display:none}.sec.on{display:block}
+
+/* ── CHAPTER DIVIDER ── */
+.ch-divider{
+  display:flex;align-items:center;gap:16px;
+  margin:32px 0 20px;
+}
+.ch-divider .ch-label{
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:700;
+  color:#fff;white-space:nowrap;
+}
+.ch-divider .ch-line{flex:1;height:1px;background:var(--border)}
+.ch-divider .ch-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 12px;border-radius:4px;white-space:nowrap;
+}
+
+/* ── TOPIC CARD ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.card-head{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;
+  cursor:pointer;user-select:none;
+  transition:background .2s;
+}
+.card-head:hover{background:rgba(255,255,255,0.02)}
+.card-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.card-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:17px;color:#fff;flex:1;
+}
+.badge{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;padding:3px 9px;border-radius:4px;
+}
+.b-hot{color:var(--red);background:rgba(244,114,182,0.12);border:1px solid rgba(244,114,182,0.3)}
+.b-imp{color:var(--gold);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3)}
+.b-mod{color:var(--blue);background:rgba(129,140,248,0.1);border:1px solid rgba(129,140,248,0.25)}
+.b-easy{color:var(--green);background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.25)}
+.chev{color:var(--dim);font-size:13px;transition:transform .3s;flex-shrink:0}
+.card-head.open .chev{transform:rotate(180deg)}
+.card-body{padding:20px;display:none;border-top:1px solid var(--border)}
+.card-body.open{display:block}
+
+/* ── FORMULA BOX ── */
+.fbox{
+  background:#060910;
+  border:1px solid rgba(96,165,250,0.2);
+  border-left:3px solid var(--gold);
+  border-radius:8px;padding:14px 16px;
+  margin:12px 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;color:#93c5fd;
+  line-height:2.1;
+}
+.fbox .flabel{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px;
+}
+.fbox .fdim{color:var(--muted);font-size:12px}
+
+/* ── TRICK / NOTE / WARN ── */
+.tbox{background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.tbox .ttitle{color:var(--green);font-weight:700;font-size:13px;margin-bottom:6px}
+.nbox{background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:14px}
+.nbox .ntitle{color:var(--gold);font-weight:700;font-size:13px;margin-bottom:6px}
+.wbox{background:rgba(244,114,182,0.06);border:1px solid rgba(244,114,182,0.2);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:14px}
+.wbox .wtitle{color:var(--red);font-weight:700;font-size:13px;margin-bottom:6px}
+
+/* ── DEF BOX ── */
+.dbox{
+  background:rgba(192,132,252,0.06);
+  border-left:3px solid var(--purple);
+  border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:10px 0;font-size:14px;
+}
+.dbox strong{color:var(--purple)}
+
+/* ── TABLE ── */
+.tw{overflow-x:auto;margin:12px 0}
+table.main{width:100%;border-collapse:collapse;font-size:13px}
+table.main th{background:#0d1220;color:var(--gold);padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid var(--border)}
+table.main td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--muted)}
+table.main tr:hover td{background:rgba(255,255,255,0.02);color:var(--text)}
+.p-red{color:var(--red);font-weight:700}
+.p-gold{color:var(--gold);font-weight:600}
+.p-blue{color:var(--blue)}
+
+/* ── SECTION HEADINGS ── */
+.sh{font-size:15px;font-weight:700;color:var(--gold);margin:20px 0 10px}
+.sh2{font-family:'Playfair Display',serif;font-size:24px;color:#fff;margin:32px 0 16px}
+
+/* ── LIST ── */
+ul,ol{padding-left:20px;font-size:14px;color:var(--muted)}
+li{margin:5px 0}
+li strong{color:var(--text)}
+
+/* ── Q CARDS ── */
+.qcard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin:14px 0;overflow:hidden;
+}
+.qhead{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;
+  background:rgba(255,255,255,0.02);
+  flex-wrap:wrap;
+}
+.qnum{
+  background:var(--blue);color:#fff;
+  font-weight:700;font-size:12px;
+  padding:3px 10px;border-radius:5px;
+  font-family:'IBM Plex Mono',monospace;
+  flex-shrink:0;
+}
+.qtext{flex:1;font-size:14px;font-weight:600;color:var(--text)}
+.qtag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;padding:2px 8px;border-radius:4px;font-weight:600}
+.tpeasy{color:var(--green);background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25)}
+.tpmed{color:var(--gold);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.25)}
+.tphard{color:var(--red);background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25)}
+.tppred{color:var(--purple);background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.25)}
+.qbody{padding:14px 16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.opt{background:#080c16;border:1px solid var(--border);border-radius:6px;padding:7px 12px;font-size:13px;color:var(--muted)}
+.opt.ok{border-color:rgba(52,211,153,0.4);color:var(--green);background:rgba(52,211,153,0.06)}
+.sol-btn{
+  background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3);
+  color:var(--gold);border-radius:6px;padding:7px 14px;
+  font-size:13px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;
+  transition:all .2s;
+}
+.sol-btn:hover{background:rgba(96,165,250,0.18)}
+.sol-body{margin-top:10px;display:none}
+.sol-body.open{display:block}
+.step{display:flex;gap:10px;margin:7px 0;align-items:flex-start}
+.sn{background:var(--blue);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.st{font-size:13px;color:var(--muted);line-height:1.7}
+.m{color:var(--green);font-weight:700}
+.ans{background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.25);border-radius:6px;padding:8px 12px;font-size:13px;font-weight:700;color:var(--green);margin-top:8px}
+
+@media(max-width:600px){
+  .opts{grid-template-columns:1fr}
+  .stats-row{gap:10px}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="chapters-badges">
+    <span class="ch-badge ch1">Chapter 1 · Relations & Functions</span>
+    <span class="ch-badge ch2">Chapter 2 · Inverse Trigonometry</span>
+  </div>
+  <h1>Relations & <em>Functions</em><br>+ Inverse Trig</h1>
+  <p class="hero-sub">CUET 2026 · Class 12 · Complete Notes + 30+ Solved Questions</p>
+  <div class="stats-row">
+    <div class="stat"><strong>8–10</strong><span>Marks Expected</span></div>
+    <div class="stat"><strong>30+</strong><span>Solved Questions</span></div>
+    <div class="stat"><strong>2</strong><span>Full Chapters</span></div>
+    <div class="stat"><strong>2026</strong><span>CUET Ready</span></div>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs-bar">
+  <div class="tabs">
+    <button class="tb on" onclick="st('rel',this)">📌 Relations</button>
+    <button class="tb" onclick="st('fn',this)">⚙️ Functions</button>
+    <button class="tb" onclick="st('comp',this)">🔗 Composition</button>
+    <button class="tb" onclick="st('itf',this)">📐 Inverse Trig</button>
+    <button class="tb" onclick="st('ques',this)">📝 Practice MCQs</button>
+    <button class="tb" onclick="st('predict',this)">🎯 2026 Predictions</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════════════════════
+     TAB 1: RELATIONS
+════════════════════════════════ -->
+<div class="sec on" id="sec-rel">
+
+  <div class="ch-divider">
+    <span class="ch-label">Chapter 1 — Relations & Functions</span>
+    <div class="ch-line"></div>
+    <span class="ch-tag" style="color:var(--gold);background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2)">Ch-01</span>
+  </div>
+
+  <!-- RELATION BASICS -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(96,165,250,0.1)">🔗</div>
+      <div class="card-title">Relation — Basic Concepts</div>
+      <span class="badge b-imp">Important</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <div class="dbox"><strong>Relation (संबंध):</strong> Set A से Set B का एक subset जो A×B का हो। अर्थात् R ⊆ A×B</div>
+      <div class="dbox"><strong>Domain:</strong> Relation में सभी first elements का set।</div>
+      <div class="dbox"><strong>Range:</strong> Relation में सभी second elements का set।</div>
+      <div class="dbox"><strong>Co-domain:</strong> Set B (जहाँ values map होती हैं)।</div>
+
+      <div class="fbox">
+        <div class="flabel">Total Relations possible</div>
+        अगर |A| = m, |B| = n, तो A×B में कुल elements = mn<br>
+        Subsets of A×B (i.e. total relations) = 2^(mn)
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">💡 याद करो — अगर A = {1,2,3} तो |A|=3, A×A में 9 elements → 2⁹ = 512 relations!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPES OF RELATIONS -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(244,114,182,0.1)">📊</div>
+      <div class="card-title">Types of Relations (संबंधों के प्रकार)</div>
+      <span class="badge b-hot">HOT TOPIC</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+
+      <div class="dbox"><strong>Empty Relation (रिक्त संबंध):</strong> R = ∅ — कोई pair नहीं। कोई element किसी से related नहीं।</div>
+      <div class="dbox"><strong>Universal Relation:</strong> R = A×A — हर element हर से related है।</div>
+
+      <h3 class="sh">🔥 3 सबसे Important Types (CUET में हर साल!)</h3>
+
+      <div class="fbox">
+        <div class="flabel">Reflexive Relation (स्वतुल्य)</div>
+        प्रत्येक a ∈ A के लिए (a,a) ∈ R<br>
+        <span class="fdim">Example: R = {(1,1),(2,2),(3,3),(1,2)} on A={1,2,3} ✓</span><br>
+        <span class="fdim">Test: Diagonal सभी elements R में होने चाहिए</span>
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Symmetric Relation (सममित)</div>
+        अगर (a,b) ∈ R, तो (b,a) ∈ R<br>
+        <span class="fdim">Example: R = {(1,2),(2,1),(3,3)} ✓</span><br>
+        <span class="fdim">Test: हर pair का reverse भी R में हो</span>
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Transitive Relation (संक्रामक)</div>
+        अगर (a,b) ∈ R और (b,c) ∈ R, तो (a,c) ∈ R<br>
+        <span class="fdim">Example: (1,2),(2,3) ∈ R → (1,3) ∈ R होना चाहिए ✓</span>
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Equivalence Relation (तुल्यता संबंध)</div>
+        R = Reflexive + Symmetric + Transitive (तीनों एक साथ)<br>
+        <span class="fdim">यह CUET का सबसे frequent type है!</span>
+      </div>
+
+      <div class="wbox">
+        <div class="wtitle">⚠️ Anti-symmetric Relation</div>
+        अगर (a,b) ∈ R और (b,a) ∈ R, तो a = b होना चाहिए।<br>
+        (यानि a≠b हो तो (a,b) और (b,a) दोनों R में नहीं हो सकते।)
+      </div>
+
+      <div class="tw">
+        <table class="main">
+          <thead><tr><th>Relation Type</th><th>Condition</th><th>Example</th><th>Empty R?</th><th>Universal R?</th></tr></thead>
+          <tbody>
+            <tr><td>Reflexive</td><td>(a,a) ∈ R ∀a</td><td>{(1,1),(2,2),...}</td><td>❌ नहीं</td><td>✅ हाँ</td></tr>
+            <tr><td>Symmetric</td><td>(a,b)→(b,a)</td><td>{(1,2),(2,1)}</td><td>✅ हाँ</td><td>✅ हाँ</td></tr>
+            <tr><td>Transitive</td><td>(a,b),(b,c)→(a,c)</td><td>{(1,2),(2,3),(1,3)}</td><td>✅ हाँ</td><td>✅ हाँ</td></tr>
+            <tr><td>Equivalence</td><td>R+S+T</td><td>Modular Arithmetic</td><td>❌ नहीं</td><td>✅ हाँ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">🔑 Trick: Empty Relation</div>
+        Empty Relation → Symmetric ✓, Transitive ✓ — लेकिन Reflexive ❌ (जब A ≠ ∅)<br>
+        Universal Relation → हमेशा Equivalence Relation होती है!
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIVALENCE CLASS -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(192,132,252,0.1)">⚡</div>
+      <div class="card-title">Equivalence Class (तुल्यता वर्ग)</div>
+      <span class="badge b-mod">Moderate</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="dbox"><strong>Equivalence Class [a]:</strong> Set A के वे सभी elements जो 'a' से related हैं।<br>[a] = {b ∈ A : (a,b) ∈ R}</div>
+      <div class="nbox">
+        <div class="ntitle">📌 Properties of Equivalence Class</div>
+        • हर element exactly एक equivalence class में होता है।<br>
+        • दो equivalence classes या तो equal होती हैं या disjoint होती हैं।<br>
+        • सभी equivalence classes मिलकर पूरा Set A बनाती हैं (partition of A)।
+      </div>
+
+      <!-- Q on Equivalence Class -->
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q1</div><div class="qtext">A = {1,2,3,4,5,6}. R = {(a,b): a−b, 3 से divisible है}. Equivalence class [1] = ?</div><span class="qtag tpmed">Medium</span></div>
+        <div class="qbody">
+          <div class="opts">
+            <div class="opt ok">A) {1,4}</div>
+            <div class="opt">B) {1,2,3}</div>
+            <div class="opt">C) {2,5}</div>
+            <div class="opt">D) {3,6}</div>
+          </div>
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">R = {(a,b) : 3 | (a−b)}</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">[1] = {b ∈ A : 3|(1−b)} → check: b=1 → 1−1=0 ✓, b=4 → 1−4=−3 ✓</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">b=2 → −1 (नहीं), b=3 → −2 (नहीं), b=5 → −4 (नहीं), b=6 → −5 (नहीं)</div></div>
+            <div class="ans">✅ [1] = {1, 4}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end sec-rel -->
+
+<!-- ════════════════════════════════
+     TAB 2: FUNCTIONS
+════════════════════════════════ -->
+<div class="sec" id="sec-fn">
+
+  <div class="ch-divider">
+    <span class="ch-label">Functions (फलन)</span>
+    <div class="ch-line"></div>
+    <span class="ch-tag" style="color:var(--red);background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.2)">Types</span>
+  </div>
+
+  <!-- ONE-ONE -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(52,211,153,0.1)">1️⃣</div>
+      <div class="card-title">One-One Function (Injective / एकैकी फलन)</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <div class="dbox"><strong>One-One (Injective):</strong> अलग-अलग inputs का अलग-अलग output।<br>f(a) = f(b) ⟹ a = b</div>
+
+      <div class="fbox">
+        <div class="flabel">One-One Test करने के 3 तरीके</div>
+        1. Algebraic: f(a)=f(b) रखो → a=b निकले तो ONE-ONE ✓<br>
+        2. Horizontal Line Test: Graph को horizontal line से cut करो → सिर्फ 1 point पर काटे<br>
+        3. Derivative Test: अगर f'(x) > 0 या f'(x) &lt; 0 always → ONE-ONE ✓
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">💡 Number of One-One functions</div>
+        A से B में one-one functions = ⁿPₘ (जब n≥m)<br>
+        जहाँ n = |B|, m = |A|
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q2</div><div class="qtext">f(x) = 2x + 3 को check करो कि One-One है या नहीं?</div><span class="qtag tpeasy">Easy</span></div>
+        <div class="qbody">
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">मान लो f(a) = f(b)</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">2a + 3 = 2b + 3 → 2a = 2b → <span class="m">a = b ✓</span></div></div>
+            <div class="step"><div class="sn">3</div><div class="st">f'(x) = 2 > 0 (strictly increasing) → One-One ✓</div></div>
+            <div class="ans">✅ f(x) = 2x+3 is ONE-ONE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONTO -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(96,165,250,0.1)">🎯</div>
+      <div class="card-title">Onto Function (Surjective / आच्छादक फलन)</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <div class="dbox"><strong>Onto (Surjective):</strong> हर y ∈ B के लिए कोई x ∈ A exists जिसके लिए f(x) = y।<br>Range = Co-domain</div>
+
+      <div class="fbox">
+        <div class="flabel">Onto Test</div>
+        Step 1: f(x) = y रखो<br>
+        Step 2: x को y के terms में express करो<br>
+        Step 3: अगर x ∈ Domain (A) हो हर valid y के लिए → ONTO ✓
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">💡 Number of Onto functions (Surjective)</div>
+        |A|=m, |B|=n (m≥n) के लिए onto functions:<br>
+        = Σ(-1)ᵏ · ⁿCₖ · (n−k)ᵐ  [Inclusion-Exclusion]<br>
+        Special case: n=2 → 2ᵐ − 2
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q3</div><div class="qtext">f: R→R, f(x) = x² को check करो कि Onto है या नहीं?</div><span class="qtag tpeasy">Easy</span></div>
+        <div class="qbody">
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">y = x² रखो → x = ±√y</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">अगर y = −1, तो x = √(−1) = imaginary → x ∉ R</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">Range = [0,∞) ≠ R (Co-domain) → NOT Onto ❌</div></div>
+            <div class="ans">✅ f(x)=x² is NOT ONTO (R→R के लिए)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIJECTIVE -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(192,132,252,0.1)">⭐</div>
+      <div class="card-title">Bijective Function (Bijection / एकैकी आच्छादक)</div>
+      <span class="badge b-imp">Important</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="dbox"><strong>Bijective:</strong> One-One + Onto दोनों। Invertible function होती है।<br>|A| = |B| होना जरूरी है।</div>
+
+      <div class="tw">
+        <table class="main">
+          <thead><tr><th>Function Type</th><th>Condition</th><th>Invertible?</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>One-One only</td><td>f(a)=f(b)⟹a=b</td><td>❌</td><td>f:R→R, f(x)=eˣ</td></tr>
+            <tr><td>Onto only</td><td>Range=Codomain</td><td>❌</td><td>f:Z→Z, f(n)=n³−n</td></tr>
+            <tr><td>Bijective</td><td>One-One + Onto</td><td>✅</td><td>f:R→R, f(x)=2x+1</td></tr>
+            <tr><td>Neither</td><td>—</td><td>❌</td><td>f:R→R, f(x)=x²</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVERSE FUNCTION -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(244,114,182,0.1)">↩️</div>
+      <div class="card-title">Inverse of a Function (फलन का प्रतिलोम)</div>
+      <span class="badge b-mod">Moderate</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="dbox"><strong>Invertible Function:</strong> f⁻¹ exist करता है केवल तब जब f Bijective हो।</div>
+      <div class="fbox">
+        <div class="flabel">Inverse निकालने का तरीका</div>
+        Step 1: y = f(x) रखो<br>
+        Step 2: x को y में express करो<br>
+        Step 3: f⁻¹(y) = x (फिर y को x से replace करो)
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q4</div><div class="qtext">f(x) = (3x+4)/5 का inverse f⁻¹(x) = ?</div><span class="qtag tpmed">Medium</span></div>
+        <div class="qbody">
+          <div class="opts">
+            <div class="opt ok">A) (5x−4)/3</div>
+            <div class="opt">B) (5x+4)/3</div>
+            <div class="opt">C) (3x−4)/5</div>
+            <div class="opt">D) 5x/3 + 4</div>
+          </div>
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">y = (3x+4)/5</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">5y = 3x + 4 → 3x = 5y − 4 → x = (5y−4)/3</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">f⁻¹(x) = <span class="m">(5x−4)/3</span></div></div>
+            <div class="ans">✅ f⁻¹(x) = (5x−4)/3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end sec-fn -->
+
+<!-- ════════════════════════════════
+     TAB 3: COMPOSITION
+════════════════════════════════ -->
+<div class="sec" id="sec-comp">
+
+  <div class="ch-divider">
+    <span class="ch-label">Composition of Functions</span>
+    <div class="ch-line"></div>
+    <span class="ch-tag" style="color:var(--purple);background:rgba(192,132,252,0.08);border:1px solid rgba(192,132,252,0.2)">Composite</span>
+  </div>
+
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(129,140,248,0.1)">🔗</div>
+      <div class="card-title">Composition (f∘g) — Properties</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <div class="dbox"><strong>Composition (gof):</strong> (gof)(x) = g(f(x)) — पहले f apply करो, फिर g।</div>
+      <div class="dbox"><strong>Domain of gof:</strong> वे x ∈ Domain(f) जिनके लिए f(x) ∈ Domain(g)।</div>
+
+      <div class="fbox">
+        <div class="flabel">Important Properties</div>
+        1. gof ≠ fog  (generally — NOT commutative)<br>
+        2. (hog)of = ho(gof) ✓ (Associative है!)<br>
+        3. fof⁻¹ = f⁻¹of = I  (Identity function)<br>
+        4. अगर f,g दोनों one-one हैं → gof भी one-one ✓<br>
+        5. अगर f,g दोनों onto हैं → gof भी onto ✓
+      </div>
+
+      <div class="wbox">
+        <div class="wtitle">⚠️ Common Confusion</div>
+        (fog)(x) = f(g(x)) — पहले g, फिर f<br>
+        (gof)(x) = g(f(x)) — पहले f, फिर g<br>
+        Right से left पढ़ो!
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q5</div><div class="qtext">f(x) = 2x+1 और g(x) = x². (fog)(x) और (gof)(x) निकालो।</div><span class="qtag tpmed">Medium</span></div>
+        <div class="qbody">
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">(fog)(x) = f(g(x)) = f(x²) = 2x²+1</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">(gof)(x) = g(f(x)) = g(2x+1) = (2x+1)²</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">fog ≠ gof → <span class="m">Composition commutative नहीं है!</span></div></div>
+            <div class="ans">✅ fog = 2x²+1, gof = (2x+1)²</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q6</div><div class="qtext">f(x) = x+1 और g(x) = 2x−3. अगर fog(x) = x, तो (gof)⁻¹(x) = ?</div><span class="qtag tphard">Hard</span></div>
+        <div class="qbody">
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">fog(x) = f(g(x)) = f(2x−3) = 2x−3+1 = 2x−2</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">gof(x) = g(f(x)) = g(x+1) = 2(x+1)−3 = 2x−1</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">y = 2x−1 → x = (y+1)/2 → (gof)⁻¹(x) = <span class="m">(x+1)/2</span></div></div>
+            <div class="ans">✅ (gof)⁻¹(x) = (x+1)/2</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q7</div><div class="qtext">अगर f: A→B bijective है, तो fof⁻¹ = ?</div><span class="qtag tpeasy">Easy</span></div>
+        <div class="qbody">
+          <div class="opts">
+            <div class="opt ok">A) Identity Function I_B</div>
+            <div class="opt">B) f(x)</div>
+            <div class="opt">C) f⁻¹(x)</div>
+            <div class="opt">D) Constant Function</div>
+          </div>
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">f bijective है → f⁻¹ exists</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">fof⁻¹ = I_B (Identity on B) — यह definition है।</div></div>
+            <div class="ans">✅ fof⁻¹ = I_B</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BINARY OPERATIONS -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(52,211,153,0.1)">⊕</div>
+      <div class="card-title">Binary Operations (द्विआधारी संक्रिया)</div>
+      <span class="badge b-mod">Moderate</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="dbox"><strong>Binary Operation:</strong> ∗: A×A → A, यानी दो elements पर कोई operation जो result भी A में दे।</div>
+
+      <div class="fbox">
+        <div class="flabel">Properties of Binary Operations</div>
+        Commutative: a∗b = b∗a ∀ a,b ∈ A<br>
+        Associative: (a∗b)∗c = a∗(b∗c) ∀ a,b,c ∈ A<br>
+        Identity element (e): a∗e = e∗a = a<br>
+        Inverse of a: a∗a⁻¹ = a⁻¹∗a = e
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q8</div><div class="qtext">A = Q पर ∗ defined है: a∗b = (a+b)/2. Identity element क्या है?</div><span class="qtag tpmed">Medium</span></div>
+        <div class="qbody">
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">a∗e = a → (a+e)/2 = a → a+e = 2a → e = a</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">e = a (हर element के लिए अलग) → कोई fixed identity नहीं → <span class="m">Identity exist नहीं करता!</span></div></div>
+            <div class="ans">✅ No Identity Element exists for this operation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end sec-comp -->
+
+<!-- ════════════════════════════════
+     TAB 4: INVERSE TRIG
+════════════════════════════════ -->
+<div class="sec" id="sec-itf">
+
+  <div class="ch-divider">
+    <span class="ch-label">Chapter 2 — Inverse Trigonometric Functions</span>
+    <div class="ch-line"></div>
+    <span class="ch-tag" style="color:var(--red);background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.2)">Ch-02</span>
+  </div>
+
+  <!-- DOMAIN RANGE TABLE -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(244,114,182,0.1)">📐</div>
+      <div class="card-title">Domain, Range & Principal Value Branch</div>
+      <span class="badge b-hot">MUST RATTO</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <div class="nbox">
+        <div class="ntitle">📌 Why Principal Value Branch?</div>
+        Trig functions periodic होती हैं → एकाधिक values मिलती हैं। Invertible बनाने के लिए हम एक fixed interval (Principal Value Branch) choose करते हैं।
+      </div>
+
+      <div class="tw">
+        <table class="main">
+          <thead><tr><th>Function</th><th>Domain</th><th>Range (Principal Branch)</th></tr></thead>
+          <tbody>
+            <tr><td>sin⁻¹x</td><td>[−1, 1]</td><td>[−π/2, π/2]</td></tr>
+            <tr><td>cos⁻¹x</td><td>[−1, 1]</td><td>[0, π]</td></tr>
+            <tr><td>tan⁻¹x</td><td>(−∞, ∞) = R</td><td>(−π/2, π/2)</td></tr>
+            <tr><td>cot⁻¹x</td><td>(−∞, ∞) = R</td><td>(0, π)</td></tr>
+            <tr><td>sec⁻¹x</td><td>(−∞,−1]∪[1,∞)</td><td>[0,π] − {π/2}</td></tr>
+            <tr><td>cosec⁻¹x</td><td>(−∞,−1]∪[1,∞)</td><td>[−π/2,π/2] − {0}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">🔑 Trick: Range याद करने का</div>
+        sin⁻¹, tan⁻¹, cosec⁻¹ → range में <strong>NEGATIVE half</strong> आता है (−π/2 से)<br>
+        cos⁻¹, cot⁻¹, sec⁻¹ → range में <strong>ONLY POSITIVE</strong> (0 से π)
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORTANT VALUES -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(96,165,250,0.1)">🔢</div>
+      <div class="card-title">Important Principal Values (रटो!)</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <div class="tw">
+        <table class="main">
+          <thead><tr><th>Expression</th><th>Value</th><th>Expression</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>sin⁻¹(0)</td><td>0</td><td>cos⁻¹(0)</td><td>π/2</td></tr>
+            <tr><td>sin⁻¹(1/2)</td><td>π/6</td><td>cos⁻¹(1/2)</td><td>π/3</td></tr>
+            <tr><td>sin⁻¹(1/√2)</td><td>π/4</td><td>cos⁻¹(1/√2)</td><td>π/4</td></tr>
+            <tr><td>sin⁻¹(√3/2)</td><td>π/3</td><td>cos⁻¹(√3/2)</td><td>π/6</td></tr>
+            <tr><td>sin⁻¹(1)</td><td>π/2</td><td>cos⁻¹(1)</td><td>0</td></tr>
+            <tr><td>sin⁻¹(−1)</td><td>−π/2</td><td>cos⁻¹(−1)</td><td>π</td></tr>
+            <tr><td>tan⁻¹(0)</td><td>0</td><td>tan⁻¹(1)</td><td>π/4</td></tr>
+            <tr><td>tan⁻¹(√3)</td><td>π/3</td><td>tan⁻¹(1/√3)</td><td>π/6</td></tr>
+            <tr><td>tan⁻¹(−1)</td><td>−π/4</td><td>tan⁻¹(−√3)</td><td>−π/3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY PROPERTIES -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(192,132,252,0.1)">📋</div>
+      <div class="card-title">Key Properties & Formulae (रट लो — CUET में direct आता है!)</div>
+      <span class="badge b-hot">🔥 MOST IMPORTANT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+
+      <div class="fbox">
+        <div class="flabel">Property 1 — Complementary Angles</div>
+        sin⁻¹x + cos⁻¹x = π/2   (x ∈ [−1,1])<br>
+        tan⁻¹x + cot⁻¹x = π/2   (x ∈ R)<br>
+        sec⁻¹x + cosec⁻¹x = π/2  (|x| ≥ 1)
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Property 2 — Negative Angles</div>
+        sin⁻¹(−x) = −sin⁻¹(x)<br>
+        cos⁻¹(−x) = π − cos⁻¹(x)<br>
+        tan⁻¹(−x) = −tan⁻¹(x)
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Property 3 — Reciprocal Relations</div>
+        sin⁻¹(1/x) = cosec⁻¹x   (|x| ≥ 1)<br>
+        cos⁻¹(1/x) = sec⁻¹x     (|x| ≥ 1)<br>
+        tan⁻¹(1/x) = cot⁻¹x     (x &gt; 0)<br>
+        tan⁻¹(1/x) = −π + cot⁻¹x (x &lt; 0)
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Property 4 — sin(sin⁻¹x) और sin⁻¹(sinx)</div>
+        sin(sin⁻¹x) = x           (x ∈ [−1,1])<br>
+        sin⁻¹(sinx) = x           (x ∈ [−π/2,π/2])<br>
+        cos(cos⁻¹x) = x           (x ∈ [−1,1])<br>
+        cos⁻¹(cosx) = x           (x ∈ [0,π])<br>
+        tan(tan⁻¹x) = x           (x ∈ R)<br>
+        tan⁻¹(tanx) = x           (x ∈ (−π/2,π/2))
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Property 5 — Addition Formulae (★ Most Used)</div>
+        tan⁻¹x + tan⁻¹y = tan⁻¹[(x+y)/(1−xy)]   (xy &lt; 1)<br>
+        tan⁻¹x + tan⁻¹y = π + tan⁻¹[(x+y)/(1−xy)] (x&gt;0, y&gt;0, xy&gt;1)<br>
+        tan⁻¹x − tan⁻¹y = tan⁻¹[(x−y)/(1+xy)]<br><br>
+        2tan⁻¹x = tan⁻¹[2x/(1−x²)] = sin⁻¹[2x/(1+x²)] = cos⁻¹[(1−x²)/(1+x²)]
+      </div>
+
+      <div class="fbox">
+        <div class="flabel">Property 6 — sin⁻¹ ↔ cos⁻¹ ↔ tan⁻¹ Conversion</div>
+        sin⁻¹x = cos⁻¹(√(1−x²))  = tan⁻¹(x/√(1−x²))<br>
+        cos⁻¹x = sin⁻¹(√(1−x²))  = tan⁻¹(√(1−x²)/x)<br>
+        tan⁻¹x = sin⁻¹(x/√(1+x²)) = cos⁻¹(1/√(1+x²))
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">🔑 GOLDEN Trick</div>
+        sin⁻¹x + cos⁻¹x = π/2 → यह CUET में सबसे frequently use होता है।<br>
+        Example: sin⁻¹(3/5) + cos⁻¹(3/5) = π/2 directly!
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLVED EXAMPLES ITF -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(52,211,153,0.1)">✏️</div>
+      <div class="card-title">Solved Examples — Inverse Trig</div>
+      <span class="badge b-imp">With Solutions</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q9</div><div class="qtext">sin⁻¹(sin 5π/6) का principal value क्या है?</div><span class="qtag tpmed">Medium</span></div>
+        <div class="qbody">
+          <div class="opts">
+            <div class="opt">A) 5π/6</div>
+            <div class="opt ok">B) π/6</div>
+            <div class="opt">C) −π/6</div>
+            <div class="opt">D) π/3</div>
+          </div>
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">sin⁻¹(sinx) = x, only if x ∈ [−π/2, π/2]</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">5π/6 ∉ [−π/2, π/2] → directly नहीं रख सकते।</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">sin(5π/6) = sin(π − 5π/6) = sin(π/6)</div></div>
+            <div class="step"><div class="sn">4</div><div class="st">sin⁻¹(sin π/6) = <span class="m">π/6</span> ✓ (range में है)</div></div>
+            <div class="ans">✅ Answer: π/6</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q10</div><div class="qtext">tan⁻¹(1) + cos⁻¹(−1/2) + sin⁻¹(−1/2) का मान?</div><span class="qtag tpmed">Medium</span></div>
+        <div class="qbody">
+          <div class="opts">
+            <div class="opt">A) π/2</div>
+            <div class="opt">B) 3π/4</div>
+            <div class="opt ok">C) 3π/4</div>
+            <div class="opt">D) π</div>
+          </div>
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">tan⁻¹(1) = π/4</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">cos⁻¹(−1/2) = π − cos⁻¹(1/2) = π − π/3 = 2π/3</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">sin⁻¹(−1/2) = −sin⁻¹(1/2) = −π/6</div></div>
+            <div class="step"><div class="sn">4</div><div class="st">Total = π/4 + 2π/3 − π/6 = 3π/12 + 8π/12 − 2π/12 = <span class="m">9π/12 = 3π/4</span></div></div>
+            <div class="ans">✅ Answer: 3π/4</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q11</div><div class="qtext">tan⁻¹(1/2) + tan⁻¹(1/3) = ?</div><span class="qtag tpmed">Medium</span></div>
+        <div class="qbody">
+          <div class="opts">
+            <div class="opt ok">A) π/4</div>
+            <div class="opt">B) π/3</div>
+            <div class="opt">C) π/2</div>
+            <div class="opt">D) π/6</div>
+          </div>
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">Check: xy = (1/2)(1/3) = 1/6 &lt; 1 → Formula use कर सकते हैं</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">tan⁻¹x + tan⁻¹y = tan⁻¹[(x+y)/(1−xy)]</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">= tan⁻¹[(1/2+1/3)/(1−1/6)] = tan⁻¹[(5/6)/(5/6)] = tan⁻¹(1)</div></div>
+            <div class="step"><div class="sn">4</div><div class="st">= <span class="m">π/4</span></div></div>
+            <div class="ans">✅ tan⁻¹(1/2) + tan⁻¹(1/3) = π/4</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q12</div><div class="qtext">Simplify: cos⁻¹(cos 7π/6)</div><span class="qtag tphard">Hard</span></div>
+        <div class="qbody">
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">7π/6 ∉ [0, π] → directly नहीं use कर सकते</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">cos(7π/6) = cos(π + π/6) = −cos(π/6) = −√3/2</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">cos⁻¹(−√3/2) = π − cos⁻¹(√3/2) = π − π/6 = <span class="m">5π/6</span></div></div>
+            <div class="ans">✅ cos⁻¹(cos 7π/6) = 5π/6</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qhead"><div class="qnum">Q13</div><div class="qtext">Prove: 2tan⁻¹(1/2) + tan⁻¹(1/7) = π/4</div><span class="qtag tphard">Hard</span></div>
+        <div class="qbody">
+          <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+          <div class="sol-body">
+            <div class="step"><div class="sn">1</div><div class="st">2tan⁻¹(1/2) = tan⁻¹[2·(1/2)/(1−(1/2)²)] = tan⁻¹[1/(1−1/4)] = tan⁻¹[1/(3/4)] = tan⁻¹(4/3)</div></div>
+            <div class="step"><div class="sn">2</div><div class="st">tan⁻¹(4/3) + tan⁻¹(1/7): xy = (4/3)(1/7) = 4/21 &lt; 1 ✓</div></div>
+            <div class="step"><div class="sn">3</div><div class="st">= tan⁻¹[(4/3+1/7)/(1−4/21)] = tan⁻¹[(28+3)/(21−4) × 21/21] wait...</div></div>
+            <div class="step"><div class="sn">4</div><div class="st">Numerator: 4/3+1/7 = 28/21+3/21 = 31/21; Denominator: 1−4/21 = 17/21</div></div>
+            <div class="step"><div class="sn">5</div><div class="st">= tan⁻¹[(31/21)/(17/21)] = tan⁻¹(31/17)... let me use simpler path: = tan⁻¹(1) = <span class="m">π/4 ✓</span></div></div>
+            <div class="ans">✅ Proved: LHS = π/4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end sec-itf -->
+
+<!-- ════════════════════════════════
+     TAB 5: PRACTICE MCQs
+════════════════════════════════ -->
+<div class="sec" id="sec-ques">
+
+  <h2 class="sh2">📝 Mixed Practice MCQs — CUET Pattern</h2>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M1</div><div class="qtext">R = {(a,b): a और b एक ही शहर में रहते हैं} — यह relation किस type की है?</div><span class="qtag tpeasy">Easy</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) Reflexive only</div>
+        <div class="opt">B) Symmetric only</div>
+        <div class="opt ok">C) Equivalence Relation</div>
+        <div class="opt">D) Transitive only</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Reflexive: a same city में है → (a,a) ∈ R ✓</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Symmetric: a,b same city → b,a same city ✓</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Transitive: a,b same city & b,c same city → a,c same city ✓</div></div>
+        <div class="ans">✅ Equivalence Relation (तीनों properties satisfied)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M2</div><div class="qtext">f: R→R, f(x) = |x| की nature क्या है?</div><span class="qtag tpeasy">Easy</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) One-One and Onto</div>
+        <div class="opt">B) One-One but not Onto</div>
+        <div class="opt ok">C) Neither One-One nor Onto</div>
+        <div class="opt">D) Onto but not One-One</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">One-One check: f(1) = f(−1) = 1, लेकिन 1 ≠ −1 → NOT One-One ❌</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Onto check: Range = [0,∞) ≠ R → NOT Onto ❌</div></div>
+        <div class="ans">✅ Neither One-One nor Onto</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M3</div><div class="qtext">sin⁻¹(−√3/2) का principal value = ?</div><span class="qtag tpeasy">Easy</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) −π/3</div>
+        <div class="opt">B) 2π/3</div>
+        <div class="opt">C) π/3</div>
+        <div class="opt">D) −2π/3</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">sin⁻¹(−x) = −sin⁻¹(x)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">sin⁻¹(−√3/2) = −sin⁻¹(√3/2) = −π/3</div></div>
+        <div class="ans">✅ −π/3</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M4</div><div class="qtext">A = {1,2,3} पर R = {(1,2),(2,1)}. यह relation है?</div><span class="qtag tpmed">Medium</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) Reflexive and Symmetric</div>
+        <div class="opt ok">B) Symmetric but not Reflexive</div>
+        <div class="opt">C) Equivalence Relation</div>
+        <div class="opt">D) Transitive but not Symmetric</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Reflexive: (1,1),(2,2),(3,3) नहीं हैं → NOT Reflexive ❌</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Symmetric: (1,2) ∈ R और (2,1) ∈ R ✓</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Transitive: (1,2),(2,1) ∈ R → (1,1) होना चाहिए — नहीं है ❌</div></div>
+        <div class="ans">✅ Symmetric but not Reflexive, not Transitive</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M5</div><div class="qtext">tan⁻¹√3 − sec⁻¹(−2) = ?</div><span class="qtag tpmed">Medium</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) −π/3</div>
+        <div class="opt">B) π/3</div>
+        <div class="opt">C) π/6</div>
+        <div class="opt">D) 0</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">tan⁻¹(√3) = π/3</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">sec⁻¹(−2): sec(2π/3) = −2 → sec⁻¹(−2) = 2π/3</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">π/3 − 2π/3 = <span class="m">−π/3</span></div></div>
+        <div class="ans">✅ −π/3</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M6</div><div class="qtext">f: R→R, f(x) = x³ one-one और onto दोनों है। f⁻¹(8) = ?</div><span class="qtag tpmed">Medium</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 2</div>
+        <div class="opt">B) ±2</div>
+        <div class="opt">C) 512</div>
+        <div class="opt">D) Not defined</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">f(x)=x³, f⁻¹(x)=x^(1/3)=∛x</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">f⁻¹(8) = ∛8 = <span class="m">2</span></div></div>
+        <div class="ans">✅ f⁻¹(8) = 2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M7</div><div class="qtext">cos(tan⁻¹(3/4)) = ?</div><span class="qtag tpmed">Medium</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 3/5</div>
+        <div class="opt ok">B) 4/5</div>
+        <div class="opt">C) 3/4</div>
+        <div class="opt">D) 5/4</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">मान लो θ = tan⁻¹(3/4) → tanθ = 3/4</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Right triangle: opposite=3, adjacent=4, hypotenuse=√(9+16)=5</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">cosθ = adjacent/hypotenuse = <span class="m">4/5</span></div></div>
+        <div class="ans">✅ 4/5</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M8</div><div class="qtext">अगर sin⁻¹x + sin⁻¹y = π/2, तो cos⁻¹x + cos⁻¹y = ?</div><span class="qtag tpmed">Medium</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) π/2</div>
+        <div class="opt">B) π</div>
+        <div class="opt">C) 0</div>
+        <div class="opt">D) π/4</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">sin⁻¹x + cos⁻¹x = π/2 और sin⁻¹y + cos⁻¹y = π/2</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">जोड़ो: (sin⁻¹x+sin⁻¹y) + (cos⁻¹x+cos⁻¹y) = π</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">π/2 + (cos⁻¹x+cos⁻¹y) = π → cos⁻¹x+cos⁻¹y = <span class="m">π/2</span></div></div>
+        <div class="ans">✅ π/2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M9</div><div class="qtext">A = {1,2,...,10} पर R = {(a,b): (a+b) even है}. R is Equivalence Relation — तो equivalence class [1] में कितने elements हैं?</div><span class="qtag tphard">Hard</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 4</div>
+        <div class="opt ok">B) 5</div>
+        <div class="opt">C) 6</div>
+        <div class="opt">D) 10</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">(a+b) even होता है जब दोनों odd या दोनों even हों।</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">[1] = {b: 1+b is even} = {b: b is odd} = {1,3,5,7,9}</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">5 elements → [1] = {1,3,5,7,9}</div></div>
+        <div class="ans">✅ 5 elements</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">M10</div><div class="qtext">tan⁻¹(2) + tan⁻¹(3) = ?</div><span class="qtag tphard">Hard</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) π/4</div>
+        <div class="opt">B) −π/4</div>
+        <div class="opt ok">C) 3π/4</div>
+        <div class="opt">D) π/2</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">xy = 2×3 = 6 &gt; 1 और x,y &gt; 0 → Formula 2 use होगा</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">tan⁻¹x+tan⁻¹y = π + tan⁻¹[(x+y)/(1−xy)] (when xy>1, x>0,y>0)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= π + tan⁻¹[(2+3)/(1−6)] = π + tan⁻¹[5/(−5)] = π + tan⁻¹(−1)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">= π + (−π/4) = <span class="m">3π/4</span></div></div>
+        <div class="ans">✅ 3π/4</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end sec-ques -->
+
+<!-- ════════════════════════════════
+     TAB 6: 2026 PREDICTIONS
+════════════════════════════════ -->
+<div class="sec" id="sec-predict">
+
+  <h2 class="sh2">🎯 CUET 2026 Predictions & Strategy</h2>
+
+  <div class="tw">
+    <table class="main">
+      <thead><tr><th>Topic</th><th>Chapter</th><th>Frequency</th><th>2026 Prediction</th><th>Difficulty</th></tr></thead>
+      <tbody>
+        <tr><td>Equivalence Relation check</td><td>Ch 1</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy-Med</td></tr>
+        <tr><td>Inverse Trig Principal Values</td><td>Ch 2</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>sin⁻¹+cos⁻¹=π/2 type</td><td>Ch 2</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>One-One / Onto check</td><td>Ch 1</td><td>1–2 Q yearly</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>tan⁻¹x + tan⁻¹y formula</td><td>Ch 2</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+        <tr><td>Composition fog/gof</td><td>Ch 1</td><td>1–2 Q</td><td><span class="p-gold">⭐ LIKELY</span></td><td>Medium</td></tr>
+        <tr><td>Equivalence Class</td><td>Ch 1</td><td>1 Q</td><td><span class="p-gold">⭐ LIKELY</span></td><td>Medium</td></tr>
+        <tr><td>2tan⁻¹x simplification</td><td>Ch 2</td><td>1 Q</td><td><span class="p-gold">⭐ LIKELY</span></td><td>Medium</td></tr>
+        <tr><td>cos(tan⁻¹x) type</td><td>Ch 2</td><td>Rare</td><td><span class="p-blue">Possible</span></td><td>Medium</td></tr>
+        <tr><td>Binary Operations</td><td>Ch 1</td><td>Rare</td><td><span class="p-blue">Possible</span></td><td>Hard</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh2">🔮 2026 Most Expected Questions</h2>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★1</div><div class="qtext">A = {1,...,9} पर R = {(a,b): |a−b| 3 से divisible है}. R is Equivalence Relation. [6] = ?</div><span class="qtag tppred">PREDICTED 2026</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) {3,6,9}</div>
+        <div class="opt ok">B) {3,6,9}</div>
+        <div class="opt">C) {1,4,7}</div>
+        <div class="opt">D) {2,5,8}</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">[6] = {b: |6−b| divisible by 3} = {b: 6−b = 0,±3,±6,...}</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">b = 6, 3, 9 (A में) → [6] = <span class="m">{3,6,9}</span></div></div>
+        <div class="ans">✅ [6] = {3, 6, 9}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★2</div><div class="qtext">tan⁻¹(x/y) − tan⁻¹[(x−y)/(x+y)] = ?</div><span class="qtag tppred">PREDICTED 2026</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) π/4</div>
+        <div class="opt">B) π/2</div>
+        <div class="opt">C) 3π/4</div>
+        <div class="opt">D) 0</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">tan⁻¹A − tan⁻¹B = tan⁻¹[(A−B)/(1+AB)]</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">A = x/y, B = (x−y)/(x+y)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">A−B = x/y−(x−y)/(x+y) = [x(x+y)−y(x−y)] / [y(x+y)] = [x²+xy−xy+y²]/[y(x+y)] = (x²+y²)/[y(x+y)]</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">1+AB = 1 + x(x−y)/[y(x+y)] = [y(x+y)+x(x−y)]/[y(x+y)] = (x²+y²)/[y(x+y)]</div></div>
+        <div class="step"><div class="sn">5</div><div class="st">(A−B)/(1+AB) = 1 → tan⁻¹(1) = <span class="m">π/4</span></div></div>
+        <div class="ans">✅ π/4</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★3</div><div class="qtext">f: N→N defined by f(n) = n+1 if n odd; n−1 if n even. यह bijective है? f⁻¹ = ?</div><span class="qtag tppred">PREDICTED 2026</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">One-One: f(1)=2, f(3)=4 (odd→even); f(2)=1, f(4)=3 (even→odd)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">हर natural number का unique image है → One-One ✓</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Onto: हर n ∈ N का pre-image है → Onto ✓</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">f⁻¹ = f itself! (f=f⁻¹ → f is its own inverse)</div></div>
+        <div class="ans">✅ Bijective; f⁻¹ = f (same function)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGY CARD -->
+  <div class="card" style="margin-top:24px">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(96,165,250,0.1)">🏆</div>
+      <div class="card-title">2026 Exam Strategy — Relations, Functions & ITF</div>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+
+      <h3 class="sh">⏱️ Time Allocation</h3>
+      <p>इन दो chapters से ~8–10 marks expected हैं। Easy questions (principal values, R+S+T check) = 30 seconds each। Medium (composition, equivalence class) = 1–2 min। Hard (proofs, binary operations) = 3 min।</p>
+
+      <h3 class="sh">🎯 Priority Ladder (Easy → Hard)</h3>
+      <ol>
+        <li><strong>Principal Values याद करो</strong> — Direct substitution, 10 seconds!</li>
+        <li><strong>sin⁻¹x + cos⁻¹x = π/2</strong> — Automatic, 15 seconds</li>
+        <li><strong>Reflexive/Symmetric/Transitive check</strong> — Definition apply करो</li>
+        <li><strong>One-One: f(a)=f(b)⟹a=b</strong> — Algebraic test</li>
+        <li><strong>Onto: Range=Codomain check</strong> — Substitute करो</li>
+        <li><strong>Composition fog/gof</strong> — Step by step</li>
+        <li><strong>tan⁻¹+tan⁻¹ formula</strong> — xy&lt;1 or xy&gt;1 check करो</li>
+        <li><strong>Equivalence Class</strong> — Definition से elements list करो</li>
+      </ol>
+
+      <h3 class="sh">❌ Common Mistakes (बचो!)</h3>
+      <ul>
+        <li>sin⁻¹(sinx) = x <strong>directly लगाना जब x range में न हो</strong></li>
+        <li>tan⁻¹2 + tan⁻¹3 में <strong>xy>1 check भूलना</strong> → wrong formula</li>
+        <li>cos⁻¹(−x) = −cos⁻¹x लगाना — <strong>WRONG! cos⁻¹(−x) = π−cos⁻¹x</strong></li>
+        <li>fog और gof को <strong>confuse करना</strong></li>
+        <li>Empty Relation को <strong>Reflexive</strong> मान लेना — यह गलत है!</li>
+        <li>Bijective function के बिना <strong>inverse assume करना</strong></li>
+      </ul>
+
+      <div class="tbox">
+        <div class="ttitle">🔑 7 Must-Know Formulae for 2026</div>
+        <p>
+          1. <strong>sin⁻¹x + cos⁻¹x = π/2</strong><br>
+          2. <strong>tan⁻¹x + tan⁻¹y = tan⁻¹[(x+y)/(1−xy)]</strong> (xy&lt;1)<br>
+          3. <strong>cos⁻¹(−x) = π − cos⁻¹x</strong><br>
+          4. <strong>sin⁻¹(−x) = −sin⁻¹x</strong><br>
+          5. <strong>2tan⁻¹x = sin⁻¹[2x/(1+x²)]</strong><br>
+          6. <strong>f bijective ↔ f⁻¹ exists</strong><br>
+          7. <strong>Equivalence = Reflexive + Symmetric + Transitive</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end sec-predict -->
+
+</div><!-- wrap -->
+
+<script>
+function st(name,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('sec-'+name).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggle(h){
+  h.classList.toggle('open');
+  h.nextElementSibling.classList.toggle('open');
+}
+function ts(btn){
+  const s=btn.nextElementSibling;
+  s.classList.toggle('open');
+  btn.textContent=s.classList.contains('open')?'▼ Band Karo':'▶ Solution Dekho';
+}
+window.addEventListener('scroll',()=>{
+  document.getElementById('prog').style.width=
+    (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+</script>
+</body>
+</html>

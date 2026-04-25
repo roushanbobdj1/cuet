@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application of Derivatives – CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080b10;
+    --surface: #0e1420;
+    --card: #131924;
+    --border: #1c2438;
+    --accent: #00e5ff;
+    --accent2: #ff6b6b;
+    --accent3: #69ff6b;
+    --accent4: #ffb347;
+    --purple: #c084fc;
+    --text: #dde6f0;
+    --muted: #7a8799;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* PROGRESS */
+  .prog { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,#00e5ff,#c084fc); z-index:999; width:0%; transition:width .1s; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg,#060912 0%,#0d1525 50%,#080f1e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 52px 20px 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; top:-100px; left:50%; transform:translateX(-50%);
+    width:700px; height:400px;
+    background: radial-gradient(ellipse, rgba(0,229,255,0.08) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .hero::after {
+    content:'';
+    position:absolute; bottom:-60px; right:10%;
+    width:300px; height:300px;
+    background: radial-gradient(ellipse, rgba(192,132,252,0.07) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .hero-badge {
+    display:inline-block;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.25);
+    color: var(--accent);
+    font-family:'Rajdhani',sans-serif;
+    font-size:12px; font-weight:600;
+    letter-spacing:3px; text-transform:uppercase;
+    padding:5px 20px; border-radius:100px;
+    margin-bottom:20px;
+  }
+  .hero h1 {
+    font-family:'Rajdhani',sans-serif;
+    font-size: clamp(30px, 7vw, 58px);
+    font-weight:700; letter-spacing:-1px; line-height:1.1; color:#fff;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { margin-top:12px; color:var(--muted); font-size:15px; font-family:'Rajdhani',sans-serif; letter-spacing:1px; }
+  .hero-stats { display:flex; justify-content:center; gap:24px; margin-top:28px; flex-wrap:wrap; }
+  .stat {
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border);
+    border-radius:10px; padding:10px 24px;
+    font-family:'Rajdhani',sans-serif;
+  }
+  .stat-n { font-size:22px; font-weight:700; color:var(--accent); display:block; }
+  .stat-l { font-size:11px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+
+  /* TABS */
+  .tabs-wrap {
+    position:sticky; top:0; z-index:50;
+    background:rgba(8,11,16,0.97);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    padding:0 16px; overflow-x:auto; scrollbar-width:none;
+  }
+  .tabs-wrap::-webkit-scrollbar { display:none; }
+  .tabs { display:flex; gap:4px; min-width:max-content; padding:10px 0; }
+  .tab-btn {
+    font-family:'Rajdhani',sans-serif; font-weight:600; font-size:13px;
+    letter-spacing:0.5px; padding:8px 18px; border-radius:8px;
+    border:none; background:transparent; color:var(--muted); cursor:pointer;
+    white-space:nowrap; transition:all .2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background:rgba(0,229,255,0.1); color:var(--accent); }
+
+  /* LAYOUT */
+  .container { max-width:900px; margin:0 auto; padding:32px 16px 80px; }
+  .section { display:none; }
+  .section.active { display:block; }
+
+  /* TOPIC CARD */
+  .topic-card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px; margin-bottom:22px; overflow:hidden;
+  }
+  .topic-head {
+    display:flex; align-items:center; gap:14px;
+    padding:18px 22px;
+    background:rgba(255,255,255,0.02);
+    border-bottom:1px solid var(--border);
+    cursor:pointer; user-select:none;
+  }
+  .topic-icon {
+    width:42px; height:42px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px; flex-shrink:0;
+  }
+  .topic-title { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:19px; color:#fff; flex:1; }
+  .topic-badge {
+    font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:600;
+    letter-spacing:1px; text-transform:uppercase;
+    padding:3px 10px; border-radius:6px;
+  }
+  .badge-hot  { background:rgba(255,107,107,0.12); color:var(--accent2); border:1px solid rgba(255,107,107,0.3); }
+  .badge-imp  { background:rgba(0,229,255,0.08); color:var(--accent); border:1px solid rgba(0,229,255,0.25); }
+  .badge-mod  { background:rgba(255,179,71,0.1); color:var(--accent4); border:1px solid rgba(255,179,71,0.3); }
+  .badge-easy { background:rgba(105,255,107,0.08); color:var(--accent3); border:1px solid rgba(105,255,107,0.25); }
+  .chevron { color:var(--muted); transition:transform .3s; font-size:14px; }
+  .topic-head.open .chevron { transform:rotate(180deg); }
+  .topic-body { padding:22px; display:none; }
+  .topic-body.open { display:block; }
+
+  /* FORMULA BOX */
+  .formula-box {
+    background:rgba(8,11,16,0.8);
+    border:1px solid rgba(0,229,255,0.18);
+    border-left:4px solid var(--accent);
+    border-radius:10px; padding:16px 18px; margin:14px 0;
+    font-family:'JetBrains Mono',monospace; font-size:13.5px;
+    color:#a8e8ff; line-height:1.9;
+  }
+  .formula-box .label {
+    font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:600;
+    letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:8px;
+  }
+
+  /* TRICK BOX */
+  .trick-box {
+    background:rgba(192,132,252,0.06);
+    border:1px solid rgba(192,132,252,0.22);
+    border-radius:10px; padding:14px 18px; margin:14px 0;
+  }
+  .trick-box .trick-title {
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px;
+    color:var(--purple); margin-bottom:6px; letter-spacing:1px; text-transform:uppercase;
+  }
+  .trick-box p { font-size:15px; color:#d8b4fe; }
+
+  /* NOTE BOX */
+  .note-box {
+    background:rgba(105,255,107,0.05);
+    border:1px solid rgba(105,255,107,0.2);
+    border-radius:10px; padding:14px 18px; margin:14px 0;
+  }
+  .note-box .note-title {
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;
+    color:var(--accent3); margin-bottom:6px; letter-spacing:1px; text-transform:uppercase;
+  }
+
+  /* WARN BOX */
+  .warn-box {
+    background:rgba(255,107,107,0.06);
+    border:1px solid rgba(255,107,107,0.22);
+    border-radius:10px; padding:14px 18px; margin:14px 0;
+  }
+  .warn-box .warn-title {
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;
+    color:var(--accent2); margin-bottom:6px; letter-spacing:1px; text-transform:uppercase;
+  }
+  .warn-box p { font-size:15px; color:#fca5a5; }
+
+  /* HEADINGS */
+  h2.sec-head {
+    font-family:'Rajdhani',sans-serif; font-size:26px; font-weight:700;
+    color:#fff; margin-bottom:20px; display:flex; align-items:center; gap:10px;
+  }
+  h2.sec-head::after { content:''; flex:1; height:1px; background:var(--border); }
+  h3.sub-head {
+    font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:600;
+    color:var(--accent); margin:18px 0 8px;
+  }
+  p { margin-bottom:10px; color:#b0bec5; font-size:16px; }
+  ul,ol { padding-left:22px; margin-bottom:12px; }
+  li { margin-bottom:6px; color:#b0bec5; font-size:16px; }
+  li strong { color:#e2e8f0; }
+  em { color:var(--accent3); font-style:normal; }
+
+  /* TABLE */
+  .table-wrap { overflow-x:auto; margin-bottom:20px; }
+  table { width:100%; border-collapse:collapse; }
+  thead tr { background:rgba(0,229,255,0.06); }
+  th {
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:1px; text-transform:uppercase; color:var(--accent);
+    padding:12px 14px; text-align:left; border-bottom:1px solid var(--border);
+  }
+  td { padding:10px 14px; font-size:14px; color:#7a8799; border-bottom:1px solid rgba(255,255,255,0.04); }
+  tr:hover td { background:rgba(255,255,255,0.02); color:#e2e8f0; }
+  .pill { display:inline-block; padding:2px 10px; border-radius:20px; font-size:12px; font-family:'Rajdhani',sans-serif; font-weight:600; }
+  .pill-red   { background:rgba(255,107,107,0.12); color:var(--accent2); }
+  .pill-blue  { background:rgba(0,229,255,0.08); color:var(--accent); }
+  .pill-green { background:rgba(105,255,107,0.08); color:var(--accent3); }
+  .pill-yellow { background:rgba(255,179,71,0.1); color:var(--accent4); }
+
+  /* QUESTION CARD */
+  .q-card {
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px; margin-bottom:20px; overflow:hidden;
+  }
+  .q-header {
+    display:flex; align-items:center; gap:12px;
+    padding:14px 18px;
+    background:rgba(255,255,255,0.02);
+    border-bottom:1px solid var(--border);
+  }
+  .q-num {
+    width:34px; height:34px; border-radius:8px;
+    background:rgba(0,229,255,0.08);
+    border:1px solid rgba(0,229,255,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px; color:var(--accent);
+    flex-shrink:0;
+  }
+  .q-text { font-family:'Rajdhani',sans-serif; font-size:16px; color:#e2e8f0; font-weight:600; flex:1; line-height:1.4; }
+  .q-tag {
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    padding:3px 8px; border-radius:5px; white-space:nowrap;
+  }
+  .tag-pyq  { background:rgba(255,107,107,0.12); color:var(--accent2); border:1px solid rgba(255,107,107,0.3); }
+  .tag-pred { background:rgba(0,229,255,0.08); color:var(--accent); border:1px solid rgba(0,229,255,0.25); }
+  .q-body { padding:16px 18px; }
+  .options-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0; }
+  @media(max-width:500px){ .options-grid { grid-template-columns:1fr; } }
+  .opt {
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--border);
+    border-radius:8px; padding:9px 14px; font-size:15px;
+    color:#7a8799;
+  }
+  .opt.correct {
+    background:rgba(105,255,107,0.08);
+    border-color:rgba(105,255,107,0.35);
+    color:var(--accent3); font-weight:600;
+  }
+  .solution-toggle {
+    background:rgba(0,229,255,0.06);
+    border:1px solid rgba(0,229,255,0.18);
+    border-radius:8px; padding:9px 16px;
+    color:var(--accent);
+    font-family:'Rajdhani',sans-serif; font-weight:600; font-size:13px; letter-spacing:1px;
+    cursor:pointer; width:100%; text-align:left; margin-top:10px; transition:all .2s;
+  }
+  .solution-toggle:hover { background:rgba(0,229,255,0.12); }
+  .solution-body {
+    display:none;
+    background:rgba(8,11,16,0.6);
+    border:1px solid rgba(0,229,255,0.15);
+    border-radius:10px; padding:16px; margin-top:10px;
+  }
+  .solution-body.open { display:block; }
+  .solution-body .step { display:flex; gap:12px; margin-bottom:10px; align-items:flex-start; }
+  .step-n {
+    width:26px; height:26px; border-radius:50%;
+    background:rgba(0,229,255,0.1); color:var(--accent);
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .step-text { font-size:15px; color:#94a3b8; }
+  .step-text .math {
+    font-family:'JetBrains Mono',monospace; font-size:13px;
+    color:#a8e8ff; background:rgba(0,229,255,0.07);
+    padding:2px 6px; border-radius:4px;
+  }
+  .ans-box {
+    background:rgba(105,255,107,0.07);
+    border:1px solid rgba(105,255,107,0.28);
+    border-radius:8px; padding:10px 14px; margin-top:10px;
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px; color:var(--accent3);
+  }
+
+  /* FORMULA SHEET GRID */
+  .formula-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; }
+  @media(max-width:600px){ .formula-grid { grid-template-columns:1fr; } }
+  .formula-card {
+    background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px;
+  }
+  .formula-card h4 {
+    font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px;
+    color:var(--accent); letter-spacing:1px; text-transform:uppercase;
+    margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border);
+  }
+  .formula-item { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; font-size:14px; }
+  .fi-label { color:var(--muted); font-size:12px; min-width:90px; flex-shrink:0; }
+  .fi-val { font-family:'JetBrains Mono',monospace; font-size:12.5px; color:#a8e8ff; }
+
+  /* RULES LIST */
+  .rules-list { list-style:none; padding:0; }
+  .rules-list li {
+    display:flex; align-items:flex-start; gap:10px;
+    padding:9px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:15px;
+  }
+  .rules-list li::before { content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; margin-top:2px; }
+
+  /* MNEMONIC */
+  .mnemonic {
+    background:linear-gradient(135deg,rgba(0,229,255,0.06),rgba(192,132,252,0.06));
+    border:1px solid rgba(0,229,255,0.18);
+    border-radius:12px; padding:18px; margin:16px 0; text-align:center;
+  }
+  .mnemonic .word { font-size:28px; font-weight:700; color:var(--accent); font-family:'Rajdhani',sans-serif; letter-spacing:3px; }
+  .mnemonic .breakdown { font-size:14px; color:var(--muted); margin-top:8px; }
+  .mnemonic .breakdown span { color:var(--accent3); }
+
+  /* PYQSTRIP */
+  .pyq-strip {
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--accent2); background:rgba(255,107,107,0.07);
+    border:1px solid rgba(255,107,107,0.2); padding:2px 8px;
+    border-radius:5px; display:inline-block; margin-bottom:8px;
+  }
+
+  /* INCREASING DECREASING TABLE */
+  .inct {
+    width:100%; border-collapse:collapse; margin:12px 0;
+    font-family:'JetBrains Mono',monospace; font-size:13px;
+  }
+  .inct th { background:rgba(0,229,255,0.08); color:var(--accent); padding:8px 12px; text-align:center; border:1px solid var(--border); }
+  .inct td { padding:8px 12px; text-align:center; border:1px solid var(--border); color:#94a3b8; }
+  .inc { color:var(--accent3); font-weight:700; }
+  .dec { color:var(--accent2); font-weight:700; }
+</style>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📈 CUET 2026 · Mathematics</div>
+  <h1>Application of <span>Derivatives</span></h1>
+  <div class="hero-sub">Chapter 6 — Complete Notes + PYQ + Practice + 2026 Predictions</div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-n">6–8</span><span class="stat-l">Marks Weightage</span></div>
+    <div class="stat"><span class="stat-n">7</span><span class="stat-l">Core Topics</span></div>
+    <div class="stat"><span class="stat-n">40+</span><span class="stat-l">Questions</span></div>
+    <div class="stat"><span class="stat-n">⭐⭐ Very High</span><span class="stat-l">Priority</span></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('notes',this)">📒 Notes</button>
+    <button class="tab-btn" onclick="switchTab('formulas',this)">📐 Formula Sheet</button>
+    <button class="tab-btn" onclick="switchTab('pyq',this)">🔥 PYQ Questions</button>
+    <button class="tab-btn" onclick="switchTab('practice',this)">✏️ Practice Q&A</button>
+    <button class="tab-btn" onclick="switchTab('predict',this)">🎯 2026 Predictions</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════ NOTES ═══════ -->
+<div class="section active" id="sec-notes">
+  <h2 class="sec-head">📒 Full Chapter Notes</h2>
+
+  <!-- T1: Rate of Change -->
+  <div class="topic-card">
+    <div class="topic-head open" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(0,229,255,0.08)">⏱️</div>
+      <div class="topic-title">Topic 1 — Rate of Change of Quantities</div>
+      <span class="topic-badge badge-hot">HOT</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body open">
+      <p>Derivative <em>dy/dx</em> ka matlab hai — y ki rate of change w.r.t. x. Ye chapter ka sabse basic aur seedha topic hai.</p>
+
+      <div class="formula-box">
+        <div class="label">Core Concept</div>
+        dy/dx = Rate of change of y with respect to x<br><br>
+        dy/dt = Rate of change of y with respect to time t<br><br>
+        dy/dx = (dy/dt) ÷ (dx/dt)  ← Chain Rule se
+      </div>
+
+      <h3 class="sub-head">Common Real-Life Rate of Change Problems</h3>
+
+      <div class="formula-box">
+        <div class="label">Circle / Sphere / Cylinder Formulas</div>
+        Area of Circle A = πr² → dA/dt = 2πr · dr/dt<br>
+        Volume of Sphere V = (4/3)πr³ → dV/dt = 4πr² · dr/dt<br>
+        Surface Area of Sphere S = 4πr² → dS/dt = 8πr · dr/dt<br>
+        Volume of Cylinder V = πr²h → dV/dt = πr²·dh/dt + 2πrh·dr/dt
+      </div>
+
+      <div class="trick-box">
+        <div class="trick-title">⚡ Step-by-Step Method</div>
+        <p>
+          Step 1: Jo quantity change ho rahi hai uska formula likho (A, V, S etc.)<br>
+          Step 2: Dono sides ko 't' ke respect mein differentiate karo<br>
+          Step 3: Given values substitute karo<br>
+          Step 4: Answer nikalo (units dhyan rakho!)
+        </p>
+      </div>
+
+      <div class="note-box">
+        <div class="note-title">📌 Important Units</div>
+        <ul>
+          <li>Rate of change of Area → cm²/s, m²/s</li>
+          <li>Rate of change of Volume → cm³/s, m³/s</li>
+          <li>Rate of change of radius/length → cm/s, m/s</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- T2: Increasing/Decreasing -->
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(105,255,107,0.08)">📈</div>
+      <div class="topic-title">Topic 2 — Increasing & Decreasing Functions</div>
+      <span class="topic-badge badge-hot">HOT</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <h3 class="sub-head">Basic Definitions</h3>
+      <p>Ek function f(x) kisi interval mein:</p>
+
+      <div class="formula-box">
+        <div class="label">Strictly Increasing</div>
+        x₁ &lt; x₂ → f(x₁) &lt; f(x₂)  [in interval (a,b)]<br>
+        Condition: f'(x) &gt; 0 for all x ∈ (a,b)<br><br>
+        <div class="label">Strictly Decreasing</div>
+        x₁ &lt; x₂ → f(x₁) &gt; f(x₂)  [in interval (a,b)]<br>
+        Condition: f'(x) &lt; 0 for all x ∈ (a,b)
+      </div>
+
+      <h3 class="sub-head">Steps to Find Intervals</h3>
+      <ol>
+        <li>f'(x) nikalo</li>
+        <li>Critical points find karo: f'(x) = 0 se x ka value</li>
+        <li>Number line par mark karo, intervals banao</li>
+        <li>Har interval mein f'(x) ka sign check karo</li>
+        <li>+ve → Increasing | −ve → Decreasing</li>
+      </ol>
+
+      <table class="inct">
+        <thead><tr><th>f'(x) Sign</th><th>Nature of f(x)</th><th>Graph</th></tr></thead>
+        <tbody>
+          <tr><td class="inc">f'(x) &gt; 0</td><td class="inc">Increasing ↑</td><td>Sloping up ↗</td></tr>
+          <tr><td class="dec">f'(x) &lt; 0</td><td class="dec">Decreasing ↓</td><td>Sloping down ↘</td></tr>
+          <tr><td>f'(x) = 0</td><td>Stationary Point</td><td>Flat (—)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="trick-box">
+        <div class="trick-title">⚡ Quick Sign Method</div>
+        <p>f'(x) ko factor form mein likho. Phir wavy curve method use karo — roots ke beech signs alternate karte hain (positive → negative → positive...). Highest power ke sign se start karo!</p>
+      </div>
+
+      <div class="warn-box">
+        <div class="warn-title">⚠️ Common Mistake</div>
+        <p>Critical point par function ka value directly extreme nahi hota — pehle sign change check karo! f'(x)=0 only means stationary point.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T3: Tangent & Normal -->
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(255,179,71,0.08)">📐</div>
+      <div class="topic-title">Topic 3 — Tangent & Normal to Curves</div>
+      <span class="topic-badge badge-hot">HOT</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <h3 class="sub-head">Key Formulas</h3>
+      <div class="formula-box">
+        <div class="label">Slope of Tangent at point (x₁, y₁)</div>
+        m_tangent = dy/dx |_(x₁,y₁)  = f'(x₁)<br><br>
+        <div class="label">Slope of Normal at point (x₁, y₁)</div>
+        m_normal = −1 / f'(x₁)  [∵ tangent ⊥ normal]<br><br>
+        <div class="label">Equation of Tangent</div>
+        y − y₁ = f'(x₁) · (x − x₁)<br><br>
+        <div class="label">Equation of Normal</div>
+        y − y₁ = [−1/f'(x₁)] · (x − x₁)
+      </div>
+
+      <h3 class="sub-head">Special Cases</h3>
+      <div class="formula-box">
+        <div class="label">Special Slopes</div>
+        Tangent ∥ x-axis → f'(x₁) = 0<br>
+        Tangent ∥ y-axis → f'(x₁) = ∞ (undefined)<br>
+        Tangent ⊥ x-axis → Normal ∥ x-axis → f'(x₁) = ∞<br>
+        Tangent passes through origin → y₁ = f'(x₁) · x₁
+      </div>
+
+      <div class="trick-box">
+        <div class="trick-title">⚡ Tangent & Normal Trick</div>
+        <p>
+          1. f'(x₁) = m (slope of tangent)<br>
+          2. Normal slope = −1/m<br>
+          3. Both equations use point-slope form: y−y₁ = m(x−x₁)<br>
+          4. Tangent aur Normal ek hi point se guzarte hain!
+        </p>
+      </div>
+
+      <div class="note-box">
+        <div class="note-title">📌 Parametric Curves</div>
+        <p style="font-size:15px">Agar x = f(t), y = g(t) diya ho to:</p>
+        <div class="formula-box" style="margin:8px 0">
+          dy/dx = (dy/dt)/(dx/dt) = g'(t)/f'(t)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- T4: Approximations -->
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(192,132,252,0.08)">≈</div>
+      <div class="topic-title">Topic 4 — Approximations using Derivatives</div>
+      <span class="topic-badge badge-easy">EASY MARKS</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <p>Derivatives se approximately kisi quantity ka value nikalna — ye ek easy 1-step question hota hai CUET mein.</p>
+
+      <div class="formula-box">
+        <div class="label">Approximation Formula</div>
+        Δy ≈ dy = f'(x) · Δx<br><br>
+        f(x + Δx) ≈ f(x) + f'(x) · Δx<br><br>
+        where: Δx = small change in x (given)
+               Δy = approximate change in y
+      </div>
+
+      <h3 class="sub-head">Solved Example Type</h3>
+      <div class="note-box">
+        <div class="note-title">Example: Find √25.1 approximately</div>
+        <p>Let f(x) = √x, x=25, Δx=0.1<br>
+        f'(x) = 1/(2√x) → f'(25) = 1/10<br>
+        f(25.1) ≈ f(25) + f'(25)×0.1 = 5 + 0.01 = <strong>5.01</strong></p>
+      </div>
+
+      <div class="trick-box">
+        <div class="trick-title">⚡ Approximation Trick</div>
+        <p>Nearest "perfect" value choose karo (25 for √25.1, 27 for ∛27.3 etc.). Fir Δx = difference between actual and chosen value. 2 steps mein answer!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T5: Maxima Minima -->
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(255,107,107,0.1)">🏔️</div>
+      <div class="topic-title">Topic 5 — Maxima & Minima (Local & Global)</div>
+      <span class="topic-badge badge-hot">MOST IMPORTANT</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <h3 class="sub-head">Definitions</h3>
+      <p><strong>Local Maximum:</strong> f(c) ≥ f(x) for all x near c<br>
+      <strong>Local Minimum:</strong> f(c) ≤ f(x) for all x near c<br>
+      <strong>Critical Point:</strong> Where f'(c)=0 or f'(c) is undefined</p>
+
+      <h3 class="sub-head">Method 1: First Derivative Test</h3>
+      <div class="formula-box">
+        <div class="label">Sign Change of f'(x) at critical point x=c</div>
+        +ve to −ve : Local Maximum at x=c<br>
+        −ve to +ve : Local Minimum at x=c<br>
+        No sign change : Neither max nor min (point of inflection)
+      </div>
+
+      <h3 class="sub-head">Method 2: Second Derivative Test</h3>
+      <div class="formula-box">
+        <div class="label">At critical point where f'(c) = 0</div>
+        f''(c) &lt; 0  → Local MAXIMUM<br>
+        f''(c) &gt; 0  → Local MINIMUM<br>
+        f''(c) = 0  → Test FAILS → Use 1st derivative test<br><br>
+        💡 Trick: f''(c) &lt; 0 means curve concave down (∩) → Max<br>
+                   f''(c) &gt; 0 means curve concave up (∪) → Min
+      </div>
+
+      <div class="mnemonic">
+        <div class="word">MLMU Rule</div>
+        <div class="breakdown"><span>Minus (f'' &lt; 0) → Local Max (∩)</span><br><span>Plus (f'' &gt; 0) → Local Min (∪)</span><br>Simple hai — Negative mein MAX, Positive mein MIN!</div>
+      </div>
+
+      <h3 class="sub-head">Absolute (Global) Maximum & Minimum</h3>
+      <div class="formula-box">
+        <div class="label">Closed Interval [a, b] Method</div>
+        Step 1: Find all critical points where f'(x) = 0 in (a,b)<br>
+        Step 2: Evaluate f(x) at all critical points<br>
+        Step 3: Evaluate f(a) and f(b) (endpoints)<br>
+        Step 4: Largest value = Absolute Max, Smallest = Absolute Min
+      </div>
+
+      <div class="trick-box">
+        <div class="trick-title">⚡ Application Problems — Optimization</div>
+        <p>
+          Step 1: Variable define karo (e.g., x = side of square)<br>
+          Step 2: Objective function banao (Area/Volume/Cost maximize/minimize karna hai)<br>
+          Step 3: Constraint se ek variable eliminate karo<br>
+          Step 4: f'(x)=0 solve karo → critical point<br>
+          Step 5: f''(x) check karo → Max ya Min confirm karo<br>
+          Step 6: Value calculate karo
+        </p>
+      </div>
+
+      <h3 class="sub-head">Most Common Application Types</h3>
+      <ul>
+        <li><strong>Rectangle in circle:</strong> x²+y²=r² constraint, maximize xy</li>
+        <li><strong>Box without lid:</strong> Volume maximize karo given surface area</li>
+        <li><strong>Cylinder in cone:</strong> Cone ke andar cylinder ki max volume</li>
+        <li><strong>Sum/Product optimization:</strong> x+y=k diya, xy maximize karo</li>
+        <li><strong>Cost minimization:</strong> Transportation ya fencing problems</li>
+      </ul>
+
+      <div class="note-box">
+        <div class="note-title">📌 AM-GM Shortcut</div>
+        <p>Agar x+y=k (constant) diya hai → xy maximize hoga jab x=y=k/2<br>
+        Agar xy=k (constant) diya hai → x+y minimize hoga jab x=y=√k<br>
+        Ye shortcut optimization mein bahut fast answer deta hai!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T6: Point of Inflection -->
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(255,179,71,0.08)">〜</div>
+      <div class="topic-title">Topic 6 — Concavity & Point of Inflection</div>
+      <span class="topic-badge badge-mod">MODERATE</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="formula-box">
+        <div class="label">Concavity Test</div>
+        f''(x) &gt; 0 on (a,b) → Concave UP (∪) in (a,b)<br>
+        f''(x) &lt; 0 on (a,b) → Concave DOWN (∩) in (a,b)<br><br>
+        <div class="label">Point of Inflection</div>
+        Where concavity changes → f''(x) = 0 AND sign of f''(x) changes<br>
+        (Note: f''(x)=0 alone is not sufficient!)
+      </div>
+
+      <div class="warn-box">
+        <div class="warn-title">⚠️ Inflection Point Mistake</div>
+        <p>f''(c)=0 ka matlab inflection point NAHI hai necessarily. Sign change zaroori hai! Example: f(x)=x⁴ → f''(0)=0 but no sign change → x=0 is NOT inflection point.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T7: Mean Value Theorem -->
+  <div class="topic-card">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(192,132,252,0.08)">∃</div>
+      <div class="topic-title">Topic 7 — Rolle's & Mean Value Theorem</div>
+      <span class="topic-badge badge-mod">MODERATE</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <h3 class="sub-head">Rolle's Theorem</h3>
+      <div class="formula-box">
+        <div class="label">Conditions (ALL 3 must hold)</div>
+        1. f is continuous on [a, b]<br>
+        2. f is differentiable on (a, b)<br>
+        3. f(a) = f(b)<br><br>
+        THEN: ∃ c ∈ (a, b) such that f'(c) = 0
+      </div>
+
+      <h3 class="sub-head">Mean Value Theorem (MVT / Lagrange's)</h3>
+      <div class="formula-box">
+        <div class="label">Conditions (2 conditions)</div>
+        1. f is continuous on [a, b]<br>
+        2. f is differentiable on (a, b)<br><br>
+        THEN: ∃ c ∈ (a, b) such that<br>
+        f'(c) = [f(b) − f(a)] / (b − a)<br><br>
+        💡 Geometric meaning: Instantaneous slope = Average slope
+      </div>
+
+      <div class="mnemonic">
+        <div class="word">Rolle ⊂ MVT</div>
+        <div class="breakdown">Rolle's theorem is a <span>special case</span> of MVT<br>where <span>f(a) = f(b)</span> → f'(c) = 0/something = 0</div>
+      </div>
+
+      <div class="trick-box">
+        <div class="trick-title">⚡ MVT Question Type — CUET mein</div>
+        <p>f'(c) = [f(b)−f(a)]/(b−a) formula mein b, a, f(b), f(a) substitute karo → ek equation milega → c solve karo. Bas itna hi! 2 min ka question hai.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end notes -->
+
+<!-- ═══════ FORMULA SHEET ═══════ -->
+<div class="section" id="sec-formulas">
+  <h2 class="sec-head">📐 Master Formula Sheet</h2>
+
+  <div class="formula-grid">
+    <div class="formula-card">
+      <h4>⏱️ Rate of Change</h4>
+      <div class="formula-item"><span class="fi-label">Chain Rule</span><span class="fi-val">dy/dx = (dy/dt)/(dx/dt)</span></div>
+      <div class="formula-item"><span class="fi-label">Circle Area</span><span class="fi-val">dA/dt = 2πr·dr/dt</span></div>
+      <div class="formula-item"><span class="fi-label">Sphere Vol</span><span class="fi-val">dV/dt = 4πr²·dr/dt</span></div>
+      <div class="formula-item"><span class="fi-label">Sphere SA</span><span class="fi-val">dS/dt = 8πr·dr/dt</span></div>
+    </div>
+
+    <div class="formula-card">
+      <h4>📈 Inc/Dec Functions</h4>
+      <div class="formula-item"><span class="fi-label">Increasing</span><span class="fi-val">f'(x) &gt; 0</span></div>
+      <div class="formula-item"><span class="fi-label">Decreasing</span><span class="fi-val">f'(x) &lt; 0</span></div>
+      <div class="formula-item"><span class="fi-label">Critical Pt</span><span class="fi-val">f'(x) = 0</span></div>
+      <div class="formula-item"><span class="fi-label">Neither</span><span class="fi-val">No sign change</span></div>
+    </div>
+
+    <div class="formula-card">
+      <h4>📐 Tangent & Normal</h4>
+      <div class="formula-item"><span class="fi-label">Tan slope</span><span class="fi-val">m = f'(x₁)</span></div>
+      <div class="formula-item"><span class="fi-label">Norm slope</span><span class="fi-val">m = −1/f'(x₁)</span></div>
+      <div class="formula-item"><span class="fi-label">Tan eqn</span><span class="fi-val">y−y₁=f'(x₁)(x−x₁)</span></div>
+      <div class="formula-item"><span class="fi-label">Norm eqn</span><span class="fi-val">y−y₁=−1/f'(x₁)(x−x₁)</span></div>
+      <div class="formula-item"><span class="fi-label">Parametric</span><span class="fi-val">dy/dx = (dy/dt)/(dx/dt)</span></div>
+    </div>
+
+    <div class="formula-card">
+      <h4>≈ Approximation</h4>
+      <div class="formula-item"><span class="fi-label">Formula</span><span class="fi-val">Δy ≈ f'(x)·Δx</span></div>
+      <div class="formula-item"><span class="fi-label">f(x+Δx)</span><span class="fi-val">≈ f(x) + f'(x)·Δx</span></div>
+    </div>
+
+    <div class="formula-card">
+      <h4>🏔️ Max & Min</h4>
+      <div class="formula-item"><span class="fi-label">1st Test</span><span class="fi-val">Sign: +→− = Max; −→+ = Min</span></div>
+      <div class="formula-item"><span class="fi-label">2nd Test</span><span class="fi-val">f''(c)&lt;0 → Max; f''(c)&gt;0 → Min</span></div>
+      <div class="formula-item"><span class="fi-label">f''(c)=0</span><span class="fi-val">Test fails, use 1st test</span></div>
+      <div class="formula-item"><span class="fi-label">Global</span><span class="fi-val">Eval at critical+endpoints</span></div>
+    </div>
+
+    <div class="formula-card">
+      <h4>∃ Theorems</h4>
+      <div class="formula-item"><span class="fi-label">Rolle's</span><span class="fi-val">f(a)=f(b) → f'(c)=0</span></div>
+      <div class="formula-item"><span class="fi-label">MVT</span><span class="fi-val">f'(c)=[f(b)−f(a)]/(b−a)</span></div>
+      <div class="formula-item"><span class="fi-label">Conditions</span><span class="fi-val">Continuous[a,b] & Diff(a,b)</span></div>
+    </div>
+  </div>
+
+  <h2 class="sec-head">⚡ Must-Know Quick Rules</h2>
+  <div class="topic-card"><div class="topic-body open" style="display:block">
+    <ul class="rules-list">
+      <li><strong>f'(x) &gt; 0</strong> → Increasing; <strong>f'(x) &lt; 0</strong> → Decreasing</li>
+      <li><strong>f''(c) &lt; 0</strong> → Local Max (concave down ∩); <strong>f''(c) &gt; 0</strong> → Local Min (concave up ∪)</li>
+      <li>Tangent slope = f'(x₁); Normal slope = −1/f'(x₁) [product = −1 for ⊥ lines]</li>
+      <li>Approximation: f(x+Δx) ≈ f(x) + f'(x)·Δx</li>
+      <li>MVT: f'(c) = [f(b)−f(a)]/(b−a) — instantaneous = average rate</li>
+      <li>Rolle's = Special MVT jab f(a)=f(b)</li>
+      <li>Point of Inflection: f''(x)=0 AND sign of f'' changes</li>
+      <li>Optimization: Ek variable mein likho → differentiate → f'=0 → f'' check</li>
+      <li>x+y = const → xy max jab x=y | xy = const → x+y min jab x=y</li>
+      <li>Global max/min on [a,b] → Check ALL critical points + both endpoints</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- ═══════ PYQ ═══════ -->
+<div class="section" id="sec-pyq">
+  <h2 class="sec-head">🔥 PYQ — Previous Year Questions (2022–2025)</h2>
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-text">The radius of a circle is increasing at 0.7 cm/s. What is the rate of increase of its circumference?</div>
+      <span class="q-tag tag-pyq">CUET 2022</span>
+    </div>
+    <div class="q-body">
+      <div class="pyq-strip">PYQ · Rate of Change</div>
+      <div class="options-grid">
+        <div class="opt">A) 1.4π cm/s</div>
+        <div class="opt correct">B) 1.4π cm/s</div>
+        <div class="opt">C) 0.7π cm/s</div>
+        <div class="opt">D) 2.8π cm/s</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">Circumference C = 2πr</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">dC/dt = 2π · dr/dt</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text"><span class="math">dC/dt = 2π × 0.7 = 1.4π cm/s</span></div></div>
+        <div class="ans-box">✅ Rate of increase of circumference = 1.4π cm/s</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-text">Find the intervals in which f(x) = 2x³ − 3x² − 36x + 7 is strictly decreasing.</div>
+      <span class="q-tag tag-pyq">CUET 2022</span>
+    </div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt">A) (−∞, −2) ∪ (3, ∞)</div>
+        <div class="opt correct">B) (−2, 3)</div>
+        <div class="opt">C) (−∞, 3)</div>
+        <div class="opt">D) (−2, ∞)</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f'(x) = <span class="math">6x² − 6x − 36 = 6(x² − x − 6) = 6(x−3)(x+2)</span></div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Critical points: x = 3, x = −2</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">Sign analysis: <br>x &lt; −2: (+)(−) = −ve → Decreasing ❌ wait → (x−3)(x+2): x=−3: (−6)(−1)= +ve → Increasing<br>−2 &lt; x &lt; 3: (x−3)&lt;0, (x+2)&gt;0 → negative → <span class="math">Decreasing ✓</span><br>x &gt; 3: both positive → Increasing</div></div>
+        <div class="ans-box">✅ Strictly Decreasing on (−2, 3)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">3</div>
+      <div class="q-text">Find the slope of tangent to y = x³ − 3x + 2 at x = 2.</div>
+      <span class="q-tag tag-pyq">CUET 2023</span>
+    </div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt">A) 6</div>
+        <div class="opt correct">B) 9</div>
+        <div class="opt">C) 3</div>
+        <div class="opt">D) 12</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f'(x) = <span class="math">3x² − 3</span></div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">At x=2: f'(2) = <span class="math">3(4) − 3 = 12 − 3 = 9</span></div></div>
+        <div class="ans-box">✅ Slope of tangent = 9</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">4</div>
+      <div class="q-text">Find the approximate value of f(3.02) where f(x) = 3x² + 5x + 3.</div>
+      <span class="q-tag tag-pyq">CUET 2023</span>
+    </div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt correct">A) 45.46</div>
+        <div class="opt">B) 45</div>
+        <div class="opt">C) 46</div>
+        <div class="opt">D) 44.54</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">x=3, Δx=0.02</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">f(3) = <span class="math">27+15+3 = 45</span></div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">f'(x) = 6x+5 → f'(3) = <span class="math">18+5 = 23</span></div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text">f(3.02) ≈ <span class="math">45 + 23×0.02 = 45 + 0.46 = 45.46</span></div></div>
+        <div class="ans-box">✅ f(3.02) ≈ 45.46</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">5</div>
+      <div class="q-text">Find local maximum value of f(x) = x³ − 3x.</div>
+      <span class="q-tag tag-pyq">CUET 2023</span>
+    </div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt correct">A) 2</div>
+        <div class="opt">B) −2</div>
+        <div class="opt">C) 0</div>
+        <div class="opt">D) 1</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f'(x) = <span class="math">3x² − 3 = 3(x²−1) = 3(x−1)(x+1)</span></div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Critical points: x = 1, x = −1</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">f''(x) = 6x → f''(1)=6>0 (Min) → f''(−1)=−6&lt;0 <span class="math">(Max!)</span></div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text">Local max at x=−1: f(−1) = <span class="math">(−1)³−3(−1) = −1+3 = 2</span></div></div>
+        <div class="ans-box">✅ Local Maximum Value = 2 (at x = −1)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">6</div>
+      <div class="q-text">A ladder 5m long leans against a wall. Its foot slides away at 2 cm/s. Find rate of descent of top when foot is 4m away.</div>
+      <span class="q-tag tag-pyq">CUET 2024</span>
+    </div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt correct">A) 8/3 cm/s</div>
+        <div class="opt">B) 2/3 cm/s</div>
+        <div class="opt">C) 4/3 cm/s</div>
+        <div class="opt">D) 3/2 cm/s</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">x²+y²=25 (Pythagoras, ladder=5m), x=4m, dx/dt=2 cm/s</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">At x=4: <span class="math">16+y²=25 → y=3m</span></div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">Differentiate: <span class="math">2x·dx/dt + 2y·dy/dt = 0</span></div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text"><span class="math">2(4)(2) + 2(3)·dy/dt = 0 → dy/dt = −16/6 = −8/3 cm/s</span></div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-text">Negative sign = descending. Rate of descent = 8/3 cm/s</div></div>
+        <div class="ans-box">✅ Rate of descent = 8/3 cm/s</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">7</div>
+      <div class="q-text">Find value of c in MVT for f(x)=x²−4x−3 in [1,4].</div>
+      <span class="q-tag tag-pyq">CUET 2024</span>
+    </div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt">A) 2</div>
+        <div class="opt correct">B) 5/2</div>
+        <div class="opt">C) 3</div>
+        <div class="opt">D) 7/2</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f(1) = <span class="math">1−4−3=−6</span>; f(4) = <span class="math">16−16−3=−3</span></div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Average rate = <span class="math">[f(4)−f(1)]/(4−1) = (−3−(−6))/3 = 3/3 = 1</span></div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">f'(x) = 2x−4 → Set f'(c) = 1: <span class="math">2c−4=1 → c=5/2</span></div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text">Check: 5/2 = 2.5 ∈ (1,4) ✅</div></div>
+        <div class="ans-box">✅ c = 5/2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">8</div>
+      <div class="q-text">What is the maximum area of a rectangle with perimeter 24 cm?</div>
+      <span class="q-tag tag-pyq">CUET 2025</span>
+    </div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt">A) 24 cm²</div>
+        <div class="opt">B) 48 cm²</div>
+        <div class="opt correct">C) 36 cm²</div>
+        <div class="opt">D) 144 cm²</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">Perimeter: 2(l+b)=24 → l+b=12</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Area A=lb. Use AM-GM: A max when l=b → l=b=6</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">Or: A=l(12−l)=12l−l² → dA/dl=12−2l=0 → l=6, b=6</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text">Max Area = <span class="math">6×6 = 36 cm²</span></div></div>
+        <div class="ans-box">✅ Maximum Area = 36 cm² (Square has max area for given perimeter!)</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end pyq -->
+
+<!-- ═══════ PRACTICE ═══════ -->
+<div class="section" id="sec-practice">
+  <h2 class="sec-head">✏️ Practice Questions & Solutions</h2>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">P1</div><div class="q-text">Radius of sphere is increasing at 3 cm/s. Find rate of increase of volume when r=5 cm.</div><span class="q-tag tag-pred">Practice</span></div>
+    <div class="q-body">
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">V = (4/3)πr³ → dV/dt = 4πr²·dr/dt</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text"><span class="math">dV/dt = 4π(25)(3) = 300π cm³/s</span></div></div>
+        <div class="ans-box">✅ Rate of increase of volume = 300π cm³/s</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">P2</div><div class="q-text">Find the interval in which f(x) = sin x − cos x, x ∈ [0, 2π] is strictly increasing.</div><span class="q-tag tag-pred">Practice</span></div>
+    <div class="q-body">
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f'(x) = cos x + sin x = √2 sin(x + π/4)</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">f'(x) > 0 when sin(x+π/4) > 0 → x+π/4 ∈ (0,π) → x ∈ (−π/4, 3π/4)</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">In [0,2π]: x ∈ (0, 3π/4) ∪ (5π/4, 2π)... Simplify: f'(x)=0 at x=3π/4, 7π/4</div></div>
+        <div class="ans-box">✅ Increasing on (3π/4, 7π/4) is decreasing; Increasing: [0, 3π/4] ∪ [7π/4, 2π]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">P3</div><div class="q-text">Find equation of tangent to y² = 4x at (1, 2).</div><span class="q-tag tag-pred">Practice</span></div>
+    <div class="q-body">
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">Differentiate: 2y·dy/dx = 4 → dy/dx = 2/y</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">At (1,2): m = 2/2 = 1</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">Tangent: y−2 = 1(x−1) → <span class="math">y = x + 1</span></div></div>
+        <div class="ans-box">✅ Tangent: y = x + 1</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">P4</div><div class="q-text">Find local max and min of f(x) = x³ − 6x² + 9x + 15.</div><span class="q-tag tag-pred">Practice</span></div>
+    <div class="q-body">
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f'(x) = 3x²−12x+9 = 3(x²−4x+3) = <span class="math">3(x−1)(x−3)</span></div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Critical points: x=1, x=3</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">f''(x) = 6x−12 → f''(1)=−6&lt;0 → <span class="math">Local MAX</span>; f''(3)=6>0 → <span class="math">Local MIN</span></div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text">f(1)=1−6+9+15=19 (Max); f(3)=27−54+27+15=15 (Min)</div></div>
+        <div class="ans-box">✅ Local Max = 19 at x=1 | Local Min = 15 at x=3</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">P5</div><div class="q-text">Find ∛26 approximately using derivatives.</div><span class="q-tag tag-pred">Practice</span></div>
+    <div class="q-body">
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f(x) = x^(1/3), x=27, Δx=−1</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">f'(x) = (1/3)x^(−2/3) → f'(27) = 1/(3×9) = 1/27</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">f(26) ≈ f(27)+f'(27)×(−1) = <span class="math">3 + (1/27)(−1) = 3 − 1/27 ≈ 2.963</span></div></div>
+        <div class="ans-box">✅ ∛26 ≈ 2.963</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">P6</div><div class="q-text">A wire of length 28m is to be cut into two pieces — one for a square, one for a circle. Find cut to minimize total area.</div><span class="q-tag tag-pred">Practice (Hard)</span></div>
+    <div class="q-body">
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">Square side = x/4 (x = wire for square); Circle radius = (28−x)/(2π)</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Total Area A = (x/4)² + π[(28−x)/(2π)]² = x²/16 + (28−x)²/(4π)</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">dA/dx = x/8 − (28−x)/(2π) = 0</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text">πx/8 = (28−x)/2 → πx = 4(28−x) → x(π+4) = 112 → <span class="math">x = 112/(π+4)</span></div></div>
+        <div class="ans-box">✅ Square ko x = 112/(π+4) meter wire do → Minimum total area</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">P7</div><div class="q-text">Verify Rolle's Theorem for f(x) = x²−4x+3 on [1,3] and find c.</div><span class="q-tag tag-pred">Practice</span></div>
+    <div class="q-body">
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f is polynomial → continuous on [1,3] ✓, differentiable on (1,3) ✓</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">f(1)=1−4+3=0; f(3)=9−12+3=0 → f(1)=f(3) ✓</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">f'(x)=2x−4=0 → <span class="math">x=2=c</span></div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-text">c=2 ∈ (1,3) ✅ Rolle's Theorem verified</div></div>
+        <div class="ans-box">✅ c = 2 (midpoint — makes sense for a symmetric parabola!)</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end practice -->
+
+<!-- ═══════ PREDICTIONS ═══════ -->
+<div class="section" id="sec-predict">
+  <h2 class="sec-head">🎯 2026 Exam Predictions & Strategy</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Topic</th><th>Yearly Frequency</th><th>2026 Prediction</th><th>Difficulty</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Increasing/Decreasing Functions</td><td>1–2 Q every year</td><td><span class="pill pill-red">🔥 CERTAIN</span></td><td>Easy-Med</td></tr>
+        <tr><td>Local Max/Min (Cubic)</td><td>1 Q every year</td><td><span class="pill pill-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+        <tr><td>Tangent & Normal</td><td>1–2 Q</td><td><span class="pill pill-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>Rate of Change (Geometry)</td><td>1 Q</td><td><span class="pill pill-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>Approximation</td><td>1 Q</td><td><span class="pill pill-yellow">⭐ LIKELY</span></td><td>Easy</td></tr>
+        <tr><td>Optimization (Applied Max/Min)</td><td>1 Q</td><td><span class="pill pill-yellow">⭐ LIKELY</span></td><td>Medium-Hard</td></tr>
+        <tr><td>MVT / Rolle's Theorem</td><td>0–1 Q</td><td><span class="pill pill-blue">Possible</span></td><td>Easy-Med</td></tr>
+        <tr><td>Point of Inflection</td><td>Rare</td><td><span class="pill pill-green">Low</span></td><td>Medium</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sec-head">🔮 2026 Most Expected Questions</h2>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">★1</div><div class="q-text">f(x) = 2x³ + 9x² + 12x − 1. Strictly decreasing interval?</div><span class="q-tag tag-pred">PREDICTED 2026</span></div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt correct">A) (−2, −1)</div>
+        <div class="opt">B) (−∞, −2)</div>
+        <div class="opt">C) (−1, ∞)</div>
+        <div class="opt">D) (−3, 0)</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">f'(x) = 6x²+18x+12 = 6(x²+3x+2) = <span class="math">6(x+1)(x+2)</span></div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Critical points: x=−1, x=−2</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">On (−2,−1): (x+1)&lt;0, (x+2)&gt;0 → f'(x)&lt;0 → <span class="math">Decreasing!</span></div></div>
+        <div class="ans-box">✅ Strictly Decreasing on (−2, −1)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">★2</div><div class="q-text">The surface area of sphere increases at 2 cm²/s. Find rate of increase of radius when r = 1/π cm.</div><span class="q-tag tag-pred">PREDICTED 2026</span></div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt correct">A) 1/4 cm/s</div>
+        <div class="opt">B) 1/2 cm/s</div>
+        <div class="opt">C) π/4 cm/s</div>
+        <div class="opt">D) 1/(2π) cm/s</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">S = 4πr² → dS/dt = 8πr·dr/dt</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">Given dS/dt=2, r=1/π: <span class="math">2 = 8π·(1/π)·dr/dt = 8·dr/dt</span></div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">dr/dt = 2/8 = <span class="math">1/4 cm/s</span></div></div>
+        <div class="ans-box">✅ Rate of increase of radius = 1/4 cm/s</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">★3</div><div class="q-text">Find the point on y = x² − 4x + 5 where tangent is parallel to x-axis.</div><span class="q-tag tag-pred">PREDICTED 2026</span></div>
+    <div class="q-body">
+      <div class="options-grid">
+        <div class="opt">A) (2, 2)</div>
+        <div class="opt correct">B) (2, 1)</div>
+        <div class="opt">C) (1, 2)</div>
+        <div class="opt">D) (0, 5)</div>
+      </div>
+      <button class="solution-toggle" onclick="toggleSol(this)">▶ Solution Dekho</button>
+      <div class="solution-body">
+        <div class="step"><div class="step-n">1</div><div class="step-text">Tangent ∥ x-axis → slope = 0 → f'(x)=0</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-text">f'(x) = 2x−4 = 0 → <span class="math">x = 2</span></div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-text">y = 4−8+5 = <span class="math">1</span></div></div>
+        <div class="ans-box">✅ Point = (2, 1) — This is also the minimum point!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategy -->
+  <div class="topic-card" style="margin-top:24px">
+    <div class="topic-head open" onclick="toggleTopic(this)">
+      <div class="topic-icon" style="background:rgba(0,229,255,0.08)">🏆</div>
+      <div class="topic-title">2026 Exam Strategy — Application of Derivatives</div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="topic-body open">
+      <h3 class="sub-head">⏱️ Time Allocation</h3>
+      <p>AOD se 6–8 marks expected hain. Rate of change, tangent, increasing/decreasing = easy 2 min each. Max/min optimization = 4–5 min. Total ~20–25 min agar 7 questions hain.</p>
+
+      <h3 class="sub-head">🎯 Priority Order for Last-Minute Prep</h3>
+      <ol>
+        <li><strong>Increasing/Decreasing</strong> — f' nikalo, sign check karo → Done!</li>
+        <li><strong>Tangent slope</strong> — f' nikalo, x substitute karo → Done!</li>
+        <li><strong>Rate of Change</strong> — Formula likhke t se differentiate karo</li>
+        <li><strong>Local Max/Min</strong> — f'=0, f'' check karo</li>
+        <li><strong>Approximation</strong> — f(x+Δx) ≈ f(x)+f'(x)Δx → easiest formula!</li>
+        <li><strong>MVT</strong> — f'(c)=[f(b)−f(a)]/(b−a) formula apply karo</li>
+      </ol>
+
+      <h3 class="sub-head">❌ Top Mistakes — Avoid Karo!</h3>
+      <ul>
+        <li>f''=0 se directly inflection point mat samjho — sign change bhi chahiye</li>
+        <li>Local Max find karne ke baad value bhool jao — f(x) ka value bhi nikalo!</li>
+        <li>Global max/min mein endpoints miss mat karo</li>
+        <li>Rate of change mein units galat mat likho</li>
+        <li>Normal slope = −1/(tangent slope) — inverse AND negative!</li>
+      </ul>
+
+      <div class="trick-box">
+        <div class="trick-title">🔑 5 Must-Memorize Formulas for 2026</div>
+        <p>
+          1. <strong>dV_sphere/dt = 4πr²·dr/dt</strong><br>
+          2. <strong>f'(x)&gt;0 → Inc; f'(x)&lt;0 → Dec</strong><br>
+          3. <strong>Tangent eqn: y−y₁=f'(x₁)(x−x₁)</strong><br>
+          4. <strong>f''(c)&lt;0 → Max; f''(c)&gt;0 → Min</strong><br>
+          5. <strong>MVT: f'(c)=[f(b)−f(a)]/(b−a)</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end predict -->
+
+</div><!-- container -->
+
+<script>
+function switchTab(name, btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleTopic(head) {
+  head.classList.toggle('open');
+  head.nextElementSibling.classList.toggle('open');
+}
+function toggleSol(btn) {
+  const sol = btn.nextElementSibling;
+  sol.classList.toggle('open');
+  btn.textContent = sol.classList.contains('open') ? '▼ Solution Band Karo' : '▶ Solution Dekho';
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('prog').style.width =
+    (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+</script>
+</body>
+</html>

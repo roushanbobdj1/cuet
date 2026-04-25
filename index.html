@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET Notes Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:#05070f;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* 🌌 Animated Background */
+.bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.bg span{
+  position:absolute;
+  width:400px;
+  height:400px;
+  background:radial-gradient(circle,#00d4ff33,transparent);
+  animation:move 12s infinite alternate ease-in-out;
+}
+
+.bg span:nth-child(2){
+  left:60%;
+  top:40%;
+  animation-duration:18s;
+}
+
+@keyframes move{
+  from{transform:translateY(-50px);}
+  to{transform:translateY(50px);}
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  padding:60px 20px 30px;
+}
+
+.header h1{
+  font-size:38px;
+  background:linear-gradient(90deg,#00d4ff,#7b61ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.header p{
+  color:#9aa4c3;
+  margin-top:10px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  padding:25px;
+  border-radius:18px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .35s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+/* glow animation */
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(120deg,transparent,rgba(0,212,255,0.4),transparent);
+  transition:.6s;
+}
+
+.card:hover::before{
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-8px) scale(1.03);
+  border-color:#00d4ff;
+  box-shadow:0 0 25px rgba(0,212,255,0.25);
+}
+
+.card h3{
+  font-size:18px;
+  margin-bottom:6px;
+}
+
+.card span{
+  font-size:12px;
+  color:#aab2d5;
+}
+
+/* Footer */
+.footer{
+  text-align:center;
+  padding:20px;
+  font-size:12px;
+  color:#666;
+}
+
+/* MOBILE */
+@media(max-width:500px){
+  .header h1{
+    font-size:28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background -->
+<div class="bg">
+  <span></span>
+  <span></span>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>📚 CUET Notes Hub</h1>
+  <p>Select a chapter to start learning</p>
+</div>
+
+<!-- GRID -->
+<div class="grid">
+
+  <div class="card" onclick="openPage('1.html')">
+    <h3>🔄 Relations & function and Inverse TG </h3>
+    <span>Chapter 1</span>
+  </div>
+
+  <div class="card" onclick="openPage('2.html')">
+    <h3>🔢 Matrices & Determinants</h3>
+    <span>Chapter 2</span>
+  </div>
+
+  <div class="card" onclick="openPage('3.html')">
+    <h3>🎲 Probability</h3>
+    <span>Chapter 3</span>
+  </div>
+  <div class="card" onclick="openPage('4.html')">
+    <h3>🧭 3D Geometry </h3>
+    <span>Chapter 4</span>
+  </div>
+   <div class="card" onclick="openPage('5.html')">
+    <h3>📊 intigration</h3>
+    <span>Chapter 5</span>
+  </div>
+  <div class="card" onclick="openPage('6.html')">
+    <h3>📏 Application of Derivatives</h3>
+    <span>Chapter 6</span>
+  </div>
+
+  <div class="card" onclick="openPage('7.html')">
+    <h3>🎯 Linear Programming</h3>
+    <span>Chapter 7</span>
+  </div>
+  <div class="card" onclick="openPage('8.html')">
+    <h3>📈 Continuity & Differentiability</h3>
+    <span>Chapter 8</span>
+  </div>
+  
+</div>
+
+<div class="footer">
+  © 2026 CUET Notes Hub
+</div>
+
+<script>
+function openPage(page){
+  document.body.style.opacity = "0";
+  setTimeout(()=>{
+    window.location.href = page;
+  },300);
+}
+</script>
+
+</body>
+</html>

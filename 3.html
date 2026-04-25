@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET 2026 | Probability – Full Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: #111827;
+    --accent: #f59e0b;
+    --accent2: #3b82f6;
+    --accent3: #10b981;
+    --accent4: #ec4899;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #1e293b;
+    --highlight: #1e3a5f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    padding: 48px 24px 36px;
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "P(A)";
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 200px;
+    color: rgba(245,158,11,0.05);
+    top: -30px; left: -20px;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  /* CONTENT */
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* INDEX */
+  .index-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent2);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .index-card h2 { color: var(--accent2); font-size: 16px; margin-bottom: 12px; letter-spacing: 1px; }
+  .index-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .index-item {
+    font-size: 13px;
+    padding: 4px 0;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .index-item span { color: var(--accent); font-weight: 700; margin-right: 6px; }
+
+  /* SECTION */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 20px 0;
+    position: relative;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sec-num {
+    background: var(--accent);
+    color: #000;
+    font-weight: 900;
+    font-family: 'Playfair Display', serif;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  /* FORMULA BOX */
+  .formula {
+    background: #0d1f3c;
+    border: 1px solid var(--accent2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: #93c5fd;
+  }
+  .formula .label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Noto Sans', sans-serif;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* DEFINITION */
+  .def {
+    background: #0f2a1e;
+    border-left: 3px solid var(--accent3);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .def strong { color: var(--accent3); }
+
+  /* NOTE / TIP */
+  .tip {
+    background: #2d1b00;
+    border: 1px dashed var(--accent);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .tip::before { content: "💡 "; }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  th {
+    background: #1e293b;
+    color: var(--accent);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  tr:hover td { background: #1a1f2e; color: var(--text); }
+
+  /* QUESTION BOX */
+  .qbox {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 14px 0;
+    overflow: hidden;
+  }
+  .qhead {
+    background: #1e1b4b;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #a5b4fc;
+  }
+  .qnum {
+    background: var(--accent4);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+  .qlevel {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+  .easy { background: #064e3b; color: #6ee7b7; }
+  .medium { background: #78350f; color: #fde68a; }
+  .hard { background: #7f1d1d; color: #fca5a5; }
+  .qbody {
+    padding: 14px 16px;
+    background: var(--card);
+  }
+  .qtext { color: var(--text); margin-bottom: 10px; font-size: 14px; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .opt {
+    background: #0f172a;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  details { cursor: pointer; }
+  summary {
+    background: #1e3a5f;
+    color: var(--accent2);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    user-select: none;
+    list-style: none;
+    margin-top: 6px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "▶ "; font-size: 11px; }
+  details[open] summary::before { content: "▼ "; }
+  .solution {
+    background: #0f2a1e;
+    border: 1px solid var(--accent3);
+    border-radius: 0 0 8px 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .ans {
+    background: var(--accent3);
+    color: #000;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 6px;
+  }
+
+  /* TAGS */
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #1e293b;
+    color: var(--muted);
+  }
+
+  /* HIGHLIGHT */
+  .hl { color: var(--accent); font-weight: 700; }
+  .hl2 { color: var(--accent3); font-weight: 700; }
+  .hl3 { color: var(--accent2); font-weight: 700; }
+
+  /* LIST */
+  ul.styled, ol.styled {
+    padding-left: 20px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  ul.styled li, ol.styled li { margin: 5px 0; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .divider { height: 1px; background: var(--border); margin: 8px 0; }
+  @media(max-width:600px){
+    .options { grid-template-columns: 1fr; }
+    .index-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">CUET 2026 | Mathematics</div>
+  <h1>📊 <span>Probability</span><br>Full Detailed Notes</h1>
+  <p>Complete Theory • Formulas • 30+ Solved Questions • CUET Pattern</p>
+</header>
+
+<main>
+
+  <!-- INDEX -->
+  <div class="index-card">
+    <h2>📋 INDEX — Topics Covered</h2>
+    <div class="index-grid">
+      <div class="index-item"><span>01</span> Basic Concepts & Definitions</div>
+      <div class="index-item"><span>02</span> Types of Events</div>
+      <div class="index-item"><span>03</span> Classical Probability</div>
+      <div class="index-item"><span>04</span> Addition Theorems</div>
+      <div class="index-item"><span>05</span> Conditional Probability</div>
+      <div class="index-item"><span>06</span> Multiplication Theorem</div>
+      <div class="index-item"><span>07</span> Independent Events</div>
+      <div class="index-item"><span>08</span> Bayes' Theorem</div>
+      <div class="index-item"><span>09</span> Random Variables & Distribution</div>
+      <div class="index-item"><span>10</span> Binomial Distribution</div>
+      <div class="index-item"><span>11</span> Practice MCQs (30+ Q)</div>
+      <div class="index-item"><span>12</span> Previous Year Pattern</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 1 ===== -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="sec-num">1</div>
+      <h2>Basic Concepts & Definitions</h2>
+    </div>
+
+    <div class="def">
+      <strong>Experiment (प्रयोग):</strong> कोई भी process जिसका result निश्चित न हो, जैसे: coin उछालना, dice फेंकना।
+    </div>
+    <div class="def">
+      <strong>Sample Space (S):</strong> एक experiment के सभी possible outcomes का set। जैसे coin के लिए S = {H, T}
+    </div>
+    <div class="def">
+      <strong>Event (E):</strong> Sample space का कोई subset। जैसे dice में even number = {2,4,6}
+    </div>
+    <div class="def">
+      <strong>Probability:</strong> किसी event के होने की संभावना (0 से 1 के बीच)।
+    </div>
+
+    <div class="formula">
+      <div class="label">Classical Definition of Probability</div>
+      P(E) = Number of favourable outcomes / Total number of outcomes = n(E) / n(S)
+    </div>
+
+    <table>
+      <tr><th>Experiment</th><th>Sample Space</th><th>n(S)</th></tr>
+      <tr><td>1 Coin उछालना</td><td>{H, T}</td><td>2</td></tr>
+      <tr><td>2 Coins उछालना</td><td>{HH, HT, TH, TT}</td><td>4</td></tr>
+      <tr><td>3 Coins उछालना</td><td>{HHH, HHT, …}</td><td>8</td></tr>
+      <tr><td>1 Dice फेंकना</td><td>{1,2,3,4,5,6}</td><td>6</td></tr>
+      <tr><td>2 Dice फेंकना</td><td>सभी ordered pairs</td><td>36</td></tr>
+      <tr><td>52 Cards में से 1 card</td><td>52 cards</td><td>52</td></tr>
+    </table>
+
+    <div class="tip">हमेशा 0 ≤ P(E) ≤ 1 होता है। P(S) = 1, P(∅) = 0</div>
+  </div>
+
+  <!-- ===== SECTION 2 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">2</div>
+      <h2>Types of Events (Events के प्रकार)</h2>
+    </div>
+
+    <div class="def"><strong>Sure Event (निश्चित घटना):</strong> P = 1 (जो हमेशा हो) जैसे dice में 1-6 का number आना।</div>
+    <div class="def"><strong>Impossible Event (असंभव घटना):</strong> P = 0 जैसे dice में 7 आना।</div>
+    <div class="def"><strong>Complementary Event (A'):</strong> A का opposite। A' = S – A</div>
+    <div class="def"><strong>Mutually Exclusive Events:</strong> दो events जो एक साथ नहीं हो सकते। A ∩ B = ∅</div>
+    <div class="def"><strong>Exhaustive Events:</strong> जिनका union पूरा Sample Space हो। A ∪ B = S</div>
+    <div class="def"><strong>Equally Likely Events:</strong> जिनकी probability बराबर हो।</div>
+    <div class="def"><strong>Independent Events:</strong> एक का result दूसरे को effect नहीं करता।</div>
+
+    <div class="formula">
+      <div class="label">Complement Rule</div>
+      P(A') = 1 – P(A)  &nbsp;|&nbsp;  P(A) + P(A') = 1
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">3</div>
+      <h2>Addition Theorem (योग प्रमेय)</h2>
+    </div>
+
+    <div class="formula">
+      <div class="label">General Addition Theorem</div>
+      P(A ∪ B) = P(A) + P(B) – P(A ∩ B)
+    </div>
+    <div class="formula">
+      <div class="label">Mutually Exclusive Events के लिए</div>
+      P(A ∪ B) = P(A) + P(B)  [क्योंकि P(A ∩ B) = 0]
+    </div>
+    <div class="formula">
+      <div class="label">तीन Events के लिए</div>
+      P(A ∪ B ∪ C) = P(A)+P(B)+P(C) – P(A∩B) – P(B∩C) – P(A∩C) + P(A∩B∩C)
+    </div>
+
+    <div class="tip">Venn Diagram बनाकर solve करें — CUET में diagram based प्रश्न आते हैं।</div>
+
+    <!-- Q1 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q1</span> Addition Theorem <span class="qlevel easy">Easy</span></div>
+      <div class="qbody">
+        <div class="qtext">यदि P(A) = 0.4, P(B) = 0.3, P(A ∩ B) = 0.1, तो P(A ∪ B) = ?</div>
+        <div class="options">
+          <div class="opt">(a) 0.5</div><div class="opt">(b) 0.6</div>
+          <div class="opt">(c) 0.7</div><div class="opt">(d) 0.8</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            P(A ∪ B) = P(A) + P(B) – P(A ∩ B)<br>
+            = 0.4 + 0.3 – 0.1<br>
+            = <strong>0.6</strong><br>
+            <span class="ans">✓ Answer: (b) 0.6</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q2</span> Cards Problem <span class="qlevel easy">Easy</span></div>
+      <div class="qbody">
+        <div class="qtext">52 cards में से 1 card randomly निकाली जाती है। King या Heart card आने की probability क्या है?</div>
+        <div class="options">
+          <div class="opt">(a) 4/13</div><div class="opt">(b) 16/52</div>
+          <div class="opt">(c) 15/52</div><div class="opt">(d) 17/52</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            Kings = 4, Hearts = 13, King of Hearts = 1 (both में count)<br>
+            P(King ∪ Heart) = 4/52 + 13/52 – 1/52 = 16/52 = <strong>4/13</strong><br>
+            <span class="ans">✓ Answer: (a) 4/13</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">4</div>
+      <h2>Conditional Probability (सशर्त प्रायिकता)</h2>
+    </div>
+
+    <div class="def">
+      <strong>Conditional Probability:</strong> जब हमें पता हो कि event B हो चुका है, तब A के होने की probability।
+    </div>
+
+    <div class="formula">
+      <div class="label">Conditional Probability Formula</div>
+      P(A|B) = P(A ∩ B) / P(B)  ,  जहाँ P(B) ≠ 0<br><br>
+      P(B|A) = P(A ∩ B) / P(A)  ,  जहाँ P(A) ≠ 0
+    </div>
+
+    <div class="tip">P(A|B) ≠ P(B|A) — इन दोनों को confuse मत करें!</div>
+
+    <!-- Q3 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q3</span> Conditional Probability <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">एक dice फेंका गया। यदि even number आया है, तो number 2 से अधिक होने की probability क्या है?</div>
+        <div class="options">
+          <div class="opt">(a) 1/3</div><div class="opt">(b) 2/3</div>
+          <div class="opt">(c) 1/2</div><div class="opt">(d) 1/6</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            B = Even number = {2, 4, 6}, P(B) = 3/6 = 1/2<br>
+            A = 2 से अधिक = {3,4,5,6}<br>
+            A ∩ B = even AND > 2 = {4, 6}<br>
+            P(A ∩ B) = 2/6 = 1/3<br>
+            P(A|B) = P(A∩B)/P(B) = (1/3)/(1/2) = <strong>2/3</strong><br>
+            <span class="ans">✓ Answer: (b) 2/3</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q4</span> Two Dice <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">दो dice फेंके गए। यदि पहला dice 4 दिखाता है, तो दोनों का योग 8 होने की probability क्या है?</div>
+        <div class="options">
+          <div class="opt">(a) 1/6</div><div class="opt">(b) 1/36</div>
+          <div class="opt">(c) 5/36</div><div class="opt">(d) 1/4</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            B = पहला dice = 4 → (4,1),(4,2),(4,3),(4,4),(4,5),(4,6) = 6 outcomes<br>
+            A ∩ B = sum=8 AND first=4 → (4,4) = 1 outcome<br>
+            P(A|B) = 1/6<br>
+            <span class="ans">✓ Answer: (a) 1/6</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">5</div>
+      <h2>Multiplication Theorem (गुणन प्रमेय)</h2>
+    </div>
+
+    <div class="formula">
+      <div class="label">Multiplication Theorem</div>
+      P(A ∩ B) = P(A) × P(B|A)<br>
+      P(A ∩ B) = P(B) × P(A|B)
+    </div>
+    <div class="formula">
+      <div class="label">Independent Events के लिए</div>
+      P(A ∩ B) = P(A) × P(B)
+    </div>
+
+    <!-- Q5 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q5</span> Without Replacement <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">थैले में 5 लाल और 3 हरी balls हैं। बिना replacement के 2 balls निकाली जाती हैं। दोनों लाल होने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 5/14</div><div class="opt">(b) 5/16</div>
+          <div class="opt">(c) 25/64</div><div class="opt">(d) 10/56</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            P(1st Red) = 5/8<br>
+            P(2nd Red | 1st Red) = 4/7 (क्योंकि 1 लाल ball निकल गई)<br>
+            P(दोनों लाल) = 5/8 × 4/7 = 20/56 = <strong>5/14</strong><br>
+            <span class="ans">✓ Answer: (a) 5/14</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">6</div>
+      <h2>Independent Events (स्वतंत्र घटनाएँ)</h2>
+    </div>
+
+    <div class="def">
+      <strong>Independent Events:</strong> A और B independent हैं यदि एक का result दूसरे को affect न करे।
+    </div>
+
+    <div class="formula">
+      <div class="label">Independence की शर्त</div>
+      P(A ∩ B) = P(A) · P(B)<br><br>
+      P(A|B) = P(A)  &amp;&amp;  P(B|A) = P(B)
+    </div>
+
+    <div class="tip">Mutually Exclusive ≠ Independent! अगर A और B mutually exclusive हैं और P(A),P(B)>0, तो वे independent नहीं हो सकते।</div>
+
+    <!-- Q6 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q6</span> Independence Check <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">P(A) = 1/2, P(B) = 1/3, P(A ∩ B) = 1/6. क्या A और B independent हैं?</div>
+        <div class="options">
+          <div class="opt">(a) हाँ, independent</div><div class="opt">(b) नहीं, dependent</div>
+          <div class="opt">(c) Mutually Exclusive</div><div class="opt">(d) Data insufficient</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            P(A) × P(B) = 1/2 × 1/3 = 1/6<br>
+            P(A ∩ B) = 1/6<br>
+            चूँकि P(A ∩ B) = P(A) × P(B), इसलिए A और B <strong>Independent</strong> हैं।<br>
+            <span class="ans">✓ Answer: (a) हाँ, independent</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q7</span> Three Independent Events <span class="qlevel hard">Hard</span></div>
+      <div class="qbody">
+        <div class="qtext">A, B, C independent events हैं। P(A)=0.3, P(B)=0.4, P(C)=0.5. कम से कम एक event होने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 0.79</div><div class="opt">(b) 0.21</div>
+          <div class="opt">(c) 0.60</div><div class="opt">(d) 0.83</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            P(कोई नहीं) = P(A') × P(B') × P(C')<br>
+            = (1-0.3)(1-0.4)(1-0.5) = 0.7 × 0.6 × 0.5 = 0.21<br>
+            P(कम से कम एक) = 1 – 0.21 = <strong>0.79</strong><br>
+            <span class="ans">✓ Answer: (a) 0.79</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 7 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">7</div>
+      <h2>Bayes' Theorem (बेज प्रमेय)</h2>
+    </div>
+
+    <div class="def">
+      <strong>Bayes' Theorem:</strong> यदि B₁, B₂, …, Bₙ sample space के partition हों और A कोई event हो, तो:
+    </div>
+
+    <div class="formula">
+      <div class="label">Bayes' Theorem Formula</div>
+      P(Bᵢ|A) = [P(Bᵢ) × P(A|Bᵢ)] / [Σ P(Bⱼ) × P(A|Bⱼ)]<br><br>
+      जहाँ j = 1 से n तक
+    </div>
+
+    <div class="tip">Total Probability Theorem: P(A) = Σ P(Bᵢ) × P(A|Bᵢ)</div>
+
+    <!-- Q8 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q8</span> Bayes' Theorem Classic <span class="qlevel hard">Hard</span></div>
+      <div class="qbody">
+        <div class="qtext">दो थैले हैं। Bag I में 3 लाल, 4 सफेद balls और Bag II में 5 लाल, 2 सफेद balls हैं। एक थैला randomly चुना और एक ball निकाली — वह लाल निकली। Bag I से होने की probability?</div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            B₁ = Bag I चुना, B₂ = Bag II चुना<br>
+            P(B₁) = P(B₂) = 1/2<br>
+            P(Red|B₁) = 3/7, P(Red|B₂) = 5/7<br><br>
+            P(B₁|Red) = [P(B₁)·P(Red|B₁)] / [P(B₁)·P(Red|B₁) + P(B₂)·P(Red|B₂)]<br>
+            = [(1/2)(3/7)] / [(1/2)(3/7) + (1/2)(5/7)]<br>
+            = (3/14) / (3/14 + 5/14)<br>
+            = 3/8<br>
+            <span class="ans">✓ Answer: 3/8</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q9</span> Disease Testing (Bayes') <span class="qlevel hard">Hard</span></div>
+      <div class="qbody">
+        <div class="qtext">एक disease 1% लोगों को होती है। Test की accuracy: बीमार है तो positive 99%, स्वस्थ है तो positive 5%. अगर test positive आया, तो actually बीमार होने की probability?</div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            D = बीमार, P(D) = 0.01, P(D') = 0.99<br>
+            P(+|D) = 0.99, P(+|D') = 0.05<br><br>
+            P(D|+) = [P(D)·P(+|D)] / [P(D)·P(+|D) + P(D')·P(+|D')]<br>
+            = [0.01 × 0.99] / [0.01×0.99 + 0.99×0.05]<br>
+            = 0.0099 / (0.0099 + 0.0495)<br>
+            = 0.0099 / 0.0594<br>
+            ≈ <strong>0.1667 ≈ 16.67%</strong><br>
+            <span class="ans">✓ Answer: ≈ 1/6</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 8 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">8</div>
+      <h2>Random Variable & Probability Distribution</h2>
+    </div>
+
+    <div class="def">
+      <strong>Random Variable (X):</strong> एक variable जो sample space के हर outcome को एक numerical value देता है।
+    </div>
+    <div class="def">
+      <strong>Discrete Random Variable:</strong> जो गिनने योग्य values ले सके।
+    </div>
+    <div class="def">
+      <strong>Probability Distribution Table:</strong> हर value की probability दिखाता है।
+    </div>
+
+    <div class="formula">
+      <div class="label">महत्वपूर्ण शर्तें</div>
+      Σ P(xᵢ) = 1  (सभी probabilities का sum = 1)<br>
+      0 ≤ P(xᵢ) ≤ 1  (हर probability 0 और 1 के बीच)
+    </div>
+
+    <div class="formula">
+      <div class="label">Mean (Expected Value)</div>
+      E(X) = μ = Σ xᵢ · P(xᵢ)
+    </div>
+
+    <div class="formula">
+      <div class="label">Variance & Standard Deviation</div>
+      Var(X) = σ² = Σ xᵢ² · P(xᵢ) – [E(X)]²<br>
+      σ = √Var(X)
+    </div>
+
+    <!-- Q10 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q10</span> Mean of Distribution <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">
+          निम्न probability distribution दी है:<br>
+          X: 0, 1, 2, 3<br>
+          P(X): 0.1, 0.3, 0.4, 0.2<br>
+          E(X) = ?
+        </div>
+        <div class="options">
+          <div class="opt">(a) 1.7</div><div class="opt">(b) 1.5</div>
+          <div class="opt">(c) 2.0</div><div class="opt">(d) 1.9</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            E(X) = 0×0.1 + 1×0.3 + 2×0.4 + 3×0.2<br>
+            = 0 + 0.3 + 0.8 + 0.6<br>
+            = <strong>1.7</strong><br>
+            <span class="ans">✓ Answer: (a) 1.7</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 9 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">9</div>
+      <h2>Binomial Distribution (द्विपद बंटन)</h2>
+    </div>
+
+    <div class="def">
+      <strong>Binomial Distribution:</strong> जब n independent trials हों, हर trial में success की probability p (और failure q = 1-p) हो।
+    </div>
+
+    <div class="formula">
+      <div class="label">Binomial Probability Formula</div>
+      P(X = r) = ⁿCᵣ × pʳ × qⁿ⁻ʳ<br><br>
+      जहाँ: n = trials, r = successes, p = P(success), q = 1–p
+    </div>
+
+    <div class="formula">
+      <div class="label">Mean, Variance, SD of Binomial Distribution</div>
+      Mean = μ = np<br>
+      Variance = σ² = npq<br>
+      Standard Deviation = σ = √(npq)
+    </div>
+
+    <div class="tip">Binomial distribution के लिए: n fixed होना चाहिए, हर trial independent होनी चाहिए, p constant होनी चाहिए।</div>
+
+    <!-- Q11 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q11</span> Binomial Probability <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">एक fair coin 6 बार उछाली जाती है। ठीक 4 बार Head आने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 15/64</div><div class="opt">(b) 6/64</div>
+          <div class="opt">(c) 1/16</div><div class="opt">(d) 3/8</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            n=6, r=4, p=1/2, q=1/2<br>
+            P(X=4) = ⁶C₄ × (1/2)⁴ × (1/2)²<br>
+            = 15 × (1/16) × (1/4)<br>
+            = 15/64<br>
+            <span class="ans">✓ Answer: (a) 15/64</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q12</span> Binomial Mean <span class="qlevel easy">Easy</span></div>
+      <div class="qbody">
+        <div class="qtext">Binomial distribution में n=20, p=0.4. Mean और Variance क्या होंगे?</div>
+        <div class="options">
+          <div class="opt">(a) 8, 4.8</div><div class="opt">(b) 8, 3.2</div>
+          <div class="opt">(c) 12, 4.8</div><div class="opt">(d) 4, 2.4</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            Mean = np = 20 × 0.4 = <strong>8</strong><br>
+            q = 1 – 0.4 = 0.6<br>
+            Variance = npq = 20 × 0.4 × 0.6 = <strong>4.8</strong><br>
+            <span class="ans">✓ Answer: (a) 8, 4.8</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q13</span> At Least One Success <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">एक shooter की accuracy 70% है। वह 5 बार shoot करता है। कम से कम एक बार hit करने की probability?</div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            p = 0.7, q = 0.3, n = 5<br>
+            P(कम से कम 1 hit) = 1 – P(0 hit)<br>
+            P(X=0) = ⁵C₀ × (0.7)⁰ × (0.3)⁵ = (0.3)⁵ = 0.00243<br>
+            P(कम से कम 1) = 1 – 0.00243 = <strong>0.99757</strong><br>
+            <span class="ans">✓ Answer: 0.99757 ≈ 99.76%</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 10: PRACTICE MCQs ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">10</div>
+      <h2>CUET Pattern Practice MCQs (Mixed)</h2>
+    </div>
+
+    <!-- Q14 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q14</span> Dice Problem <span class="qlevel easy">Easy</span></div>
+      <div class="qbody">
+        <div class="qtext">एक dice फेंका जाए। Prime number आने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 1/2</div><div class="opt">(b) 1/3</div>
+          <div class="opt">(c) 2/3</div><div class="opt">(d) 1/6</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            Prime numbers in {1,2,3,4,5,6} = {2,3,5} → 3 outcomes<br>
+            P = 3/6 = <strong>1/2</strong><br>
+            <span class="ans">✓ Answer: (a) 1/2</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q15</span> Coin Problem <span class="qlevel easy">Easy</span></div>
+      <div class="qbody">
+        <div class="qtext">3 coins एक साथ उछाले जाएँ। कम से कम 2 Heads आने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 1/2</div><div class="opt">(b) 3/8</div>
+          <div class="opt">(c) 1/4</div><div class="opt">(d) 5/8</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            S = {HHH, HHT, HTH, THH, HTT, THT, TTH, TTT} → n(S)=8<br>
+            ≥2 Heads: HHH, HHT, HTH, THH → 4 outcomes<br>
+            P = 4/8 = <strong>1/2</strong><br>
+            <span class="ans">✓ Answer: (a) 1/2</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q16</span> Card Problem <span class="qlevel easy">Easy</span></div>
+      <div class="qbody">
+        <div class="qtext">52 cards में से 1 card निकाली। Face card (King, Queen, Jack) आने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 1/13</div><div class="opt">(b) 3/13</div>
+          <div class="opt">(c) 3/52</div><div class="opt">(d) 12/52</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            Face cards = 4 suits × 3 = 12<br>
+            P = 12/52 = <strong>3/13</strong><br>
+            <span class="ans">✓ Answer: (b) 3/13</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q17</span> Balls Problem <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">थैले में 4 लाल, 5 नीली, 3 हरी balls हैं। 2 balls एक साथ निकाली जाएँ। दोनों एक ही रंग की होने की probability?</div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            Total = 12, ways = ¹²C₂ = 66<br>
+            Same colour: ⁴C₂ + ⁵C₂ + ³C₂ = 6 + 10 + 3 = 19<br>
+            P = 19/66<br>
+            <span class="ans">✓ Answer: 19/66</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q18</span> Two Dice Sum <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">दो dice फेंके जाएँ। दोनों का योग 7 या 11 होने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 2/9</div><div class="opt">(b) 1/4</div>
+          <div class="opt">(c) 8/36</div><div class="opt">(d) 1/6</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            Sum=7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) → 6 cases<br>
+            Sum=11: (5,6),(6,5) → 2 cases<br>
+            Total favourable = 8<br>
+            P = 8/36 = <strong>2/9</strong><br>
+            <span class="ans">✓ Answer: (a) 2/9</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q19</span> Letter Problem <span class="qlevel medium">Medium</span></div>
+      <div class="qbody">
+        <div class="qtext">"PROBABILITY" शब्द से randomly एक letter चुना जाए। Vowel आने की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 4/11</div><div class="opt">(b) 5/11</div>
+          <div class="opt">(c) 3/11</div><div class="opt">(d) 1/2</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            PROBABILITY = P,R,O,B,A,B,I,L,I,T,Y → 11 letters<br>
+            Vowels: O, A, I, I → 4 vowels<br>
+            P = 4/11<br>
+            <span class="ans">✓ Answer: (a) 4/11</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q20</span> Committee Problem <span class="qlevel hard">Hard</span></div>
+      <div class="qbody">
+        <div class="qtext">5 पुरुष और 3 महिलाओं में से 4 का committee बनाना है। कम से कम 1 महिला होने की probability?</div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            Total ways = ⁸C₄ = 70<br>
+            All male (0 women) = ⁵C₄ = 5<br>
+            P(कम से कम 1 women) = 1 – 5/70 = 65/70 = <strong>13/14</strong><br>
+            <span class="ans">✓ Answer: 13/14</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q21</span> Birthday Problem Variation <span class="qlevel hard">Hard</span></div>
+      <div class="qbody">
+        <div class="qtext">यदि P(A) = 0.6, P(B) = 0.5, P(A ∪ B) = 0.8 तो P(A|B) क्या है?</div>
+        <div class="options">
+          <div class="opt">(a) 0.3</div><div class="opt">(b) 0.6</div>
+          <div class="opt">(c) 0.5</div><div class="opt">(d) 0.4</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            P(A ∩ B) = P(A) + P(B) – P(A∪B) = 0.6+0.5–0.8 = 0.3<br>
+            P(A|B) = P(A∩B)/P(B) = 0.3/0.5 = <strong>0.6</strong><br>
+            <span class="ans">✓ Answer: (b) 0.6</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q22</span> Binomial Hard <span class="qlevel hard">Hard</span></div>
+      <div class="qbody">
+        <div class="qtext">Binomial distribution में Mean = 4 और Variance = 3 है। p और n क्या हैं?</div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            np = 4 ... (i)<br>
+            npq = 3 ... (ii)<br>
+            (ii)/(i): q = 3/4, इसलिए p = 1/4<br>
+            n = 4/p = 4/(1/4) = <strong>16</strong><br>
+            अतः n = 16, p = 1/4<br>
+            <span class="ans">✓ Answer: n = 16, p = 1/4</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="qbox">
+      <div class="qhead"><span class="qnum">Q23</span> Mixed Probability <span class="qlevel hard">Hard</span></div>
+      <div class="qbody">
+        <div class="qtext">तीन students A, B, C की exam pass करने की probability क्रमशः 1/2, 1/3, 1/4 है। केवल A pass करे (B और C fail) की probability?</div>
+        <div class="options">
+          <div class="opt">(a) 1/4</div><div class="opt">(b) 1/6</div>
+          <div class="opt">(c) 1/8</div><div class="opt">(d) 3/24</div>
+        </div>
+        <details>
+          <summary>Solution देखें</summary>
+          <div class="solution">
+            P(A pass, B fail, C fail)<br>
+            = P(A) × P(B') × P(C')<br>
+            = (1/2) × (2/3) × (3/4)<br>
+            = 6/24 = <strong>1/4</strong><br>
+            <span class="ans">✓ Answer: (a) 1/4</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 11: FORMULA SUMMARY ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">★</div>
+      <h2>Quick Formula Revision (CUET के लिए)</h2>
+    </div>
+
+    <table>
+      <tr><th>Formula</th><th>Expression</th></tr>
+      <tr><td>Basic Probability</td><td>P(E) = n(E)/n(S)</td></tr>
+      <tr><td>Complement</td><td>P(A') = 1 – P(A)</td></tr>
+      <tr><td>Addition Theorem</td><td>P(A∪B) = P(A)+P(B)–P(A∩B)</td></tr>
+      <tr><td>Mutually Exclusive</td><td>P(A∪B) = P(A)+P(B)</td></tr>
+      <tr><td>Conditional</td><td>P(A|B) = P(A∩B)/P(B)</td></tr>
+      <tr><td>Multiplication</td><td>P(A∩B) = P(A)·P(B|A)</td></tr>
+      <tr><td>Independent Events</td><td>P(A∩B) = P(A)·P(B)</td></tr>
+      <tr><td>Binomial P(X=r)</td><td>ⁿCᵣ·pʳ·qⁿ⁻ʳ</td></tr>
+      <tr><td>Binomial Mean</td><td>μ = np</td></tr>
+      <tr><td>Binomial Variance</td><td>σ² = npq</td></tr>
+      <tr><td>E(X)</td><td>Σ xᵢ·P(xᵢ)</td></tr>
+      <tr><td>Var(X)</td><td>Σ xᵢ²·P(xᵢ) – [E(X)]²</td></tr>
+    </table>
+
+    <div class="tip">CUET 2026 में Probability से 3-5 प्रश्न expected हैं। Bayes' Theorem और Binomial Distribution से अवश्य एक-एक question आता है।</div>
+  </div>
+
+  <!-- PREVIOUS YEAR NOTE -->
+  <div class="index-card" style="border-left-color: var(--accent4);">
+    <h2 style="color:var(--accent4);">📌 CUET 2026 Exam Strategy — Probability</h2>
+    <ul class="styled">
+      <li>Classical probability (dice, coin, cards) — <span class="hl">2-3 questions</span> guaranteed</li>
+      <li>Conditional Probability + Multiplication Theorem — <span class="hl">1-2 questions</span></li>
+      <li>Bayes' Theorem — <span class="hl">1 question</span> (typically)</li>
+      <li>Binomial Distribution — <span class="hl">1-2 questions</span></li>
+      <li>Random Variable + E(X), Variance — <span class="hl">1 question</span></li>
+      <li>Total Expected Questions: <span class="hl">5-7 questions</span> out of 40 Math MCQs</li>
+      <li>Always verify: <span class="hl2">ΣP = 1</span> in distribution problems</li>
+      <li>Remember: <span class="hl2">52 cards = 4 suits × 13 = 26 Red + 26 Black</span></li>
+      <li>Dice sum table याद करें — 2 से 12 तक सभी possibilities</li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  CUET 2026 | Mathematics — Probability | Full Notes with Solutions<br>
+  <span style="color:var(--accent)">All the best! 🎯</span>
+</footer>
+
+</body>
+</html>

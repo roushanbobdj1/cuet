@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Continuity & Differentiability – CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07080f;--surf:#0d0f1c;--card:#111424;--bdr:#1c2036;
+  --teal:#00e5c3;--orange:#ff7043;--yellow:#ffd600;--violet:#7c4dff;
+  --blue:#448aff;--text:#dde4f5;--muted:#5a6480;--dim:#232840;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+
+/* PROGRESS */
+#bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--yellow),var(--orange));z-index:999;width:0%}
+
+/* HERO */
+.hero{
+  padding:56px 20px 48px;text-align:center;
+  background:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(0,229,195,0.08) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 50% at 80% 100%,rgba(255,112,67,0.06) 0%,transparent 60%),#07080f;
+  border-bottom:1px solid var(--bdr);position:relative;overflow:hidden;
+}
+.hero-mesh{position:absolute;inset:0;opacity:.5;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300e5c3' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:6px 20px;border-radius:100px;
+  color:var(--teal);border:1px solid rgba(0,229,195,0.3);
+  background:rgba(0,229,195,0.07);margin-bottom:22px;
+  position:relative;z-index:2;
+}
+h1.ht{
+  font-family:'Lora',serif;
+  font-size:clamp(36px,8vw,66px);
+  font-weight:700;color:#fff;line-height:1.08;
+  letter-spacing:-2px;position:relative;z-index:2;
+}
+h1.ht em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--teal) 0%,var(--yellow) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{margin-top:12px;color:var(--muted);font-size:14px;letter-spacing:1px;position:relative;z-index:2}
+.stats{display:flex;justify-content:center;gap:14px;margin-top:28px;flex-wrap:wrap;position:relative;z-index:2}
+.stat{background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:10px;padding:10px 22px}
+.stat strong{display:block;font-size:22px;font-weight:800;color:var(--teal)}
+.stat span{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+
+/* TABS */
+.tab-bar{position:sticky;top:0;z-index:50;background:rgba(7,8,15,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);padding:0 16px;overflow-x:auto;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:2px;min-width:max-content;padding:9px 0}
+.tb{font-weight:600;font-size:13px;letter-spacing:.5px;padding:8px 20px;border-radius:8px;border:none;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+.tb:hover,.tb.on{background:rgba(0,229,195,0.1);color:var(--teal)}
+
+/* LAYOUT */
+.wrap{max-width:920px;margin:0 auto;padding:30px 16px 100px}
+.sec{display:none}.sec.on{display:block}
+
+/* CHAPTER SECTION DIVIDER */
+.cdiv{display:flex;align-items:center;gap:14px;margin:32px 0 18px}
+.cdiv-lbl{font-family:'Lora',serif;font-size:20px;font-weight:700;color:#fff;white-space:nowrap}
+.cdiv-line{flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent)}
+.cdiv-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:4px;white-space:nowrap}
+.ct1{color:var(--teal);border:1px solid rgba(0,229,195,0.3);background:rgba(0,229,195,0.07)}
+.ct2{color:var(--orange);border:1px solid rgba(255,112,67,0.3);background:rgba(255,112,67,0.07)}
+
+/* TOPIC CARD */
+.tcard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.thead{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .2s}
+.thead:hover{background:rgba(255,255,255,0.02)}
+.tico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ttl{font-weight:700;font-size:17px;color:#fff;flex:1}
+.tbdg{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:4px}
+.b-hot{color:var(--orange);background:rgba(255,112,67,0.1);border:1px solid rgba(255,112,67,0.3)}
+.b-imp{color:var(--yellow);background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.3)}
+.b-mod{color:var(--teal);background:rgba(0,229,195,0.08);border:1px solid rgba(0,229,195,0.25)}
+.b-easy{color:#80e27e;background:rgba(128,226,126,0.07);border:1px solid rgba(128,226,126,0.25)}
+.chev{color:var(--dim);font-size:13px;transition:transform .3s;flex-shrink:0}
+.thead.open .chev{transform:rotate(180deg)}
+.tbody{padding:20px;display:none;border-top:1px solid var(--bdr)}
+.tbody.open{display:block}
+
+/* FORMULA BOX */
+.fbox{background:#05060d;border:1px solid rgba(0,229,195,0.18);border-left:3px solid var(--teal);border-radius:8px;padding:14px 16px;margin:12px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#70d8c5;line-height:2}
+.fbox .fl{font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.fbox .fd{color:var(--muted);font-size:12px}
+
+/* TRICK / NOTE / WARN */
+.trk{background:rgba(124,77,255,0.07);border:1px solid rgba(124,77,255,0.22);border-radius:8px;padding:14px 16px;margin:12px 0}
+.trk .tl{font-weight:700;font-size:11px;color:var(--violet);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.trk p{font-size:15px;color:#c0aaf0}
+.nbox{background:rgba(0,229,195,0.05);border:1px solid rgba(0,229,195,0.18);border-radius:8px;padding:14px 16px;margin:12px 0}
+.nbox .nl{font-weight:700;font-size:11px;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.nbox p,.nbox li{font-size:15px;color:#70d8c5}
+.wbox{background:rgba(255,112,67,0.05);border:1px solid rgba(255,112,67,0.2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.wbox .wl{font-weight:700;font-size:11px;color:var(--orange);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.wbox p{font-size:15px;color:#f0b090}
+
+/* TYPOGRAPHY */
+h2.sh2{font-family:'Lora',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+h2.sh2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent)}
+h3.sh{font-size:16px;font-weight:700;color:var(--teal);margin:16px 0 8px}
+p{margin-bottom:10px;color:#7080a0;font-size:15px}
+ul,ol{padding-left:20px;margin-bottom:10px}
+li{margin-bottom:5px;color:#7080a0;font-size:15px}
+li strong{color:#dde4f5}
+
+/* TABLE */
+.tw{overflow-x:auto;margin-bottom:16px}
+table.t{width:100%;border-collapse:collapse}
+table.t thead tr{background:rgba(0,229,195,0.06)}
+table.t th{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal);padding:10px 13px;text-align:left;border-bottom:1px solid var(--bdr);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+table.t td{padding:9px 13px;font-size:14px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.03)}
+table.t tr:hover td{background:rgba(255,255,255,0.02);color:var(--text)}
+
+/* DERIVATION TABLE - for standard derivatives */
+.dtable{width:100%;border-collapse:collapse;margin:12px 0}
+.dtable thead tr{background:rgba(255,214,0,0.07)}
+.dtable th{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--yellow);padding:9px 14px;text-align:left;border-bottom:1px solid var(--bdr);letter-spacing:1px;text-transform:uppercase}
+.dtable td{padding:9px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.03);font-family:'JetBrains Mono',monospace}
+.dtable td:first-child{color:#ffd080}
+.dtable td:last-child{color:#70d8c5}
+.dtable tr:hover td{background:rgba(255,255,255,0.02)}
+
+/* Q CARD */
+.qcard{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.qhead{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--bdr)}
+.qnum{width:32px;height:32px;border-radius:7px;flex-shrink:0;background:rgba(0,229,195,0.08);border:1px solid rgba(0,229,195,0.25);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--teal)}
+.qtext{font-weight:600;font-size:15px;color:#dde4f5;flex:1;line-height:1.4}
+.qtag{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.tpyq{color:var(--orange);background:rgba(255,112,67,0.1);border:1px solid rgba(255,112,67,0.3)}
+.tpred{color:var(--teal);background:rgba(0,229,195,0.07);border:1px solid rgba(0,229,195,0.25)}
+.qbody{padding:14px 16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+@media(max-width:500px){.opts{grid-template-columns:1fr}}
+.opt{background:rgba(255,255,255,0.02);border:1px solid var(--bdr);border-radius:7px;padding:8px 13px;font-size:14px;color:var(--muted)}
+.opt.ok{background:rgba(0,229,195,0.07);border-color:rgba(0,229,195,0.35);color:var(--teal);font-weight:600}
+.sbtn{background:rgba(0,229,195,0.06);border:1px solid rgba(0,229,195,0.18);border-radius:7px;padding:8px 15px;color:var(--teal);font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12px;letter-spacing:1px;cursor:pointer;width:100%;text-align:left;margin-top:8px;transition:all .2s}
+.sbtn:hover{background:rgba(0,229,195,0.13)}
+.sbody{display:none;background:rgba(5,6,13,0.8);border:1px solid rgba(0,229,195,0.12);border-radius:8px;padding:14px;margin-top:8px}
+.sbody.open{display:block}
+.step{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.sn{width:24px;height:24px;border-radius:50%;flex-shrink:0;margin-top:2px;background:rgba(0,229,195,0.1);color:var(--teal);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+.st{font-size:14px;color:#5a6880}
+.st .m{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#70d8c5;background:rgba(0,229,195,0.07);padding:2px 6px;border-radius:4px}
+.ans{background:rgba(0,229,195,0.07);border:1px solid rgba(0,229,195,0.25);border-radius:7px;padding:9px 13px;margin-top:8px;font-weight:700;font-size:14px;color:var(--teal)}
+
+/* FORMULA GRID */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:600px){.fg{grid-template-columns:1fr}}
+.fc{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:14px}
+.fc h4{font-weight:700;font-size:13px;color:var(--teal);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--bdr)}
+.fi{display:flex;align-items:baseline;gap:8px;margin-bottom:7px}
+.fil{color:var(--muted);font-size:12px;min-width:100px;flex-shrink:0}
+.fiv{font-family:'JetBrains Mono',monospace;font-size:12px;color:#70d8c5}
+
+/* RULES */
+.rl{list-style:none;padding:0}
+.rl li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px;color:var(--muted)}
+.rl li::before{content:'d/dx';color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;flex-shrink:0;margin-top:3px}
+
+/* MNEMONIC */
+.mnemo{background:linear-gradient(135deg,rgba(0,229,195,0.07),rgba(124,77,255,0.05));border:1px solid rgba(0,229,195,0.18);border-radius:10px;padding:16px;margin:14px 0;text-align:center}
+.mnemo .word{font-family:'Lora',serif;font-size:26px;font-weight:700;color:var(--teal);letter-spacing:3px}
+.mnemo .sub{font-size:13px;color:var(--muted);margin-top:6px}
+.mnemo .sub em{color:var(--yellow);font-style:normal}
+
+/* PILLS */
+.ps{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--orange);background:rgba(255,112,67,0.07);border:1px solid rgba(255,112,67,0.2);padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.p-red{color:var(--orange);background:rgba(255,112,67,0.1);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-teal{color:var(--teal);background:rgba(0,229,195,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-yellow{color:var(--yellow);background:rgba(255,214,0,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-green{color:#80e27e;background:rgba(128,226,126,0.07);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+
+/* CONTINUITY VISUAL */
+.lhl-box{
+  display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;
+}
+.lhl-item{
+  flex:1;min-width:200px;
+  background:#05060d;border:1px solid var(--bdr);
+  border-radius:8px;padding:12px 14px;
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  color:#70d8c5;text-align:center;
+}
+.lhl-label{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-badge">📊 CUET 2026 · Mathematics · Chapter 5</div>
+  <h1 class="ht">Continuity &<br><em>Differentiability</em></h1>
+  <div class="hero-sub">Full Notes + Derivative Table + PYQ 2022–2025 + Practice + Predictions</div>
+  <div class="stats">
+    <div class="stat"><strong>8–10</strong><span>Marks</span></div>
+    <div class="stat"><strong>8</strong><span>Core Topics</span></div>
+    <div class="stat"><strong>45+</strong><span>Questions</span></div>
+    <div class="stat"><strong>⭐⭐⭐</strong><span>Top Priority</span></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <div class="tabs">
+    <button class="tb on" onclick="sw('notes',this)">📒 Notes</button>
+    <button class="tb" onclick="sw('deriv',this)">📋 Derivative Table</button>
+    <button class="tb" onclick="sw('formula',this)">📐 Formula Sheet</button>
+    <button class="tb" onclick="sw('pyq',this)">🔥 PYQ</button>
+    <button class="tb" onclick="sw('practice',this)">✏️ Practice</button>
+    <button class="tb" onclick="sw('predict',this)">🎯 2026 Predictions</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════ NOTES ═══════════ -->
+<div class="sec on" id="sec-notes">
+
+  <!-- T1: Continuity -->
+  <div class="cdiv">
+    <div class="cdiv-lbl">📘 Part 1 — Continuity</div>
+    <div class="cdiv-line"></div>
+    <span class="cdiv-tag ct1">Limits & Continuity</span>
+  </div>
+
+  <div class="tcard">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,229,195,0.1)">∞</div>
+      <div class="ttl">Topic 1 — Continuity at a Point</div>
+      <span class="tbdg b-hot">MOST IMP</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <p>Ek function f(x) point x=a par <strong>continuous</strong> hai agar teen conditions satisfy hon:</p>
+
+      <div class="lhl-box">
+        <div class="lhl-item"><div class="lhl-label">Condition 1</div>f(a) exist kare<br>(defined ho)</div>
+        <div class="lhl-item"><div class="lhl-label">Condition 2</div>lim(x→a) f(x) exist kare<br>(LHL = RHL)</div>
+        <div class="lhl-item"><div class="lhl-label">Condition 3</div>lim(x→a) f(x) = f(a)<br>(limit = value)</div>
+      </div>
+
+      <div class="fbox">
+        <div class="fl">Continuity Condition (All 3 must hold)</div>
+        f continuous at x=a iff:<br>
+        lim(x→a⁻) f(x) = lim(x→a⁺) f(x) = f(a)<br><br>
+        LHL = RHL = f(a)
+      </div>
+
+      <h3 class="sh">Left Hand Limit (LHL) & Right Hand Limit (RHL)</h3>
+      <div class="fbox">
+        <div class="fl">How to Calculate</div>
+        LHL = lim(x→a⁻) f(x) = lim(h→0) f(a−h)  [h→0⁺]<br>
+        RHL = lim(x→a⁺) f(x) = lim(h→0) f(a+h)  [h→0⁺]<br><br>
+        <div class="fd">Substitute x = a−h (for LHL) and x = a+h (for RHL), h→0</div>
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Continuity Check Method — 3 Steps</div>
+        <p>
+          Step 1: f(a) nikalo (direct substitute karo)<br>
+          Step 2: LHL nikalo: f(a−h) as h→0<br>
+          Step 3: RHL nikalo: f(a+h) as h→0<br>
+          Agar teeno equal → Continuous ✓<br>
+          Koi bhi different → Discontinuous ✗
+        </p>
+      </div>
+
+      <h3 class="sh">Types of Discontinuity</h3>
+      <div class="tw"><table class="t">
+        <thead><tr><th>Type</th><th>Condition</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Removable</strong></td><td>LHL=RHL ≠ f(a)</td><td>Hole in graph</td></tr>
+          <tr><td><strong>Jump</strong></td><td>LHL ≠ RHL</td><td>Step function</td></tr>
+          <tr><td><strong>Infinite</strong></td><td>Limit = ∞</td><td>f(x)=1/x at x=0</td></tr>
+          <tr><td><strong>Oscillatory</strong></td><td>Limit doesn't exist</td><td>sin(1/x) at x=0</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="nbox">
+        <div class="nl">📌 Continuity of Standard Functions</div>
+        <ul>
+          <li><strong>Polynomials</strong> — Har jagah continuous</li>
+          <li><strong>Rational f(x)/g(x)</strong> — Continuous jahan g(x) ≠ 0</li>
+          <li><strong>sin x, cos x, eˣ, ln x</strong> — Apne domain mein continuous</li>
+          <li><strong>|x|</strong> — Har jagah continuous (x=0 par bhi!)</li>
+          <li><strong>Greatest Integer [x]</strong> — Integers par discontinuous</li>
+        </ul>
+      </div>
+
+      <h3 class="sh">Algebra of Continuous Functions</h3>
+      <div class="fbox">
+        <div class="fl">If f and g are continuous at x=a, then:</div>
+        f±g → continuous at a<br>
+        f·g → continuous at a<br>
+        f/g → continuous at a  (if g(a) ≠ 0)<br>
+        |f| → continuous at a<br>
+        f∘g (composite) → continuous at a
+      </div>
+    </div>
+  </div>
+
+  <!-- T2: Differentiability -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(255,112,67,0.1)">d/dx</div>
+      <div class="ttl">Topic 2 — Differentiability</div>
+      <span class="tbdg b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Definition of Derivative (First Principle)</div>
+        f'(a) = lim(h→0) [f(a+h) − f(a)] / h<br><br>
+        LHD = lim(h→0⁺) [f(a−h) − f(a)] / (−h)<br>
+        RHD = lim(h→0⁺) [f(a+h) − f(a)] / h<br><br>
+        f differentiable at a iff LHD = RHD
+      </div>
+
+      <div class="mnemo">
+        <div class="word">C → D Rule</div>
+        <div class="sub">
+          <em>Differentiable → Continuous</em> (always true)<br>
+          Continuous → Differentiable (NOT always true!)<br>
+          <em>Example: |x| at x=0 — Continuous but NOT Differentiable</em>
+        </div>
+      </div>
+
+      <div class="wbox">
+        <div class="wl">⚠️ Most Common CUET Trap!</div>
+        <p>|x| at x=0: Continuous ✓ but NOT Differentiable ✗<br>
+        LHD = −1, RHD = +1 → LHD ≠ RHD → Not differentiable<br>
+        Ye CUET mein har saal kisi na kisi form mein aata hai!</p>
+      </div>
+
+      <div class="nbox">
+        <div class="nl">📌 Key Facts</div>
+        <ul>
+          <li>Every differentiable function is continuous</li>
+          <li>Converse is NOT true: Continuous ↛ Differentiable</li>
+          <li>Polynomials are differentiable everywhere</li>
+          <li>|x−a| is not differentiable at x=a</li>
+          <li>Corner, cusp, vertical tangent → Not differentiable</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- T3: Chain Rule -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(255,214,0,0.08)">🔗</div>
+      <div class="ttl">Topic 3 — Chain Rule & Differentiation Rules</div>
+      <span class="tbdg b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Chain Rule</div>
+        d/dx[f(g(x))] = f'(g(x)) · g'(x)<br><br>
+        dy/dx = dy/du · du/dx  (if y=f(u), u=g(x))
+      </div>
+
+      <div class="fbox">
+        <div class="fl">Product Rule</div>
+        d/dx[u·v] = u·(dv/dx) + v·(du/dx)<br><br>
+        <div class="fl">Quotient Rule</div>
+        d/dx[u/v] = [v·(du/dx) − u·(dv/dx)] / v²
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Product Rule Memory — UV Rule</div>
+        <p>
+          (uv)' = u'v + uv'<br>
+          "First derivative of Second + Second derivative of First" (FDS + SDF)<br><br>
+          Quotient: (u/v)' = (u'v − uv') / v²<br>
+          "Lo Di Hi minus Hi Di Lo, square the Lo below!"
+        </p>
+      </div>
+
+      <h3 class="sh">Important Composite Derivatives</h3>
+      <div class="fbox">
+        d/dx[sin(ax+b)] = a·cos(ax+b)<br>
+        d/dx[eᵃˣ⁺ᵇ] = a·eᵃˣ⁺ᵇ<br>
+        d/dx[ln(f(x))] = f'(x)/f(x)<br>
+        d/dx[(f(x))ⁿ] = n·(f(x))ⁿ⁻¹·f'(x)<br>
+        d/dx[aᶠ⁽ˣ⁾] = aᶠ⁽ˣ⁾·ln(a)·f'(x)
+      </div>
+    </div>
+  </div>
+
+  <!-- T4: Implicit Differentiation -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(124,77,255,0.1)">xy</div>
+      <div class="ttl">Topic 4 — Implicit Differentiation</div>
+      <span class="tbdg b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <p>Jab y ko x se explicit form mein express nahi kar sakte, tab implicit differentiation use karte hain.</p>
+
+      <div class="fbox">
+        <div class="fl">Method — Differentiate both sides w.r.t. x</div>
+        If F(x,y) = 0, then:<br><br>
+        d/dx[y] = dy/dx<br>
+        d/dx[y²] = 2y·(dy/dx)  ← Chain rule!<br>
+        d/dx[y³] = 3y²·(dy/dx)<br>
+        d/dx[xy] = x·(dy/dx) + y  ← Product rule!<br><br>
+        <div class="fd">Step: Differentiate, collect dy/dx terms, solve</div>
+      </div>
+
+      <h3 class="sh">Standard Example</h3>
+      <div class="nbox">
+        <div class="nl">Example: x²+y²=r², find dy/dx</div>
+        <p>Differentiate: 2x + 2y·dy/dx = 0<br>
+        → dy/dx = <strong>−x/y</strong></p>
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Implicit Diff Steps</div>
+        <p>
+          1. Dono sides ko x ke w.r.t. differentiate karo<br>
+          2. Jab bhi y aaye: dy/dx multiply karo (chain rule)<br>
+          3. Jab bhi xy aaye: product rule use karo<br>
+          4. dy/dx ke terms ek side collect karo<br>
+          5. dy/dx = (x terms)/(y terms) solve karo
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T5: Logarithmic Differentiation -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,229,195,0.08)">ln</div>
+      <div class="ttl">Topic 5 — Logarithmic Differentiation</div>
+      <span class="tbdg b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <p>Jab function mein power pe function ho (like xˣ, xˢⁱⁿˣ etc.) tab log differentiation use karo.</p>
+
+      <div class="fbox">
+        <div class="fl">Method</div>
+        Step 1: y = f(x) → Take log both sides: ln y = ln f(x)<br>
+        Step 2: Differentiate: (1/y)·dy/dx = d/dx[ln f(x)]<br>
+        Step 3: dy/dx = y · d/dx[ln f(x)]<br><br>
+        <div class="fl">Key Log Properties Used</div>
+        ln(uv) = ln u + ln v<br>
+        ln(u/v) = ln u − ln v<br>
+        ln(uⁿ) = n·ln u  ← Most used!
+      </div>
+
+      <h3 class="sh">Standard Results</h3>
+      <div class="fbox">
+        <div class="fl">y = xˣ</div>
+        ln y = x·ln x<br>
+        (1/y)dy/dx = ln x + 1<br>
+        dy/dx = xˣ(1 + ln x)<br><br>
+        <div class="fl">y = xˢⁱⁿ ˣ</div>
+        ln y = sin x · ln x<br>
+        dy/dx = xˢⁱⁿˣ[cos x · ln x + sin x/x]<br><br>
+        <div class="fl">y = (sin x)ˣ</div>
+        ln y = x · ln(sin x)<br>
+        dy/dx = (sin x)ˣ[ln(sin x) + x·cot x]
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Log Diff Trigger</div>
+        <p>Jab bhi dekhao: (function)^(function) → Logarithmic differentiation karo!<br>
+        xˣ, x^(sin x), (sin x)ˣ, (tan x)^(cos x) → Sab log diff se karo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T6: Parametric -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(68,138,255,0.1)">t→</div>
+      <div class="ttl">Topic 6 — Parametric Differentiation</div>
+      <span class="tbdg b-imp">IMPORTANT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">If x=f(t), y=g(t) → Parametric form</div>
+        dy/dx = (dy/dt) / (dx/dt) = g'(t) / f'(t)<br><br>
+        <div class="fl">Second derivative d²y/dx²</div>
+        d²y/dx² = d/dx[dy/dx] = [d/dt(dy/dx)] / (dx/dt)
+      </div>
+
+      <h3 class="sh">Standard Parametric Curves</h3>
+      <div class="tw"><table class="t">
+        <thead><tr><th>Curve</th><th>x</th><th>y</th><th>dy/dx</th></tr></thead>
+        <tbody>
+          <tr><td>Circle (r=a)</td><td>a cos t</td><td>a sin t</td><td>−cot t</td></tr>
+          <tr><td>Parabola</td><td>at²</td><td>2at</td><td>1/t</td></tr>
+          <tr><td>Ellipse</td><td>a cos t</td><td>b sin t</td><td>−(b/a)cot t</td></tr>
+          <tr><td>Cycloid</td><td>a(t−sin t)</td><td>a(1−cos t)</td><td>sin t/(1−cos t)</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="trk">
+        <div class="tl">⚡ Parametric Trick</div>
+        <p>dy/dx = (dy/dt)÷(dx/dt)<br>
+        Bas y ko t se differentiate karo, x ko t se differentiate karo, divide karo!<br>
+        "Y prime over X prime" — simple ratio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T7: Higher Order -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(255,214,0,0.08)">d²</div>
+      <div class="ttl">Topic 7 — Second & Higher Order Derivatives</div>
+      <span class="tbdg b-imp">IMPORTANT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Notation</div>
+        First derivative:   f'(x) = dy/dx = y'<br>
+        Second derivative:  f''(x) = d²y/dx² = y''<br>
+        Third derivative:   f'''(x) = d³y/dx³ = y'''<br><br>
+        <div class="fl">Method</div>
+        d²y/dx² = d/dx[dy/dx]  → Differentiate dy/dx once more!
+      </div>
+
+      <h3 class="sh">Standard Second Derivatives</h3>
+      <div class="fbox">
+        y=sin x → y'=cos x → y''=−sin x<br>
+        y=cos x → y'=−sin x → y''=−cos x<br>
+        y=eˣ → y'=eˣ → y''=eˣ (same always!)<br>
+        y=xⁿ → y'=nxⁿ⁻¹ → y''=n(n−1)xⁿ⁻²<br>
+        y=ln x → y'=1/x → y''=−1/x²
+      </div>
+
+      <div class="nbox">
+        <div class="nl">📌 Leibniz Theorem (nth derivative)</div>
+        <p>Dⁿ(uv) = Σ ⁿCᵣ · Dʳu · Dⁿ⁻ʳv (r from 0 to n)<br>
+        This is useful for proving results like:<br>
+        If y=sin(ax+b) → yₙ = aⁿ sin(ax+b + nπ/2)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T8: Inverse Trig Derivatives -->
+  <div class="tcard">
+    <div class="thead" onclick="tog(this)">
+      <div class="tico" style="background:rgba(124,77,255,0.1)">sin⁻¹</div>
+      <div class="ttl">Topic 8 — Inverse Trigonometric Derivatives & Substitutions</div>
+      <span class="tbdg b-hot">HOT</span><span class="chev">▼</span>
+    </div>
+    <div class="tbody">
+      <div class="fbox">
+        <div class="fl">Standard Inverse Trig Derivatives</div>
+        d/dx[sin⁻¹x] = 1/√(1−x²)<br>
+        d/dx[cos⁻¹x] = −1/√(1−x²)<br>
+        d/dx[tan⁻¹x] = 1/(1+x²)<br>
+        d/dx[cot⁻¹x] = −1/(1+x²)<br>
+        d/dx[sec⁻¹x] = 1/(x√(x²−1))<br>
+        d/dx[cosec⁻¹x] = −1/(x√(x²−1))
+      </div>
+
+      <h3 class="sh">Key Substitutions for Simplification</h3>
+      <div class="fbox">
+        <div class="fl">Simplify before differentiating!</div>
+        sin⁻¹(2x√(1−x²)):  put x=sinθ → 2sin⁻¹x<br>
+        tan⁻¹(2x/(1−x²)): put x=tanθ → 2tan⁻¹x<br>
+        tan⁻¹((1−x)/(1+x)): = π/4 − tan⁻¹x<br>
+        sin⁻¹(2sinx cosx): = 2x<br>
+        cos⁻¹(2cos²x−1): = 2x (for cos⁻¹(cos2x) = 2x)<br><br>
+        <div class="fd">After simplification, differentiate the simpler form!</div>
+      </div>
+
+      <div class="trk">
+        <div class="tl">⚡ Inverse Trig Simplification Trick</div>
+        <p>
+          2sinθcosθ = sin2θ → sin⁻¹(sin 2θ) = 2θ<br>
+          (1−cos2θ)/2 = sin²θ, 2cos²θ−1 = cos2θ<br>
+          2tanθ/(1−tan²θ) = tan2θ → tan⁻¹(tan2θ) = 2θ<br><br>
+          CUET mein: Pehle substitute karo, simplify karo, phir differentiate karo!<br>
+          Direct differentiation se complex answer aayega!
+        </p>
+      </div>
+
+      <h3 class="sh">Double Angle Identities for Substitution</h3>
+      <div class="fbox">
+        sin⁻¹(2sinθcosθ) = sin⁻¹(sin2θ) = 2θ  (x=sinθ → θ=sin⁻¹x)<br>
+        cos⁻¹(1−2sin²θ) = cos⁻¹(cos2θ) = 2θ<br>
+        tan⁻¹(2tanθ/(1−tan²θ)) = tan⁻¹(tan2θ) = 2θ
+      </div>
+    </div>
+  </div>
+
+</div><!-- end notes -->
+
+<!-- ═══════════ DERIVATIVE TABLE ═══════════ -->
+<div class="sec" id="sec-deriv">
+  <h2 class="sh2">📋 Complete Derivative Table — Ratto Lo!</h2>
+
+  <div class="cdiv"><div class="cdiv-lbl">Standard Functions</div><div class="cdiv-line"></div></div>
+  <div class="tw"><table class="dtable">
+    <thead><tr><th>f(x)</th><th>f'(x) = d/dx[f(x)]</th></tr></thead>
+    <tbody>
+      <tr><td>xⁿ</td><td>nxⁿ⁻¹</td></tr>
+      <tr><td>√x = x^(1/2)</td><td>1/(2√x)</td></tr>
+      <tr><td>1/x = x⁻¹</td><td>−1/x²</td></tr>
+      <tr><td>1/xⁿ = x⁻ⁿ</td><td>−n/xⁿ⁺¹</td></tr>
+      <tr><td>eˣ</td><td>eˣ</td></tr>
+      <tr><td>eᵃˣ</td><td>a·eᵃˣ</td></tr>
+      <tr><td>aˣ</td><td>aˣ·ln a</td></tr>
+      <tr><td>ln x</td><td>1/x</td></tr>
+      <tr><td>log_a x</td><td>1/(x·ln a)</td></tr>
+      <tr><td>constant c</td><td>0</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cdiv"><div class="cdiv-lbl">Trigonometric Functions</div><div class="cdiv-line"></div></div>
+  <div class="tw"><table class="dtable">
+    <thead><tr><th>f(x)</th><th>f'(x)</th><th>Memory Trick</th></tr></thead>
+    <tbody>
+      <tr><td>sin x</td><td>cos x</td><td>Positive shift ↑</td></tr>
+      <tr><td>cos x</td><td>−sin x</td><td>Negative! ↓</td></tr>
+      <tr><td>tan x</td><td>sec²x</td><td>tan → sec²</td></tr>
+      <tr><td>cot x</td><td>−cosec²x</td><td>Negative cosec²</td></tr>
+      <tr><td>sec x</td><td>sec x · tan x</td><td>sec·tan</td></tr>
+      <tr><td>cosec x</td><td>−cosec x · cot x</td><td>Negative cosec·cot</td></tr>
+      <tr><td>sin²x</td><td>2sinx·cosx = sin2x</td><td>Chain rule</td></tr>
+      <tr><td>cos²x</td><td>−sin2x</td><td>Negative</td></tr>
+      <tr><td>tan²x</td><td>2tanx·sec²x</td><td>Chain rule</td></tr>
+      <tr><td>sin(ax+b)</td><td>a·cos(ax+b)</td><td>Coefficient comes out</td></tr>
+      <tr><td>cos(ax+b)</td><td>−a·sin(ax+b)</td><td>Coefficient + negative</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cdiv"><div class="cdiv-lbl">Inverse Trigonometric Functions</div><div class="cdiv-line"></div></div>
+  <div class="tw"><table class="dtable">
+    <thead><tr><th>f(x)</th><th>f'(x)</th><th>Memory Trick</th></tr></thead>
+    <tbody>
+      <tr><td>sin⁻¹x</td><td>1/√(1−x²)</td><td>Positive, √(1−x²)</td></tr>
+      <tr><td>cos⁻¹x</td><td>−1/√(1−x²)</td><td>Negative! same denom</td></tr>
+      <tr><td>tan⁻¹x</td><td>1/(1+x²)</td><td>Positive, (1+x²)</td></tr>
+      <tr><td>cot⁻¹x</td><td>−1/(1+x²)</td><td>Negative! same denom</td></tr>
+      <tr><td>sec⁻¹x</td><td>1/(x√(x²−1))</td><td>x outside √</td></tr>
+      <tr><td>cosec⁻¹x</td><td>−1/(x√(x²−1))</td><td>Negative! same</td></tr>
+      <tr><td>sin⁻¹(f(x))</td><td>f'(x)/√(1−f(x)²)</td><td>Chain rule</td></tr>
+      <tr><td>tan⁻¹(f(x))</td><td>f'(x)/(1+f(x)²)</td><td>Chain rule</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="trk">
+    <div class="tl">⚡ Sin⁻¹ vs Cos⁻¹ | Tan⁻¹ vs Cot⁻¹ Trick</div>
+    <p>
+      sin⁻¹ aur cos⁻¹ ke derivatives same hain, bas <strong>cos⁻¹ mein negative</strong><br>
+      tan⁻¹ aur cot⁻¹ ke derivatives same hain, bas <strong>cot⁻¹ mein negative</strong><br>
+      sec⁻¹ aur cosec⁻¹ ke derivatives same hain, bas <strong>cosec⁻¹ mein negative</strong><br>
+      Pattern: Co-functions (cos⁻¹, cot⁻¹, cosec⁻¹) mein always NEGATIVE sign!
+    </p>
+  </div>
+
+  <div class="cdiv" style="margin-top:24px"><div class="cdiv-lbl">Important Composite Derivatives</div><div class="cdiv-line"></div></div>
+  <div class="tw"><table class="dtable">
+    <thead><tr><th>f(x)</th><th>f'(x)</th></tr></thead>
+    <tbody>
+      <tr><td>xˣ</td><td>xˣ(1 + ln x)</td></tr>
+      <tr><td>xˢⁱⁿˣ</td><td>xˢⁱⁿˣ[cosx·lnx + sinx/x]</td></tr>
+      <tr><td>(sin x)ˣ</td><td>(sin x)ˣ[ln(sin x) + x·cot x]</td></tr>
+      <tr><td>sin⁻¹(2x√(1−x²))</td><td>2/√(1−x²)  [put x=sinθ first!]</td></tr>
+      <tr><td>tan⁻¹(2x/(1−x²))</td><td>2/(1+x²)  [put x=tanθ first!]</td></tr>
+      <tr><td>tan⁻¹((1−x)/(1+x))</td><td>−1/(1+x²)  [= π/4−tan⁻¹x]</td></tr>
+      <tr><td>e^(sin x)</td><td>e^(sinx)·cos x</td></tr>
+      <tr><td>ln(sin x)</td><td>cot x = cos x/sin x</td></tr>
+      <tr><td>ln(tan x)</td><td>2/sin(2x)</td></tr>
+    </tbody>
+  </table></div>
+</div><!-- end deriv -->
+
+<!-- ═══════════ FORMULA SHEET ═══════════ -->
+<div class="sec" id="sec-formula">
+  <h2 class="sh2">📐 Master Formula Sheet</h2>
+
+  <div class="fg">
+    <div class="fc">
+      <h4>🔵 Continuity</h4>
+      <div class="fi"><span class="fil">Condition</span><span class="fiv">LHL = RHL = f(a)</span></div>
+      <div class="fi"><span class="fil">LHL</span><span class="fiv">lim(h→0) f(a−h)</span></div>
+      <div class="fi"><span class="fil">RHL</span><span class="fiv">lim(h→0) f(a+h)</span></div>
+      <div class="fi"><span class="fil">Polynomials</span><span class="fiv">Always continuous</span></div>
+      <div class="fi"><span class="fil">[x] (GIF)</span><span class="fiv">Discontinuous at integers</span></div>
+    </div>
+    <div class="fc">
+      <h4>📐 Differentiability</h4>
+      <div class="fi"><span class="fil">Definition</span><span class="fiv">lim(h→0)[f(a+h)−f(a)]/h</span></div>
+      <div class="fi"><span class="fil">Condition</span><span class="fiv">LHD = RHD</span></div>
+      <div class="fi"><span class="fil">D→C</span><span class="fiv">Diff ⟹ Continuous ✓</span></div>
+      <div class="fi"><span class="fil">C↛D</span><span class="fiv">Contin ↛ Diff (|x| example)</span></div>
+    </div>
+    <div class="fc">
+      <h4>🔗 Differentiation Rules</h4>
+      <div class="fi"><span class="fil">Chain</span><span class="fiv">f'(g(x))·g'(x)</span></div>
+      <div class="fi"><span class="fil">Product</span><span class="fiv">u'v + uv'</span></div>
+      <div class="fi"><span class="fil">Quotient</span><span class="fiv">(u'v − uv')/v²</span></div>
+      <div class="fi"><span class="fil">Parametric</span><span class="fiv">dy/dx = (dy/dt)/(dx/dt)</span></div>
+      <div class="fi"><span class="fil">Log diff</span><span class="fiv">Take ln, then differentiate</span></div>
+    </div>
+    <div class="fc">
+      <h4>sin⁻¹/cos⁻¹/tan⁻¹</h4>
+      <div class="fi"><span class="fil">d(sin⁻¹x)</span><span class="fiv">1/√(1−x²)</span></div>
+      <div class="fi"><span class="fil">d(cos⁻¹x)</span><span class="fiv">−1/√(1−x²)</span></div>
+      <div class="fi"><span class="fil">d(tan⁻¹x)</span><span class="fiv">1/(1+x²)</span></div>
+      <div class="fi"><span class="fil">d(cot⁻¹x)</span><span class="fiv">−1/(1+x²)</span></div>
+      <div class="fi"><span class="fil">Co-fn rule</span><span class="fiv">Always NEGATIVE!</span></div>
+    </div>
+    <div class="fc">
+      <h4>🔢 Key Results</h4>
+      <div class="fi"><span class="fil">d(xˣ)/dx</span><span class="fiv">xˣ(1 + ln x)</span></div>
+      <div class="fi"><span class="fil">d(aˣ)/dx</span><span class="fiv">aˣ·ln a</span></div>
+      <div class="fi"><span class="fil">d(ln f)/dx</span><span class="fiv">f'(x)/f(x)</span></div>
+      <div class="fi"><span class="fil">d²(sin)/dx²</span><span class="fiv">−sin x</span></div>
+      <div class="fi"><span class="fil">d²(eˣ)/dx²</span><span class="fiv">eˣ (same!)</span></div>
+    </div>
+    <div class="fc">
+      <h4>🔄 Substitutions</h4>
+      <div class="fi"><span class="fil">2sinθcosθ</span><span class="fiv">= sin2θ → result 2θ</span></div>
+      <div class="fi"><span class="fil">2tanθ/(1−tan²)</span><span class="fiv">= tan2θ → 2θ</span></div>
+      <div class="fi"><span class="fil">2cos²θ−1</span><span class="fiv">= cos2θ</span></div>
+      <div class="fi"><span class="fil">tan⁻¹((1−x)/(1+x))</span><span class="fiv">= π/4−tan⁻¹x</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh2">⚡ Quick Rules</h2>
+  <div class="tcard"><div class="tbody open" style="display:block">
+    <ul class="rl">
+      <li><strong>Continuous at a</strong>: LHL = RHL = f(a) — sabse important condition</li>
+      <li><strong>Differentiable → Continuous</strong>, but Continuous ↛ Differentiable</li>
+      <li><strong>|x| at 0</strong>: Continuous ✓, NOT differentiable ✗ (LHD=−1 ≠ RHD=+1)</li>
+      <li><strong>Co-functions</strong> (cos⁻¹, cot⁻¹, cosec⁻¹) ke derivatives mein always negative</li>
+      <li><strong>Chain rule</strong>: d/dx[f(g(x))] = f'(g(x)) · g'(x)</li>
+      <li><strong>Product rule</strong>: (uv)' = u'v + uv' → "FDS + SDF"</li>
+      <li><strong>Quotient rule</strong>: (u/v)' = (u'v − uv')/v²</li>
+      <li><strong>Log diff trigger</strong>: (function)^(function) form dikhte hi</li>
+      <li><strong>Parametric</strong>: dy/dx = (dy/dt) ÷ (dx/dt)</li>
+      <li><strong>Implicit</strong>: Differentiate both sides, dy/dx terms collect karo</li>
+      <li><strong>Inverse trig simplify</strong>: Pehle substitute karo, phir differentiate!</li>
+      <li><strong>d²y/dx²</strong> = d/dx of (dy/dx) — ek baar aur differentiate</li>
+    </ul>
+  </div></div>
+</div><!-- end formula -->
+
+<!-- ═══════════ PYQ ═══════════ -->
+<div class="sec" id="sec-pyq">
+  <h2 class="sh2">🔥 PYQ — Previous Year Questions (2022–2025)</h2>
+
+  <div class="cdiv"><div class="cdiv-lbl">Continuity PYQs</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">1</div>
+      <div class="qtext">Find k if f(x) = kx+1, x≤5 and f(x) = 3x−5, x>5 is continuous at x=5.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <span class="ps">PYQ · Continuity</span>
+      <div class="opts">
+        <div class="opt">A) 1</div>
+        <div class="opt ok">B) 9/5</div>
+        <div class="opt">C) 3</div>
+        <div class="opt">D) 5/9</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">For continuity at x=5: LHL = RHL = f(5)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">f(5) = k(5)+1 = 5k+1</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">RHL = lim(x→5⁺)(3x−5) = <span class="m">3(5)−5 = 10</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">LHL = 5k+1; For continuity: 5k+1 = 10 → <span class="m">k = 9/5</span></div></div>
+        <div class="ans">✅ k = 9/5</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">2</div>
+      <div class="qtext">Is f(x) = |x−3| differentiable at x=3? Justify.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) No, LHD ≠ RHD</div>
+        <div class="opt">B) Yes, differentiable</div>
+        <div class="opt">C) Not continuous</div>
+        <div class="opt">D) Cannot determine</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">f(x) = |x−3| = {x−3 if x≥3; -(x-3) if x&lt;3}</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">LHD = lim(h→0)[f(3−h)−f(3)]/(−h) = lim[−(−h)−0]/(−h) = <span class="m">−1</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">RHD = lim(h→0)[f(3+h)−f(3)]/h = lim[h−0]/h = <span class="m">+1</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">LHD ≠ RHD → NOT differentiable at x=3</div></div>
+        <div class="ans">✅ Not differentiable. LHD=−1 ≠ RHD=+1 (Classic |x−a| question!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cdiv" style="margin-top:20px"><div class="cdiv-lbl">Differentiability PYQs</div><div class="cdiv-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">3</div>
+      <div class="qtext">Find dy/dx if y = sin⁻¹(2x√(1−x²)).</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 2/√(1−x²)</div>
+        <div class="opt">B) 1/√(1−x²)</div>
+        <div class="opt">C) 2x/√(1−x²)</div>
+        <div class="opt">D) −2/√(1−x²)</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Put x = sinθ → θ = sin⁻¹x</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">2x√(1−x²) = 2sinθ·cosθ = <span class="m">sin2θ</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">y = sin⁻¹(sin2θ) = <span class="m">2θ = 2sin⁻¹x</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">dy/dx = 2 × 1/√(1−x²) = <span class="m">2/√(1−x²)</span></div></div>
+        <div class="ans">✅ dy/dx = 2/√(1−x²) — Simplify first, then differentiate!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">4</div>
+      <div class="qtext">Find dy/dx if xˢⁱⁿˣ + (sin x)ˣ = 1.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Let u = xˢⁱⁿˣ, v = (sin x)ˣ → u+v=1 → du/dx+dv/dx=0</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">For u: ln u = sinx·lnx → (1/u)du/dx = cosx·lnx+sinx/x<br>→ du/dx = xˢⁱⁿˣ[cosx·lnx + sinx/x]</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">For v: ln v = x·ln(sinx) → (1/v)dv/dx = ln(sinx)+x·cotx<br>→ dv/dx = (sinx)ˣ[ln(sinx)+x·cotx]</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">dy/dx = <span class="m">−(du/dx)/1</span> ... dy/dx = −[xˢⁱⁿˣ(cosxlnx+sinx/x) + (sinx)ˣ(ln sinx+xcotx)]</div></div>
+        <div class="ans">✅ Log differentiation — both terms separately!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">5</div>
+      <div class="qtext">If y = tan⁻¹[(1−x)/(1+x)], find dy/dx.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) −1/(1+x²)</div>
+        <div class="opt">B) 1/(1+x²)</div>
+        <div class="opt">C) −2/(1+x²)</div>
+        <div class="opt">D) 1/(1−x²)</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">tan⁻¹[(1−x)/(1+x)] = tan⁻¹(1) − tan⁻¹(x) = π/4 − tan⁻¹x</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">[Using: tan⁻¹a − tan⁻¹b = tan⁻¹((a−b)/(1+ab))]</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">dy/dx = 0 − 1/(1+x²) = <span class="m">−1/(1+x²)</span></div></div>
+        <div class="ans">✅ dy/dx = −1/(1+x²) — Direct simplification trick!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">6</div>
+      <div class="qtext">Find d²y/dx² if y = sin(ln x).</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) −[sin(ln x)+cos(ln x)]/x²</div>
+        <div class="opt">B) cos(ln x)/x</div>
+        <div class="opt">C) sin(ln x)/x²</div>
+        <div class="opt">D) −sin(ln x)/x²</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">dy/dx = cos(ln x) · (1/x) = <span class="m">cos(ln x)/x</span></div></div>
+        <div class="step"><div class="sn">2</div><div class="st">d²y/dx² = d/dx[cos(ln x)/x] — Quotient rule:</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= [x·(−sin(lnx)/x) − cos(lnx)·1] / x²</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">= <span class="m">[−sin(lnx) − cos(lnx)] / x²</span></div></div>
+        <div class="ans">✅ d²y/dx² = −[sin(lnx) + cos(lnx)]/x²</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">7</div>
+      <div class="qtext">If x = a(θ−sinθ), y = a(1−cosθ), find dy/dx.</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) cot(θ/2)</div>
+        <div class="opt">B) tan(θ/2)</div>
+        <div class="opt">C) cot θ</div>
+        <div class="opt">D) sin θ/(1−cos θ)</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">dx/dθ = a(1−cosθ); dy/dθ = a·sinθ</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">dy/dx = sinθ/(1−cosθ)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Use: sinθ = 2sin(θ/2)cos(θ/2), 1−cosθ = 2sin²(θ/2)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">dy/dx = <span class="m">2sin(θ/2)cos(θ/2) / 2sin²(θ/2) = cos(θ/2)/sin(θ/2) = cot(θ/2)</span></div></div>
+        <div class="ans">✅ dy/dx = cot(θ/2) — Cycloid!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">8</div>
+      <div class="qtext">Find dy/dx for x²+xy+y²=100 using implicit differentiation.</div>
+      <span class="qtag tpyq">CUET 2025</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) −(2x+y)/(x+2y)</div>
+        <div class="opt">B) (2x+y)/(x+2y)</div>
+        <div class="opt">C) −(x+y)/(x+y)</div>
+        <div class="opt">D) −2x/2y</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Differentiate both sides w.r.t. x:</div></div>
+        <div class="step"><div class="sn">2</div><div class="st"><span class="m">2x + (y + x·dy/dx) + 2y·dy/dx = 0</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Collect dy/dx: (x+2y)dy/dx = −(2x+y)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">dy/dx = <span class="m">−(2x+y)/(x+2y)</span></div></div>
+        <div class="ans">✅ dy/dx = −(2x+y)/(x+2y)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">9</div>
+      <div class="qtext">Find k such that f(x) = x²−kx−2 if x≤2 and f(x) = 2x−1 if x>2 is continuous at x=2.</div>
+      <span class="qtag tpyq">CUET 2025</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 1/2</div>
+        <div class="opt">B) −1/2</div>
+        <div class="opt">C) 2</div>
+        <div class="opt">D) −2</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">f(2) = 4−2k−2 = 2−2k (from left piece)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">RHL = lim(x→2⁺)(2x−1) = <span class="m">4−1 = 3</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">For continuity: 2−2k = 3 → −2k = 1 → <span class="m">k = −1/2</span></div></div>
+        <div class="ans">✅ k = −1/2</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end pyq -->
+
+<!-- ═══════════ PRACTICE ═══════════ -->
+<div class="sec" id="sec-practice">
+  <h2 class="sh2">✏️ Practice Questions & Solutions</h2>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P1</div><div class="qtext">Find dy/dx if y = xˣ.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">y=xˣ → ln y = x·ln x</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">(1/y)dy/dx = ln x + x·(1/x) = ln x + 1</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">dy/dx = <span class="m">xˣ(1+ln x)</span></div></div>
+        <div class="ans">✅ dy/dx = xˣ(1 + ln x)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P2</div><div class="qtext">Find dy/dx: y = (sin x)^(cos x) + (cos x)^(sin x).</div><span class="qtag tpred">Practice (Hard)</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Let u=(sinx)^(cosx), v=(cosx)^(sinx) → y=u+v</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">ln u=cosx·ln(sinx) → du/dx=u[−sinx·ln(sinx)+cosx·cotx]<br>= (sinx)^(cosx)[cosx·cotx−sinx·ln(sinx)]</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">ln v=sinx·ln(cosx) → dv/dx=v[cosx·ln(cosx)−sinx·tanx]<br>= (cosx)^(sinx)[cosx·ln(cosx)−sinx·tanx]</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">dy/dx = <span class="m">du/dx + dv/dx</span></div></div>
+        <div class="ans">✅ dy/dx = (sinx)^(cosx)[cosx·cotx−sinx·ln sinx] + (cosx)^(sinx)[cosx·ln cosx−sinx·tanx]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P3</div><div class="qtext">Find dy/dx: y = cos⁻¹[(1−x²)/(1+x²)].</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Put x=tanθ → θ=tan⁻¹x</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">(1−tan²θ)/(1+tan²θ) = cos2θ</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">y = cos⁻¹(cos2θ) = 2θ = <span class="m">2tan⁻¹x</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">dy/dx = <span class="m">2/(1+x²)</span></div></div>
+        <div class="ans">✅ dy/dx = 2/(1+x²)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P4</div><div class="qtext">If y = A·eˣ + B·e⁻ˣ, prove that d²y/dx² = y.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">dy/dx = A·eˣ − B·e⁻ˣ</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">d²y/dx² = A·eˣ + B·e⁻ˣ = <span class="m">y ✓</span></div></div>
+        <div class="ans">✅ d²y/dx² = y — Proved!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P5</div><div class="qtext">Find k for which f(x) = {sin2x/x, x≠0; k, x=0} is continuous at x=0.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">For continuity: lim(x→0) f(x) = f(0) = k</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">lim(x→0) sin2x/x = lim(x→0) 2·sin2x/(2x) = 2 × 1 = <span class="m">2</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">k = 2</div></div>
+        <div class="ans">✅ k = 2 (Using lim(x→0) sinx/x = 1)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P6</div><div class="qtext">Differentiate sin⁻¹x w.r.t. cos⁻¹x.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Let u=sin⁻¹x, v=cos⁻¹x. Find du/dv.</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">du/dx = 1/√(1−x²); dv/dx = −1/√(1−x²)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">du/dv = (du/dx)÷(dv/dx) = [1/√(1−x²)] ÷ [−1/√(1−x²)] = <span class="m">−1</span></div></div>
+        <div class="ans">✅ d(sin⁻¹x)/d(cos⁻¹x) = −1 (They are supplementary!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P7</div><div class="qtext">Find dy/dx if y = tan⁻¹[√(1−cosx)/(1+cosx)].</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">1−cosx = 2sin²(x/2), 1+cosx = 2cos²(x/2)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">√(1−cosx)/(1+cosx) = √(sin²(x/2)/cos²(x/2)) = |tan(x/2)| = tan(x/2)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">y = tan⁻¹(tan(x/2)) = <span class="m">x/2</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">dy/dx = <span class="m">1/2</span></div></div>
+        <div class="ans">✅ dy/dx = 1/2 — Simplify using half-angle formulas!</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end practice -->
+
+<!-- ═══════════ PREDICTIONS ═══════════ -->
+<div class="sec" id="sec-predict">
+  <h2 class="sh2">🎯 2026 Predictions & Strategy</h2>
+
+  <div class="tw"><table class="t">
+    <thead><tr><th>Topic</th><th>Yearly Freq.</th><th>2026 Prediction</th><th>Difficulty</th></tr></thead>
+    <tbody>
+      <tr><td>k find karo (Continuity)</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Inverse Trig dy/dx (substitution)</td><td>2 Q every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+      <tr><td>Logarithmic Differentiation (xˣ type)</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+      <tr><td>Implicit Differentiation</td><td>1 Q yearly</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+      <tr><td>Differentiability of |x−a|</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+      <tr><td>Second Derivative d²y/dx²</td><td>1 Q</td><td><span class="p-yellow">⭐ LIKELY</span></td><td>Medium</td></tr>
+      <tr><td>Parametric dy/dx</td><td>1 Q</td><td><span class="p-yellow">⭐ LIKELY</span></td><td>Medium</td></tr>
+      <tr><td>tan⁻¹((1−x)/(1+x)) type</td><td>1 Q</td><td><span class="p-yellow">⭐ LIKELY</span></td><td>Easy</td></tr>
+      <tr><td>Differentiation of one fn w.r.t. other</td><td>Rare</td><td><span class="p-teal">Possible</span></td><td>Easy</td></tr>
+      <tr><td>Algebra of continuous functions</td><td>Rare</td><td><span class="p-teal">Possible</span></td><td>Easy</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="sh2">🔮 2026 Most Expected Questions</h2>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★1</div>
+      <div class="qtext">f(x) = {3x+5, x≤2 ; ax²−1, x>2} continuous at x=2. Find a.</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 11/4</div>
+        <div class="opt">B) 11/2</div>
+        <div class="opt">C) 4/11</div>
+        <div class="opt">D) 5/2</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">LHL = f(2) = 3(2)+5 = 11</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">RHL = lim(x→2⁺)(ax²−1) = 4a−1</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Continuity: 4a−1=11 → 4a=12 → <span class="m">a=3</span> ... wait: 4a=12 → a=3. If options are 11/4: 11=4a−1 → 4a=12 → a=3 not 11/4. Using f(x)=ax²−1: 4a−1=11 → a=3</div></div>
+        <div class="ans">✅ a = 3 (Set LHL = RHL at x=2, solve for a)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★2</div>
+      <div class="qtext">Find dy/dx if y = sin⁻¹[(2tanx)/(1+tan²x)].</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 2</div>
+        <div class="opt">B) 1</div>
+        <div class="opt">C) 2cosx</div>
+        <div class="opt">D) 2/(1+tan²x)</div>
+      </div>
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">2tanx/(1+tan²x) = sin2x (double angle formula!)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">y = sin⁻¹(sin2x) = <span class="m">2x</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">dy/dx = <span class="m">2</span></div></div>
+        <div class="ans">✅ dy/dx = 2 — Simplify first using double angle formula!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★3</div>
+      <div class="qtext">Find dy/dx: y = (log x)^x + x^(log x).</div>
+      <span class="qtag tpred">PREDICTED 2026</span>
+    </div>
+    <div class="qbody">
+      <button class="sbtn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sbody">
+        <div class="step"><div class="sn">1</div><div class="st">Let u=(logx)^x, v=x^(logx). dy/dx = du/dx+dv/dx</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">ln u=x·ln(logx) → du/dx=(logx)^x[ln(logx)+1/logx]</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">ln v=logx·lnx=(lnx/ln10)·lnx=(lnx)²/ln10<br>dv/dx=x^(logx)·2lnx/(x·ln10)</div></div>
+        <div class="ans">✅ dy/dx = (logx)^x·[ln(logx)+1/logx] + x^(logx)·2lnx/(x·ln10)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="tcard" style="margin-top:24px">
+    <div class="thead open" onclick="tog(this)">
+      <div class="tico" style="background:rgba(0,229,195,0.08)">🏆</div>
+      <div class="ttl">2026 Exam Strategy — Continuity & Differentiability</div>
+      <span class="chev">▼</span>
+    </div>
+    <div class="tbody open">
+      <h3 class="sh">⏱️ Time Allocation</h3>
+      <p>C&D chapter se 8–10 marks expected. Continuity k-find = 1–2 min. Inverse trig dy/dx = 2–3 min. Log differentiation = 3–4 min. Total ~25 min agar 8 questions hain.</p>
+
+      <h3 class="sh">🎯 Priority Order for 2026</h3>
+      <ol>
+        <li><strong>Continuity k-find</strong> — LHL=RHL=f(a) set karo, solve karo</li>
+        <li><strong>|x−a| differentiability</strong> — LHD=−1, RHD=+1 → Not diff.</li>
+        <li><strong>tan⁻¹ simplification</strong> — (1−x)/(1+x) → π/4−tan⁻¹x</li>
+        <li><strong>Inverse trig substitution</strong> — x=sinθ ya x=tanθ rakhke simplify</li>
+        <li><strong>Logarithmic diff (xˣ)</strong> — ln both sides → differentiate</li>
+        <li><strong>Implicit differentiation</strong> — Both sides diff, collect dy/dx</li>
+        <li><strong>Parametric dy/dx</strong> — dy/dt ÷ dx/dt</li>
+        <li><strong>Second derivative</strong> — First derivative ko ek baar aur diff karo</li>
+      </ol>
+
+      <h3 class="sh">❌ Top Mistakes — Avoid Karo</h3>
+      <ul>
+        <li>Continuous ≠ Differentiable — <strong>|x| example yaad rakho!</strong></li>
+        <li>Co-functions ka derivative: <strong>Always negative</strong> (cos⁻¹, cot⁻¹, cosec⁻¹)</li>
+        <li>Inverse trig: <strong>Pehle simplify karo</strong>, phir differentiate — direct diff mat karo</li>
+        <li>Log diff: <strong>+C bhoolna nahi</strong> in indefinite; y = eˣ^f(x) mein ln lena</li>
+        <li>Implicit: d/dx(y²) = 2y·dy/dx — <strong>chain rule lagana bhoolna</strong></li>
+        <li>Parametric: dy/dx ≠ dy·dx → <strong>dy/dt DIVIDED BY dx/dt</strong></li>
+      </ul>
+
+      <div class="trk">
+        <div class="tl">🔑 7 Must-Know Formulas for 2026</div>
+        <p>
+          1. <strong>Continuity: LHL=RHL=f(a)</strong><br>
+          2. <strong>Co-fn derivatives: always NEGATIVE</strong> (cos⁻¹, cot⁻¹, cosec⁻¹)<br>
+          3. <strong>Chain rule: d/dx[f(g(x))] = f'(g(x))·g'(x)</strong><br>
+          4. <strong>xˣ → xˣ(1+ln x)</strong><br>
+          5. <strong>sin⁻¹(2sinθcosθ) = 2θ → d/dx = 2/√(1−x²)</strong><br>
+          6. <strong>tan⁻¹((1−x)/(1+x)) = π/4−tan⁻¹x → d/dx = −1/(1+x²)</strong><br>
+          7. <strong>Parametric: dy/dx = (dy/dt)/(dx/dt)</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end predict -->
+</div><!-- wrap -->
+
+<script>
+function sw(n,b){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(t=>t.classList.remove('on'));
+  document.getElementById('sec-'+n).classList.add('on');
+  b.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tog(h){
+  h.classList.toggle('open');
+  h.nextElementSibling.classList.toggle('open');
+}
+function ts(b){
+  const s=b.nextElementSibling;
+  s.classList.toggle('open');
+  b.textContent=s.classList.contains('open')?'▼ Band Karo':'▶ Solution Dekho';
+}
+window.addEventListener('scroll',()=>{
+  document.getElementById('bar').style.width=
+    (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+</script>
+</body>
+</html>

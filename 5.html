@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integration & Application of Integrals – CUET 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0a06;
+  --surf: #14110a;
+  --card: #1a1610;
+  --border: #2a2418;
+  --gold: #e8a020;
+  --gold2: #f5c842;
+  --red: #e05252;
+  --green: #52c97a;
+  --blue: #52a8e0;
+  --purple: #b47aff;
+  --text: #e8dcc8;
+  --muted: #7a6e5a;
+  --dim: #4a4030;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:16px;
+  line-height:1.7;
+  min-height:100vh;
+}
+
+/* SCROLL */
+#prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--red));z-index:999;width:0%}
+
+/* ── HERO ── */
+.hero{
+  min-height:280px;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(232,160,32,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(224,82,82,0.08) 0%, transparent 60%),
+    #0c0a06;
+  border-bottom:1px solid var(--border);
+  padding:56px 24px 48px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(232,160,32,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,160,32,0.04) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.chapters-badges{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;position:relative;z-index:2}
+.ch-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:5px 16px;border-radius:4px;border:1px solid;
+}
+.ch1{color:var(--gold);border-color:rgba(232,160,32,0.4);background:rgba(232,160,32,0.08)}
+.ch2{color:var(--red);border-color:rgba(224,82,82,0.4);background:rgba(224,82,82,0.07)}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(34px,7vw,64px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.1;
+  position:relative;z-index:2;
+  letter-spacing:-1px;
+}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{
+  margin-top:12px;color:var(--muted);
+  font-size:14px;letter-spacing:1px;
+  position:relative;z-index:2;
+}
+.stats-row{
+  display:flex;justify-content:center;gap:20px;
+  margin-top:28px;flex-wrap:wrap;
+  position:relative;z-index:2;
+}
+.stat{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:8px;padding:10px 20px;
+  font-size:13px;
+}
+.stat strong{display:block;font-size:22px;color:var(--gold);font-weight:700}
+.stat span{color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase}
+
+/* ── TABS ── */
+.tabs-bar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(12,10,6,0.97);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+  overflow-x:auto;scrollbar-width:none;
+}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:2px;min-width:max-content;padding:8px 0}
+.tb{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;font-size:13px;
+  padding:8px 20px;border-radius:6px;
+  border:none;background:transparent;
+  color:var(--muted);cursor:pointer;
+  white-space:nowrap;transition:all .2s;
+}
+.tb:hover,.tb.on{background:rgba(232,160,32,0.1);color:var(--gold)}
+
+/* ── LAYOUT ── */
+.wrap{max-width:920px;margin:0 auto;padding:32px 16px 100px}
+.sec{display:none}.sec.on{display:block}
+
+/* ── CHAPTER DIVIDER ── */
+.ch-divider{
+  display:flex;align-items:center;gap:16px;
+  margin:32px 0 20px;
+}
+.ch-divider .ch-label{
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:700;
+  color:#fff;white-space:nowrap;
+}
+.ch-divider .ch-line{flex:1;height:1px;background:var(--border)}
+.ch-divider .ch-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 12px;border-radius:4px;white-space:nowrap;
+}
+
+/* ── TOPIC CARD ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.card-head{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;
+  cursor:pointer;user-select:none;
+  transition:background .2s;
+}
+.card-head:hover{background:rgba(255,255,255,0.02)}
+.card-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.card-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:17px;color:#fff;flex:1;
+}
+.badge{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;padding:3px 9px;border-radius:4px;
+}
+.b-hot{color:var(--red);background:rgba(224,82,82,0.12);border:1px solid rgba(224,82,82,0.3)}
+.b-imp{color:var(--gold);background:rgba(232,160,32,0.1);border:1px solid rgba(232,160,32,0.3)}
+.b-mod{color:var(--blue);background:rgba(82,168,224,0.1);border:1px solid rgba(82,168,224,0.25)}
+.b-easy{color:var(--green);background:rgba(82,201,122,0.08);border:1px solid rgba(82,201,122,0.25)}
+.chev{color:var(--dim);font-size:13px;transition:transform .3s;flex-shrink:0}
+.card-head.open .chev{transform:rotate(180deg)}
+.card-body{padding:20px;display:none;border-top:1px solid var(--border)}
+.card-body.open{display:block}
+
+/* ── FORMULA BOX ── */
+.fbox{
+  background:#0a0806;
+  border:1px solid rgba(232,160,32,0.2);
+  border-left:3px solid var(--gold);
+  border-radius:8px;padding:14px 16px;
+  margin:12px 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;color:#d4a84b;
+  line-height:2;
+}
+.fbox .flabel{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px;
+}
+.fbox .fdim{color:var(--muted);font-size:12px}
+
+/* ── TRICK / NOTE / WARN ── */
+.tbox{background:rgba(180,122,255,0.06);border:1px solid rgba(180,122,255,0.2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.tbox .ttitle{font-weight:700;font-size:12px;color:var(--purple);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.tbox p{font-size:15px;color:#c4a8f0}
+.nbox{background:rgba(82,201,122,0.05);border:1px solid rgba(82,201,122,0.2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.nbox .ntitle{font-weight:700;font-size:12px;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.nbox p,.nbox li{font-size:15px;color:#8fd4a8}
+.wbox{background:rgba(224,82,82,0.05);border:1px solid rgba(224,82,82,0.2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.wbox .wtitle{font-weight:700;font-size:12px;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.wbox p{font-size:15px;color:#f0a0a0}
+
+/* ── TYPOGRAPHY ── */
+h3.sh{font-size:16px;font-weight:700;color:var(--gold);margin:16px 0 8px}
+p{margin-bottom:10px;color:#9a8e7a;font-size:15px}
+ul,ol{padding-left:20px;margin-bottom:10px}
+li{margin-bottom:5px;color:#9a8e7a;font-size:15px}
+li strong{color:#e8dcc8}
+em.h{color:var(--green);font-style:normal}
+
+/* ── INTEGRAL TABLE ── */
+.int-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+.int-table thead tr{background:rgba(232,160,32,0.08)}
+.int-table th{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--gold);padding:10px 14px;
+  text-align:left;border-bottom:1px solid var(--border);
+  font-weight:600;letter-spacing:1px;text-transform:uppercase;
+}
+.int-table td{
+  padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.03);
+  vertical-align:top;
+}
+.int-table td:first-child{
+  font-family:'IBM Plex Mono',monospace;
+  color:#d4a84b;font-size:13px;
+}
+.int-table td:last-child{color:#8a7e6a;font-size:13px}
+.int-table tr:hover td{background:rgba(255,255,255,0.02)}
+
+/* ── Q CARD ── */
+.qcard{
+  background:var(--surf);
+  border:1px solid var(--border);
+  border-radius:10px;margin-bottom:16px;overflow:hidden;
+}
+.qhead{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:13px 16px;
+  background:rgba(255,255,255,0.02);
+  border-bottom:1px solid var(--border);
+}
+.qnum{
+  width:32px;height:32px;border-radius:7px;flex-shrink:0;
+  background:rgba(232,160,32,0.1);
+  border:1px solid rgba(232,160,32,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;
+  font-size:13px;color:var(--gold);
+}
+.qtext{font-weight:600;font-size:15px;color:#e8dcc8;flex:1;line-height:1.4}
+.qtag{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  padding:3px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;
+}
+.tpyq{color:var(--red);background:rgba(224,82,82,0.1);border:1px solid rgba(224,82,82,0.3)}
+.tpred{color:var(--blue);background:rgba(82,168,224,0.08);border:1px solid rgba(82,168,224,0.25)}
+.qbody{padding:14px 16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+@media(max-width:500px){.opts{grid-template-columns:1fr}}
+.opt{
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--border);
+  border-radius:7px;padding:8px 13px;
+  font-size:14px;color:var(--muted);
+}
+.opt.ok{
+  background:rgba(82,201,122,0.07);
+  border-color:rgba(82,201,122,0.3);
+  color:var(--green);font-weight:600;
+}
+.sol-btn{
+  background:rgba(232,160,32,0.07);
+  border:1px solid rgba(232,160,32,0.2);
+  border-radius:7px;padding:8px 15px;
+  color:var(--gold);font-family:'Space Grotesk',sans-serif;
+  font-weight:600;font-size:12px;letter-spacing:1px;
+  cursor:pointer;width:100%;text-align:left;
+  margin-top:8px;transition:all .2s;
+}
+.sol-btn:hover{background:rgba(232,160,32,0.13)}
+.sol-body{
+  display:none;
+  background:rgba(10,8,6,0.7);
+  border:1px solid rgba(232,160,32,0.12);
+  border-radius:8px;padding:14px;margin-top:8px;
+}
+.sol-body.open{display:block}
+.step{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.sn{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:rgba(232,160,32,0.1);color:var(--gold);
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;
+  display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+.st{font-size:14px;color:#7a6e5a}
+.st .m{
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+  color:#d4a84b;background:rgba(232,160,32,0.07);
+  padding:2px 6px;border-radius:4px;display:inline;
+}
+.ans{
+  background:rgba(82,201,122,0.07);
+  border:1px solid rgba(82,201,122,0.25);
+  border-radius:7px;padding:9px 13px;margin-top:8px;
+  font-weight:700;font-size:14px;color:var(--green);
+}
+
+/* ── FORMULA GRID ── */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+@media(max-width:600px){.fg{grid-template-columns:1fr}}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px}
+.fc h4{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;
+  color:var(--gold);letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border);
+}
+.fi{display:flex;align-items:baseline;gap:8px;margin-bottom:7px}
+.fil{color:var(--muted);font-size:12px;min-width:80px;flex-shrink:0}
+.fiv{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#d4a84b}
+
+/* ── TABLE ── */
+.tw{overflow-x:auto;margin-bottom:18px}
+table.main{width:100%;border-collapse:collapse}
+table.main thead tr{background:rgba(232,160,32,0.07)}
+table.main th{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--gold);padding:11px 13px;
+  text-align:left;border-bottom:1px solid var(--border);
+  font-weight:600;letter-spacing:1px;text-transform:uppercase;
+}
+table.main td{padding:9px 13px;font-size:13px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.03)}
+table.main tr:hover td{background:rgba(255,255,255,0.02);color:var(--text)}
+.p-red{color:var(--red);background:rgba(224,82,82,0.1);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-gold{color:var(--gold);background:rgba(232,160,32,0.1);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-green{color:var(--green);background:rgba(82,201,122,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.p-blue{color:var(--blue);background:rgba(82,168,224,0.08);padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+
+/* RULES */
+.rl{list-style:none;padding:0}
+.rl li{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+  font-size:14px;color:#7a6e5a;
+}
+.rl li::before{content:'∫';color:var(--gold);font-weight:700;flex-shrink:0;margin-top:2px}
+
+/* PYQ STRIP */
+.ps{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--red);background:rgba(224,82,82,0.07);
+  border:1px solid rgba(224,82,82,0.2);
+  padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:8px;
+}
+
+/* MNEMONIC */
+.mnemo{
+  background:linear-gradient(135deg,rgba(232,160,32,0.07),rgba(180,122,255,0.05));
+  border:1px solid rgba(232,160,32,0.18);
+  border-radius:10px;padding:16px;margin:14px 0;text-align:center;
+}
+.mnemo .word{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold2);letter-spacing:3px}
+.mnemo .sub{font-size:13px;color:var(--muted);margin-top:6px}
+.mnemo .sub em{color:var(--green);font-style:normal}
+
+/* H2 */
+h2.sh2{
+  font-family:'Playfair Display',serif;font-size:24px;font-weight:700;
+  color:#fff;margin-bottom:18px;
+  display:flex;align-items:center;gap:12px;
+}
+h2.sh2::after{content:'';flex:1;height:1px;background:var(--border)}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="chapters-badges">
+    <span class="ch-badge ch1">Chapter 7 · Integrals</span>
+    <span class="ch-badge ch2">Chapter 8 · Application of Integrals</span>
+  </div>
+  <h1>Integration &<br><em>Application of Integrals</em></h1>
+  <div class="hero-sub">CUET 2026 · Complete Notes + PYQ + Practice + 2026 Predictions</div>
+  <div class="stats-row">
+    <div class="stat"><strong>8–10</strong><span>Marks Weightage</span></div>
+    <div class="stat"><strong>2 Chapters</strong><span>Combined</span></div>
+    <div class="stat"><strong>50+</strong><span>Questions</span></div>
+    <div class="stat"><strong>⭐⭐⭐</strong><span>Priority: HIGH</span></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <div class="tabs">
+    <button class="tb on" onclick="st('notes',this)">📒 Notes</button>
+    <button class="tb" onclick="st('formula',this)">📐 Formula Sheet</button>
+    <button class="tb" onclick="st('pyq',this)">🔥 PYQ</button>
+    <button class="tb" onclick="st('practice',this)">✏️ Practice</button>
+    <button class="tb" onclick="st('predict',this)">🎯 2026 Predictions</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════════════════════
+     NOTES
+════════════════════════════════ -->
+<div class="sec on" id="sec-notes">
+
+  <!-- ── CHAPTER 7: INTEGRALS ── -->
+  <div class="ch-divider">
+    <div class="ch-label">📘 Chapter 7 — Integrals</div>
+    <div class="ch-line"></div>
+    <div class="ch-tag ch1">Integration Techniques</div>
+  </div>
+
+  <!-- T1: Basics -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(232,160,32,0.1)">∫</div>
+      <div class="card-title">Topic 1 — Integration Basics & Standard Integrals</div>
+      <span class="badge b-hot">MOST IMP</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <p>Integration, differentiation ka reverse process hai. Agar d/dx[F(x)] = f(x), to ∫f(x)dx = F(x) + C.</p>
+      <div class="fbox">
+        <div class="flabel">Fundamental Theorem</div>
+        ∫f(x)dx = F(x) + C  where  d/dx[F(x)] = f(x)<br>
+        C = Constant of Integration (kabhi mat bhulo!)
+      </div>
+
+      <h3 class="sh">📋 Standard Integrals Table — RATTO LO!</h3>
+      <table class="int-table">
+        <thead><tr><th>∫ f(x) dx</th><th>= Result + C</th><th>Trick / Note</th></tr></thead>
+        <tbody>
+          <tr><td>∫ xⁿ dx</td><td>xⁿ⁺¹/(n+1) + C</td><td>n ≠ −1</td></tr>
+          <tr><td>∫ 1/x dx</td><td>ln|x| + C</td><td>n = −1 case</td></tr>
+          <tr><td>∫ eˣ dx</td><td>eˣ + C</td><td>eˣ ka integral eˣ hi!</td></tr>
+          <tr><td>∫ aˣ dx</td><td>aˣ/ln(a) + C</td><td>a > 0, a ≠ 1</td></tr>
+          <tr><td>∫ sin x dx</td><td>−cos x + C</td><td>Negative aata hai!</td></tr>
+          <tr><td>∫ cos x dx</td><td>sin x + C</td><td>Positive</td></tr>
+          <tr><td>∫ sec²x dx</td><td>tan x + C</td><td>sec²x = derivative of tan</td></tr>
+          <tr><td>∫ cosec²x dx</td><td>−cot x + C</td><td>Negative!</td></tr>
+          <tr><td>∫ sec x tan x dx</td><td>sec x + C</td><td>derivative of sec x</td></tr>
+          <tr><td>∫ cosec x cot x dx</td><td>−cosec x + C</td><td>Negative!</td></tr>
+          <tr><td>∫ 1/√(1−x²) dx</td><td>sin⁻¹x + C</td><td>Or −cos⁻¹x + C</td></tr>
+          <tr><td>∫ −1/√(1−x²) dx</td><td>cos⁻¹x + C</td><td></td></tr>
+          <tr><td>∫ 1/(1+x²) dx</td><td>tan⁻¹x + C</td><td>Or −cot⁻¹x + C</td></tr>
+          <tr><td>∫ 1/(x√(x²−1)) dx</td><td>sec⁻¹x + C</td><td>Rare but possible</td></tr>
+          <tr><td>∫ √x dx</td><td>(2/3)x^(3/2) + C</td><td>x^(1/2) → power rule</td></tr>
+          <tr><td>∫ 1/√x dx</td><td>2√x + C</td><td>x^(-1/2) case</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tbox">
+        <div class="ttitle">⚡ Sin/Cos Trick — Negative Signs</div>
+        <p>∫sin = <strong>−cos</strong> (negative) | ∫cos = <strong>+sin</strong> (positive)<br>
+        ∫cosec² = <strong>−cot</strong> (negative) | ∫sec² = <strong>+tan</strong> (positive)<br>
+        Yaad karo: <em>Sin aur cosec² ke integrals mein negative sign aata hai!</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T2: Substitution -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(82,168,224,0.1)">🔄</div>
+      <div class="card-title">Topic 2 — Integration by Substitution</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="fbox">
+        <div class="flabel">Method</div>
+        Put u = g(x)  →  du = g'(x)dx<br>
+        ∫f(g(x))·g'(x)dx = ∫f(u)du = F(u) + C = F(g(x)) + C
+      </div>
+
+      <h3 class="sh">Key Substitution Forms</h3>
+      <table class="int-table">
+        <thead><tr><th>Integral Form</th><th>Substitution</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>∫f(ax+b)dx</td><td>u = ax+b</td><td>(1/a)·F(ax+b) + C</td></tr>
+          <tr><td>∫[f(x)]ⁿ·f'(x)dx</td><td>u = f(x)</td><td>[f(x)]ⁿ⁺¹/(n+1) + C</td></tr>
+          <tr><td>∫f'(x)/f(x)dx</td><td>u = f(x)</td><td>ln|f(x)| + C</td></tr>
+          <tr><td>∫sin(ax+b)dx</td><td>u = ax+b</td><td>−(1/a)cos(ax+b)+C</td></tr>
+          <tr><td>∫eᵃˣ dx</td><td>u = ax</td><td>(1/a)eᵃˣ + C</td></tr>
+          <tr><td>∫tan x dx</td><td>u = cos x</td><td>−ln|cos x| + C = ln|sec x| + C</td></tr>
+          <tr><td>∫cot x dx</td><td>u = sin x</td><td>ln|sin x| + C</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tbox">
+        <div class="ttitle">⚡ Substitution Identify Karne ka Trick</div>
+        <p>Agar numerator ≈ denominator ka derivative ho → <strong>ln form</strong><br>
+        Agar [f(x)]ⁿ ke saath f'(x) ho → <strong>power form</strong><br>
+        Agar composite function ho → <strong>substitution</strong></p>
+      </div>
+
+      <h3 class="sh">Trigonometric Substitutions</h3>
+      <div class="fbox">
+        <div class="flabel">When to use which substitution</div>
+        √(a²−x²) → x = a sinθ<br>
+        √(a²+x²) → x = a tanθ<br>
+        √(x²−a²) → x = a secθ
+      </div>
+    </div>
+  </div>
+
+  <!-- T3: Parts -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(180,122,255,0.1)">✖️</div>
+      <div class="card-title">Topic 3 — Integration by Parts</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="fbox">
+        <div class="flabel">Integration by Parts Formula</div>
+        ∫u·v dx = u·∫v dx − ∫[(du/dx)·∫v dx] dx<br><br>
+        Short form:  ∫u dv = u·v − ∫v du
+      </div>
+
+      <div class="mnemo">
+        <div class="word">ILATE Rule</div>
+        <div class="sub">
+          <em>I</em>nverse trig · <em>L</em>ogarithm · <em>A</em>lgebraic · <em>T</em>rig · <em>E</em>xponential<br>
+          Jo pehle aaye wo <em>u</em> (first function), baaki <em>v</em> (second function)
+        </div>
+      </div>
+
+      <h3 class="sh">ILATE Examples</h3>
+      <table class="int-table">
+        <thead><tr><th>Integral</th><th>u (ILATE)</th><th>v</th></tr></thead>
+        <tbody>
+          <tr><td>∫x·eˣ dx</td><td>x (Algebraic)</td><td>eˣ (Exp)</td></tr>
+          <tr><td>∫x·sin x dx</td><td>x (Algebraic)</td><td>sin x (Trig)</td></tr>
+          <tr><td>∫ln x dx</td><td>ln x (Log)</td><td>1 (Algebraic)</td></tr>
+          <tr><td>∫x²·ln x dx</td><td>ln x (Log)</td><td>x² (Algebraic)</td></tr>
+          <tr><td>∫eˣ·sin x dx</td><td>sin x (Trig)</td><td>eˣ (Exp)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="fbox">
+        <div class="flabel">Special: ∫eˣ[f(x) + f'(x)]dx</div>
+        ∫eˣ[f(x) + f'(x)]dx = eˣ·f(x) + C<br><br>
+        <div class="fdim">Ye formula direct apply karo — Parts nahi lagega!</div>
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">⚡ eˣ[f(x)+f'(x)] Trick</div>
+        <p>Agar eˣ ke saath koi function aur uska derivative dono ho → Direct answer = eˣ·f(x)+C. Example: ∫eˣ(sin x + cos x)dx = eˣ sin x + C (kyunki (sin x)' = cos x)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T4: Partial Fractions -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(82,201,122,0.08)">÷</div>
+      <div class="card-title">Topic 4 — Integration by Partial Fractions</div>
+      <span class="badge b-imp">IMPORTANT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Rational function P(x)/Q(x) ko simple fractions mein todke integrate karo.</p>
+
+      <h3 class="sh">Types of Partial Fractions</h3>
+      <table class="int-table">
+        <thead><tr><th>Denominator Form</th><th>Partial Fraction Form</th></tr></thead>
+        <tbody>
+          <tr><td>(x−a)(x−b)</td><td>A/(x−a) + B/(x−b)</td></tr>
+          <tr><td>(x−a)²</td><td>A/(x−a) + B/(x−a)²</td></tr>
+          <tr><td>(x−a)(x²+bx+c)</td><td>A/(x−a) + (Bx+C)/(x²+bx+c)</td></tr>
+          <tr><td>(x−a)²(x−b)</td><td>A/(x−a)+B/(x−a)²+C/(x−b)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="fbox">
+        <div class="flabel">Key Integrals after Partial Fractions</div>
+        ∫1/(x−a) dx = ln|x−a| + C<br>
+        ∫1/(x−a)² dx = −1/(x−a) + C<br>
+        ∫1/(x²+a²) dx = (1/a)tan⁻¹(x/a) + C<br>
+        ∫1/(x²−a²) dx = (1/2a)ln|(x−a)/(x+a)| + C<br>
+        ∫1/(a²−x²) dx = (1/2a)ln|(a+x)/(a−x)| + C
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">⚡ Shortcut for Constants A,B</div>
+        <p>A aur B find karne ke liye: Denominator = 0 karo (x ka value nikalo), phir equation mein substitute karo. Example: A/(x−1)+B/(x+2): put x=1 → A milega; put x=−2 → B milega!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T5: Definite Integrals -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(232,160,32,0.1)">📏</div>
+      <div class="card-title">Topic 5 — Definite Integrals & Properties</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="fbox">
+        <div class="flabel">Definite Integral</div>
+        ∫ₐᵇ f(x)dx = F(b) − F(a)  where F'(x) = f(x)<br><br>
+        <div class="fdim">= [F(x)]ₐᵇ = F(b) − F(a)  (Newton-Leibniz Rule)</div>
+      </div>
+
+      <h3 class="sh">Properties of Definite Integrals (CUET mein Direct Poochhe Jaate Hain!)</h3>
+      <div class="fbox">
+        <div class="flabel">Property 1 — Limits interchange</div>
+        ∫ₐᵇ f(x)dx = −∫ᵦₐ f(x)dx<br><br>
+        <div class="flabel">Property 2 — Split limits</div>
+        ∫ₐᵇ f(x)dx = ∫ₐᶜ f(x)dx + ∫ᶜᵇ f(x)dx  (a &lt; c &lt; b)<br><br>
+        <div class="flabel">Property 3 — Substitution x → a+b−x</div>
+        ∫ₐᵇ f(x)dx = ∫ₐᵇ f(a+b−x)dx<br><br>
+        <div class="flabel">Property 4 — Substitution x → a−x</div>
+        ∫₀ᵃ f(x)dx = ∫₀ᵃ f(a−x)dx<br><br>
+        <div class="flabel">Property 5 — Even/Odd Functions (Symmetric limits)</div>
+        f(x) even [f(−x)=f(x)]: ∫₋ₐᵃ f(x)dx = 2∫₀ᵃ f(x)dx<br>
+        f(x) odd  [f(−x)=−f(x)]: ∫₋ₐᵃ f(x)dx = 0<br><br>
+        <div class="flabel">Property 6 — 2a limit</div>
+        ∫₀²ᵃ f(x)dx = 2∫₀ᵃ f(x)dx  if f(2a−x) = f(x)<br>
+        ∫₀²ᵃ f(x)dx = 0              if f(2a−x) = −f(x)
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">⚡ Property 5 Shortcut (Most Used in CUET!)</div>
+        <p>Symmetric limits (−a to a) → Check f(−x):<br>
+        Even function → multiply by 2, single side se integrate karo<br>
+        Odd function → Answer = 0 directly! No calculation needed! 🔥</p>
+      </div>
+
+      <div class="nbox">
+        <div class="ntitle">📌 Property 3 & 4 Use Cases</div>
+        <ul>
+          <li>∫₀^(π/2) sin x / (sin x + cos x) dx → Property 4 (replace x with π/2−x)</li>
+          <li>∫₀^π x·sin x dx → Property 3 (replace x with π−x)</li>
+          <li>Ye properties direct answer deti hain — calculation bachao!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- T6: Special Integrals -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(224,82,82,0.1)">⭐</div>
+      <div class="card-title">Topic 6 — Special/Standard Integrals (Must Know)</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="fbox">
+        <div class="flabel">Inverse Trig Type Integrals</div>
+        ∫ dx/(x²+a²) = (1/a)tan⁻¹(x/a) + C<br>
+        ∫ dx/√(a²−x²) = sin⁻¹(x/a) + C<br>
+        ∫ dx/√(x²+a²) = ln|x+√(x²+a²)| + C<br>
+        ∫ dx/√(x²−a²) = ln|x+√(x²−a²)| + C<br>
+        ∫ dx/(x²−a²) = (1/2a)ln|(x−a)/(x+a)| + C<br>
+        ∫ dx/(a²−x²) = (1/2a)ln|(a+x)/(a−x)| + C
+      </div>
+      <div class="fbox">
+        <div class="flabel">√ Type Integrals</div>
+        ∫√(a²−x²) dx = (x/2)√(a²−x²) + (a²/2)sin⁻¹(x/a) + C<br>
+        ∫√(x²+a²) dx = (x/2)√(x²+a²) + (a²/2)ln|x+√(x²+a²)| + C<br>
+        ∫√(x²−a²) dx = (x/2)√(x²−a²) − (a²/2)ln|x+√(x²−a²)| + C
+      </div>
+      <div class="fbox">
+        <div class="flabel">Trig Definite Integrals (Walli's Formula)</div>
+        ∫₀^(π/2) sinⁿx dx = ∫₀^(π/2) cosⁿx dx<br><br>
+        n even: = [(n−1)(n−3)...1]/[n(n−2)...2] × π/2<br>
+        n odd:  = [(n−1)(n−3)...2]/[n(n−2)...1]<br><br>
+        Example: ∫₀^(π/2) sin²x dx = (1/2)×π/2 = π/4<br>
+        Example: ∫₀^(π/2) sin⁴x dx = (3/4)(1/2)(π/2) = 3π/16
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHAPTER 8: APPLICATION ── -->
+  <div class="ch-divider" style="margin-top:40px">
+    <div class="ch-label">📗 Chapter 8 — Application of Integrals</div>
+    <div class="ch-line"></div>
+    <div class="ch-tag ch2">Area Under Curves</div>
+  </div>
+
+  <!-- T7: Area under curve -->
+  <div class="card">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(82,201,122,0.08)">📊</div>
+      <div class="card-title">Topic 7 — Area Under a Curve</div>
+      <span class="badge b-hot">MOST IMP</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <p>Curve y=f(x) aur x-axis ke beech ka area — ye Application of Integrals ka main topic hai.</p>
+
+      <div class="fbox">
+        <div class="flabel">Area — Basic Formulas</div>
+        Area between curve y=f(x) and x-axis, from x=a to x=b:<br>
+        A = ∫ₐᵇ |f(x)| dx = ∫ₐᵇ y dx<br><br>
+        Area between curve x=g(y) and y-axis, from y=c to y=d:<br>
+        A = ∫ᶜᵈ |g(y)| dy = ∫ᶜᵈ x dy<br><br>
+        <div class="fdim">⚠️ Absolute value! If curve below x-axis, take |area|</div>
+      </div>
+
+      <h3 class="sh">Area Between Two Curves</h3>
+      <div class="fbox">
+        <div class="flabel">Upper curve − Lower curve</div>
+        A = ∫ₐᵇ [f(x) − g(x)] dx<br>
+        where f(x) ≥ g(x) in [a,b]<br><br>
+        <div class="fdim">Step 1: Find intersection points (limits a,b)<br>
+        Step 2: Identify upper curve f(x) and lower curve g(x)<br>
+        Step 3: Integrate [upper − lower] from a to b</div>
+      </div>
+
+      <div class="tbox">
+        <div class="ttitle">⚡ Step-by-Step Area Method</div>
+        <p>
+          1. Dono curves ka intersection point nikalo (=limits a, b)<br>
+          2. Sketch banao (optional but helpful)<br>
+          3. Upper curve − Lower curve likho<br>
+          4. Integrate karo limits ke beech<br>
+          5. Answer positive aana chahiye — agar negative ho to |...| lo
+        </p>
+      </div>
+
+      <h3 class="sh">Standard Areas — Direct Formulas (CUET Favourite!)</h3>
+      <div class="fbox">
+        <div class="flabel">Areas You Must Know</div>
+        Circle x²+y²=r²: Area = πr²<br>
+        Ellipse x²/a²+y²/b²=1: Area = πab<br>
+        Parabola y²=4ax, from 0 to h: A = (4a/3)(h/4a)^(3/2) × ... → use integration<br><br>
+        <div class="fdim">📌 Quarter circle area = πr²/4</div><br>
+        Area of parabola y=x² and line y=x: A = ∫₀¹(x−x²)dx = 1/2−1/3 = 1/6<br>
+        Area of parabola y²=4x and line x=3: A = 2∫₀³ √(4x)dx = 2·2∫₀³ √x dx = 4·[2/3·x^(3/2)]₀³ = 8√3
+      </div>
+    </div>
+  </div>
+
+  <!-- T8: Common Area Problems -->
+  <div class="card">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(232,160,32,0.1)">🎯</div>
+      <div class="card-title">Topic 8 — Standard Area Problems (CUET Types)</div>
+      <span class="badge b-hot">HOT</span>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body">
+      <h3 class="sh">Type 1: Parabola and Line</h3>
+      <div class="fbox">
+        <div class="flabel">y² = 4ax aur x = h</div>
+        A = 2∫₀ʰ √(4ax) dx = 2·2√a·∫₀ʰ √x dx<br>
+           = 4√a · [2x^(3/2)/3]₀ʰ = (8/3)√a · h^(3/2)<br><br>
+        <div class="flabel">y = x² aur y = x (unit parabola)</div>
+        Intersection: x²=x → x=0,1<br>
+        A = ∫₀¹(x−x²)dx = [x²/2−x³/3]₀¹ = 1/2−1/3 = 1/6
+      </div>
+
+      <h3 class="sh">Type 2: Circle and Line/Parabola</h3>
+      <div class="fbox">
+        <div class="flabel">Circle x²+y²=r² — Quarter Area</div>
+        Area of quarter circle = ∫₀ʳ √(r²−x²) dx<br>
+        = [x/2·√(r²−x²) + r²/2·sin⁻¹(x/r)]₀ʳ<br>
+        = 0 + r²/2·sin⁻¹(1) − 0 = r²/2·π/2 = πr²/4 ✓<br><br>
+        <div class="flabel">Ellipse x²/a²+y²/b²=1 — Full Area</div>
+        A = 4∫₀ᵃ (b/a)√(a²−x²)dx = 4·(b/a)·πa²/4 = πab
+      </div>
+
+      <h3 class="sh">Type 3: Area Between Parabola and Circle</h3>
+      <div class="fbox">
+        <div class="flabel">y² = x aur x² + y² = 2</div>
+        Step 1: y²=x and x²+y²=2 → x²+x=2 → x²+x−2=0 → x=1,−2<br>
+        Since y²=x needs x≥0, intersection at x=1 (y=±1)<br>
+        Step 2: A = 2[∫₀¹ √x dx + ∫₁^√2 √(2−x²) dx]<br>
+        (Parabola se x=1 tak, circle se x=1 to √2 tak)
+      </div>
+
+      <div class="nbox">
+        <div class="ntitle">📌 Key Rules for Area Problems</div>
+        <ul>
+          <li>Always find <strong>intersection points first</strong> — ye hi limits hain</li>
+          <li>Symmetric curves ka area → ek side integrate karo, 2 se multiply karo</li>
+          <li>Area negative aa jaye to absolute value lo</li>
+          <li>Parabola y²=4ax → symmetric about x-axis → 2∫₀ʰ √(4ax)dx</li>
+          <li>Area always <strong>positive</strong> hoti hai — unit sq. mein answer do</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end notes -->
+
+<!-- ════════════════════════════════
+     FORMULA SHEET
+════════════════════════════════ -->
+<div class="sec" id="sec-formula">
+  <h2 class="sh2">📐 Master Formula Sheet</h2>
+
+  <div class="ch-divider"><div class="ch-label">Chapter 7 — Integration</div><div class="ch-line"></div></div>
+  <div class="fg">
+    <div class="fc">
+      <h4>∫ Power & Log</h4>
+      <div class="fi"><span class="fil">xⁿ</span><span class="fiv">xⁿ⁺¹/(n+1)+C</span></div>
+      <div class="fi"><span class="fil">1/x</span><span class="fiv">ln|x|+C</span></div>
+      <div class="fi"><span class="fil">eˣ</span><span class="fiv">eˣ+C</span></div>
+      <div class="fi"><span class="fil">aˣ</span><span class="fiv">aˣ/ln(a)+C</span></div>
+      <div class="fi"><span class="fil">ln x</span><span class="fiv">x·lnx − x + C (by parts)</span></div>
+    </div>
+    <div class="fc">
+      <h4>∫ Trig Basics</h4>
+      <div class="fi"><span class="fil">sin x</span><span class="fiv">−cos x + C</span></div>
+      <div class="fi"><span class="fil">cos x</span><span class="fiv">sin x + C</span></div>
+      <div class="fi"><span class="fil">sec²x</span><span class="fiv">tan x + C</span></div>
+      <div class="fi"><span class="fil">cosec²x</span><span class="fiv">−cot x + C</span></div>
+      <div class="fi"><span class="fil">tan x</span><span class="fiv">ln|sec x| + C</span></div>
+      <div class="fi"><span class="fil">cot x</span><span class="fiv">ln|sin x| + C</span></div>
+    </div>
+    <div class="fc">
+      <h4>∫ Inverse Trig</h4>
+      <div class="fi"><span class="fil">1/(1+x²)</span><span class="fiv">tan⁻¹x + C</span></div>
+      <div class="fi"><span class="fil">1/√(1−x²)</span><span class="fiv">sin⁻¹x + C</span></div>
+      <div class="fi"><span class="fil">1/(x²+a²)</span><span class="fiv">(1/a)tan⁻¹(x/a)+C</span></div>
+      <div class="fi"><span class="fil">1/√(a²−x²)</span><span class="fiv">sin⁻¹(x/a)+C</span></div>
+      <div class="fi"><span class="fil">1/(x²−a²)</span><span class="fiv">(1/2a)ln|(x−a)/(x+a)|+C</span></div>
+    </div>
+    <div class="fc">
+      <h4>Special Methods</h4>
+      <div class="fi"><span class="fil">By Parts</span><span class="fiv">∫u dv = uv − ∫v du</span></div>
+      <div class="fi"><span class="fil">ILATE</span><span class="fiv">Inv·Log·Alg·Trig·Exp</span></div>
+      <div class="fi"><span class="fil">Subst.</span><span class="fiv">u=g(x), du=g'(x)dx</span></div>
+      <div class="fi"><span class="fil">eˣ special</span><span class="fiv">∫eˣ[f+f']dx = eˣf(x)+C</span></div>
+      <div class="fi"><span class="fil">f'/f form</span><span class="fiv">ln|f(x)| + C</span></div>
+    </div>
+  </div>
+
+  <div class="fc" style="margin-bottom:14px">
+    <h4>📌 Definite Integral Properties — Quick Reference</h4>
+    <div class="fi"><span class="fil">Swap limits</span><span class="fiv">∫ₐᵇ f = −∫ᵦₐ f</span></div>
+    <div class="fi"><span class="fil">Prop 4</span><span class="fiv">∫₀ᵃ f(x)dx = ∫₀ᵃ f(a−x)dx</span></div>
+    <div class="fi"><span class="fil">Even fn.</span><span class="fiv">∫₋ₐᵃ f(x)dx = 2∫₀ᵃ f(x)dx</span></div>
+    <div class="fi"><span class="fil">Odd fn.</span><span class="fiv">∫₋ₐᵃ f(x)dx = 0 ← Direct!</span></div>
+    <div class="fi"><span class="fil">Prop 3</span><span class="fiv">∫ₐᵇ f(x)dx = ∫ₐᵇ f(a+b−x)dx</span></div>
+  </div>
+
+  <div class="ch-divider" style="margin-top:28px"><div class="ch-label">Chapter 8 — Application of Integrals</div><div class="ch-line"></div></div>
+  <div class="fg">
+    <div class="fc">
+      <h4>📊 Basic Area</h4>
+      <div class="fi"><span class="fil">x-axis se</span><span class="fiv">∫ₐᵇ y dx = ∫ₐᵇ f(x)dx</span></div>
+      <div class="fi"><span class="fil">y-axis se</span><span class="fiv">∫ᶜᵈ x dy = ∫ᶜᵈ g(y)dy</span></div>
+      <div class="fi"><span class="fil">2 curves</span><span class="fiv">∫ₐᵇ [f(x)−g(x)]dx</span></div>
+    </div>
+    <div class="fc">
+      <h4>🔵 Standard Areas</h4>
+      <div class="fi"><span class="fil">Circle</span><span class="fiv">πr²</span></div>
+      <div class="fi"><span class="fil">Ellipse</span><span class="fiv">πab</span></div>
+      <div class="fi"><span class="fil">Parabola y²=4ax to x=h</span><span class="fiv">(8/3)√(ah³)</span></div>
+      <div class="fi"><span class="fil">y=x² & y=x</span><span class="fiv">1/6 sq units</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh2">⚡ Quick Rules</h2>
+  <div class="card"><div class="card-body open" style="display:block">
+    <ul class="rl">
+      <li><strong>∫sin = −cos, ∫cos = +sin</strong> — negative on sin's side</li>
+      <li><strong>∫cosec² = −cot, ∫sec² = +tan</strong> — negative on cosec's side</li>
+      <li><strong>ILATE rule</strong> for integration by parts — L comes before A and T</li>
+      <li><strong>eˣ[f(x)+f'(x)]</strong> → Direct = eˣf(x)+C, no parts needed</li>
+      <li><strong>Odd function on (−a,a)</strong> → Integral = 0, directly!</li>
+      <li><strong>∫₀ᵃ f(x)dx = ∫₀ᵃ f(a−x)dx</strong> — use this when sin/cos mix ho</li>
+      <li><strong>Area = ∫|f(x)|dx</strong> — always positive</li>
+      <li><strong>Two curves area</strong> = ∫(Upper − Lower)dx — intersection points = limits</li>
+      <li><strong>Symmetric area</strong> = 2 × (half area) — save time!</li>
+      <li><strong>∫f'(x)/f(x)dx = ln|f(x)|+C</strong> — isko pehchano quickly</li>
+    </ul>
+  </div></div>
+</div><!-- end formula -->
+
+<!-- ════════════════════════════════
+     PYQ
+════════════════════════════════ -->
+<div class="sec" id="sec-pyq">
+  <h2 class="sh2">🔥 PYQ — Previous Year Questions (2022–2025)</h2>
+
+  <div class="ch-divider"><div class="ch-label">Chapter 7 PYQs</div><div class="ch-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">1</div>
+      <div class="qtext">Evaluate: ∫ (2x+3)/(x²+3x+7) dx</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <span class="ps">PYQ · Substitution / f'/f form</span>
+      <div class="opts">
+        <div class="opt ok">A) ln|x²+3x+7| + C</div>
+        <div class="opt">B) (1/2)ln|x²+3x+7| + C</div>
+        <div class="opt">C) 2ln|x²+3x+7| + C</div>
+        <div class="opt">D) ln|2x+3| + C</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Numerator = derivative of denominator? d/dx(x²+3x+7) = <span class="m">2x+3</span> ✓</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">This is f'(x)/f(x) form → ∫f'/f dx = ln|f(x)|+C</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Answer = <span class="m">ln|x²+3x+7| + C</span></div></div>
+        <div class="ans">✅ ln|x²+3x+7| + C (Directly recognize f'/f form!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">2</div>
+      <div class="qtext">Evaluate: ∫ eˣ(sin x + cos x) dx</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) eˣ sin x + C</div>
+        <div class="opt">B) eˣ cos x + C</div>
+        <div class="opt">C) eˣ(sin x − cos x) + C</div>
+        <div class="opt">D) 2eˣ sin x + C</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Form: eˣ[f(x)+f'(x)] where f(x)=sin x, f'(x)=cos x ✓</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Direct formula: ∫eˣ[f+f']dx = <span class="m">eˣ·f(x) + C</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= eˣ·sin x + C</div></div>
+        <div class="ans">✅ eˣ sin x + C (No integration needed — direct formula!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">3</div>
+      <div class="qtext">Evaluate: ∫₋₂² (x³ + x) dx</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 0</div>
+        <div class="opt">B) 8</div>
+        <div class="opt">C) 4</div>
+        <div class="opt">D) 16</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">f(x) = x³+x → f(−x) = −x³−x = <span class="m">−f(x)</span> → Odd function!</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Symmetric limits (−2 to 2) + Odd function → ∫₋₂² = 0</div></div>
+        <div class="ans">✅ Answer = 0 (Odd function property — 2 second mein!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">4</div>
+      <div class="qtext">Find: ∫₀^(π/2) sin x/(sin x + cos x) dx</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) π/4</div>
+        <div class="opt">B) π/2</div>
+        <div class="opt">C) 1</div>
+        <div class="opt">D) π/8</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Use Property 4: I = ∫₀^(π/2) f(x)dx = ∫₀^(π/2) f(π/2−x)dx</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Let I = ∫₀^(π/2) sin x/(sin x+cos x)dx ... (i)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Replace x→π/2−x: I = ∫₀^(π/2) cos x/(cos x+sin x)dx ... (ii)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Add (i)+(ii): <span class="m">2I = ∫₀^(π/2) 1 dx = π/2</span></div></div>
+        <div class="step"><div class="sn">5</div><div class="st">I = π/4</div></div>
+        <div class="ans">✅ Answer = π/4 (Classic Property 4 application!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">5</div>
+      <div class="qtext">∫ x·ln x dx = ?</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) (x²/2)ln x − x²/4 + C</div>
+        <div class="opt">B) x²·ln x + C</div>
+        <div class="opt">C) (x²/2)ln x + C</div>
+        <div class="opt">D) x ln x − x + C</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">ILATE: u = ln x (Log), dv = x dx (Algebraic → v = x²/2)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">∫x·ln x dx = ln x·(x²/2) − ∫(1/x)·(x²/2)dx</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= (x²/2)ln x − (1/2)∫x dx = <span class="m">(x²/2)ln x − x²/4 + C</span></div></div>
+        <div class="ans">✅ (x²/2)ln x − x²/4 + C</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">6</div>
+      <div class="qtext">Evaluate ∫₁² (1/x) dx</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) ln 2</div>
+        <div class="opt">B) ln 3</div>
+        <div class="opt">C) 1/2</div>
+        <div class="opt">D) 2</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">∫1/x dx = ln|x| + C</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">[ln|x|]₁² = ln 2 − ln 1 = <span class="m">ln 2 − 0 = ln 2</span></div></div>
+        <div class="ans">✅ ln 2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ch-divider" style="margin-top:28px"><div class="ch-label">Chapter 8 PYQs</div><div class="ch-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">7</div>
+      <div class="qtext">Find the area enclosed between y = x² and y = x.</div>
+      <span class="qtag tpyq">CUET 2022</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 1/6 sq units</div>
+        <div class="opt">B) 1/3 sq units</div>
+        <div class="opt">C) 1/2 sq units</div>
+        <div class="opt">D) 1/4 sq units</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Intersection: x²=x → x(x−1)=0 → x=0,1</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">In [0,1]: x ≥ x² (line is above parabola)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">A = ∫₀¹(x−x²)dx = <span class="m">[x²/2−x³/3]₀¹ = 1/2−1/3 = 1/6</span></div></div>
+        <div class="ans">✅ Area = 1/6 sq units (Most classic CUET question!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">8</div>
+      <div class="qtext">Area bounded by y = √x, x-axis and x = 4.</div>
+      <span class="qtag tpyq">CUET 2023</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 4/3</div>
+        <div class="opt">B) 8/3</div>
+        <div class="opt ok">C) 16/3</div>
+        <div class="opt">D) 2/3</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">A = ∫₀⁴ √x dx = ∫₀⁴ x^(1/2) dx</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">= <span class="m">[x^(3/2)/(3/2)]₀⁴ = [2/3 · x^(3/2)]₀⁴</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= 2/3 × 4^(3/2) = 2/3 × 8 = <span class="m">16/3</span></div></div>
+        <div class="ans">✅ Area = 16/3 sq units</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">9</div>
+      <div class="qtext">Find area of region bounded by y² = 4x, x = 1, x = 4 and x-axis.</div>
+      <span class="qtag tpyq">CUET 2024</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 28/3</div>
+        <div class="opt ok">B) 28/3</div>
+        <div class="opt">C) 14/3</div>
+        <div class="opt">D) 56/3</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">y² = 4x → y = 2√x (upper half, as area with x-axis)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">A = ∫₁⁴ 2√x dx = 2·[2x^(3/2)/3]₁⁴</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= (4/3)[x^(3/2)]₁⁴ = (4/3)[4^(3/2) − 1^(3/2)] = (4/3)[8−1] = <span class="m">28/3</span></div></div>
+        <div class="ans">✅ Area = 28/3 sq units</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead">
+      <div class="qnum">10</div>
+      <div class="qtext">Area of circle x² + y² = 16 using integration.</div>
+      <span class="qtag tpyq">CUET 2025</span>
+    </div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) 16π sq units</div>
+        <div class="opt">B) 8π sq units</div>
+        <div class="opt">C) 4π sq units</div>
+        <div class="opt">D) 32π sq units</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">r = 4 (since x²+y²=16=4²)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Area = 4 × quarter area = 4∫₀⁴√(16−x²)dx</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= 4 × [πr²/4] = 4 × [π×16/4] = <span class="m">16π sq units</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Or directly: Area of circle = πr² = π×16 = 16π ✓</div></div>
+        <div class="ans">✅ Area = 16π sq units</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end pyq -->
+
+<!-- ════════════════════════════════
+     PRACTICE
+════════════════════════════════ -->
+<div class="sec" id="sec-practice">
+  <h2 class="sh2">✏️ Practice Questions & Solutions</h2>
+
+  <div class="ch-divider"><div class="ch-label">Integration Practice</div><div class="ch-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P1</div><div class="qtext">∫ sin³x dx = ?</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">sin³x = sin x · sin²x = sin x(1−cos²x)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">= ∫sin x dx − ∫sin x·cos²x dx</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Second part: Let u=cos x, du=−sin x dx → −∫u² du = −u³/3 = <span class="m">cos³x/3</span></div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Answer: <span class="m">−cos x + cos³x/3 + C</span></div></div>
+        <div class="ans">✅ −cos x + cos³x/3 + C</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P2</div><div class="qtext">∫ x²·eˣ dx = ?</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">ILATE: u=x² (Alg), v=eˣ. Apply parts twice.</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">∫x²eˣdx = x²eˣ − ∫2x·eˣ dx</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">∫2xeˣdx = 2[xeˣ − ∫eˣdx] = 2[xeˣ−eˣ] = 2eˣ(x−1)</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">Final: <span class="m">x²eˣ − 2eˣ(x−1) + C = eˣ(x²−2x+2) + C</span></div></div>
+        <div class="ans">✅ eˣ(x²−2x+2) + C</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P3</div><div class="qtext">∫ 1/(x²−5x+6) dx = ? [Partial fractions]</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Factor: x²−5x+6 = (x−2)(x−3)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">1/[(x−2)(x−3)] = A/(x−2) + B/(x−3)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Put x=2: 1=A(−1) → A=−1. Put x=3: 1=B(1) → B=1</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">∫[1/(x−3)−1/(x−2)]dx = <span class="m">ln|x−3| − ln|x−2| + C = ln|(x−3)/(x−2)| + C</span></div></div>
+        <div class="ans">✅ ln|(x−3)/(x−2)| + C</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P4</div><div class="qtext">∫₀^π x·sin x dx = ?</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">I = ∫₀^π x·sin x dx. Use Property 3: replace x→π−x</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">I = ∫₀^π (π−x)sin(π−x)dx = ∫₀^π (π−x)sin x dx</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">2I = π∫₀^π sin x dx = π[−cos x]₀^π = π[−(−1)+1] = π×2 = 2π</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">I = <span class="m">π</span></div></div>
+        <div class="ans">✅ π (Beautiful result using property!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P5</div><div class="qtext">∫₀^(π/2) sin²x dx = ? (Using Walli's formula)</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">n=2 (even): formula = [(n−1)/n] × π/2 = [1/2] × π/2</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">= <span class="m">π/4</span></div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Alternate: sin²x=(1−cos2x)/2 → ∫₀^(π/2)=π/4 ✓</div></div>
+        <div class="ans">✅ π/4</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ch-divider" style="margin-top:24px"><div class="ch-label">Application of Integrals Practice</div><div class="ch-line"></div></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P6</div><div class="qtext">Area between y = x³ and y = x in [−1, 1].</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Intersection: x³=x → x(x²−1)=0 → x=0,±1</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">In [0,1]: x ≥ x³; In [−1,0]: x³ ≥ x</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">By symmetry: A = 2∫₀¹(x−x³)dx = 2[x²/2−x⁴/4]₀¹</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">= 2[1/2−1/4] = 2×1/4 = <span class="m">1/2 sq units</span></div></div>
+        <div class="ans">✅ Area = 1/2 sq units</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P7</div><div class="qtext">Area enclosed by ellipse x²/9 + y²/4 = 1.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Ellipse x²/a²+y²/b²=1: Area = πab</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Here a=3, b=2 → Area = <span class="m">π×3×2 = 6π sq units</span></div></div>
+        <div class="ans">✅ 6π sq units (Direct formula!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">P8</div><div class="qtext">Area bounded by y = |x| and y = 1.</div><span class="qtag tpred">Practice</span></div>
+    <div class="qbody">
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">|x|=1 → x=±1 (intersection points)</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">By symmetry: A = 2∫₀¹(1−x)dx</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">= 2[x−x²/2]₀¹ = 2[1−1/2] = <span class="m">1 sq unit</span></div></div>
+        <div class="ans">✅ Area = 1 sq unit</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end practice -->
+
+<!-- ════════════════════════════════
+     2026 PREDICTIONS
+════════════════════════════════ -->
+<div class="sec" id="sec-predict">
+  <h2 class="sh2">🎯 2026 Predictions & Strategy</h2>
+
+  <div class="tw">
+    <table class="main">
+      <thead><tr><th>Topic</th><th>Chapter</th><th>Yearly Freq.</th><th>2026 Prediction</th><th>Difficulty</th></tr></thead>
+      <tbody>
+        <tr><td>f'/f form → ln</td><td>Ch 7</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>eˣ[f+f'] form</td><td>Ch 7</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>Integration by Parts</td><td>Ch 7</td><td>1–2 Q yearly</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+        <tr><td>Definite Integral (Odd fn.)</td><td>Ch 7</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Easy</td></tr>
+        <tr><td>Property 4 (sin/cos mix)</td><td>Ch 7</td><td>2022,23,24,25</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+        <tr><td>Area: parabola & line</td><td>Ch 8</td><td>Every year</td><td><span class="p-red">🔥 CERTAIN</span></td><td>Medium</td></tr>
+        <tr><td>Substitution method</td><td>Ch 7</td><td>1–2 Q</td><td><span class="p-gold">⭐ LIKELY</span></td><td>Easy-Med</td></tr>
+        <tr><td>Partial Fractions</td><td>Ch 7</td><td>1 Q</td><td><span class="p-gold">⭐ LIKELY</span></td><td>Medium</td></tr>
+        <tr><td>Area: circle/ellipse</td><td>Ch 8</td><td>1 Q</td><td><span class="p-gold">⭐ LIKELY</span></td><td>Easy</td></tr>
+        <tr><td>Walli's Formula</td><td>Ch 7</td><td>Rare</td><td><span class="p-blue">Possible</span></td><td>Easy</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh2">🔮 2026 Most Expected Questions</h2>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★1</div><div class="qtext">∫ eˣ(1/x − 1/x²) dx = ?</div><span class="qtag tpred">PREDICTED 2026</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) eˣ/x + C</div>
+        <div class="opt">B) eˣ·x + C</div>
+        <div class="opt">C) eˣ(x−1/x) + C</div>
+        <div class="opt">D) ln|x|·eˣ + C</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Form: eˣ[f(x)+f'(x)] where f(x)=1/x, f'(x)=−1/x² ✓</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Direct: ∫eˣ[f+f']dx = eˣ·f(x)+C = <span class="m">eˣ/x + C</span></div></div>
+        <div class="ans">✅ eˣ/x + C</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★2</div><div class="qtext">∫₀^(π/2) cos x/(sin x + cos x) dx = ?</div><span class="qtag tpred">PREDICTED 2026</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt ok">A) π/4</div>
+        <div class="opt">B) π/2</div>
+        <div class="opt">C) 0</div>
+        <div class="opt">D) 1</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">This is EXACTLY like PYQ Q4 but with cos instead of sin!</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Same Property 4 trick: Let I=∫cos/(sin+cos). Replace x→π/2−x → I=∫sin/(cos+sin)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">Add: 2I = ∫₀^(π/2) 1 dx = π/2 → I = <span class="m">π/4</span></div></div>
+        <div class="ans">✅ π/4 (Same answer as sin version!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qnum">★3</div><div class="qtext">Area between y² = 4x and x² = 4y.</div><span class="qtag tpred">PREDICTED 2026</span></div>
+    <div class="qbody">
+      <div class="opts">
+        <div class="opt">A) 8/3</div>
+        <div class="opt ok">B) 16/3</div>
+        <div class="opt">C) 4/3</div>
+        <div class="opt">D) 32/3</div>
+      </div>
+      <button class="sol-btn" onclick="ts(this)">▶ Solution Dekho</button>
+      <div class="sol-body">
+        <div class="step"><div class="sn">1</div><div class="st">Intersection: y²=4x & x²=4y → (x²/4)²=4x → x⁴=64x → x=0,4</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">Upper curve: y=2√x (from y²=4x); Lower: y=x²/4 (from x²=4y)</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">A = ∫₀⁴(2√x − x²/4)dx = [2·(2/3)x^(3/2) − x³/12]₀⁴</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">= [(4/3)×8 − 64/12] = 32/3 − 16/3 = <span class="m">16/3 sq units</span></div></div>
+        <div class="ans">✅ 16/3 sq units</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="card" style="margin-top:24px">
+    <div class="card-head open" onclick="toggle(this)">
+      <div class="card-icon" style="background:rgba(232,160,32,0.1)">🏆</div>
+      <div class="card-title">2026 Exam Strategy — Integration + Application</div>
+      <span class="chev">▼</span>
+    </div>
+    <div class="card-body open">
+      <h3 class="sh">⏱️ Time Allocation</h3>
+      <p>Integration se 8–10 marks expected. Standard form questions = 1 min. Properties = 2 min. Area problems = 3–4 min. Total ~25 min agar 8 questions hain.</p>
+
+      <h3 class="sh">🎯 Priority Ladder (Easy to Hard)</h3>
+      <ol>
+        <li><strong>eˣ[f+f'] form</strong> — Direct formula, 30 seconds</li>
+        <li><strong>f'/f form</strong> — ln answer, 30 seconds</li>
+        <li><strong>Odd function definite integral</strong> — Answer=0 directly!</li>
+        <li><strong>Standard formulas</strong> — Ratto lo, direct lagao</li>
+        <li><strong>Property 4 (sin/cos)</strong> — 2I trick, π/4 type</li>
+        <li><strong>Substitution</strong> — u=g(x) rakhke solve karo</li>
+        <li><strong>Area problems</strong> — Intersection → integrate</li>
+        <li><strong>Integration by Parts</strong> — ILATE, 2 steps</li>
+        <li><strong>Partial Fractions</strong> — Factor, A/B find, ln answer</li>
+      </ol>
+
+      <h3 class="sh">❌ Common Mistakes</h3>
+      <ul>
+        <li>∫sin = −cos mein <strong>negative bhoolna</strong></li>
+        <li>Integration by parts mein <strong>+C bhoolna</strong></li>
+        <li>Definite integral mein <strong>upper − lower</strong> order galat karna</li>
+        <li>Area problem mein <strong>intersection points galat nikalna</strong></li>
+        <li>Partial fractions mein <strong>proper fraction check na karna</strong> (degree check karo!)</li>
+        <li>Area answer <strong>negative</strong> aa jaye to |absolute| lena bhoolna</li>
+      </ul>
+
+      <div class="tbox">
+        <div class="ttitle">🔑 7 Must-Know Formulas for 2026</div>
+        <p>
+          1. <strong>∫eˣ[f+f']dx = eˣf(x)+C</strong><br>
+          2. <strong>∫f'/f dx = ln|f(x)|+C</strong><br>
+          3. <strong>Odd fn. on (−a,a) → 0</strong><br>
+          4. <strong>∫₀ᵃ f(x)dx = ∫₀ᵃ f(a−x)dx</strong> (Property 4)<br>
+          5. <strong>ILATE for parts</strong><br>
+          6. <strong>Area = ∫(Upper−Lower)dx</strong><br>
+          7. <strong>Ellipse area = πab, Circle = πr²</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end predict -->
+
+</div><!-- wrap -->
+
+<script>
+function st(name,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('sec-'+name).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggle(h){
+  h.classList.toggle('open');
+  h.nextElementSibling.classList.toggle('open');
+}
+function ts(btn){
+  const s=btn.nextElementSibling;
+  s.classList.toggle('open');
+  btn.textContent=s.classList.contains('open')?'▼ Band Karo':'▶ Solution Dekho';
+}
+window.addEventListener('scroll',()=>{
+  document.getElementById('prog').style.width=
+    (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+</script>
+</body>
+</html>
