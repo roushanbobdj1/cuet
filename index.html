@@ -3,9 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>CUET Notes Hub</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6c63ff">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{
@@ -15,13 +21,13 @@
 }
 
 body{
-  font-family:'Outfit',sans-serif;
-  background:#05070f;
-  color:#fff;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#eef2ff,#f8fbff);
+  color:#222;
   overflow-x:hidden;
 }
 
-/* 🌌 Animated Background */
+/* 🌈 Background Glow */
 .bg{
   position:fixed;
   width:100%;
@@ -32,39 +38,59 @@ body{
 
 .bg span{
   position:absolute;
-  width:400px;
-  height:400px;
-  background:radial-gradient(circle,#00d4ff33,transparent);
-  animation:move 12s infinite alternate ease-in-out;
+  width:350px;
+  height:350px;
+  background:radial-gradient(circle,#6c63ff55,transparent);
+  animation:float 10s infinite alternate ease-in-out;
 }
 
 .bg span:nth-child(2){
   left:60%;
-  top:40%;
-  animation-duration:18s;
+  top:30%;
+  animation-duration:15s;
 }
 
-@keyframes move{
-  from{transform:translateY(-50px);}
-  to{transform:translateY(50px);}
+@keyframes float{
+  from{transform:translateY(-40px);}
+  to{transform:translateY(40px);}
 }
 
 /* HEADER */
 .header{
   text-align:center;
-  padding:60px 20px 30px;
+  padding:60px 20px 20px;
+  animation:fadeIn 1s ease;
 }
 
 .header h1{
-  font-size:38px;
-  background:linear-gradient(90deg,#00d4ff,#7b61ff);
+  font-size:36px;
+  background:linear-gradient(90deg,#6c63ff,#00c6ff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
 .header p{
-  color:#9aa4c3;
+  color:#555;
   margin-top:10px;
+}
+
+/* INSTALL BUTTON */
+.install-btn{
+  display:none;
+  margin-top:15px;
+  padding:10px 18px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#6c63ff,#00c6ff);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:.3s;
+}
+
+.install-btn:hover{
+  transform:scale(1.05);
 }
 
 /* GRID */
@@ -77,48 +103,30 @@ body{
 
 /* CARD */
 .card{
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.08);
-  backdrop-filter:blur(14px);
-  padding:25px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(12px);
   border-radius:18px;
+  padding:25px;
   text-align:center;
   cursor:pointer;
-  transition:all .35s ease;
-  position:relative;
-  overflow:hidden;
-}
-
-/* glow animation */
-.card::before{
-  content:'';
-  position:absolute;
-  top:0;
-  left:-100%;
-  width:100%;
-  height:100%;
-  background:linear-gradient(120deg,transparent,rgba(0,212,255,0.4),transparent);
-  transition:.6s;
-}
-
-.card:hover::before{
-  left:100%;
+  transition:.4s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  animation:fadeUp .6s ease;
 }
 
 .card:hover{
   transform:translateY(-8px) scale(1.03);
-  border-color:#00d4ff;
-  box-shadow:0 0 25px rgba(0,212,255,0.25);
+  box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
 .card h3{
-  font-size:18px;
+  font-size:17px;
   margin-bottom:6px;
 }
 
 .card span{
   font-size:12px;
-  color:#aab2d5;
+  color:#666;
 }
 
 /* Footer */
@@ -126,7 +134,24 @@ body{
   text-align:center;
   padding:20px;
   font-size:12px;
-  color:#666;
+  color:#888;
+}
+
+/* Animations */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 /* MOBILE */
@@ -150,13 +175,14 @@ body{
 <div class="header">
   <h1>📚 CUET Notes Hub</h1>
   <p>Select a chapter to start learning</p>
+  <button class="install-btn" id="installBtn">📲 Install App</button>
 </div>
 
 <!-- GRID -->
 <div class="grid">
 
   <div class="card" onclick="openPage('1.html')">
-    <h3>🔄 Relations & function and Inverse TG </h3>
+    <h3>🔄 Relations & Function</h3>
     <span>Chapter 1</span>
   </div>
 
@@ -169,14 +195,17 @@ body{
     <h3>🎲 Probability</h3>
     <span>Chapter 3</span>
   </div>
+
   <div class="card" onclick="openPage('4.html')">
-    <h3>🧭 3D Geometry </h3>
+    <h3>🧭 3D Geometry</h3>
     <span>Chapter 4</span>
   </div>
-   <div class="card" onclick="openPage('5.html')">
-    <h3>📊 intigration</h3>
+
+  <div class="card" onclick="openPage('5.html')">
+    <h3>📊 Integration</h3>
     <span>Chapter 5</span>
   </div>
+
   <div class="card" onclick="openPage('6.html')">
     <h3>📏 Application of Derivatives</h3>
     <span>Chapter 6</span>
@@ -186,11 +215,12 @@ body{
     <h3>🎯 Linear Programming</h3>
     <span>Chapter 7</span>
   </div>
+
   <div class="card" onclick="openPage('8.html')">
     <h3>📈 Continuity & Differentiability</h3>
     <span>Chapter 8</span>
   </div>
-  
+
 </div>
 
 <div class="footer">
@@ -198,12 +228,32 @@ body{
 </div>
 
 <script>
+// Page navigation
 function openPage(page){
-  document.body.style.opacity = "0";
-  setTimeout(()=>{
-    window.location.href = page;
-  },300);
+  document.body.style.opacity="0";
+  setTimeout(()=>window.location.href=page,300);
 }
+
+// Service Worker
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./service-worker.js");
+  });
+}
+
+// Install button
+let deferredPrompt;
+const installBtn=document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt",(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  installBtn.style.display="inline-block";
+});
+
+installBtn.onclick=()=>{
+  deferredPrompt.prompt();
+};
 </script>
 
 </body>
