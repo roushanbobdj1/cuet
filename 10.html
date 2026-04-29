@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET 2026 | Math Mock Test Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #07090f;
+  --surface:  #0e1220;
+  --card:     #131928;
+  --card2:    #19223a;
+  --border:   #1e2d4d;
+  --border2:  #243252;
+  --blue:     #4b8cf7;
+  --purple:   #8b5cf6;
+  --green:    #22d3a0;
+  --red:      #f74b6e;
+  --yellow:   #fbbf24;
+  --text:     #e2e8f8;
+  --muted:    #6b7fa8;
+  --muted2:   #4a5a7a;
+  --r:        12px;
+  --r2:       18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Sora',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4;
+}
+
+/* ─── SCREENS ─── */
+.scr{display:none;min-height:100vh;position:relative;z-index:1}
+.scr.on{display:flex;flex-direction:column}
+
+/* ══════════════════════════════════
+   HOME SCREEN
+══════════════════════════════════ */
+#home{
+  align-items:center;justify-content:center;padding:20px;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%, #1a2d6a22 0%, transparent 70%);
+}
+.home-wrap{max-width:540px;width:100%}
+.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;justify-content:center}
+.logo-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#4b8cf7,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 32px #4b8cf740}
+.logo-text{font-size:1rem;font-weight:700;letter-spacing:.5px}
+.logo-sub{font-size:11px;color:var(--muted);font-weight:400;margin-top:1px}
+
+.hero-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:36px 30px;
+  box-shadow:0 32px 80px #00000060;
+  position:relative;overflow:hidden;
+}
+.hero-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;
+  background:radial-gradient(circle,#4b8cf720,transparent 70%);border-radius:50%;
+}
+.hero-card::after{
+  content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;
+  background:radial-gradient(circle,#8b5cf615,transparent 70%);border-radius:50%;
+}
+.pill{display:inline-flex;align-items:center;gap:6px;background:#1a2d5a;border:1px solid #2a4a8a;color:#7ab4ff;font-size:10.5px;font-weight:600;border-radius:30px;padding:5px 14px;margin-bottom:20px;letter-spacing:.8px;text-transform:uppercase}
+.pill span{width:6px;height:6px;border-radius:50%;background:#4b8cf7;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-card h1{font-size:2rem;font-weight:800;line-height:1.2;margin-bottom:6px;background:linear-gradient(135deg,#e2e8f8,#7ab4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-card p{color:var(--muted);font-size:13px;line-height:1.8;margin-bottom:28px}
+
+.meta-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:28px;
+  background:var(--card2);border-radius:14px;padding:14px;border:1px solid var(--border);
+}
+.meta-item{text-align:center}
+.meta-val{font-size:1.2rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+.meta-lbl{font-size:10px;color:var(--muted);margin-top:2px;font-weight:400}
+.c-blue{color:var(--blue)} .c-green{color:var(--green)} .c-red{color:var(--red)} .c-yellow{color:var(--yellow)}
+
+.mode-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.mode-card{
+  background:var(--card2);border:1.5px solid var(--border);border-radius:14px;
+  padding:16px 14px;cursor:pointer;transition:all .2s;text-align:left;
+}
+.mode-card:hover{border-color:var(--blue);background:#1a2d5a20;transform:translateY(-2px)}
+.mode-card.selected{border-color:var(--blue);background:#1a2d5a40}
+.mode-icon{font-size:1.5rem;margin-bottom:8px}
+.mode-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.mode-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+.test-buttons{display:flex;flex-direction:column;gap:10px}
+.tbtn{
+  width:100%;padding:15px 20px;border:none;border-radius:14px;
+  font-size:14px;font-family:'Sora',sans-serif;font-weight:700;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;justify-content:space-between;
+  position:relative;overflow:hidden;
+}
+.tbtn::before{content:'';position:absolute;inset:0;opacity:0;transition:.2s;background:#ffffff15}
+.tbtn:hover::before{opacity:1}
+.tbtn:hover{transform:translateY(-2px);box-shadow:0 12px 40px #00000050}
+.tbtn-1{background:linear-gradient(135deg,#1e3a8a,#4b8cf7)}
+.tbtn-2{background:linear-gradient(135deg,#5b21b6,#8b5cf6)}
+.tbtn-info{font-size:11px;opacity:.7;font-weight:400}
+
+.scheme-strip{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.scheme-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.s-dot{width:8px;height:8px;border-radius:50%}
+
+/* ══════════════════════════════════
+   EXAM SCREEN
+══════════════════════════════════ */
+#exam{background:var(--bg)}
+
+/* Header */
+.exam-hdr{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;height:56px;
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(12px);
+}
+.hdr-left{display:flex;flex-direction:column}
+.hdr-title{font-size:13px;font-weight:700;color:var(--blue)}
+.hdr-sub{font-size:10px;color:var(--muted);font-weight:400}
+.hdr-center{text-align:center}
+.timer{
+  font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:600;
+  color:var(--text);background:var(--card2);border:1px solid var(--border);
+  border-radius:10px;padding:6px 16px;letter-spacing:2px;transition:.3s;
+}
+.timer.warn{color:var(--red);border-color:#f74b6e40;animation:pulse .8s infinite}
+.timer.ok{color:var(--green);border-color:#22d3a040}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:8px}
+.mode-badge{font-size:10px;font-weight:700;border-radius:20px;padding:4px 10px;letter-spacing:.5px}
+.badge-exam{background:#1a2d5a;color:#7ab4ff;border:1px solid #2a4a8a}
+.badge-practice{background:#1a3a2a;color:#22d3a0;border:1px solid #1a5a3a}
+
+/* Progress */
+.prog-wrap{height:2px;background:var(--border)}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+/* Q Nav palette */
+.qpal-wrap{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:10px 16px;display:flex;align-items:center;gap:8px;overflow-x:auto;
+}
+.qpal-wrap::-webkit-scrollbar{height:3px}
+.qpal-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+.qpill{
+  min-width:32px;height:28px;border-radius:8px;font-size:11px;font-weight:700;
+  border:1.5px solid var(--border);background:var(--card2);color:var(--muted2);
+  cursor:pointer;transition:all .15s;flex-shrink:0;font-family:'JetBrains Mono',monospace;
+}
+.qpill:hover{border-color:var(--blue);color:var(--blue)}
+.qpill.curr{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 4px 16px #4b8cf740}
+.qpill.ans{background:#1a3a2a;border-color:#22d3a050;color:var(--green)}
+.qpill.skip{background:#2a1a0a;border-color:#fbbf2440;color:var(--yellow)}
+.qpill.wrong{background:#2a0a0a;border-color:#f74b6e40;color:var(--red)}
+
+/* Question area */
+.exam-body{
+  flex:1;max-width:780px;width:100%;margin:0 auto;
+  padding:20px 18px 100px;display:flex;flex-direction:column;gap:16px;
+}
+.qmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qcount{font-size:12px;font-weight:600;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.ttag{
+  font-size:10.5px;font-weight:600;border-radius:20px;padding:3px 10px;
+  background:#1a2d5a;color:#7ab4ff;border:1px solid #2a4a8a;
+}
+.dtag{font-size:10.5px;font-weight:600;border-radius:20px;padding:3px 10px;}
+.de{background:#0d2d1a;color:var(--green);border:1px solid #1a5a3050}
+.dm{background:#2d1a0a;color:var(--yellow);border:1px solid #5a3a0a50}
+.dh{background:#2d0a1a;color:var(--red);border:1px solid #5a0a1a50}
+
+.qcard{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r2);
+  padding:24px;position:relative;overflow:hidden;
+}
+.qcard::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+}
+.qtext{font-size:15px;line-height:1.9;color:var(--text);font-weight:400}
+.math-expr{
+  font-family:'JetBrains Mono',monospace;font-size:14px;
+  background:#1a2236;border:1px solid var(--border2);border-radius:6px;
+  padding:2px 8px;color:#c9d8ff;display:inline-block;margin:0 2px;
+}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:9px;margin-top:20px}
+.opt{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--card2);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:14px 16px;cursor:pointer;transition:all .18s;
+  font-size:14px;color:var(--text);text-align:left;line-height:1.6;
+  position:relative;overflow:hidden;
+}
+.opt::before{content:'';position:absolute;inset:0;opacity:0;transition:.18s;background:#4b8cf710}
+.opt:hover:not(:disabled)::before{opacity:1}
+.opt:hover:not(:disabled){border-color:var(--blue);transform:translateX(3px)}
+.opt:disabled{cursor:default}
+.opt-lbl{
+  min-width:28px;height:28px;border-radius:8px;
+  background:#1e2d4d;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--muted);
+  flex-shrink:0;margin-top:1px;transition:.18s;font-family:'JetBrains Mono',monospace;
+}
+.opt.selected .opt-lbl{background:var(--blue);border-color:var(--blue);color:#fff}
+.opt.selected{border-color:var(--blue);background:#1a2d5a30}
+.opt.correct-ans{border-color:var(--green)!important;background:#0d2a1a!important}
+.opt.correct-ans .opt-lbl{background:var(--green)!important;border-color:var(--green)!important;color:#07090f!important}
+.opt.wrong-ans{border-color:var(--red)!important;background:#2a0a0a!important}
+.opt.wrong-ans .opt-lbl{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important}
+
+/* Feedback box (practice mode) */
+.feedback-box{
+  border-radius:var(--r);padding:18px 20px;margin-top:4px;
+  display:none;animation:slideUp .3s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.feedback-box.show{display:block}
+.fb-correct{background:#0a2a1a;border:1px solid #22d3a030}
+.fb-wrong{background:#2a0a10;border:1px solid #f74b6e30}
+.fb-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.fb-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.fb-icon.c{background:#22d3a020;border:1px solid #22d3a040}
+.fb-icon.w{background:#f74b6e20;border:1px solid #f74b6e40}
+.fb-title{font-size:14px;font-weight:700}
+.fb-title.c{color:var(--green)}
+.fb-title.w{color:var(--red)}
+.fb-title small{font-size:11px;font-weight:400;color:var(--muted);margin-left:6px}
+.fb-sol{font-size:13px;color:#a0b8d8;line-height:1.9}
+.fb-sol strong{color:var(--text)}
+.trick-card{
+  margin-top:12px;background:#0d1f0d;border:1px solid #22d3a020;
+  border-radius:10px;padding:13px 15px;
+}
+.trick-head{font-size:11px;font-weight:700;color:var(--green);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.trick-body{font-size:12px;color:#7ac87a;line-height:1.8}
+
+/* Nav bar */
+.nav-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--surface);border-top:1px solid var(--border);
+  padding:12px 20px;display:flex;justify-content:space-between;align-items:center;
+  backdrop-filter:blur(12px);z-index:100;max-width:780px;margin:0 auto;
+  left:50%;transform:translateX(-50%);width:100%;
+}
+.nbtn{
+  padding:10px 20px;border:none;border-radius:10px;font-size:13px;
+  font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:6px;
+}
+.nbtn:hover{transform:translateY(-1px)}
+.nb-ghost{background:var(--card2);border:1px solid var(--border);color:var(--text)}
+.nb-ghost:hover{border-color:var(--blue)}
+.nb-skip{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:12px}
+.nb-submit{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;box-shadow:0 4px 20px #4b8cf730}
+.nb-next{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;box-shadow:0 4px 20px #4b8cf730}
+
+/* ══════════════════════════════════
+   RESULT SCREEN
+══════════════════════════════════ */
+#result{
+  padding:24px 18px 40px;align-items:center;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%,#1a2d6a18,transparent 60%);
+  overflow-y:auto;
+}
+.res-wrap{max-width:680px;width:100%}
+.res-header{text-align:center;margin-bottom:28px}
+.res-badge{display:inline-flex;align-items:center;gap:6px;border-radius:30px;padding:6px 16px;font-size:11px;font-weight:700;margin-bottom:14px;letter-spacing:.5px}
+.rb-pass{background:#0d2a1a;color:var(--green);border:1px solid #22d3a030}
+.rb-avg{background:#2a1a0a;color:var(--yellow);border:1px solid #fbbf2430}
+.rb-fail{background:#2a0a10;color:var(--red);border:1px solid #f74b6e30}
+.res-header h2{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#e2e8f8,#7ab4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Score ring */
+.score-wrap{display:flex;justify-content:center;margin-bottom:24px}
+.ring-cont{position:relative;width:160px;height:160px}
+.ring-cont svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+.ring-info{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-score{font-size:2rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+.ring-max{font-size:11px;color:var(--muted)}
+.ring-pct{font-size:12px;font-weight:600;margin-top:2px}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;inset:0;opacity:.05}
+.sc.s-green::before{background:var(--green)}
+.sc.s-red::before{background:var(--red)}
+.sc.s-yellow::before{background:var(--yellow)}
+.sc.s-blue::before{background:var(--blue)}
+.sc-val{font-size:1.9rem;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
+.sc-lbl{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4}
+.sc-sub{font-size:10px;font-weight:600;margin-top:3px}
+
+/* Analysis section */
+.asec{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;margin-bottom:14px}
+.asec-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.asec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.tbar{margin-bottom:11px}
+.tbar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.tbar-name{font-size:12px;font-weight:600;color:var(--text)}
+.tbar-acc{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.tbar-nums{font-size:10px;color:var(--muted);margin-top:1px}
+.tbar-track{height:6px;background:var(--border);border-radius:10px;overflow:hidden}
+.tbar-fill{height:100%;border-radius:10px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+.alert-card{border-radius:12px;padding:14px 16px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start}
+.alert-card.weak{background:#1a0810;border:1px solid #f74b6e20}
+.alert-card.strong{background:#08180e;border:1px solid #22d3a020}
+.alert-icon{font-size:1.2rem;margin-top:1px;flex-shrink:0}
+.alert-content{}
+.alert-name{font-size:13px;font-weight:700;margin-bottom:3px}
+.alert-name.weak{color:var(--red)}
+.alert-name.strong{color:var(--green)}
+.alert-desc{font-size:11.5px;color:var(--muted);line-height:1.7}
+
+/* Marking legend */
+.mleg{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.ml{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.ml-dot{width:9px;height:9px;border-radius:50%}
+
+.res-actions{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.ra-btn{
+  padding:14px;border:none;border-radius:14px;font-size:14px;
+  font-family:'Sora',sans-serif;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.ra-primary{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;box-shadow:0 8px 32px #4b8cf730}
+.ra-ghost{background:var(--card2);border:1px solid var(--border);color:var(--text)}
+.ra-primary:hover,.ra-ghost:hover{transform:translateY(-2px)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:480px){
+  .hero-card{padding:24px 18px}
+  .hero-card h1{font-size:1.6rem}
+  .meta-strip{grid-template-columns:repeat(2,1fr)}
+  .mode-select{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" class="scr on">
+<div class="home-wrap">
+  <div class="logo-row">
+    <div class="logo-icon">📐</div>
+    <div>
+      <div class="logo-text">CUET 2026</div>
+      <div class="logo-sub">Mathematics Mock Test Series</div>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <div class="pill"><span></span>2025 PYQ Analysis Based</div>
+    <h1>Mathematics<br>Mock Tests</h1>
+    <p>2022–2025 ke papers ka deep analysis karke banaye gaye questions. Real exam jaise experience lo — negative marking ke saath.</p>
+
+    <div class="meta-strip">
+      <div class="meta-item"><div class="meta-val c-blue">50</div><div class="meta-lbl">Questions</div></div>
+      <div class="meta-item"><div class="meta-val c-yellow">60m</div><div class="meta-lbl">Time Limit</div></div>
+      <div class="meta-item"><div class="meta-val c-green">+5</div><div class="meta-lbl">Correct</div></div>
+      <div class="meta-item"><div class="meta-val c-red">−1</div><div class="meta-lbl">Wrong</div></div>
+    </div>
+
+    <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:10px">Mode Choose Karo:</div>
+    <div class="mode-select">
+      <div class="mode-card selected" id="mc-exam" onclick="selectMode('exam')">
+        <div class="mode-icon">🎯</div>
+        <div class="mode-title">Exam Mode</div>
+        <div class="mode-desc">Answer end mein reveal hoge. Real exam feel.</div>
+      </div>
+      <div class="mode-card" id="mc-practice" onclick="selectMode('practice')">
+        <div class="mode-icon">📖</div>
+        <div class="mode-title">Practice Mode</div>
+        <div class="mode-desc">Har option click karne par turant pata chalega sahi ya galat + solution.</div>
+      </div>
+    </div>
+
+    <div class="test-buttons">
+      <button class="tbtn tbtn-1" onclick="startTest(1)">
+        <span>⚡ Mock Test 1 Shuru Karo</span>
+        <span class="tbtn-info">Relations, Matrices, Calculus, Vectors</span>
+      </button>
+      <button class="tbtn tbtn-2" onclick="startTest(2)">
+        <span>🔥 Mock Test 2 Shuru Karo</span>
+        <span class="tbtn-info">Integration, 3D, LP, Probability</span>
+      </button>
+    </div>
+
+    <div class="scheme-strip">
+      <div class="ml"><div class="ml-dot" style="background:var(--green)"></div>Sahi +5</div>
+      <div class="ml"><div class="ml-dot" style="background:var(--red)"></div>Galat −1</div>
+      <div class="ml"><div class="ml-dot" style="background:var(--yellow)"></div>Skip 0</div>
+      <div class="ml"><div class="ml-dot" style="background:var(--muted)"></div>Max 250</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════ EXAM ══════════ -->
+<div id="exam" class="scr">
+  <div class="exam-hdr">
+    <div class="hdr-left">
+      <div class="hdr-title" id="hdr-title">Mock Test 1</div>
+      <div class="hdr-sub">CUET 2026 | Mathematics</div>
+    </div>
+    <div class="hdr-center">
+      <div class="timer ok" id="timer">60:00</div>
+    </div>
+    <div class="hdr-right">
+      <div class="mode-badge" id="mode-badge">EXAM</div>
+    </div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+  <div class="qpal-wrap" id="qpal"></div>
+  <div class="exam-body" id="qarea"></div>
+  <div class="nav-bar" id="nav-bar">
+    <button class="nbtn nb-ghost" id="btn-prev" onclick="prevQ()">← Pehle</button>
+    <div style="display:flex;gap:8px">
+      <button class="nbtn nb-skip" id="btn-skip" onclick="skipQ()">Skip ⏩</button>
+      <button class="nbtn nb-submit" id="btn-submit" onclick="submitTest()">📊 Submit</button>
+    </div>
+    <button class="nbtn nb-next" id="btn-next" onclick="nextQ()">Aage →</button>
+  </div>
+</div>
+
+<!-- ══════════ RESULT ══════════ -->
+<div id="result" class="scr">
+<div class="res-wrap">
+  <div class="res-header">
+    <div class="res-badge" id="res-badge">✅ Test Completed</div>
+    <h2>Result Analysis</h2>
+  </div>
+  <div class="mleg">
+    <div class="ml"><div class="ml-dot" style="background:var(--green)"></div>Sahi: +5 marks</div>
+    <div class="ml"><div class="ml-dot" style="background:var(--red)"></div>Galat: −1 mark</div>
+    <div class="ml"><div class="ml-dot" style="background:var(--yellow)"></div>Skip: 0 marks</div>
+  </div>
+  <div class="score-wrap" id="score-wrap"></div>
+  <div class="stats-row" id="stats-row"></div>
+  <div class="asec">
+    <div class="asec-title">📊 Topic-wise Performance</div>
+    <div id="topic-bars"></div>
+  </div>
+  <div class="asec">
+    <div class="asec-title">⚠️ Weak Areas — Yahan Focus Karo</div>
+    <div id="weak-list"></div>
+  </div>
+  <div class="asec">
+    <div class="asec-title">💪 Strong Areas — Keep It Up!</div>
+    <div id="strong-list"></div>
+  </div>
+  <div class="res-actions">
+    <button class="ra-btn ra-primary" onclick="goHome()">🏠 Home Par Wapas</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// QUESTION BANK
+// Based on CUET 2022-2025 PYQ pattern + 2026 syllabus
+// ════════════════════════════════════════════════════════
+const QB = {
+1:[
+// ── RELATIONS & FUNCTIONS ─────────────────────
+{id:1,t:"Relations & Functions",d:"medium",
+ q:"Agar f: R→R mein f(x) = 2x+3 aur g: R→R mein g(x) = x²−1 ho, to (fog)(2) ka maan kya hoga?",
+ opts:["9","11","13","7"],ans:0,
+ sol:"<strong>Step 1:</strong> Pehle g(2) nikalte hain: g(2) = (2)² − 1 = 4 − 1 = 3<br><strong>Step 2:</strong> Ab f(g(2)) = f(3) = 2(3) + 3 = 6 + 3 = <strong>9</strong>",
+ trick:"fog mein pehle g apply hota hai, phir f. 'f of g' ka matlab hai pehle andar wala (g) karo."},
+
+{id:2,t:"Relations & Functions",d:"easy",
+ q:"f: R→R jahan f(x) = x² — kya yeh function one-one (injective) hai?",
+ opts:["Haan, kyunki f alag values deta hai","Nahin, kyunki f(1) = f(−1) = 1","Haan, har x ke liye unique output","Depends on codomain"],ans:1,
+ sol:"<strong>Check:</strong> f(1) = 1² = 1 aur f(−1) = (−1)² = 1<br>1 ≠ −1 lekin dono ka output same (1) hai.<br>One-one condition: f(a) = f(b) ⟹ a = b — yeh yahan FAIL hota hai.<br>∴ f(x) = x² <strong>one-one nahin hai</strong>.",
+ trick:"One-one fail check: koi 2 alag x dhoondo jo same output de. x² ke liye +x aur −x hamesha same square deta hai."},
+
+{id:3,t:"Relations & Functions",d:"hard",
+ q:"Set A = {1,2,...,9} par R = {(a,b) : a−b, 3 se divisible hai}. Yeh relation kaisi hai?",
+ opts:["Sirf Reflexive","Sirf Symmetric","Equivalence Relation","Sirf Transitive"],ans:2,
+ sol:"<strong>Reflexive:</strong> a−a = 0, jo 3 se divisible hai ✓<br><strong>Symmetric:</strong> Agar a−b divisible by 3, to b−a = −(a−b) bhi divisible by 3 ✓<br><strong>Transitive:</strong> Agar a−b aur b−c dono div by 3, to a−c = (a−b)+(b−c) bhi div by 3 ✓<br>∴ <strong>Equivalence Relation</strong> hai.",
+ trick:"Equivalence = Reflexive + Symmetric + Transitive — teeno saath hone chahiye. Classes: {1,4,7}, {2,5,8}, {3,6,9}."},
+
+{id:4,t:"Relations & Functions",d:"medium",
+ q:"f(x) = (x−1)/(x+1) ka inverse function f⁻¹(x) kya hoga?",
+ opts:["(x+1)/(x−1)","(1+x)/(1−x)","(x−1)/(x+1)","1/(x+1)"],ans:1,
+ sol:"<strong>y = (x−1)/(x+1)</strong> rakho<br>y(x+1) = x − 1<br>xy + y = x − 1<br>xy − x = −1 − y<br>x(y − 1) = −(1 + y)<br><strong>x = (1+y)/(1−y)</strong><br>∴ f⁻¹(x) = (1+x)/(1−x)",
+ trick:"Inverse nikalna: y = f(x) likho, phir x ke liye solve karo. Jo milega woh f⁻¹(y) hai. x aur y swap mat karo — simply solve karo."},
+
+// ── MATRICES & DETERMINANTS ───────────────────
+{id:5,t:"Matrices & Determinants",d:"easy",
+ q:"A = [[2, 3], [1, 4]] ka determinant |A| kya hai?",
+ opts:["5","8","11","−5"],ans:0,
+ sol:"2×2 determinant formula: |A| = ad − bc<br>= (2)(4) − (3)(1)<br>= 8 − 3<br>= <strong>5</strong>",
+ trick:"2×2 matrix [[a,b],[c,d]] ka det = ad−bc. Diagonal cross karo: main diagonal minus off diagonal."},
+
+{id:6,t:"Matrices & Determinants",d:"medium",
+ q:"A = [[1,2],[3,4]] ke liye A + Aᵀ kya hoga?",
+ opts:["[[2,5],[5,8]]","[[2,4],[6,8]]","[[0,−1],[1,0]]","[[1,0],[0,1]]"],ans:0,
+ sol:"<strong>Aᵀ</strong> (rows ↔ columns) = [[1,3],[2,4]]<br>A + Aᵀ = [[1+1, 2+3],[3+2, 4+4]] = <strong>[[2,5],[5,8]]</strong><br><em>Note:</em> A + Aᵀ hamesha symmetric matrix hoti hai.",
+ trick:"Transpose: rows ko columns banao. A+Aᵀ hamesha symmetric. A−Aᵀ hamesha skew-symmetric."},
+
+{id:7,t:"Matrices & Determinants",d:"medium",
+ q:"Agar A ek 3×3 matrix hai aur |A| = 5 hai, to |3A| kya hoga?",
+ opts:["15","45","135","25"],ans:2,
+ sol:"Property: n×n matrix ke liye |kA| = kⁿ × |A|<br>Yahan n = 3, k = 3, |A| = 5<br>|3A| = 3³ × 5 = 27 × 5 = <strong>135</strong>",
+ trick:"IMPORTANT: |kA| = kⁿ|A|, NOT k×|A|. 3×3 matrix mein 3³ = 27 aata hai. CUET mein classic trap!"},
+
+{id:8,t:"Matrices & Determinants",d:"hard",
+ q:"Agar A² = A ho to A kya hai?",
+ opts:["Orthogonal Matrix","Idempotent Matrix","Involutory Matrix","Nilpotent Matrix"],ans:1,
+ sol:"Special matrices yaad karo:<br>• <strong>A² = A</strong> → Idempotent<br>• A² = I → Involutory<br>• Aⁿ = 0 → Nilpotent<br>• AAᵀ = I → Orthogonal<br>∴ A² = A wali matrix <strong>Idempotent</strong> hai.",
+ trick:"A²=A → Idempotent (Projection matrix). Yaad karo: 'I am Idempotent' = main squared hokar bhi same rahta hun."},
+
+{id:9,t:"Matrices & Determinants",d:"medium",
+ q:"Matrix [[1,2,3],[0,−1,0],[0,0,2]] ka determinant kya hai?",
+ opts:["−2","2","6","−6"],ans:0,
+ sol:"Upper/lower triangular matrix ka det = diagonal elements ka product<br>|A| = 1 × (−1) × 2 = <strong>−2</strong>",
+ trick:"Triangular matrix shortcut: sirf diagonal elements multiply karo! Time bachao."},
+
+// ── DIFFERENTIATION ───────────────────────────
+{id:10,t:"Differentiation",d:"easy",
+ q:"d/dx [sin(x²)] kya hoga?",
+ opts:["cos(x²)","2x·cos(x²)","2x·cos(x)","sin(2x)"],ans:1,
+ sol:"<strong>Chain Rule:</strong> d/dx[f(g(x))] = f'(g(x)) · g'(x)<br>Yahan f(u) = sin(u) aur g(x) = x²<br>d/dx[sin(x²)] = cos(x²) · d/dx(x²)<br>= cos(x²) · 2x<br>= <strong>2x·cos(x²)</strong>",
+ trick:"Chain rule: pehle outer function differentiate karo (sin→cos), phir inner ka derivative (x²→2x) multiply karo."},
+
+{id:11,t:"Differentiation",d:"medium",
+ q:"y = xˣ ka dy/dx kya hoga?",
+ opts:["xˣ·ln(x)","xˣ(1 + ln x)","x·xˣ⁻¹","xˣ/x"],ans:1,
+ sol:"<strong>Logarithmic Differentiation:</strong><br>ln y = x · ln x<br>Differentiate both sides (w.r.t. x):<br>(1/y) · dy/dx = ln x + x · (1/x) = ln x + 1<br>dy/dx = y(1 + ln x)<br>= <strong>xˣ(1 + ln x)</strong>",
+ trick:"Jab function ka exponent bhi variable ho (xˣ, xˢⁱⁿˣ etc.), tab LOG LEKE differentiate karo. Golden trick!"},
+
+{id:12,t:"Differentiation",d:"medium",
+ q:"f(x) = |x| ka x = 0 par kya haal hai?",
+ opts:["Differentiable hai, f'(0) = 1","Differentiable hai, f'(0) = 0","Continuous hai, differentiable nahin","Na continuous, na differentiable"],ans:2,
+ sol:"<strong>Continuity:</strong> lim(x→0)|x| = 0 = f(0) ✓ Continuous hai<br><strong>Differentiability:</strong><br>LHD = lim(h→0⁻) (|h|−0)/h = lim(−h/h) = <strong>−1</strong><br>RHD = lim(h→0⁺) (|h|−0)/h = lim(h/h) = <strong>+1</strong><br>LHD ≠ RHD → <strong>Differentiable nahin</strong>",
+ trick:"CUET trap: |x| continuous hai lekin x=0 par differentiable NAHIN. Sharp corner wale points par kabhi differentiable nahin hota."},
+
+{id:13,t:"Differentiation",d:"medium",
+ q:"f(x) = x³ − 3x² + 4 ke local minima/maxima nikalo:",
+ opts:["x=0 local min, x=2 local max","x=0 local max, x=2 local min","x=2 local min only","x=0 local min only"],ans:1,
+ sol:"f'(x) = 3x² − 6x = 3x(x−2) = 0<br>Critical points: <strong>x = 0</strong> aur <strong>x = 2</strong><br>f''(x) = 6x − 6<br>f''(0) = −6 < 0 → <strong>Local Maximum</strong> at x = 0<br>f''(2) = 12 − 6 = 6 > 0 → <strong>Local Minimum</strong> at x = 2",
+ trick:"f''(x) sign test: f''>0 → local min (⌣), f''<0 → local max (⌢). Smiley face = minimum, frown = maximum!"},
+
+{id:14,t:"Differentiation",d:"hard",
+ q:"Parametric: x = at², y = 2at hai. d²y/dx² kya hoga?",
+ opts:["−1/(2at³)","1/(2at)","−1/t","1/(2a)"],ans:0,
+ sol:"<strong>Step 1:</strong> dx/dt = 2at, dy/dt = 2a<br>dy/dx = (dy/dt)/(dx/dt) = 2a/(2at) = <strong>1/t</strong><br><strong>Step 2:</strong> d²y/dx² = [d(dy/dx)/dt] / (dx/dt)<br>= d(1/t)/dt ÷ 2at<br>= (−1/t²) / (2at)<br>= <strong>−1/(2at³)</strong>",
+ trick:"Parametric second derivative: d²y/dx² = [d(dy/dx)/dt] ÷ (dx/dt). Do bar divide karna padta hai dt se."},
+
+// ── INTEGRATION (EXPANDED 2026) ───────────────
+{id:15,t:"Integration",d:"easy",
+ q:"∫ eˣ(sinx + cosx) dx kya hoga?",
+ opts:["eˣ sinx + C","eˣ cosx + C","eˣ(sinx + cosx) + C","2eˣ sinx + C"],ans:0,
+ sol:"<strong>Golden Formula:</strong> ∫ eˣ[f(x) + f'(x)] dx = eˣ f(x) + C<br>Yahan f(x) = sinx, f'(x) = cosx<br>∴ ∫ eˣ(sinx + cosx) dx = <strong>eˣ sinx + C</strong>",
+ trick:"∫eˣ[f(x)+f'(x)] = eˣf(x)+C — yeh CUET mein sabse zyada aane wala integration formula hai! Pakka yaad karo."},
+
+{id:16,t:"Integration",d:"easy",
+ q:"∫ sin²x dx kya hoga?",
+ opts:["x/2 − sin(2x)/4 + C","−cos²x + C","sin²x/2 + C","x − sinx·cosx + C"],ans:0,
+ sol:"<strong>Double angle identity:</strong> sin²x = (1 − cos2x)/2<br>∫ sin²x dx = ∫ (1−cos2x)/2 dx<br>= x/2 − sin(2x)/4 + C<br>= <strong>x/2 − sin(2x)/4 + C</strong>",
+ trick:"sin²x aur cos²x ka integration: pehle double angle formula use karo. sin²x=(1−cos2x)/2, cos²x=(1+cos2x)/2."},
+
+{id:17,t:"Integration",d:"medium",
+ q:"∫ x·eˣ dx kya hoga?",
+ opts:["eˣ(x−1) + C","xeˣ + C","eˣ(x+1) + C","x²eˣ/2 + C"],ans:0,
+ sol:"<strong>Integration by Parts:</strong> ∫u·dv = uv − ∫v·du<br>u = x → du = dx<br>dv = eˣdx → v = eˣ<br>= x·eˣ − ∫eˣ·dx<br>= xeˣ − eˣ + C<br>= <strong>eˣ(x−1) + C</strong>",
+ trick:"ILATE rule: Inverse > Log > Algebraic > Trig > Exponential. Jo pehle aaye woh u banega. Yahan x (Algebraic) > eˣ (Exponential)."},
+
+{id:18,t:"Integration",d:"medium",
+ q:"∫ dx/(x² + 4) kya hoga?",
+ opts:["(1/2)tan⁻¹(x/2) + C","tan⁻¹(x/4) + C","(1/4)tan⁻¹(x/2) + C","ln|x²+4| + C"],ans:0,
+ sol:"<strong>Standard Form:</strong> ∫ dx/(x²+a²) = (1/a)tan⁻¹(x/a) + C<br>Yahan a² = 4, a = 2<br>= <strong>(1/2)tan⁻¹(x/2) + C</strong>",
+ trick:"Standard integrals table yaad karo: ∫dx/(x²+a²) = (1/a)arctan(x/a)+C. CUET mein direct aata hai."},
+
+{id:19,t:"Integration",d:"hard",
+ q:"∫₀^(π/2) sin x dx ka definite value kya hai?",
+ opts:["0","1","π/2","2"],ans:1,
+ sol:"∫ sinx dx = −cosx + C<br>[−cosx]₀^(π/2)<br>= −cos(π/2) + cos(0)<br>= −(0) + (1)<br>= <strong>1</strong>",
+ trick:"Definite integral: antiderivative dhundho, upper limit mein daalo, lower limit ghataao. cos(π/2)=0, cos(0)=1."},
+
+// ── VECTORS & 3D ──────────────────────────────
+{id:20,t:"Vectors & 3D",d:"easy",
+ q:"a⃗ = (1, 2, 3) aur b⃗ = (2, −1, 1) ka dot product a⃗·b⃗ kya hai?",
+ opts:["3","6","−1","7"],ans:0,
+ sol:"Dot product: a⃗·b⃗ = a₁b₁ + a₂b₂ + a₃b₃<br>= (1)(2) + (2)(−1) + (3)(1)<br>= 2 − 2 + 3<br>= <strong>3</strong>",
+ trick:"Dot product = corresponding components multiply karke add karo. Result ek single number (scalar) hota hai."},
+
+{id:21,t:"Vectors & 3D",d:"medium",
+ q:"|a⃗| = 3, |b⃗| = 4, a⃗·b⃗ = 6 ho to a⃗ aur b⃗ ke beech angle θ kya hoga?",
+ opts:["30°","45°","60°","90°"],ans:2,
+ sol:"Formula: cosθ = a⃗·b⃗ / (|a⃗| × |b⃗|)<br>= 6 / (3 × 4)<br>= 6/12<br>= 1/2<br>θ = cos⁻¹(1/2) = <strong>60°</strong>",
+ trick:"cosθ = dot product / (product of magnitudes). Cos table: 0°→1, 60°→½, 90°→0, 120°→−½, 180°→−1."},
+
+{id:22,t:"Vectors & 3D",d:"hard",
+ q:"Line (x−1)/2 = (y−2)/3 = (z−3)/4 ke direction cosines kya hain?",
+ opts:["(2/√29, 3/√29, 4/√29)","(2, 3, 4)","(1/2, 1/3, 1/4)","(4/√29, 3/√29, 2/√29)"],ans:0,
+ sol:"Direction ratios (a,b,c) = (2, 3, 4)<br>Magnitude = √(2²+3²+4²) = √(4+9+16) = √29<br>Direction cosines = (2/√29, 3/√29, 4/√29)<br>Check: l²+m²+n² = (4+9+16)/29 = 1 ✓",
+ trick:"DR → DC: sirf magnitude se divide karo. DC always ka l²+m²+n²=1 hoga. DRs proportional ho sakte hain, DCs unique hoti hain."},
+
+// ── PROBABILITY (Updated 2026) ────────────────
+{id:23,t:"Probability",d:"easy",
+ q:"P(A) = 0.4, P(B) = 0.5, P(A∩B) = 0.2. P(A∪B) kya hoga?",
+ opts:["0.7","0.58","0.9","0.1"],ans:0,
+ sol:"Addition theorem: P(A∪B) = P(A) + P(B) − P(A∩B)<br>= 0.4 + 0.5 − 0.2<br>= <strong>0.7</strong>",
+ trick:"P(A∪B) = P(A) + P(B) − P(A∩B). Agar A aur B independent hain to P(A∩B) = P(A)·P(B)."},
+
+{id:24,t:"Probability",d:"medium",
+ q:"P(A|B) = P(B|A)·P(A)/P(B) — yeh kaun sa theorem hai?",
+ opts:["Addition Theorem","Total Probability","Bayes' Theorem","Multiplication Theorem"],ans:2,
+ sol:"<strong>Bayes' Theorem:</strong> P(A|B) = P(B|A)·P(A) / P(B)<br>Yeh 'posterior probability' calculate karta hai given evidence ke basis par.<br>Medical diagnosis, spam filter jaise problems mein use hota hai.",
+ trick:"Bayes = prior evidence update karna. 'P(cause|effect) = P(effect|cause)×P(cause)/P(effect)' — cause aur effect reverse karo."},
+
+{id:25,t:"Probability",d:"medium",
+ q:"Binomial distribution B(8, 0.5) ka mean aur variance kya hoga?",
+ opts:["Mean=4, Variance=2","Mean=4, Variance=4","Mean=8, Variance=2","Mean=2, Variance=4"],ans:0,
+ sol:"Binomial distribution ke liye:<br>Mean = np = 8 × 0.5 = <strong>4</strong><br>Variance = npq = 8 × 0.5 × (1−0.5) = 8 × 0.5 × 0.5 = <strong>2</strong>",
+ trick:"Binomial: Mean=np, Variance=npq (q=1−p). Note: Variance < Mean hamesha binomial mein."},
+
+// ── LINEAR PROGRAMMING ────────────────────────
+{id:26,t:"Linear Programming",d:"medium",
+ q:"LP problem mein optimal solution kahan milta hai?",
+ opts:["Origin par","Feasible region ke interior mein","Corner points (vertices) mein se ek par","Objective function par"],ans:2,
+ sol:"<strong>Fundamental Theorem of LP:</strong><br>Agar optimal solution exist karta hai, to woh feasible region ke ek ya zyada <strong>corner points</strong> par milega.<br>Isliye: har vertex par Z evaluate karo, maximum/minimum dhundho.",
+ trick:"LP shortcut: Sirf corner points check karo. Interior points kabhi optimal nahin hote (unless unbounded). Graphical method fast hai."},
+
+{id:27,t:"Linear Programming",d:"hard",
+ q:"Maximize Z = 5x + 3y, subject to: x+y ≤ 4, x ≥ 0, y ≥ 0. Maximum Z kya hai?",
+ opts:["12","20","15","17"],ans:1,
+ sol:"Corner points of feasible region:<br>(0,0): Z = 0<br>(4,0): Z = 5(4)+3(0) = <strong>20</strong><br>(0,4): Z = 5(0)+3(4) = 12<br>Maximum Z = <strong>20</strong> at (4,0)",
+ trick:"Har corner point par Z calculate karo. Coefficient of x (5) > coefficient of y (3), isliye x maximize karna chahiye → point (4,0)."},
+
+// ── STATISTICS ────────────────────────────────
+{id:28,t:"Statistics",d:"easy",
+ q:"Data: 2, 4, 6, 8, 10 ka mean aur variance kya hai?",
+ opts:["Mean=6, Var=8","Mean=6, Var=4","Mean=5, Var=8","Mean=6, Var=6"],ans:0,
+ sol:"Mean = (2+4+6+8+10)/5 = 30/5 = <strong>6</strong><br>Deviations: −4,−2,0,2,4<br>Squared deviations: 16,4,0,4,16<br>Variance = (16+4+0+4+16)/5 = 40/5 = <strong>8</strong>",
+ trick:"Variance shortcut: Var = (Σx²/n) − (mean)². = (4+16+36+64+100)/5 − 36 = 44−36 = 8. Mean of squares minus square of mean."},
+
+// ── MORE INTEGRATION ──────────────────────────
+{id:29,t:"Integration",d:"medium",
+ q:"∫ dx/√(4−x²) kya hoga?",
+ opts:["sin⁻¹(x/2) + C","(1/2)sin⁻¹(x/2) + C","cos⁻¹(x/2) + C","tan⁻¹(x/2) + C"],ans:0,
+ sol:"<strong>Standard Form:</strong> ∫ dx/√(a²−x²) = sin⁻¹(x/a) + C<br>Yahan a² = 4, a = 2<br>= <strong>sin⁻¹(x/2) + C</strong>",
+ trick:"∫dx/√(a²−x²) = arcsin(x/a)+C. Denominator mein square root aur minus sign → arcsin formula."},
+
+{id:30,t:"Integration",d:"hard",
+ q:"∫ x/(x²+1) dx kya hoga?",
+ opts:["(1/2)ln|x²+1| + C","ln|x²+1| + C","tan⁻¹(x) + C","(1/2)tan⁻¹(x) + C"],ans:0,
+ sol:"<strong>Substitution:</strong> t = x²+1, dt = 2x dx → x dx = dt/2<br>∫ x/(x²+1) dx = ∫ (1/t)(dt/2) = (1/2)∫dt/t<br>= (1/2)ln|t| + C<br>= <strong>(1/2)ln|x²+1| + C</strong>",
+ trick:"Numerator mein x aur denominator mein x² hai → substitution t=x²+1 use karo. Numerator = dt/2."},
+
+// Fill remaining to 50 with quality questions
+{id:31,t:"Differentiation",d:"medium",
+ q:"d/dx[tan⁻¹(x)] kya hai?",
+ opts:["1/(1+x²)","1/√(1−x²)","−1/(1+x²)","1/(x√(x²−1))"],ans:0,
+ sol:"Standard result: d/dx[tan⁻¹x] = 1/(1+x²)<br>Proof: y = tan⁻¹x → tany = x → sec²y · dy/dx = 1 → dy/dx = 1/sec²y = 1/(1+tan²y) = 1/(1+x²)",
+ trick:"Inverse trig derivatives yaad karo: sin⁻¹x → 1/√(1-x²), tan⁻¹x → 1/(1+x²), cos⁻¹x → −1/√(1-x²)."},
+
+{id:32,t:"Matrices & Determinants",d:"medium",
+ q:"Agar A = [[2,1],[1,3]] ho to A⁻¹ kya hoga?",
+ opts:["(1/5)[[3,−1],[−1,2]]","(1/5)[[3,1],[1,2]]","[[3,−1],[−1,2]]","(1/7)[[3,−1],[−1,2]]"],ans:0,
+ sol:"|A| = 6−1 = 5<br>Adj(A) = [[3,−1],[−1,2]] (diagonal swap, off-diagonal sign change)<br>A⁻¹ = Adj(A)/|A| = <strong>(1/5)[[3,−1],[−1,2]]</strong>",
+ trick:"2×2 inverse: swap diagonal, negate off-diagonal, divide by determinant. [[a,b],[c,d]]⁻¹ = (1/(ad-bc))[[d,-b],[-c,a]]"},
+
+{id:33,t:"Relations & Functions",d:"medium",
+ q:"Agar f(x) = x+2 aur g(x) = x−2 ho to (fog)(x) kya hai?",
+ opts:["x","x+4","x−4","x²−4"],ans:0,
+ sol:"(fog)(x) = f(g(x)) = f(x−2) = (x−2)+2 = <strong>x</strong><br>Note: g = f⁻¹ isliye fog = Identity function.",
+ trick:"Ek interesting pattern: f aur f⁻¹ ka composition identity (x) deta hai. f(g(x))=x matlab g = f⁻¹."},
+
+{id:34,t:"Differentiation",d:"easy",
+ q:"d/dx[ln(cosx)] kya hoga?",
+ opts:["−tanx","cotx","tanx","−cotx"],ans:0,
+ sol:"d/dx[ln(f(x))] = f'(x)/f(x)<br>f(x) = cosx, f'(x) = −sinx<br>= −sinx/cosx = <strong>−tanx</strong>",
+ trick:"d/dx[ln f(x)] = f'/f. Hamesha chain rule use karo. ln(sinx)→cotx, ln(cosx)→−tanx."},
+
+{id:35,t:"Integration",d:"medium",
+ q:"∫ tanx dx kya hoga?",
+ opts:["ln|secx| + C","ln|cosx| + C","−ln|secx| + C","sec²x + C"],ans:0,
+ sol:"∫ tanx dx = ∫ sinx/cosx dx<br>Let t = cosx, dt = −sinx dx<br>= −∫ dt/t = −ln|t| + C = −ln|cosx| + C<br>= <strong>ln|secx| + C</strong><br>(since −ln|cosx| = ln|1/cosx| = ln|secx|)",
+ trick:"∫tanx = ln|secx|+C = −ln|cosx|+C. Dono same hain. Similarly ∫cotx = ln|sinx|+C."},
+
+{id:36,t:"Vectors & 3D",d:"medium",
+ q:"Vector a⃗ = 2î+ĵ−2k̂ ki unit vector kya hogi?",
+ opts:["(2î+ĵ−2k̂)/3","(2î+ĵ−2k̂)/9","(î+ĵ+k̂)/√3","(2î+ĵ−2k̂)/√9"],ans:0,
+ sol:"|a⃗| = √(4+1+4) = √9 = 3<br>Unit vector â = a⃗/|a⃗| = <strong>(2î+ĵ−2k̂)/3</strong>",
+ trick:"Unit vector = vector/magnitude. Magnitude nikalna: components square karo, add karo, square root lo."},
+
+{id:37,t:"Probability",d:"hard",
+ q:"Ek bag mein 3 red aur 5 blue balls hain. Bina dekhe 2 balls nikali. Dono red hone ki probability?",
+ opts:["3/28","3/14","1/4","6/28"],ans:0,
+ sol:"Total ways = C(8,2) = 28<br>Favorable (2 red from 3) = C(3,2) = 3<br>P = 3/28",
+ trick:"Combination use karo: C(n,r) = n!/(r!(n-r)!). Without replacement problems mein combinations use hoti hain."},
+
+{id:38,t:"Integration",d:"hard",
+ q:"Area between y = x² aur y = x from x=0 to x=1 kya hai?",
+ opts:["1/6","1/3","1/2","1/4"],ans:0,
+ sol:"Area = ∫₀¹ (x − x²) dx<br>= [x²/2 − x³/3]₀¹<br>= (1/2 − 1/3) − 0<br>= 3/6 − 2/6<br>= <strong>1/6</strong>",
+ trick:"Do curves ke beech area: ∫(upper − lower)dx. Pehle check karo kaunsa curve upar hai us interval mein."},
+
+{id:39,t:"Differentiation",d:"hard",
+ q:"Agar x·y = c² (constant) ho, to dy/dx kya hoga?",
+ opts:["−y/x","y/x","−x/y","x/y"],ans:0,
+ sol:"<strong>Implicit Differentiation:</strong><br>Differentiate xy = c² both sides w.r.t. x:<br>y + x·dy/dx = 0<br>dy/dx = <strong>−y/x</strong>",
+ trick:"Implicit: dono sides differentiate karo. y ka derivative likhte waqt dy/dx multiply karo (chain rule). Then dy/dx isolate karo."},
+
+{id:40,t:"Matrices & Determinants",d:"hard",
+ q:"Linear system 2x+3y=5, 4x+6y=10 ke solutions:",
+ opts:["Unique solution x=1,y=1","No solution","Infinite solutions","x=0,y=5/3"],ans:2,
+ sol:"Equation 2 = 2 × Equation 1 (completely proportional)<br>|A| = |[[2,3],[4,6]]| = 12−12 = 0 (singular)<br>Dono lines coincide → <strong>Infinite solutions</strong>",
+ trick:"System check: |A|≠0 → unique. |A|=0 check: if augmented matrix bhi consistent → infinite, else no solution."},
+
+{id:41,t:"Vectors & 3D",d:"hard",
+ q:"Points A(1,2,3), B(4,5,6) se line ka symmetric equation kya hoga?",
+ opts:["(x−1)/3=(y−2)/3=(z−3)/3","(x−1)/4=(y−2)/5=(z−3)/6","(x+1)/3=(y+2)/3=(z+3)/3","x/3=y/3=z/3"],ans:0,
+ sol:"Direction ratios = B − A = (4−1, 5−2, 6−3) = (3, 3, 3)<br>Line through A(1,2,3): <strong>(x−1)/3 = (y−2)/3 = (z−3)/3</strong>",
+ trick:"Line through A(x₁,y₁,z₁) with DR (a,b,c): (x−x₁)/a=(y−y₁)/b=(z−z₁)/c. DR = second point minus first point."},
+
+{id:42,t:"Integration",d:"medium",
+ q:"∫₀¹ x·eˣ dx ka maan kya hai?",
+ opts:["1","e−1","e","e+1"],ans:0,
+ sol:"By parts: ∫₀¹ x·eˣ dx = [xeˣ − eˣ]₀¹<br>= (1·e − e) − (0·1 − 1)<br>= (e−e) − (−1)<br>= 0 + 1<br>= <strong>1</strong>",
+ trick:"By parts definite integral: formula apply karo phir limits lagao. [xeˣ−eˣ]₀¹ → upper minus lower."},
+
+{id:43,t:"Relations & Functions",d:"hard",
+ q:"f: N→N, f(n) = 2n+1. Yeh function kaisa hai?",
+ opts:["One-one aur onto","One-one lekin onto nahin","Onto lekin one-one nahin","Neither one-one nor onto"],ans:1,
+ sol:"<strong>One-one:</strong> f(a)=f(b) ⟹ 2a+1=2b+1 ⟹ a=b ✓<br><strong>Onto check:</strong> f(x)=2 ⟹ 2x+1=2 ⟹ x=0.5 ∉ N<br>Even numbers (2,4,6...) range mein nahin aate<br>∴ <strong>one-one but NOT onto</strong>",
+ trick:"Onto check: har element of codomain ka koi pre-image hai? Yahan even numbers miss ho rahe hain."},
+
+{id:44,t:"Differentiation",d:"medium",
+ q:"y = sin(e^x) ka dy/dx kya hoga?",
+ opts:["cos(eˣ)·eˣ","eˣ·sinx","cos(eˣ)","eˣ·cosx"],ans:0,
+ sol:"Chain rule: d/dx[sin(u)] = cos(u)·du/dx<br>u = eˣ, du/dx = eˣ<br>dy/dx = cos(eˣ) · eˣ = <strong>eˣ·cos(eˣ)</strong>",
+ trick:"Double chain rule: outer (sin→cos), middle (eˣ stays eˣ). Multiply results."},
+
+{id:45,t:"Statistics",d:"medium",
+ q:"Standard deviation (SD) aur variance ka relation kya hai?",
+ opts:["SD = Variance²","Variance = SD²","SD = 2×Variance","Variance = √SD"],ans:1,
+ sol:"<strong>Variance = (Standard Deviation)²</strong><br>ya<br><strong>Standard Deviation = √Variance</strong><br>SD hamesha non-negative hota hai aur same units mein hota hai jaise data.",
+ trick:"SD = √Variance. Variance scatter measure karta hai, SD zyada interpretable hai (same units). Always: SD = √Var."},
+
+{id:46,t:"Linear Programming",d:"medium",
+ q:"Minimize Z = 3x+2y subject to x+y ≥ 4, x ≥ 0, y ≥ 0. Minimum Z?",
+ opts:["8","6","12","0"],ans:0,
+ sol:"Corner points of feasible region (≥ constraint):<br>(0,4): Z = 0+8 = 8<br>(4,0): Z = 12+0 = 12<br>Minimum Z = <strong>8</strong> at (0,4)",
+ trick:"Greater-than constraints mein feasible region upar/right hoti hai. Corner points phir bhi same approach se evaluate karo."},
+
+{id:47,t:"Probability",d:"medium",
+ q:"P(A) = 1/3, P(B) = 1/4, A aur B independent hain. P(A∩B) kya hai?",
+ opts:["1/12","1/7","7/12","5/12"],ans:0,
+ sol:"Independent events ke liye:<br>P(A∩B) = P(A) × P(B)<br>= 1/3 × 1/4<br>= <strong>1/12</strong>",
+ trick:"Independent events: P(A∩B) = P(A)×P(B). Dependent events ke liye: P(A∩B) = P(A)×P(B|A)."},
+
+{id:48,t:"Vectors & 3D",d:"medium",
+ q:"a⃗ = î+2ĵ+3k̂ aur b⃗ = 2î−ĵ+k̂ parallel hain kya?",
+ opts:["Haan","Nahin, lekin perpendicular hain","Nahin, parallel bhi nahin perpendicular bhi nahin","Can't determine"],ans:2,
+ sol:"Parallel check: a₁/b₁ = a₂/b₂ = a₃/b₃?<br>1/2 ≠ 2/(−1) → NOT parallel<br>Perpendicular check: a⃗·b⃗ = 2−2+3 = 3 ≠ 0 → NOT perpendicular<br>∴ <strong>Neither parallel nor perpendicular</strong>",
+ trick:"Parallel: ratios equal. Perpendicular: dot product = 0. Agar dono fail → neither."},
+
+{id:49,t:"Integration",d:"medium",
+ q:"∫ 1/(1+x²) dx kya hoga?",
+ opts:["tan⁻¹(x) + C","sin⁻¹(x) + C","ln|1+x²| + C","sec⁻¹(x) + C"],ans:0,
+ sol:"Standard form (a=1):<br>∫ dx/(x²+a²) = (1/a)tan⁻¹(x/a)+C<br>a = 1: ∫dx/(1+x²) = <strong>tan⁻¹(x)+C</strong>",
+ trick:"∫1/(1+x²)=arctan(x)+C. Ek aur standard: ∫1/√(1-x²)=arcsin(x)+C. Dono yaad rakho!"},
+
+{id:50,t:"Differentiation",d:"medium",
+ q:"f(x) = x³ − 6x² + 9x + 15 ka increasing interval kya hai?",
+ opts:["(−∞,1)∪(3,∞)","(1,3)","(0,2)","(−∞,∞)"],ans:0,
+ sol:"f'(x) = 3x²−12x+9 = 3(x−1)(x−3)<br>f'(x) > 0 when:<br>x < 1 or x > 3<br>Increasing on <strong>(−∞,1) ∪ (3,∞)</strong>",
+ trick:"Increasing: f'>0. Factor f'(x), sign chart banao. (x-1)(x-3)>0 jab dono same sign hon: both +ve (x>3) ya both -ve (x<1)."},
+],
+
+2:[
+// ── TEST 2 QUESTIONS ──────────────────────────
+{id:1,t:"Relations & Functions",d:"medium",
+ q:"f: R→R, f(x) = 3x−5 ka inverse f⁻¹(x) kya hai?",
+ opts:["(x+5)/3","(x−5)/3","3x+5","(x−3)/5"],ans:0,
+ sol:"y = 3x−5<br>3x = y+5<br>x = (y+5)/3<br>∴ f⁻¹(x) = <strong>(x+5)/3</strong>",
+ trick:"Inverse: y=f(x) rakho, x ke liye solve karo, y→x badlo."},
+
+{id:2,t:"Matrices & Determinants",d:"easy",
+ q:"[[cosθ, −sinθ],[sinθ, cosθ]] ka determinant kya hai?",
+ opts:["0","1","cos2θ","sin2θ"],ans:1,
+ sol:"|A| = cosθ·cosθ − (−sinθ)·sinθ<br>= cos²θ + sin²θ<br>= <strong>1</strong>",
+ trick:"Rotation matrix ka det hamesha 1 hota hai. cos²+sin²=1 — Pythagorean identity use karo."},
+
+{id:3,t:"Integration",d:"easy",
+ q:"∫ eˣ dx kya hoga?",
+ opts:["eˣ + C","xeˣ + C","eˣ/x + C","eˣ·ln(x) + C"],ans:0,
+ sol:"∫eˣ dx = <strong>eˣ + C</strong><br>eˣ apna khud derivative hai — nature ka sabse special function!",
+ trick:"eˣ ka integral = eˣ. Simple! Lekin e^(f(x)) ke liye: result = e^(f(x))/f'(x) (sirf linear f ke liye)."},
+
+{id:4,t:"Differentiation",d:"medium",
+ q:"Rolle's Theorem: f(x) = x²−4x+3 on [1,3]. c ki value kya hogi?",
+ opts:["1","2","3","0"],ans:1,
+ sol:"f(1) = 1−4+3 = 0, f(3) = 9−12+3 = 0 ✓ (f(a)=f(b))<br>f'(x) = 2x−4 = 0<br>x = 2 ∈ (1,3) ✓<br>∴ c = <strong>2</strong>",
+ trick:"Rolle's: f(a)=f(b) hona chahiye. Phir f'(c)=0 ka c dhoondo interval mein. Basically mean value ka special case."},
+
+{id:5,t:"Matrices & Determinants",d:"medium",
+ q:"Agar A symmetric aur skew-symmetric dono ho, to A kya hai?",
+ opts:["Identity matrix","Diagonal matrix","Null matrix","Scalar matrix"],ans:2,
+ sol:"Symmetric: Aᵀ = A ...(i)<br>Skew-symmetric: Aᵀ = −A ...(ii)<br>(i) aur (ii) se: A = −A<br>2A = 0 ⟹ A = O (null matrix)<br>∴ <strong>Null Matrix</strong>",
+ trick:"Symmetric+Skew = Null. Koi matrix dono simultaneously tabhi hoti hai jab woh zero/null ho."},
+
+{id:6,t:"Integration",d:"medium",
+ q:"∫ cos²x dx kya hoga?",
+ opts:["x/2 + sin(2x)/4 + C","sin²x + C","x + sin(2x)/4 + C","x/2 − sin(2x)/4 + C"],ans:0,
+ sol:"cos²x = (1+cos2x)/2<br>∫cos²x dx = ∫(1+cos2x)/2 dx<br>= x/2 + sin(2x)/4 + C",
+ trick:"cos²x=(1+cos2x)/2, sin²x=(1−cos2x)/2. Plus/minus yaad karo: cos²→plus, sin²→minus."},
+
+{id:7,t:"Differentiation",d:"easy",
+ q:"d/dx[x⁵ + 3x³ − 7x + 2] kya hai?",
+ opts:["5x⁴+9x²−7","5x⁴+3x²−7","4x⁴+9x²−7","5x⁵+9x³−7"],ans:0,
+ sol:"Power rule: d/dx[xⁿ] = nxⁿ⁻¹<br>d/dx[x⁵] = 5x⁴<br>d/dx[3x³] = 9x²<br>d/dx[−7x] = −7<br>d/dx[2] = 0<br>Answer: <strong>5x⁴+9x²−7</strong>",
+ trick:"Power rule: degree ek kam karo, original degree coefficient se multiply karo. Constant ka derivative = 0."},
+
+{id:8,t:"Vectors & 3D",d:"medium",
+ q:"a⃗ = 3î−ĵ+2k̂ ka magnitude kya hai?",
+ opts:["√14","√12","4","√10"],ans:0,
+ sol:"|a⃗| = √(3²+(−1)²+2²) = √(9+1+4) = √14",
+ trick:"Magnitude = √(x²+y²+z²). Sab components square karke add karo, phir root lo."},
+
+{id:9,t:"Probability",d:"easy",
+ q:"52 cards se ek card draw. King aane ki probability?",
+ opts:["1/13","4/52","1/52","4/13"],ans:0,
+ sol:"Kings = 4 (one of each suit)<br>Total cards = 52<br>P(King) = 4/52 = <strong>1/13</strong>",
+ trick:"P = favorable/total. 52 mein 4 kings → 4/52 = 1/13. Reduce fractions!"},
+
+{id:10,t:"Integration",d:"hard",
+ q:"∫ x²·eˣ dx kya hoga?",
+ opts:["eˣ(x²−2x+2)+C","eˣ(x²+2x+2)+C","x²eˣ+C","eˣ(x²−2)+C"],ans:0,
+ sol:"By parts twice:<br>∫x²eˣ dx = x²eˣ − ∫2xeˣ dx<br>= x²eˣ − 2[xeˣ−eˣ] + C<br>= x²eˣ − 2xeˣ + 2eˣ + C<br>= <strong>eˣ(x²−2x+2)+C</strong>",
+ trick:"By parts baar baar apply karo jab tak algebraic function zero na ho jaye. xⁿeˣ ke liye n baar by parts lagega."},
+
+{id:11,t:"Differentiation",d:"hard",
+ q:"Agar y = sin⁻¹(2x√(1−x²)) ho to dy/dx kya hai?",
+ opts:["2/√(1−x²)","1/√(1−x²)","2x/√(1−x²)","−2/√(1−x²)"],ans:0,
+ sol:"x = sinθ rakho: y = sin⁻¹(2sinθcosθ) = sin⁻¹(sin2θ) = 2θ = 2sin⁻¹x<br>dy/dx = 2 × 1/√(1−x²) = <strong>2/√(1−x²)</strong>",
+ trick:"sin⁻¹(2x√(1−x²)) = 2sin⁻¹x — yeh substitution trick CUET mein classic hai. x=sinθ rakho."},
+
+{id:12,t:"Matrices & Determinants",d:"medium",
+ q:"Agar |A| = 3 aur A 2×2 matrix hai, to |A⁻¹| kya hoga?",
+ opts:["1/3","3","1/9","9"],ans:0,
+ sol:"Property: |A⁻¹| = 1/|A|<br>|A⁻¹| = 1/3",
+ trick:"A·A⁻¹=I → |A|·|A⁻¹|=|I|=1 → |A⁻¹|=1/|A|. Simple reciprocal relationship."},
+
+{id:13,t:"Integration",d:"medium",
+ q:"∫₀^π sinx dx ka maan kya hoga?",
+ opts:["0","2","1","π"],ans:1,
+ sol:"[−cosx]₀^π = −cos(π) + cos(0) = −(−1) + 1 = 1 + 1 = <strong>2</strong>",
+ trick:"cos(π)=−1, cos(0)=1. [−cosx] mein minus sign dhyan rakho. 0 to π mein sinx ka area = 2."},
+
+{id:14,t:"Vectors & 3D",d:"hard",
+ q:"Line x/1 = y/2 = z/3 aur Line x/1 = y/−1 = z/1 ke beech angle kya hai?",
+ opts:["cos⁻¹(2/√42)","cos⁻¹(4/√42)","90°","cos⁻¹(1/√14)"],ans:0,
+ sol:"DR₁=(1,2,3), DR₂=(1,−1,1)<br>cosθ = (1·1+2·(−1)+3·1)/(√14·√3)<br>= (1−2+3)/(√42) = 2/√42<br>θ = cos⁻¹(2/√42)",
+ trick:"Lines ke beech angle: cosθ = (a₁a₂+b₁b₂+c₁c₂)/(√(a₁²+b₁²+c₁²)·√(a₂²+b₂²+c₂²))"},
+
+{id:15,t:"Probability",d:"medium",
+ q:"P(A) = 0.6, P(A∩B) = 0.3. P(B|A) kya hai?",
+ opts:["0.5","0.3","0.2","0.18"],ans:0,
+ sol:"P(B|A) = P(A∩B)/P(A) = 0.3/0.6 = <strong>0.5</strong>",
+ trick:"Conditional probability: P(B|A) = P(A∩B)/P(A). 'Given A' ka matlab hai A already hua — isliye P(A) se divide karo."},
+
+{id:16,t:"Linear Programming",d:"hard",
+ q:"Maximize Z = 4x+3y, subject to: 2x+3y≤6, x+y≤3, x,y≥0. Maximum Z?",
+ opts:["12","9","10","11"],ans:0,
+ sol:"Corner points:<br>(0,0): Z=0<br>(3,0): Z=12<br>(0,2): Z=6<br>Check (3,0): 2(3)+3(0)=6≤6 ✓, 3+0=3≤3 ✓<br>Maximum Z = <strong>12</strong> at (3,0)",
+ trick:"Saari constraints se corner points nikalo. Z coefficient mein x ka coefficient bada (4>3) isliye x maximize karo."},
+
+{id:17,t:"Integration",d:"medium",
+ q:"∫ sec²x dx kya hai?",
+ opts:["tanx + C","secx + C","2secx·tanx + C","sin²x + C"],ans:0,
+ sol:"Standard result: ∫ sec²x dx = <strong>tanx + C</strong><br>Verify: d/dx(tanx) = sec²x ✓",
+ trick:"∫sec²x = tanx+C. Integration = differentiation ka ulta. Basic trig integrals: sinx→−cosx, cosx→sinx, sec²x→tanx."},
+
+{id:18,t:"Differentiation",d:"medium",
+ q:"Agar f(x) = x|x| ho to f'(0) kya hai?",
+ opts:["0","1","−1","Does not exist"],ans:0,
+ sol:"f(x) = x² (x≥0), −x² (x<0)<br>LHD: lim(h→0⁻)(−h²)/h = lim(−h) = 0<br>RHD: lim(h→0⁺)(h²)/h = lim(h) = 0<br>LHD = RHD = 0 → <strong>f'(0) = 0</strong>",
+ trick:"x|x| smooth hai at origin (unlike |x|). Dono sides se LHD=RHD=0 hai. Sharp corner nahin hai yahan."},
+
+{id:19,t:"Statistics",d:"hard",
+ q:"Data: 3,7,3,4,5,3,2 ka mode, median, mean kya hai?",
+ opts:["Mode=3, Median=4, Mean≈3.9","Mode=3, Median=3, Mean≈4","Mode=4, Median=3, Mean≈3.9","Mode=3, Median=3.5, Mean≈4"],ans:0,
+ sol:"Sorted: 2,3,3,3,4,5,7<br>Mode = 3 (3 baar aaya)<br>Median = 4th term = 3... wait sorted=[2,3,3,3,4,5,7], middle(4th)=<strong>3</strong>, Mean=(2+3+3+3+4+5+7)/7=27/7≈3.86≈3.9<br>Mode=3, Median=3, Mean≈3.9",ans:1,
+ sol:"Sorted: 2,3,3,3,4,5,7 (n=7)<br>Mode = <strong>3</strong> (highest frequency=3)<br>Median = (7+1)/2 = 4th term = <strong>3</strong><br>Mean = 27/7 ≈ <strong>3.86</strong>",
+ trick:"Mode: sabse zyada aane wala. Median: sorted ka middle term. Mean: sum/count. Odd n ke liye median = (n+1)/2 th term."},
+
+{id:20,t:"Relations & Functions",d:"hard",
+ q:"Onto function ke liye range = codomain hona chahiye. f: R→[0,∞), f(x) = x² — kya onto hai?",
+ opts:["Haan, range = [0,∞)","Nahin, negative values covered nahin","Haan, one-one bhi hai","Nahin, range ≠ codomain"],ans:0,
+ sol:"f(x) = x², x ∈ R.<br>Range = {x² : x∈R} = [0,∞) = Codomain<br>Har y ≥ 0 ke liye x = √y ∈ R exist karta hai<br>∴ <strong>Onto hai</strong> (jab codomain [0,∞) ho)",
+ trick:"Onto depends on codomain. f:R→R mein x² onto nahin, lekin f:R→[0,∞) mein onto hai! Codomain change karo to sab badal sakta hai."},
+
+{id:21,t:"Integration",d:"hard",
+ q:"∫ ln(x) dx kya hoga?",
+ opts:["x·ln(x) − x + C","ln(x)/x + C","x·ln(x) + C","1/x + C"],ans:0,
+ sol:"By parts: u = ln(x), dv = dx<br>du = 1/x dx, v = x<br>∫ln(x)dx = x·ln(x) − ∫x·(1/x)dx<br>= x·ln(x) − ∫1 dx<br>= <strong>x·ln(x) − x + C</strong>",
+ trick:"∫ln(x) mein ILATE se u=ln(x), dv=dx. Classic by parts. Result: x·lnx − x + C."},
+
+{id:22,t:"Differentiation",d:"medium",
+ q:"Agar x=a·cosθ aur y=b·sinθ (parametric), to dy/dx kya hoga?",
+ opts:["−(b/a)cotθ","−(b/a)tanθ","(b/a)tanθ","(a/b)cotθ"],ans:0,
+ sol:"dx/dθ = −a·sinθ, dy/dθ = b·cosθ<br>dy/dx = (dy/dθ)/(dx/dθ) = b·cosθ/(−a·sinθ)<br>= <strong>−(b/a)cotθ</strong>",
+ trick:"Parametric: dy/dx = (dy/dθ)÷(dx/dθ). Yeh ellipse x²/a²+y²/b²=1 ka parametric form hai."},
+
+{id:23,t:"Vectors & 3D",d:"medium",
+ q:"a⃗·b⃗ = 0 matlab kya hai?",
+ opts:["a⃗ aur b⃗ parallel hain","a⃗ aur b⃗ perpendicular hain","a⃗ = b⃗","a⃗ ya b⃗ zero vector hai"],ans:1,
+ sol:"Dot product formula: a⃗·b⃗ = |a⃗||b⃗|cosθ<br>a⃗·b⃗ = 0 ⟹ cosθ = 0 ⟹ θ = 90°<br>∴ a⃗ aur b⃗ <strong>perpendicular</strong> hain (assuming non-zero vectors)",
+ trick:"Dot product: = 0 → perpendicular. |a⃗×b⃗| = 0 → parallel. ये dono opposite conditions hain."},
+
+{id:24,t:"Probability",d:"hard",
+ q:"Ek box mein 3 defective aur 7 good items. 2 items nikale bina replacement. Dono defective ki probability?",
+ opts:["1/15","3/100","6/90","3/45"],ans:0,
+ sol:"P(1st defective) = 3/10<br>P(2nd defective | 1st defective) = 2/9<br>P(both defective) = (3/10)×(2/9) = 6/90 = <strong>1/15</strong>",
+ trick:"Without replacement: conditional probability use karo. 1st nikalne ke baad total 9 reh gaye, defective 2."},
+
+{id:25,t:"Integration",d:"medium",
+ q:"∫ 2x/(x²+1) dx kya hoga?",
+ opts:["ln|x²+1| + C","2tan⁻¹(x) + C","(x²+1)² + C","2x²+ln|x| + C"],ans:0,
+ sol:"t = x²+1, dt = 2x dx<br>∫2x/(x²+1) dx = ∫dt/t = <strong>ln|t| + C = ln|x²+1| + C</strong>",
+ trick:"Numerator = derivative of denominator → ∫f'(x)/f(x)dx = ln|f(x)|+C. Yeh recognize karna seekho!"},
+
+{id:26,t:"Matrices & Determinants",d:"hard",
+ q:"3×3 matrix A ka trace (sum of diagonal elements) 6 hai aur |A|=2. Characteristic polynomial kya nahi diya ja sakta bina poore matrix ke?",
+ opts:["Bilkul theek","Trace aur det se complete polynomial nahin nikalta","Trace se milta hai","Det se milta hai"],ans:1,
+ sol:"Characteristic polynomial: λ³ − (trace)λ² + (sum of 2×2 minors)λ − |A| = 0<br>Sirf trace (6) aur det (2) se middle coefficient (sum of 2×2 minors) nahin nikalta.<br>Poora matrix chahiye.",
+ trick:"3×3 characteristic polynomial ke 3 coefficients: trace, sum of cofactors, det. Sirf trace+det se complete polynomial nahin banta."},
+
+{id:27,t:"Differentiation",d:"hard",
+ q:"Agar f(x+y) = f(x)+f(y) sab x,y ke liye aur f'(0) = 3 ho to f'(x) kya hai?",
+ opts:["3","3x","3f(x)","f(x)/3"],ans:0,
+ sol:"f'(x) = lim(h→0)[f(x+h)−f(x)]/h<br>= lim[f(x)+f(h)−f(x)]/h [given condition use kiya]<br>= lim f(h)/h<br>= f'(0) = <strong>3</strong>",
+ trick:"Cauchy functional equation f(x+y)=f(x)+f(y) → f is linear. f'(x) = f'(0) everywhere. Elegant CUET hard question!"},
+
+{id:28,t:"Statistics",d:"medium",
+ q:"Agar mean = 10 aur variance = 4 ho to coefficient of variation (CV) kya hoga?",
+ opts:["20%","40%","2%","0.4%"],ans:0,
+ sol:"SD = √Variance = √4 = 2<br>CV = (SD/Mean) × 100 = (2/10) × 100 = <strong>20%</strong>",
+ trick:"CV = (SD/Mean)×100. Yeh relative measure hai — different distributions compare karne ke kaam aata hai."},
+
+{id:29,t:"Linear Programming",d:"medium",
+ q:"LPP mein 'infeasible solution' kab hoti hai?",
+ opts:["Jab objective function unbounded ho","Jab constraints ko satisfy karne wala koi point na ho","Jab sirf ek corner point ho","Jab Z ka value negative ho"],ans:1,
+ sol:"Infeasible: jab constraints itne restrictive hon ki koi bhi point sabhi constraints saath satisfy na kar sake.<br>Feasible region empty ho jati hai.",
+ trick:"Infeasible = feasible region exist hi nahin karti. Unbounded = feasible region exist karti hai lekin Z ka optimal finite nahin."},
+
+{id:30,t:"Probability",d:"hard",
+ q:"Ek student 70% maths aur 80% physics pass karta hai. Dono mein fail hone ki probability 5% hai. Dono mein pass ki probability?",
+ opts:["55%","50%","45%","60%"],ans:0,
+ sol:"P(M) = 0.7, P(P) = 0.8, P(M'∩P') = 0.05<br>P(M∪P) = 1 − P(M'∩P') = 0.95<br>P(M∩P) = P(M)+P(P)−P(M∪P) = 0.7+0.8−0.95 = <strong>0.55</strong>",
+ trick:"P(M∩P) = P(M)+P(P)−P(M∪P). P(M∪P) = 1−P(both fail). Complement rule useful hai."},
+
+// Fill 31-50
+{id:31,t:"Integration",d:"easy",q:"∫ 3x² dx kya hai?",opts:["x³+C","3x+C","6x+C","x³/3+C"],ans:0,sol:"Power rule: ∫xⁿ dx = xⁿ⁺¹/(n+1). ∫3x² dx = 3·x³/3 + C = x³+C",trick:"Power rule: degree badhao by 1, original coefficient se multiply/divide karo."},
+{id:32,t:"Differentiation",d:"easy",q:"d/dx[e^(3x)] kya hai?",opts:["3e^(3x)","e^(3x)","3xe^(3x)","e^(3x)/3"],ans:0,sol:"Chain rule: d/dx[e^(f(x))] = e^(f(x))·f'(x). f(x)=3x, f'(x)=3. Answer: 3e^(3x)",trick:"d/dx[e^(kx)] = k·e^(kx). Exponent ka coefficient bahar aa jata hai."},
+{id:33,t:"Relations & Functions",d:"easy",q:"f(x) = √x ka domain kya hai?",opts:["[0,∞)","(−∞,∞)","(0,∞)","[1,∞)"],ans:0,sol:"√x real hone ke liye x ≥ 0 chahiye. Domain = [0,∞).",trick:"Even root (√, ⁴√) ke liye andar ≥ 0. Odd root (∛) ke liye koi restriction nahin."},
+{id:34,t:"Vectors & 3D",d:"easy",q:"î · ĵ kya hai?",opts:["0","1","−1","î"],ans:0,sol:"î·ĵ = |î||ĵ|cos(90°) = 1·1·0 = 0. Unit vectors perpendicular hain.",trick:"î·î=ĵ·ĵ=k̂·k̂=1. î·ĵ=ĵ·k̂=k̂·î=0. Perpendicular unit vectors ka dot = 0."},
+{id:35,t:"Probability",d:"easy",q:"Koi event ki probability 0 ho to event kaisa hai?",opts:["Certain","Impossible","Equally likely","None"],ans:1,sol:"P=0 → Impossible event. P=1 → Certain event. 0≤P≤1 hamesha.",trick:"P=0→Impossible, P=1→Certain, P=0.5→Equal chance. Probability kabhhi negative ya 1 se bada nahin hota."},
+{id:36,t:"Matrices & Determinants",d:"medium",q:"[[a,b],[c,d]] ka adjoint kya hoga?",opts:["[[d,−b],[−c,a]]","[[a,−b],[−c,d]]","[[d,b],[c,a]]","[[a,c],[b,d]]"],ans:0,sol:"2×2 adjoint: diagonal swap karo (a↔d), off-diagonal negate karo. Adj = [[d,−b],[−c,a]].",trick:"2×2 adjoint shortcut: diagonal swap + off-diagonal sign change. 3×3 mein cofactor matrix ka transpose."},
+{id:37,t:"Integration",d:"medium",q:"∫ 1/x dx kya hai?",opts:["ln|x|+C","1/x²+C","x+C","1/(x²)+C"],ans:0,sol:"∫(1/x)dx = ln|x| + C. Power rule yahan fail hota hai (n=−1 hota). Special case!",trick:"∫x^(−1) = ln|x|+C. Yeh power rule ka exception hai. Absolute value ka sign important hai."},
+{id:38,t:"Differentiation",d:"medium",q:"Product rule: d/dx[u·v] kya hai?",opts:["u'v+uv'","u'v−uv'","u'v'","uv'+u'v"],ans:0,sol:"Product rule: d/dx[u·v] = u'·v + u·v'<br>Example: d/dx[x²·sinx] = 2x·sinx + x²·cosx",trick:"Product rule = (diff first)×second + first×(diff second). UV dash = U'V + UV'"},
+{id:39,t:"Vectors & 3D",d:"medium",q:"î × ĵ kya hai?",opts:["k̂","−k̂","0","î"],ans:0,sol:"î×ĵ = k̂ (right hand rule). Cross product: î×ĵ=k̂, ĵ×k̂=î, k̂×î=ĵ.",trick:"Cyclic order: i→j→k→i. Forward = positive, backward = negative. î×ĵ=k̂, ĵ×î=−k̂."},
+{id:40,t:"Probability",d:"medium",q:"Ek fair die do baar pheka. Sum=7 ki probability?",opts:["1/6","5/36","6/36","7/36"],ans:0,sol:"Total outcomes = 36. Sum=7 pairs: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 pairs. P = 6/36 = 1/6.",trick:"Two dice: 36 total outcomes. Sum 7 = most likely sum (6 ways). Common CUET question."},
+{id:41,t:"Integration",d:"hard",q:"∫ x/√(1−x²) dx kya hoga?",opts:["−√(1−x²)+C","√(1−x²)+C","sin⁻¹(x)+C","arccos(x)+C"],ans:0,sol:"t=1−x², dt=−2x dx → x dx=−dt/2. ∫x/√(1−x²) dx = −(1/2)∫t^(−1/2)dt = −√t+C = −√(1−x²)+C",trick:"√(1−x²) dikhne par t=1−x² substitution try karo. Numerator mein x aur dt=-2xdx match hoga."},
+{id:42,t:"Differentiation",d:"hard",q:"f(x) = x+1/x (x>0) ka minimum value kya hai?",opts:["2","1","0","1/2"],ans:0,sol:"f'(x)=1−1/x²=0 → x²=1 → x=1 (x>0). f''(x)=2/x³>0 (min). f(1)=1+1=2.",trick:"AM-GM inequality: x+1/x ≥ 2√(x·1/x) = 2. Equality at x=1. Direct result without calculus!"},
+{id:43,t:"Statistics",d:"hard",q:"Agar do series ka SD₁=3, SD₂=4 hain aur ye independent hain. Combined SD kya hoga?",opts:["5","7","3.5","√7"],ans:0,sol:"Independent variables ke liye: Var(X+Y) = Var(X)+Var(Y). Var = 9+16 = 25. SD = √25 = 5.",trick:"Independent variables ka SD: √(SD₁²+SD₂²) = √(9+16) = √25 = 5. SDs directly add nahin hote, variances add hote hain."},
+{id:44,t:"Relations & Functions",d:"medium",q:"Equivalence class [3] in R = {(a,b): a−b divisible by 5} on Z:",opts:["{...,−7,−2,3,8,13,...}","Sirf {3}","{0,3,6,9,...}","{1,2,3,4,5}"],ans:0,sol:"[3] = {n ∈ Z : n−3 divisible by 5} = {...,−7,−2,3,8,13,...}",trick:"Equivalence class [a] = set of all elements related to a. Yahan 5 ka multiple add/subtract karo 3 mein."},
+{id:45,t:"Matrices & Determinants",d:"medium",q:"A aur B dono n×n invertible matrices hain. (AB)⁻¹ kya hai?",opts:["B⁻¹A⁻¹","A⁻¹B⁻¹","B⁻¹A","AB"],ans:0,sol:"(AB)⁻¹ = B⁻¹·A⁻¹. Verify: (AB)(B⁻¹A⁻¹) = A(BB⁻¹)A⁻¹ = A·I·A⁻¹ = AA⁻¹ = I ✓",trick:"(AB)⁻¹ = B⁻¹A⁻¹. Order reverse ho jata hai. Jaise kapde pahnne: pahle inner, nikalne mein pahle outer."},
+{id:46,t:"Integration",d:"medium",q:"∫₀¹ x² dx ka maan kya hai?",opts:["1/3","1/2","1","1/4"],ans:0,sol:"[x³/3]₀¹ = 1/3 − 0 = 1/3",trick:"Power rule aur limits: ∫x² = x³/3. Upper limit minus lower limit. Simple!"},
+{id:47,t:"Differentiation",d:"easy",q:"d/dx[sinx · cosx] kya hoga?",opts:["cos(2x)","sin(2x)","cos²x−sin²x","2sinx·cosx"],ans:0,sol:"Product rule: (sinx)'·cosx + sinx·(cosx)' = cos²x − sin²x = cos(2x).<br>Ya shortcut: sinx·cosx = sin(2x)/2, so d/dx = cos(2x).",trick:"Shortcut: d/dx[sinx·cosx] = d/dx[sin(2x)/2] = cos(2x). Double angle formula use karo!"},
+{id:48,t:"Probability",d:"medium",q:"Normal distribution mein mean aur median ka kya relation hai?",opts:["Mean = Median = Mode","Mean > Median","Median > Mean","Koi fixed relation nahin"],ans:0,sol:"Normal (Gaussian) distribution symmetric hoti hai, isliye Mean = Median = Mode. Bell curve perfectly symmetric hota hai.",trick:"Normal distribution: Mean=Median=Mode (symmetric). Positively skewed: Mean>Median>Mode. Negatively skewed: Mean<Median<Mode."},
+{id:49,t:"Vectors & 3D",d:"hard",q:"Plane 2x+3y−z = 5 ka normal vector kya hai?",opts:["(2,3,−1)","(2,3,1)","(1,1,5)","(5,5,5)"],ans:0,sol:"Plane ax+by+cz = d ka normal vector = (a,b,c). Yahan a=2,b=3,c=−1. Normal = (2,3,−1).",trick:"Plane ax+by+cz=d → normal vector (a,b,c). Coefficients of x,y,z direct normal dete hain."},
+{id:50,t:"Linear Programming",d:"hard",q:"LPP mein agar objective function parallel ho feasible region ki ek side ke, to optimal solution:",opts:["Unique corner point par","Infinite solutions (us side ke sabhi points)","No solution","Origin par"],ans:1,sol:"Agar objective function feasible region ki ek edge ke parallel ho, to us edge ke saare points (dono corner points ke beech) optimal honge — infinite optimal solutions.",trick:"Parallel objective function → infinite optimal solutions (whole edge optimal hoti hai). Exam mein carefully check karo."},
+]
+};
+
+// ════════════════════════════════════════════════════════
+// TOPIC ADVICE DATABASE
+// ════════════════════════════════════════════════════════
+const ADVICE = {
+  "Relations & Functions": "NCERT Ex 1.1 to 1.4 revise karo. One-one, onto, bijective, inverse aur composition problems daily practice karo. 2022-2025 mein har saal 4-5 questions aaye.",
+  "Matrices & Determinants": "Determinant properties yaad karo (row operations, scalar multiple). Matrix inverse aur system of equations practice karo. |kA|=kⁿ|A| formula pakka karo.",
+  "Differentiation": "Chain rule, product rule, quotient rule aur implicit differentiation ke 15+ problems roz solve karo. Parametric differentiation aur maxima-minima important hai.",
+  "Integration": "2026 mein expand hua! Standard forms ki table yaad karo. By parts (ILATE), substitution, aur partial fractions daily practice karo. ∫eˣ[f+f'] formula special hai.",
+  "Vectors & 3D": "Direction cosines, dot product, cross product formulas pakke karo. 3D line aur plane equations revise karo. L²+m²+n²=1 hamesha yaad rakho.",
+  "Probability": "2026 mein Random Variable removed! Conditional probability, Bayes' theorem, aur Binomial distribution focus karo. Word problems zyada practice karo.",
+  "Linear Programming": "Graphical method clear karo. Corner point theorem MUST yaad rakho. Feasible region identify karna seekho.",
+  "Statistics": "Mean, median, mode, variance, SD ke formulas pakke karo. CV = (SD/Mean)×100. Grouped data ke liye formula different hota hai."
+};
+
+// ════════════════════════════════════════════════════════
+// APP STATE
+// ════════════════════════════════════════════════════════
+let mode = 'exam';     // 'exam' | 'practice'
+let testNum = 1;
+let curQ = 0;
+let answers = {};     // qIdx → optIdx (-1 = skip)
+let revealed = {};    // qIdx → true (practice mode only)
+let timerSec = 3600;
+let timerRef = null;
+
+// ════════════════════════════════════════════════════════
+// HOME
+// ════════════════════════════════════════════════════════
+function selectMode(m) {
+  mode = m;
+  document.getElementById('mc-exam').classList.toggle('selected', m==='exam');
+  document.getElementById('mc-practice').classList.toggle('selected', m==='practice');
+}
+
+function startTest(n) {
+  testNum = n;
+  curQ = 0;
+  answers = {};
+  revealed = {};
+  timerSec = 3600;
+  show('exam');
+  document.getElementById('hdr-title').textContent = `Mock Test ${n}`;
+  document.getElementById('mode-badge').textContent = mode === 'exam' ? 'EXAM MODE' : 'PRACTICE';
+  document.getElementById('mode-badge').className = 'mode-badge ' + (mode==='exam'?'badge-exam':'badge-practice');
+  clearInterval(timerRef);
+  if(mode === 'exam') startTimer();
+  else { document.getElementById('timer').textContent = '∞'; document.getElementById('timer').className='timer ok'; }
+  buildPalette();
+  renderQ();
+}
+
+// ════════════════════════════════════════════════════════
+// TIMER
+// ════════════════════════════════════════════════════════
+function startTimer() {
+  timerRef = setInterval(() => {
+    timerSec--;
+    if(timerSec <= 0) { clearInterval(timerRef); submitTest(); return; }
+    const m = Math.floor(timerSec/60), s = timerSec%60;
+    const el = document.getElementById('timer');
+    el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className = 'timer ' + (timerSec<300?'warn':'ok');
+  }, 1000);
+}
+
+// ════════════════════════════════════════════════════════
+// PALETTE
+// ════════════════════════════════════════════════════════
+function buildPalette() {
+  const qs = QB[testNum];
+  document.getElementById('qpal').innerHTML = qs.map((q,i)=>{
+    return `<button class="qpill ${i===curQ?'curr':''}" id="qp-${i}" onclick="jumpQ(${i})">${i+1}</button>`;
+  }).join('');
+}
+
+function updatePalette() {
+  const qs = QB[testNum];
+  qs.forEach((_,i)=>{
+    const el = document.getElementById(`qp-${i}`);
+    if(!el) return;
+    el.className = 'qpill';
+    if(i===curQ) el.classList.add('curr');
+    else if(answers[i]===undefined) {}
+    else if(answers[i]===-1) el.classList.add('skip');
+    else if(mode==='practice' && revealed[i]) {
+      el.classList.add(answers[i]===qs[i].ans?'ans':'wrong');
+    } else el.classList.add('ans');
+  });
+}
+
+// ════════════════════════════════════════════════════════
+// RENDER QUESTION
+// ════════════════════════════════════════════════════════
+function renderQ() {
+  const qs = QB[testNum];
+  const q = qs[curQ];
+  document.getElementById('prog').style.width = ((curQ+1)/qs.length*100)+'%';
+
+  const dcls = {easy:'de',medium:'dm',hard:'dh'}[q.d]||'dm';
+  const dtxt = {easy:'Aasaan ✓',medium:'Madhyam ◈',hard:'Kathin ✦'}[q.d]||q.d;
+  const sel = answers[curQ];
+  const isRevealed = mode==='practice' && revealed[curQ];
+  const isAnswered = sel !== undefined && sel !== -1;
+
+  // Build options
+  let optsHTML = q.opts.map((opt,i)=>{
+    let cls = 'opt';
+    let disabled = '';
+    if(isRevealed) {
+      disabled = 'disabled';
+      if(i === q.ans) cls += ' correct-ans';
+      else if(i === sel && sel !== q.ans) cls += ' wrong-ans';
+    } else if(sel === i) cls += ' selected';
+
+    return `<button class="${cls}" onclick="selectOpt(${i})" ${disabled}>
+      <div class="opt-lbl">${['A','B','C','D'][i]}</div>
+      <div>${opt}</div>
+    </button>`;
+  }).join('');
+
+  // Feedback (practice mode)
+  let fbHTML = '';
+  if(isRevealed && isAnswered) {
+    const correct = sel === q.ans;
+    fbHTML = `
+      <div class="feedback-box ${correct?'fb-correct':'fb-wrong'} show">
+        <div class="fb-head">
+          <div class="fb-icon ${correct?'c':'w'}">${correct?'✅':'❌'}</div>
+          <div class="fb-title ${correct?'c':'w'}">
+            ${correct ? 'Bilkul Sahi!' : 'Galat!'}
+            ${!correct ? `<small>Sahi jawab: ${['A','B','C','D'][q.ans]}</small>` : ''}
+          </div>
+        </div>
+        <div class="fb-sol">${q.sol}</div>
+        ${q.trick ? `<div class="trick-card"><div class="trick-head">⚡ Short Trick / Fast Method</div><div class="trick-body">${q.trick}</div></div>` : ''}
+      </div>`;
+  }
+
+  document.getElementById('qarea').innerHTML = `
+    <div class="qmeta">
+      <span class="qcount">Q${curQ+1} / ${qs.length}</span>
+      <span class="ttag">📚 ${q.t}</span>
+      <span class="dtag ${dcls}">${dtxt}</span>
+    </div>
+    <div class="qcard">
+      <div class="qtext">${q.q}</div>
+      <div class="opts">${optsHTML}</div>
+    </div>
+    ${fbHTML}
+  `;
+
+  // Nav buttons
+  document.getElementById('btn-prev').style.visibility = curQ > 0 ? 'visible' : 'hidden';
+  document.getElementById('btn-next').style.visibility = curQ < qs.length-1 ? 'visible' : 'hidden';
+  document.getElementById('btn-skip').style.display = (!isAnswered && !isRevealed) ? 'flex' : 'none';
+
+  // Scroll to top of content
+  const qpal = document.getElementById('qpal');
+  if(qpal) qpal.scrollTo({left: Math.max(0,(curQ-3)*40), behavior:'smooth'});
+}
+
+// ════════════════════════════════════════════════════════
+// INTERACTIONS
+// ════════════════════════════════════════════════════════
+function selectOpt(i) {
+  const qs = QB[testNum];
+  if(mode==='practice' && revealed[curQ]) return;
+  answers[curQ] = i;
+  if(mode==='practice') revealed[curQ] = true;
+  updatePalette();
+  renderQ();
+}
+
+function skipQ() {
+  answers[curQ] = -1;
+  updatePalette();
+  nextQ();
+}
+
+function prevQ() { if(curQ>0){curQ--;updatePalette();renderQ();} }
+function nextQ() { const l=QB[testNum].length; if(curQ<l-1){curQ++;updatePalette();renderQ();} }
+function jumpQ(i) { curQ=i; updatePalette(); renderQ(); }
+
+function submitTest() {
+  clearInterval(timerRef);
+  showResult();
+  show('result');
+}
+
+function goHome() {
+  clearInterval(timerRef);
+  show('home');
+}
+
+function show(id) {
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+// ════════════════════════════════════════════════════════
+// RESULT
+// ════════════════════════════════════════════════════════
+function showResult() {
+  const qs = QB[testNum];
+  let correct=0, wrong=0, skipped=0;
+  const topicData = {};
+
+  qs.forEach((q,i) => {
+    if(!topicData[q.t]) topicData[q.t]={c:0,w:0,s:0,tot:0};
+    topicData[q.t].tot++;
+    const a = answers[i];
+    if(a===undefined||a===-1){skipped++;topicData[q.t].s++;}
+    else if(a===q.ans){correct++;topicData[q.t].c++;}
+    else{wrong++;topicData[q.t].w++;}
+  });
+
+  const score = correct*5 - wrong;
+  const maxScore = qs.length*5;
+  const pct = Math.max(0,Math.round(score/maxScore*100));
+  const attempted = correct+wrong;
+  const acc = attempted>0?Math.round(correct/attempted*100):0;
+  const timeUsed = mode==='exam'?(3600-timerSec):null;
+
+  // Badge
+  let bclass='rb-avg', btxt='📊 Test Complete';
+  if(pct>=70){bclass='rb-pass';btxt='🎉 Excellent Result!'}
+  else if(pct<40){bclass='rb-fail';btxt='📚 Aur Practice Karo'}
+  document.getElementById('res-badge').className='res-badge '+bclass;
+  document.getElementById('res-badge').textContent=btxt;
+
+  // Score ring
+  const c=2*Math.PI*60, fill=(pct/100)*c;
+  const col = pct>=70?'#22d3a0':pct>=40?'#fbbf24':'#f74b6e';
+  document.getElementById('score-wrap').innerHTML=`
+    <div class="ring-cont">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="60" fill="none" stroke="#1e2d4d" stroke-width="10"/>
+        <circle cx="80" cy="80" r="60" fill="none" stroke="${col}" stroke-width="10"
+          stroke-dasharray="${fill} ${c}" stroke-linecap="round"
+          style="transition:stroke-dasharray 1.5s cubic-bezier(.4,0,.2,1)"/>
+      </svg>
+      <div class="ring-info">
+        <div class="ring-score" style="color:${col}">${score}</div>
+        <div class="ring-max">/ ${maxScore} marks</div>
+        <div class="ring-pct" style="color:${col}">${pct}%</div>
+      </div>
+    </div>`;
+
+  // Stats
+  const tStr = timeUsed ? `${Math.floor(timeUsed/60)}m ${timeUsed%60}s` : 'Practice';
+  document.getElementById('stats-row').innerHTML=`
+    <div class="sc s-green"><div class="sc-val" style="color:var(--green)">${correct}</div><div class="sc-lbl">Sahi Jawab</div><div class="sc-sub" style="color:var(--green)">+${correct*5} marks</div></div>
+    <div class="sc s-red"><div class="sc-val" style="color:var(--red)">${wrong}</div><div class="sc-lbl">Galat Jawab</div><div class="sc-sub" style="color:var(--red)">−${wrong} marks</div></div>
+    <div class="sc s-yellow"><div class="sc-val" style="color:var(--yellow)">${skipped}</div><div class="sc-lbl">Skip Kiye</div><div class="sc-sub" style="color:var(--yellow)">0 marks</div></div>
+    <div class="sc s-blue"><div class="sc-val" style="color:var(--blue)">${acc}%</div><div class="sc-lbl">Accuracy</div><div class="sc-sub" style="color:var(--blue)">${tStr}</div></div>
+  `;
+
+  // Topic bars
+  const bars = Object.entries(topicData).map(([t,d])=>{
+    const tot=d.c+d.w+d.s, acc2=tot>0?Math.round(d.c/(d.c+d.w||1)*100):0;
+    const col2=acc2>=70?'var(--green)':acc2>=40?'var(--yellow)':'var(--red)';
+    return `<div class="tbar">
+      <div class="tbar-top">
+        <div>
+          <div class="tbar-name">${t}</div>
+          <div class="tbar-nums">${d.c} sahi · ${d.w} galat · ${d.s} skip</div>
+        </div>
+        <div class="tbar-acc" style="color:${col2}">${acc2}%</div>
+      </div>
+      <div class="tbar-track"><div class="tbar-fill" style="width:${acc2}%;background:${col2}"></div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('topic-bars').innerHTML=bars;
+
+  // Weak / Strong
+  const sorted = Object.entries(topicData).map(([t,d])=>{
+    const a = d.c+d.w>0?d.c/(d.c+d.w):null;
+    return [t,d,a];
+  });
+  const weak = sorted.filter(([,d,a])=>a!==null&&a<0.5).sort((a,b)=>a[2]-b[2]);
+  const strong = sorted.filter(([,d,a])=>a!==null&&a>=0.7).sort((a,b)=>b[2]-a[2]);
+
+  document.getElementById('weak-list').innerHTML = weak.length
+    ? weak.map(([t,d,a])=>`
+        <div class="alert-card weak">
+          <div class="alert-icon">⚠️</div>
+          <div class="alert-content">
+            <div class="alert-name weak">${t} — ${Math.round(a*100)}% accuracy (${d.c}/${d.c+d.w} correct)</div>
+            <div class="alert-desc">${ADVICE[t]||'Is topic par focused practice karo.'}</div>
+          </div>
+        </div>`).join('')
+    : '<div class="alert-card strong"><div class="alert-icon">🎉</div><div class="alert-content"><div class="alert-name strong">Koi major weak area nahin!</div><div class="alert-desc">Bahut achha! Consistency maintain karo.</div></div></div>';
+
+  document.getElementById('strong-list').innerHTML = strong.length
+    ? strong.map(([t,d,a])=>`
+        <div class="alert-card strong">
+          <div class="alert-icon">💪</div>
+          <div class="alert-content">
+            <div class="alert-name strong">${t} — ${Math.round(a*100)}% accuracy</div>
+            <div class="alert-desc">Excellent! Is topic mein confident raho. Time allocation yahan kam karo.</div>
+          </div>
+        </div>`).join('')
+    : '<div class="alert-card weak"><div class="alert-icon">📚</div><div class="alert-content"><div class="alert-name weak">Abhi koi strong area nahin</div><div class="alert-desc">Practice karo — strong areas develop honge!</div></div></div>';
+
+  // Animate bars after slight delay
+  setTimeout(()=>{
+    document.querySelectorAll('.tbar-fill').forEach(el=>{
+      const w=el.style.width; el.style.width='0%';
+      setTimeout(()=>el.style.width=w,100);
+    });
+  },200);
+}
+</script>
+</body>
+</html>

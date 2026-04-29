@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET 2026 – Computer Science Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F7FF;
+  --surface: #FFFFFF;
+  --surface2: #EEF2FB;
+  --border: #DDE3F5;
+  --border2: #C8D2EE;
+  --text: #12183A;
+  --text2: #4A5680;
+  --text3: #8490B8;
+  --blue: #2563EB;
+  --blue-light: #EFF4FF;
+  --blue-mid: #BFCFFE;
+  --indigo: #4F46E5;
+  --violet: #7C3AED;
+  --emerald: #059669;
+  --emerald-light: #ECFDF5;
+  --rose: #E11D48;
+  --rose-light: #FFF1F4;
+  --amber: #D97706;
+  --amber-light: #FFFBEB;
+  --cyan: #0891B2;
+  --cyan-light: #ECFEFF;
+  --tag-bg: #EEF2FF;
+  --tag-text: #4338CA;
+  --code-bg: #F1F5F9;
+  --shadow: 0 1px 3px rgba(37,99,235,0.08), 0 4px 16px rgba(37,99,235,0.06);
+  --shadow-lg: 0 4px 24px rgba(37,99,235,0.12), 0 1px 4px rgba(37,99,235,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* TOP NAV */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+  box-shadow: 0 1px 0 var(--border), 0 2px 8px rgba(37,99,235,0.04);
+}
+.topbar-brand {
+  display: flex; align-items: center; gap: 10px;
+}
+.brand-dot {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--blue), var(--indigo));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: white; font-weight: 800;
+}
+.brand-name {
+  font-weight: 700; font-size: 0.92rem; color: var(--text);
+}
+.brand-sub { color: var(--text3); font-size: 0.78rem; }
+
+.nav-pills {
+  display: flex; gap: 4px; overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-pills::-webkit-scrollbar { display: none; }
+.nav-pill {
+  padding: 5px 12px; border-radius: 20px; border: none;
+  background: transparent; color: var(--text2);
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  white-space: nowrap; transition: all 0.18s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.nav-pill:hover { background: var(--blue-light); color: var(--blue); }
+.nav-pill.active { background: var(--blue); color: white; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #EFF4FF 0%, #F0EDFF 50%, #E8F8FF 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 24px 40px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '</>';
+  position: absolute; right: -10px; top: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9rem; font-weight: 600;
+  color: rgba(79,70,229,0.06);
+  line-height: 1; pointer-events: none;
+  user-select: none;
+}
+.hero-inner { max-width: 960px; margin: 0 auto; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue-light); border: 1px solid var(--blue-mid);
+  color: var(--blue); font-size: 0.72rem; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 16px;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 800; line-height: 1.15;
+  color: var(--text);
+}
+.hero h1 span { color: var(--blue); }
+.hero-meta {
+  display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px;
+}
+.hero-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: white; border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px 13px;
+  font-size: 0.8rem; font-weight: 600; color: var(--text2);
+  box-shadow: var(--shadow);
+}
+.chip-dot { width: 8px; height: 8px; border-radius: 50%; }
+.cd-blue { background: var(--blue); }
+.cd-green { background: var(--emerald); }
+.cd-amber { background: var(--amber); }
+
+/* LAYOUT */
+.layout {
+  max-width: 960px; margin: 0 auto; padding: 32px 24px 60px;
+  display: flex; gap: 24px; align-items: flex-start;
+}
+.sidebar {
+  width: 220px; flex-shrink: 0;
+  position: sticky; top: 72px;
+}
+.sidebar-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.sidebar-title {
+  font-size: 0.7rem; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.toc-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-radius: 8px;
+  color: var(--text2); font-size: 0.8rem; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; text-decoration: none;
+  margin-bottom: 2px;
+}
+.toc-item:hover { background: var(--blue-light); color: var(--blue); }
+.toc-item.active { background: var(--blue); color: white; }
+.toc-num {
+  width: 18px; height: 18px; border-radius: 4px;
+  background: var(--surface2); color: var(--text3);
+  font-size: 0.65rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.toc-item.active .toc-num { background: rgba(255,255,255,0.25); color: white; }
+
+.progress-wrap { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text3); margin-bottom: 6px; }
+.progress-bar-bg { background: var(--surface2); border-radius: 4px; height: 6px; }
+.progress-bar-fill { height: 6px; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--indigo)); width: 0%; transition: width 0.5s ease; }
+
+/* MAIN CONTENT */
+.main { flex: 1; min-width: 0; }
+
+/* SECTION CARD */
+.sec-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: fadeUp 0.4s ease both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(12px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.sec-card:nth-child(2) { animation-delay: 0.05s; }
+.sec-card:nth-child(3) { animation-delay: 0.10s; }
+.sec-card:nth-child(4) { animation-delay: 0.15s; }
+.sec-card:nth-child(5) { animation-delay: 0.20s; }
+.sec-card:nth-child(6) { animation-delay: 0.25s; }
+
+.sec-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.sec-header:hover { background: var(--surface2); }
+.sec-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.ic-blue    { background: var(--blue-light); }
+.ic-green   { background: var(--emerald-light); }
+.ic-amber   { background: var(--amber-light); }
+.ic-rose    { background: var(--rose-light); }
+.ic-cyan    { background: var(--cyan-light); }
+.ic-violet  { background: #F5F3FF; }
+
+.sec-title { font-size: 0.97rem; font-weight: 700; color: var(--text); flex:1; }
+.sec-badge {
+  background: var(--blue-light); color: var(--blue);
+  font-size: 0.68rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+}
+.sec-toggle {
+  color: var(--text3); font-size: 0.8rem; transition: transform 0.25s;
+}
+.sec-toggle.open { transform: rotate(180deg); }
+
+.sec-body { padding: 20px; display: block; }
+.sec-body.collapsed { display: none; }
+
+/* TOPIC CARDS */
+.topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+@media(max-width:600px){ .topic-grid { grid-template-columns: 1fr; } }
+
+.topic-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 13px 14px;
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+.topic-card:hover { box-shadow: var(--shadow-lg); border-color: var(--blue-mid); }
+.topic-card h4 {
+  font-size: 0.85rem; font-weight: 700; color: var(--text);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+}
+.topic-card ul { padding-left: 0; list-style: none; }
+.topic-card ul li {
+  font-size: 0.8rem; color: var(--text2); padding: 2px 0;
+  display: flex; gap: 6px; align-items: flex-start;
+}
+.topic-card ul li::before { content: '›'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+
+/* TAGS */
+.tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+.tag {
+  background: var(--tag-bg); color: var(--tag-text);
+  border: 1px solid #C7D2FE;
+  font-size: 0.75rem; font-weight: 600;
+  padding: 3px 10px; border-radius: 20px;
+}
+.tag.green { background: var(--emerald-light); color: #065F46; border-color: #A7F3D0; }
+.tag.amber { background: var(--amber-light); color: #92400E; border-color: #FCD34D; }
+.tag.rose  { background: var(--rose-light);  color: #9F1239; border-color: #FCA5A5; }
+.tag.cyan  { background: var(--cyan-light);  color: #164E63; border-color: #A5F3FC; }
+
+/* CODE BLOCK */
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem; color: #1e3a5f;
+  margin: 10px 0; overflow-x: auto;
+  line-height: 1.7;
+}
+.code-block .kw { color: var(--violet); font-weight: 600; }
+.code-block .fn { color: var(--blue); }
+.code-block .cm { color: var(--text3); }
+.code-block .st { color: var(--emerald); }
+.code-block .nm { color: var(--amber); }
+
+/* HIGHLIGHT BOXES */
+.info-box {
+  border-radius: 10px; padding: 12px 14px;
+  margin: 10px 0; font-size: 0.83rem; line-height: 1.65;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.ib-blue   { background: var(--blue-light);    border: 1px solid #BFCFFE; color: #1E3A8A; }
+.ib-green  { background: var(--emerald-light); border: 1px solid #A7F3D0; color: #064E3B; }
+.ib-amber  { background: var(--amber-light);   border: 1px solid #FCD34D; color: #78350F; }
+.ib-rose   { background: var(--rose-light);    border: 1px solid #FCA5A5; color: #881337; }
+.info-box strong { font-weight: 700; }
+.ib-icon { font-size: 1rem; flex-shrink: 0; }
+
+/* TABLE */
+.pro-table { width:100%; border-collapse: collapse; font-size:0.82rem; margin: 12px 0; }
+.pro-table th {
+  background: var(--blue-light); color: var(--blue);
+  padding: 9px 12px; text-align: left; font-weight: 700;
+  border-bottom: 2px solid var(--blue-mid); font-size: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.pro-table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+  color: var(--text2); vertical-align: top; line-height: 1.5;
+}
+.pro-table tr:last-child td { border-bottom: none; }
+.pro-table tr:hover td { background: var(--surface2); }
+
+/* ALGO STEP */
+.algo-steps { counter-reset: step; }
+.algo-step {
+  display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start;
+}
+.algo-step::before {
+  counter-increment: step;
+  content: counter(step);
+  width: 24px; height: 24px; border-radius: 6px;
+  background: var(--blue); color: white;
+  font-size: 0.72rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.algo-step p { font-size: 0.83rem; color: var(--text2); line-height: 1.55; }
+.algo-step strong { color: var(--text); }
+
+/* COMPLEXITY TABLE */
+.cplx-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.cplx-box {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 13px; text-align: center; flex: 1; min-width: 90px;
+}
+.cplx-val { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--blue); }
+.cplx-lbl { font-size: 0.68rem; color: var(--text3); margin-top: 2px; }
+
+/* DIVIDER */
+.divider { border:none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+/* PYQBOX */
+.pyq-box {
+  background: linear-gradient(135deg, #EFF4FF, #F0EDFF);
+  border: 1px solid #C7D2FE; border-radius: 10px;
+  padding: 13px 15px; margin: 8px 0;
+}
+.pyq-year {
+  font-size: 0.68rem; font-weight: 800; color: var(--blue);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
+}
+.pyq-q { font-size: 0.84rem; color: var(--text); font-weight: 500; line-height: 1.5; }
+.pyq-ans { font-size: 0.78rem; color: var(--emerald); font-weight: 600; margin-top: 5px; }
+
+/* WEIGHT INDICATOR */
+.weight-bar {
+  display: flex; align-items: center; gap: 10px; margin: 6px 0;
+}
+.wb-label { font-size: 0.78rem; color: var(--text2); width: 130px; flex-shrink: 0; }
+.wb-track { flex:1; height: 7px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+.wb-fill { height: 7px; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--indigo)); }
+.wb-pct { font-size: 0.72rem; font-weight: 700; color: var(--blue); width: 34px; text-align: right; }
+
+/* FOOTER */
+footer {
+  background: var(--surface); border-top: 1px solid var(--border);
+  text-align: center; padding: 24px 20px;
+  color: var(--text3); font-size: 0.78rem;
+}
+
+@media(max-width:700px){
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; position: static; }
+  .hero::before { display: none; }
+  .nav-pills { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="topbar-brand">
+    <div class="brand-dot">CS</div>
+    <div>
+      <div class="brand-name">CUET 2026 Notes</div>
+      <div class="brand-sub">Computer Science</div>
+    </div>
+  </div>
+  <div class="nav-pills">
+    <button class="nav-pill active" onclick="scrollTo('unit1')">Programming</button>
+    <button class="nav-pill" onclick="scrollTo('unit2')">DSA</button>
+    <button class="nav-pill" onclick="scrollTo('unit3')">DBMS</button>
+    <button class="nav-pill" onclick="scrollTo('unit4')">Networking</button>
+    <button class="nav-pill" onclick="scrollTo('unit5')">OS</button>
+    <button class="nav-pill" onclick="scrollTo('unit6')">Society & Ethics</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📘 CUET UG 2026 · NTA Official Syllabus</div>
+    <h1>Computer Science<br><span>Advanced Notes</span></h1>
+    <div class="hero-meta">
+      <div class="hero-chip"><span class="chip-dot cd-blue"></span>50 Questions · 60 Min</div>
+      <div class="hero-chip"><span class="chip-dot cd-green"></span>Class 12 NCERT Based</div>
+      <div class="hero-chip"><span class="chip-dot cd-amber"></span>+5 / −1 Marking</div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-title">📑 Topics</div>
+      <a class="toc-item active" href="#unit1" onclick="setActive(this)">
+        <span class="toc-num">1</span> Programming (Python)
+      </a>
+      <a class="toc-item" href="#unit2" onclick="setActive(this)">
+        <span class="toc-num">2</span> DSA
+      </a>
+      <a class="toc-item" href="#unit3" onclick="setActive(this)">
+        <span class="toc-num">3</span> DBMS & SQL
+      </a>
+      <a class="toc-item" href="#unit4" onclick="setActive(this)">
+        <span class="toc-num">4</span> Networking
+      </a>
+      <a class="toc-item" href="#unit5" onclick="setActive(this)">
+        <span class="toc-num">5</span> OS Concepts
+      </a>
+      <a class="toc-item" href="#unit6" onclick="setActive(this)">
+        <span class="toc-num">6</span> Society & Ethics
+      </a>
+      <a class="toc-item" href="#unit7" onclick="setActive(this)">
+        <span class="toc-num">7</span> PYQ Trends
+      </a>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Progress</span><span id="pct">0%</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="pbar"></div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- WEIGHTAGE -->
+    <div class="sec-card">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-blue">📊</div>
+        <div class="sec-title">Topic-wise Weightage (2022–2025 PYQ Analysis)</div>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+        <div class="info-box ib-blue"><span class="ib-icon">💡</span><div>Ye weightage 2022–2025 ke CUET CS papers ke analysis pe based hai. Zyada weightage wale topics pe zyada focus karein.</div></div>
+        <div class="weight-bar"><span class="wb-label">Programming (Python)</span><div class="wb-track"><div class="wb-fill" style="width:30%"></div></div><span class="wb-pct">~30%</span></div>
+        <div class="weight-bar"><span class="wb-label">DSA (Stack, Queue, Tree)</span><div class="wb-track"><div class="wb-fill" style="width:25%"></div></div><span class="wb-pct">~25%</span></div>
+        <div class="weight-bar"><span class="wb-label">DBMS & SQL</span><div class="wb-track"><div class="wb-fill" style="width:20%"></div></div><span class="wb-pct">~20%</span></div>
+        <div class="weight-bar"><span class="wb-label">Networking</span><div class="wb-track"><div class="wb-fill" style="width:15%"></div></div><span class="wb-pct">~15%</span></div>
+        <div class="weight-bar"><span class="wb-label">Society & Ethics</span><div class="wb-track"><div class="wb-fill" style="width:6%"></div></div><span class="wb-pct">~6%</span></div>
+        <div class="weight-bar"><span class="wb-label">OS Concepts</span><div class="wb-track"><div class="wb-fill" style="width:4%"></div></div><span class="wb-pct">~4%</span></div>
+      </div>
+    </div>
+
+    <!-- UNIT 1: PROGRAMMING -->
+    <div class="sec-card" id="unit1">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-violet">🐍</div>
+        <div class="sec-title">Unit 1 · Python Programming</div>
+        <span class="sec-badge">~30%</span>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4>🔢 Data Types & Variables</h4>
+            <ul>
+              <li>int, float, bool, str, complex</li>
+              <li>Type conversion: int(), str(), float()</li>
+              <li>Mutable vs Immutable types</li>
+              <li>None type ka use</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔄 Control Structures</h4>
+            <ul>
+              <li>if / elif / else conditions</li>
+              <li>for loop (range, iterate)</li>
+              <li>while loop</li>
+              <li>break, continue, pass</li>
+              <li>Nested loops</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>📋 Lists, Tuples, Dicts, Sets</h4>
+            <ul>
+              <li>List methods: append, pop, sort, reverse, extend</li>
+              <li>Tuple – immutable, indexing</li>
+              <li>Dictionary: keys(), values(), items(), get()</li>
+              <li>Set operations: union, intersection, difference</li>
+              <li>Slicing: list[start:end:step]</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔧 Functions</h4>
+            <ul>
+              <li>def keyword, return statement</li>
+              <li>Default & keyword arguments</li>
+              <li>*args, **kwargs</li>
+              <li>Lambda functions</li>
+              <li>Recursion (factorial, fibonacci)</li>
+              <li>Scope: local, global, nonlocal</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>📁 File Handling</h4>
+            <ul>
+              <li>open(), close(), with statement</li>
+              <li>Modes: 'r', 'w', 'a', 'rb', 'wb'</li>
+              <li>read(), readline(), readlines()</li>
+              <li>write(), writelines()</li>
+              <li>CSV files: csv module</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>⚠️ Exception Handling</h4>
+            <ul>
+              <li>try / except / else / finally</li>
+              <li>Common errors: ZeroDivisionError, TypeError, ValueError, IndexError, KeyError</li>
+              <li>raise statement</li>
+              <li>Custom exceptions</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-box ib-amber"><span class="ib-icon">📌</span><div><strong>CUET mein zyada aane wale Python topics:</strong> List comprehension output trace, function return values, string slicing, dictionary operations, aur file mode questions. Code output ke sawaal sabse zyada aate hain.</div></div>
+
+        <div style="font-size:0.82rem; font-weight:700; color:var(--text); margin: 12px 0 6px;">🔍 Code Trace Example (Output puchha jaata hai):</div>
+        <div class="code-block">
+<span class="cm"># CUET-type question</span>
+<span class="kw">def</span> <span class="fn">mystery</span>(lst):
+    result = []
+    <span class="kw">for</span> i <span class="kw">in</span> lst:
+        <span class="kw">if</span> i % <span class="nm">2</span> == <span class="nm">0</span>:
+            result.append(i * <span class="nm">2</span>)
+    <span class="kw">return</span> result
+
+print(mystery([<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>]))
+<span class="cm"># Output: [4, 8]  ← Even numbers × 2</span>
+        </div>
+
+        <div style="font-size:0.82rem; font-weight:700; color:var(--text); margin: 12px 0 6px;">🔤 String Methods (Frequently Asked):</div>
+        <div class="tag-row">
+          <span class="tag">upper() / lower()</span>
+          <span class="tag">strip() / lstrip() / rstrip()</span>
+          <span class="tag">split() / join()</span>
+          <span class="tag">find() / replace()</span>
+          <span class="tag">startswith() / endswith()</span>
+          <span class="tag">len()</span>
+          <span class="tag">count()</span>
+          <span class="tag">isdigit() / isalpha()</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- UNIT 2: DSA -->
+    <div class="sec-card" id="unit2">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-cyan">🏗️</div>
+        <div class="sec-title">Unit 2 · Data Structures & Algorithms (DSA)</div>
+        <span class="sec-badge">~25%</span>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4>📚 Stack (LIFO)</h4>
+            <ul>
+              <li>Push, Pop, Peek/Top operations</li>
+              <li>isEmpty() check</li>
+              <li>Python implementation: list as stack</li>
+              <li>Applications: Undo, Browser Back, Balanced Brackets</li>
+              <li>Infix → Postfix conversion</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🚶 Queue (FIFO)</h4>
+            <ul>
+              <li>Enqueue (rear), Dequeue (front)</li>
+              <li>Circular Queue concept</li>
+              <li>Priority Queue</li>
+              <li>Deque (Double Ended Queue)</li>
+              <li>Applications: CPU scheduling, BFS</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔗 Linked List</h4>
+            <ul>
+              <li>Node structure: data + next pointer</li>
+              <li>Singly, Doubly, Circular Linked List</li>
+              <li>Insertion: beginning, middle, end</li>
+              <li>Deletion operations</li>
+              <li>Advantages over arrays</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🌳 Trees</h4>
+            <ul>
+              <li>Binary Tree – root, leaf, height</li>
+              <li>BST (Binary Search Tree) – insert, search, delete</li>
+              <li>Tree Traversals: Inorder (LNR), Preorder (NLR), Postorder (LRN)</li>
+              <li>Level Order (BFS)</li>
+              <li>Height & Depth calculation</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔍 Searching Algorithms</h4>
+            <ul>
+              <li>Linear Search – O(n)</li>
+              <li>Binary Search – O(log n) [sorted array only]</li>
+              <li>Step-by-step trace questions</li>
+              <li>Number of comparisons puchha jaata hai</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔃 Sorting Algorithms</h4>
+            <ul>
+              <li>Bubble Sort – adjacent swap</li>
+              <li>Selection Sort – min element select</li>
+              <li>Insertion Sort – sorted portion mein insert</li>
+              <li>Merge Sort – divide & conquer O(n log n)</li>
+              <li>Quick Sort – pivot based O(n log n) avg</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-box ib-green"><span class="ib-icon">✅</span><div><strong>Tree Traversal Trick:</strong> Inorder of BST hamesha sorted order deta hai. Ye rule CUET mein kai baar aaya hai!</div></div>
+
+        <div style="font-size:0.82rem; font-weight:700; color:var(--text); margin: 12px 0 6px;">⏱️ Algorithm Complexity Quick Reference:</div>
+        <table class="pro-table">
+          <thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th></tr></thead>
+          <tbody>
+            <tr><td>Bubble Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td></tr>
+            <tr><td>Selection Sort</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td></tr>
+            <tr><td>Insertion Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td></tr>
+            <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td></tr>
+            <tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td></tr>
+            <tr><td>Binary Search</td><td>O(1)</td><td>O(log n)</td><td>O(log n)</td><td>O(1)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="code-block">
+<span class="cm"># Stack using list – CUET favourite</span>
+stack = []
+stack.append(<span class="nm">10</span>)   <span class="cm"># Push 10</span>
+stack.append(<span class="nm">20</span>)   <span class="cm"># Push 20</span>
+stack.append(<span class="nm">30</span>)   <span class="cm"># Push 30</span>
+print(stack.pop())  <span class="cm"># Output: 30 (LIFO)</span>
+print(stack[-<span class="nm">1</span>])   <span class="cm"># Peek = 20</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- UNIT 3: DBMS -->
+    <div class="sec-card" id="unit3">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-green">🗄️</div>
+        <div class="sec-title">Unit 3 · DBMS & SQL</div>
+        <span class="sec-badge">~20%</span>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4>📐 Database Concepts</h4>
+            <ul>
+              <li>DBMS vs File System</li>
+              <li>Table, Record, Field, Attribute</li>
+              <li>Primary Key, Foreign Key, Candidate Key</li>
+              <li>Degree (columns) & Cardinality (rows)</li>
+              <li>DDL, DML, DCL commands</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔗 Keys & Constraints</h4>
+            <ul>
+              <li>Primary Key – unique + NOT NULL</li>
+              <li>Foreign Key – referential integrity</li>
+              <li>Unique Constraint</li>
+              <li>NOT NULL, DEFAULT, CHECK</li>
+              <li>Super Key, Candidate Key</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>📊 SQL – DDL Commands</h4>
+            <ul>
+              <li>CREATE TABLE ... (col datatype constraints)</li>
+              <li>ALTER TABLE – ADD, DROP, MODIFY</li>
+              <li>DROP TABLE</li>
+              <li>TRUNCATE TABLE</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔎 SQL – DML & Queries</h4>
+            <ul>
+              <li>SELECT col FROM table WHERE condition</li>
+              <li>INSERT INTO, UPDATE, DELETE</li>
+              <li>ORDER BY ASC/DESC</li>
+              <li>GROUP BY + HAVING</li>
+              <li>DISTINCT keyword</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔢 SQL Functions</h4>
+            <ul>
+              <li>Aggregate: COUNT(), SUM(), AVG(), MAX(), MIN()</li>
+              <li>String: UPPER(), LOWER(), LENGTH(), SUBSTR()</li>
+              <li>Date: NOW(), CURDATE(), YEAR()</li>
+              <li>ROUND(), MOD()</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔀 Joins & Subqueries</h4>
+            <ul>
+              <li>INNER JOIN – matching rows dono tables se</li>
+              <li>LEFT JOIN – sab left + matched right</li>
+              <li>RIGHT JOIN – sab right + matched left</li>
+              <li>Cartesian Product (no condition)</li>
+              <li>Subquery in WHERE clause</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-box ib-blue"><span class="ib-icon">💻</span><div><strong>SQL Query jo CUET mein sबसे zyada aati hai:</strong> SELECT with WHERE, GROUP BY with HAVING, aur aggregate functions. Table dekar output puchha jaata hai.</div></div>
+
+        <div class="code-block">
+<span class="cm">-- CUET favourite query pattern</span>
+<span class="kw">SELECT</span> Department, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> Total, <span class="fn">AVG</span>(Salary) <span class="kw">AS</span> AvgSal
+<span class="kw">FROM</span> Employee
+<span class="kw">WHERE</span> Salary > <span class="nm">30000</span>
+<span class="kw">GROUP BY</span> Department
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="nm">2</span>
+<span class="kw">ORDER BY</span> AvgSal <span class="kw">DESC</span>;
+        </div>
+
+        <hr class="divider">
+        <div style="font-size:0.84rem; font-weight:700; color:var(--text); margin-bottom: 8px;">🔄 Normalization (Important Theory)</div>
+        <table class="pro-table">
+          <thead><tr><th>Normal Form</th><th>Condition</th><th>Eliminates</th></tr></thead>
+          <tbody>
+            <tr><td>1NF</td><td>Atomic values, no repeating groups</td><td>Multi-valued attributes</td></tr>
+            <tr><td>2NF</td><td>1NF + No partial dependency</td><td>Partial dependencies</td></tr>
+            <tr><td>3NF</td><td>2NF + No transitive dependency</td><td>Transitive dependencies</td></tr>
+            <tr><td>BCNF</td><td>Every determinant is a candidate key</td><td>Anomalies fully</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- UNIT 4: NETWORKING -->
+    <div class="sec-card" id="unit4">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-blue">🌐</div>
+        <div class="sec-title">Unit 4 · Computer Networks</div>
+        <span class="sec-badge">~15%</span>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4>🔌 Network Basics</h4>
+            <ul>
+              <li>LAN, MAN, WAN, PAN</li>
+              <li>Topology: Bus, Star, Ring, Mesh, Tree, Hybrid</li>
+              <li>Network devices: Hub, Switch, Router, Repeater, Modem, Bridge, Gateway</li>
+              <li>Transmission media: Wired (Coaxial, Twisted Pair, Fiber Optic) & Wireless</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>📦 OSI Model (7 Layers)</h4>
+            <ul>
+              <li>7. Application – HTTP, FTP, SMTP, DNS</li>
+              <li>6. Presentation – Encryption, Compression</li>
+              <li>5. Session – Session management</li>
+              <li>4. Transport – TCP, UDP, Port numbers</li>
+              <li>3. Network – IP, Routing</li>
+              <li>2. Data Link – MAC Address, Frames</li>
+              <li>1. Physical – Bits, Cables</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🌍 IP Addressing</h4>
+            <ul>
+              <li>IPv4 – 32 bit, dotted decimal (x.x.x.x)</li>
+              <li>IPv6 – 128 bit, hexadecimal</li>
+              <li>Classes: A (0-127), B (128-191), C (192-223)</li>
+              <li>Subnet Mask, Default Gateway</li>
+              <li>Public vs Private IP</li>
+              <li>DHCP – dynamic IP assignment</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔐 Protocols & Security</h4>
+            <ul>
+              <li>HTTP / HTTPS (port 80/443)</li>
+              <li>FTP (21), SMTP (25), POP3 (110)</li>
+              <li>DNS – domain to IP resolution</li>
+              <li>TCP vs UDP difference</li>
+              <li>SSL/TLS – secure communication</li>
+              <li>Firewall, Proxy Server</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-box ib-rose"><span class="ib-icon">🚨</span><div><strong>Cybersecurity Topics (CUET 2024-25 mein aaye):</strong> Malware (Virus, Worm, Trojan, Ransomware), Phishing, Denial of Service (DoS), Man-in-the-Middle attack, Cookies aur Privacy.</div></div>
+
+        <table class="pro-table">
+          <thead><tr><th>Device</th><th>Layer (OSI)</th><th>Function</th></tr></thead>
+          <tbody>
+            <tr><td>Hub</td><td>Physical (1)</td><td>Broadcasts to all – no intelligence</td></tr>
+            <tr><td>Switch</td><td>Data Link (2)</td><td>MAC address table – intelligent forward</td></tr>
+            <tr><td>Router</td><td>Network (3)</td><td>IP routing between networks</td></tr>
+            <tr><td>Gateway</td><td>All Layers</td><td>Protocol translation between networks</td></tr>
+            <tr><td>Repeater</td><td>Physical (1)</td><td>Signal amplification / regeneration</td></tr>
+            <tr><td>Bridge</td><td>Data Link (2)</td><td>Connects two LAN segments</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- UNIT 5: OS -->
+    <div class="sec-card" id="unit5">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-amber">⚙️</div>
+        <div class="sec-title">Unit 5 · Operating System Concepts</div>
+        <span class="sec-badge">~4%</span>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4>🖥️ OS Basics</h4>
+            <ul>
+              <li>OS as resource manager</li>
+              <li>Types: Batch, Time-sharing, Real-time, Distributed, Embedded</li>
+              <li>Process vs Program vs Thread</li>
+              <li>Process states: New, Ready, Running, Waiting, Terminated</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🧠 Memory Management</h4>
+            <ul>
+              <li>RAM, ROM, Cache, Virtual Memory</li>
+              <li>Paging, Segmentation</li>
+              <li>Swapping concept</li>
+              <li>Thrashing – excessive page faults</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>📁 File System</h4>
+            <ul>
+              <li>File attributes: name, type, size, permission</li>
+              <li>Directory structure: single, two-level, tree</li>
+              <li>File allocation: Contiguous, Linked, Indexed</li>
+              <li>Disk scheduling: FCFS, SSTF, SCAN</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔄 Process Scheduling</h4>
+            <ul>
+              <li>FCFS – First Come First Serve</li>
+              <li>SJF – Shortest Job First</li>
+              <li>Round Robin – time quantum</li>
+              <li>Priority Scheduling</li>
+              <li>CPU Burst Time calculation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-box ib-amber"><span class="ib-icon">⚠️</span><div><strong>OS section se usually 2-3 questions aate hain CUET CS mein.</strong> Process scheduling (Gantt chart), memory concepts, aur file system ke basic questions focus karein.</div></div>
+      </div>
+    </div>
+
+    <!-- UNIT 6: SOCIETY & ETHICS -->
+    <div class="sec-card" id="unit6">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-rose">🌍</div>
+        <div class="sec-title">Unit 6 · Society, Law & Ethics in Technology</div>
+        <span class="sec-badge">~6%</span>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4>⚖️ Cyber Laws</h4>
+            <ul>
+              <li>IT Act 2000 (India) – legal recognition of e-transactions</li>
+              <li>Section 43 – unauthorized access</li>
+              <li>Section 66 – computer-related offences</li>
+              <li>Section 67 – obscene material online</li>
+              <li>Cybercrime: hacking, identity theft, cyber bullying</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🔒 Privacy & IPR</h4>
+            <ul>
+              <li>Intellectual Property Rights (IPR)</li>
+              <li>Copyright, Patent, Trademark</li>
+              <li>Open Source vs Proprietary Software</li>
+              <li>Creative Commons License</li>
+              <li>Plagiarism – definition & consequences</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🤖 Emerging Technologies</h4>
+            <ul>
+              <li>Artificial Intelligence (AI) – types, applications</li>
+              <li>Machine Learning basics</li>
+              <li>IoT (Internet of Things)</li>
+              <li>Cloud Computing – SaaS, PaaS, IaaS</li>
+              <li>Big Data – 5 V's (Volume, Velocity, Variety, Veracity, Value)</li>
+              <li>Blockchain – distributed ledger</li>
+            </ul>
+          </div>
+          <div class="topic-card">
+            <h4>🌱 Digital Footprint & Safety</h4>
+            <ul>
+              <li>Active vs Passive digital footprint</li>
+              <li>Net etiquette (Netiquette)</li>
+              <li>E-waste management</li>
+              <li>Gender & disability issues in tech</li>
+              <li>Free & Open Source Software (FOSS)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-box ib-green"><span class="ib-icon">🌟</span><div><strong>New Topics (2025–26 mein aaye):</strong> AI Ethics, Deep Fakes, Data Privacy (GDPR-like concepts), Algorithmic Bias. In topics pe nazar zaroor rakhein.</div></div>
+      </div>
+    </div>
+
+    <!-- PYQ TRENDS -->
+    <div class="sec-card" id="unit7">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-blue">📋</div>
+        <div class="sec-title">Unit 7 · PYQ Trends & Sample Questions (2022–2025)</div>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+        <div class="pyq-box">
+          <div class="pyq-year">🗓 CUET CS 2022</div>
+          <div class="pyq-q">Q: Python mein following code ka output kya hoga?<br><code style="background:var(--code-bg);padding:2px 6px;border-radius:4px;font-family:JetBrains Mono;font-size:0.8rem;">x = [1,2,3,4,5]; print(x[1:4:2])</code></div>
+          <div class="pyq-ans">✅ Answer: [2, 4] — Slicing with step 2 from index 1 to 3</div>
+        </div>
+        <div class="pyq-box">
+          <div class="pyq-year">🗓 CUET CS 2023</div>
+          <div class="pyq-q">Q: Stack mein Push(10), Push(20), Pop(), Push(30), Pop() operations ke baad stack ka top element kya hoga?</div>
+          <div class="pyq-ans">✅ Answer: 10 — Trace karo: [10,20] → pop 20 → [10,30] → pop 30 → [10], top = 10</div>
+        </div>
+        <div class="pyq-box">
+          <div class="pyq-year">🗓 CUET CS 2024</div>
+          <div class="pyq-q">Q: SQL query: <code style="background:var(--code-bg);padding:2px 6px;border-radius:4px;font-family:JetBrains Mono;font-size:0.78rem;">SELECT COUNT(*) FROM Student WHERE Marks > 75 GROUP BY Class HAVING COUNT(*) >= 3</code> — Ye query kya return karegi?</div>
+          <div class="pyq-ans">✅ Answer: Har class ka count jahan Marks > 75 wale students 3 ya zyada hain</div>
+        </div>
+        <div class="pyq-box">
+          <div class="pyq-year">🗓 CUET CS 2025</div>
+          <div class="pyq-q">Q: Binary Tree ka Inorder Traversal kya hoga agar tree hai: Root=5, Left=3, Right=7, Left of 3=1, Right of 3=4?</div>
+          <div class="pyq-ans">✅ Answer: 1, 3, 4, 5, 7 — (LNR: Left → Node → Right, hamesha BST mein sorted aata hai)</div>
+        </div>
+
+        <div class="info-box ib-blue" style="margin-top:14px;"><span class="ib-icon">🎯</span><div><strong>Top 5 Focus Areas for CUET CS 2026:</strong><br>1. Python code output trace (list/string operations)<br>2. Stack/Queue dry run problems<br>3. SQL queries with GROUP BY + HAVING<br>4. Tree traversals (Inorder/Preorder/Postorder)<br>5. Network devices aur OSI layer mapping</div></div>
+      </div>
+    </div>
+
+    <!-- QUICK REVISION -->
+    <div class="sec-card">
+      <div class="sec-header" onclick="toggle(this)">
+        <div class="sec-icon ic-green">⚡</div>
+        <div class="sec-title">Quick Revision – Important Facts & Formulas</div>
+        <span class="sec-toggle open">▾</span>
+      </div>
+      <div class="sec-body">
+        <div class="tag-row">
+          <span class="tag">Stack = LIFO</span>
+          <span class="tag">Queue = FIFO</span>
+          <span class="tag green">Inorder BST = Sorted</span>
+          <span class="tag amber">Binary Search = O(log n)</span>
+          <span class="tag rose">Quick Sort Worst = O(n²)</span>
+          <span class="tag cyan">Primary Key = Unique + NOT NULL</span>
+        </div>
+        <div class="tag-row">
+          <span class="tag">IPv4 = 32 bit</span>
+          <span class="tag">IPv6 = 128 bit</span>
+          <span class="tag green">HTTP Port = 80</span>
+          <span class="tag amber">HTTPS Port = 443</span>
+          <span class="tag rose">FTP Port = 21</span>
+          <span class="tag cyan">SMTP Port = 25</span>
+        </div>
+        <div class="tag-row">
+          <span class="tag">DDL = CREATE, ALTER, DROP</span>
+          <span class="tag green">DML = INSERT, UPDATE, DELETE</span>
+          <span class="tag amber">DCL = GRANT, REVOKE</span>
+          <span class="tag rose">TCL = COMMIT, ROLLBACK</span>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Mutable = list, dict, set</span>
+          <span class="tag cyan">Immutable = str, tuple, int, float</span>
+          <span class="tag">LAN &lt; MAN &lt; WAN (size)</span>
+          <span class="tag green">OSI = 7 layers, TCP/IP = 4 layers</span>
+        </div>
+
+        <hr class="divider">
+        <div style="font-size:0.84rem; font-weight:700; color:var(--text); margin-bottom:10px;">📝 Last 30 Days Strategy:</div>
+        <div class="algo-steps">
+          <div class="algo-step"><p><strong>PYQs Solve karein</strong> – 2022, 2023, 2024, 2025 ke CS papers trace karein. Patterns pakad mein aayenge.</p></div>
+          <div class="algo-step"><p><strong>Code Output Practice</strong> – Rooz 10 Python code snippets mentally trace karein. Ye CUET ka sabse zyada aane wala type hai.</p></div>
+          <div class="algo-step"><p><strong>SQL Queries likhein</strong> – SELECT, WHERE, GROUP BY, HAVING, JOIN manually practice karein.</p></div>
+          <div class="algo-step"><p><strong>DSA Dry Run</strong> – Stack/Queue operations aur Tree traversals kagaz par trace karein.</p></div>
+          <div class="algo-step"><p><strong>Mock Test Daily</strong> – NTA official portal pe free mock tests available hain. Ek test roz 60-minute timer ke saath dein.</p></div>
+          <div class="algo-step"><p><strong>Theory Revise karein</strong> – Networking devices, OSI layers, Normalization aur Cyber Laws ko ek baar poora padh lein – ye theory-based easy marks hain.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  CUET 2026 · Computer Science Advanced Notes · Based on NTA Official Syllabus + 2022–2025 PYQ Analysis<br>
+  Official Website: <strong>cuet.nta.nic.in</strong> · Ye notes study ke liye hain, official notification zaroor padhen.
+</footer>
+
+<script>
+// Toggle sections
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.sec-toggle');
+  if (body.classList.contains('collapsed')) {
+    body.classList.remove('collapsed');
+    icon.classList.add('open');
+  } else {
+    body.classList.add('collapsed');
+    icon.classList.remove('open');
+  }
+  updateProgress();
+}
+
+// TOC active
+function setActive(el) {
+  document.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Nav pill
+document.querySelectorAll('.nav-pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Smooth scroll
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Progress based on scroll
+function updateProgress() {
+  const cards = document.querySelectorAll('.sec-card');
+  let opened = 0;
+  cards.forEach(card => {
+    const body = card.querySelector('.sec-body');
+    if (body && !body.classList.contains('collapsed')) opened++;
+  });
+  const pct = Math.round((opened / cards.length) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('pct').textContent = pct + '%';
+}
+
+// Intersection Observer for TOC highlight
+const sections = ['unit1','unit2','unit3','unit4','unit5','unit6','unit7'];
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.toc-item').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) obs.observe(el);
+});
+
+updateProgress();
+</script>
+</body>
+</html>
