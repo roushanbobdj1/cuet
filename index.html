@@ -3,273 +3,766 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CUET Maths Notes </title>
-
-<!-- PWA -->
+<title>CUET Notes Hub</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#6c63ff">
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0a0a14">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+:root{
+  --bg:#07070f;
+  --bg2:#0e0e1c;
+  --bg3:#13131f;
+  --card:#141428;
+  --card-hover:#1a1a35;
+  --border:#ffffff12;
+  --accent:#7c6dfa;
+  --accent2:#00e5ff;
+  --accent3:#ff6b9d;
+  --accent4:#ffd166;
+  --text:#e8e8f0;
+  --muted:#6b6b8a;
+  --glow:rgba(124,109,250,0.35);
+  --r:20px;
 }
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
 
 body{
-  font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#eef2ff,#f8fbff);
-  color:#222;
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--text);
   overflow-x:hidden;
+  min-height:100vh;
 }
 
-/* 🌈 Background Glow */
-.bg{
+/* ─── NOISE TEXTURE OVERLAY ─── */
+body::before{
+  content:'';
   position:fixed;
-  width:100%;
-  height:100%;
-  z-index:-1;
-  overflow:hidden;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9999;
+  opacity:.4;
 }
 
-.bg span{
-  position:absolute;
-  width:350px;
-  height:350px;
-  background:radial-gradient(circle,#6c63ff55,transparent);
-  animation:float 10s infinite alternate ease-in-out;
+/* ─── AMBIENT ORBS ─── */
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(120px);
+  pointer-events:none;
+  z-index:0;
+  animation:drift 18s ease-in-out infinite alternate;
+}
+.orb1{width:500px;height:500px;background:rgba(124,109,250,.12);top:-150px;left:-100px;}
+.orb2{width:400px;height:400px;background:rgba(0,229,255,.08);bottom:-100px;right:-50px;animation-duration:22s;}
+.orb3{width:300px;height:300px;background:rgba(255,107,157,.07);top:50%;left:50%;animation-duration:14s;}
+@keyframes drift{
+  from{transform:translate(0,0) scale(1);}
+  to{transform:translate(40px,30px) scale(1.1);}
 }
 
-.bg span:nth-child(2){
-  left:60%;
-  top:30%;
-  animation-duration:15s;
+/* ─── TOPBAR ─── */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 24px;
+  background:rgba(7,7,15,.8);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
 }
-
-@keyframes float{
-  from{transform:translateY(-40px);}
-  to{transform:translateY(40px);}
+.logo{
+  font-family:'Syne',sans-serif;
+  font-size:20px;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  letter-spacing:-0.5px;
 }
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.streak-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,209,102,.1);
+  border:1px solid rgba(255,209,102,.2);
+  border-radius:50px;
+  padding:6px 14px;
+  font-size:13px;
+  color:var(--accent4);
+  font-weight:600;
+}
+#installBtn{
+  display:none;
+  padding:8px 16px;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  transition:.3s;
+}
+#installBtn:hover{transform:scale(1.05);}
 
-/* HEADER */
-.header{
+/* ─── HERO ─── */
+.hero{
+  position:relative;
+  z-index:1;
+  padding:64px 24px 40px;
   text-align:center;
-  padding:60px 20px 20px;
-  animation:fadeIn 1s ease;
+  animation:fadeUp .8s ease both;
 }
-
-.header h1{
-  font-size:36px;
-  background:linear-gradient(90deg,#6c63ff,#00c6ff);
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(124,109,250,.12);
+  border:1px solid rgba(124,109,250,.25);
+  border-radius:50px;
+  padding:6px 18px;
+  font-size:13px;
+  color:var(--accent);
+  font-weight:500;
+  margin-bottom:20px;
+  letter-spacing:.5px;
+}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(36px,6vw,64px);
+  font-weight:800;
+  line-height:1.1;
+  letter-spacing:-1px;
+  background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,.5));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:16px;
+}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
-.header p{
-  color:#555;
-  margin-top:10px;
+.hero p{
+  color:var(--muted);
+  font-size:16px;
+  max-width:500px;
+  margin:0 auto 32px;
+  line-height:1.7;
 }
 
-/* INSTALL BUTTON */
-.install-btn{
-  display:none;
-  margin-top:15px;
-  padding:10px 18px;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(90deg,#6c63ff,#00c6ff);
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+/* ─── STATS ROW ─── */
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin:0 24px 40px;
+  position:relative;
+  z-index:1;
+  animation:fadeUp .8s .15s ease both;
+}
+.stat-card{
+  flex:1;min-width:120px;max-width:180px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:18px 16px;
+  text-align:center;
   transition:.3s;
 }
+.stat-card:hover{border-color:rgba(124,109,250,.35);transform:translateY(-4px);}
+.stat-num{
+  font-family:'Syne',sans-serif;
+  font-size:28px;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;}
 
-.install-btn:hover{
-  transform:scale(1.05);
+/* ─── SEARCH ─── */
+.search-wrap{
+  max-width:480px;
+  margin:0 auto 36px;
+  padding:0 24px;
+  position:relative;
+  z-index:1;
+  animation:fadeUp .8s .2s ease both;
+}
+.search-box{
+  width:100%;
+  padding:14px 20px 14px 48px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:50px;
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:15px;
+  outline:none;
+  transition:.3s;
+}
+.search-box:focus{
+  border-color:rgba(124,109,250,.5);
+  box-shadow:0 0 0 4px rgba(124,109,250,.08);
+}
+.search-icon{
+  position:absolute;left:40px;top:50%;transform:translateY(-50%);
+  font-size:18px;pointer-events:none;
 }
 
-/* GRID */
+/* ─── FILTER TABS ─── */
+.filters{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+  padding:0 24px;
+  margin-bottom:32px;
+  position:relative;
+  z-index:1;
+  animation:fadeUp .8s .25s ease both;
+}
+.filter-btn{
+  padding:8px 20px;
+  border-radius:50px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.25s;
+}
+.filter-btn:hover{border-color:rgba(124,109,250,.4);color:var(--text);}
+.filter-btn.active{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-color:transparent;
+  color:#fff;
+  font-weight:700;
+}
+
+/* ─── SECTION LABEL ─── */
+.section-label{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 24px;
+  margin-bottom:20px;
+  position:relative;
+  z-index:1;
+}
+.section-label span{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.section-label::after{
+  content:'';flex:1;height:1px;
+  background:var(--border);
+}
+
+/* ─── GRID ─── */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:20px;
-  padding:20px;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:16px;
+  padding:0 24px 40px;
+  position:relative;
+  z-index:1;
 }
 
-/* CARD */
+/* ─── CARD ─── */
 .card{
-  background:rgba(255,255,255,0.6);
-  backdrop-filter:blur(12px);
-  border-radius:18px;
-  padding:25px;
-  text-align:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:24px 20px;
   cursor:pointer;
-  transition:.4s;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
-  animation:fadeUp .6s ease;
+  transition:.35s cubic-bezier(.25,.46,.45,.94);
+  position:relative;
+  overflow:hidden;
+  animation:fadeUp .6s ease both;
 }
-
+.card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--accent-local,#7c6dfa)22,transparent 70%);
+  opacity:0;
+  transition:.35s;
+}
 .card:hover{
-  transform:translateY(-8px) scale(1.03);
-  box-shadow:0 15px 35px rgba(0,0,0,0.15);
+  transform:translateY(-8px);
+  border-color:rgba(255,255,255,.15);
+  box-shadow:0 24px 48px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.06);
 }
+.card:hover::before{opacity:.06;}
+.card:active{transform:translateY(-4px) scale(.98);}
 
-.card h3{
-  font-size:17px;
+.card-icon{
+  width:46px;height:46px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  margin-bottom:14px;
+  position:relative;
+  z-index:1;
+}
+.card-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--text);
   margin-bottom:6px;
+  line-height:1.3;
+  position:relative;z-index:1;
+}
+.card-sub{
+  font-size:11px;
+  color:var(--muted);
+  font-weight:500;
+  position:relative;z-index:1;
+}
+.card-badge{
+  position:absolute;
+  top:14px;right:14px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.5px;
+  padding:3px 10px;
+  border-radius:50px;
+}
+.badge-hot{background:rgba(255,107,157,.15);color:var(--accent3);border:1px solid rgba(255,107,157,.25);}
+.badge-new{background:rgba(0,229,255,.12);color:var(--accent2);border:1px solid rgba(0,229,255,.22);}
+.badge-test{background:rgba(124,109,250,.15);color:var(--accent);border:1px solid rgba(124,109,250,.25);}
+
+/* Card color themes */
+.card[data-color="purple"] .card-icon{background:rgba(124,109,250,.15);}
+.card[data-color="cyan"]   .card-icon{background:rgba(0,229,255,.12);}
+.card[data-color="pink"]   .card-icon{background:rgba(255,107,157,.13);}
+.card[data-color="gold"]   .card-icon{background:rgba(255,209,102,.13);}
+.card[data-color="green"]  .card-icon{background:rgba(0,255,148,.1);}
+.card[data-color="orange"] .card-icon{background:rgba(255,140,50,.12);}
+
+.card[data-color="purple"]{--accent-local:#7c6dfa;}
+.card[data-color="cyan"]  {--accent-local:#00e5ff;}
+.card[data-color="pink"]  {--accent-local:#ff6b9d;}
+.card[data-color="gold"]  {--accent-local:#ffd166;}
+.card[data-color="green"] {--accent-local:#00ff94;}
+.card[data-color="orange"]{--accent-local:#ff8c32;}
+
+/* ─── PROGRESS BAR ─── */
+.card-progress{
+  margin-top:14px;
+  position:relative;z-index:1;
+}
+.progress-track{
+  height:3px;
+  background:rgba(255,255,255,.06);
+  border-radius:99px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width 1s ease;
 }
 
-.card span{
-  font-size:12px;
-  color:#666;
-}
-
-/* Footer */
-.footer{
+/* ─── NO RESULT ─── */
+#noResult{
+  display:none;
   text-align:center;
-  padding:20px;
+  padding:60px 20px;
+  color:var(--muted);
+  font-size:15px;
+  grid-column:1/-1;
+}
+
+/* ─── FOOTER ─── */
+.footer{
+  position:relative;z-index:1;
+  text-align:center;
+  padding:32px 24px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
   font-size:12px;
-  color:#888;
+  letter-spacing:.3px;
+}
+.footer span{color:var(--accent);}
+
+/* ─── SCROLL TOP BTN ─── */
+#scrollTop{
+  position:fixed;
+  bottom:24px;right:24px;
+  z-index:200;
+  width:44px;height:44px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  display:none;
+  align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(124,109,250,.4);
+  transition:.3s;
+}
+#scrollTop:hover{transform:scale(1.1);}
+
+/* ─── RIPPLE ─── */
+@keyframes ripple{
+  to{transform:scale(4);opacity:0;}
+}
+.ripple{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  transform:scale(0);
+  animation:ripple .5s linear;
+  pointer-events:none;
 }
 
-/* Animations */
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
+/* ─── TOAST ─── */
+.toast{
+  position:fixed;
+  bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:50px;
+  padding:12px 24px;
+  font-size:14px;
+  color:var(--text);
+  z-index:1000;
+  opacity:0;
+  transition:.3s;
+  white-space:nowrap;
+  box-shadow:0 16px 40px rgba(0,0,0,.5);
 }
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* ─── ANIMATIONS ─── */
 @keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
 }
+.card:nth-child(1){animation-delay:.05s}
+.card:nth-child(2){animation-delay:.1s}
+.card:nth-child(3){animation-delay:.15s}
+.card:nth-child(4){animation-delay:.2s}
+.card:nth-child(5){animation-delay:.25s}
+.card:nth-child(6){animation-delay:.3s}
+.card:nth-child(7){animation-delay:.35s}
+.card:nth-child(8){animation-delay:.4s}
+.card:nth-child(9){animation-delay:.45s}
+.card:nth-child(10){animation-delay:.5s}
+.card:nth-child(11){animation-delay:.55s}
 
-/* MOBILE */
-@media(max-width:500px){
-  .header h1{
-    font-size:28px;
-  }
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .hero{padding:48px 20px 28px;}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px;padding:0 16px 32px;}
+  .stats{gap:10px;margin:0 16px 28px;}
+  .stat-card{padding:14px 12px;}
+  .stat-num{font-size:22px;}
+  .topbar{padding:12px 16px;}
+  .card{padding:18px 14px;}
+  .card-title{font-size:13px;}
+  .card-icon{width:40px;height:40px;font-size:20px;margin-bottom:10px;}
+  .search-wrap{padding:0 16px;}
+  .filters{padding:0 16px;}
 }
 </style>
 </head>
-
 <body>
 
-<!-- Background -->
-<div class="bg">
-  <span></span>
-  <span></span>
+<!-- Ambient Orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Topbar -->
+<nav class="topbar">
+  <div class="logo">⚡ CUET Hub</div>
+  <div class="topbar-right">
+    <div class="streak-badge" id="streakBadge">🔥 <span id="streakCount">1</span> Day Streak</div>
+    <button id="installBtn">📲 Install</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">✦ CUET UG 2026 Preparation</div>
+  <h1>Your <span>Smart Notes</span><br>Hub</h1>
+  <p>Handcrafted notes, mock tests & shortcuts — engineered for CUET domination.</p>
 </div>
 
-<!-- HEADER -->
-<div class="header">
-  <h1>📚 CUET Notes Hub</h1>
-  <p>Select a chapter to start learning</p>
-  <button class="install-btn" id="installBtn">📲 Install App</button>
+<!-- Stats -->
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-num">11</div>
+    <div class="stat-label">📚 Chapters</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" id="visitCount">1</div>
+    <div class="stat-label">👁️ Visits Today</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">3</div>
+    <div class="stat-label">🎯 Mock Tests</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" id="daysLeft">—</div>
+    <div class="stat-label">⏳ Days to CUET</div>
+  </div>
 </div>
 
-<!-- GRID -->
-<div class="grid">
+<!-- Search -->
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input
+    class="search-box"
+    id="searchBox"
+    type="text"
+    placeholder="Search chapters, topics…"
+    oninput="filterCards()"
+    autocomplete="off"
+  />
+</div>
 
-  <div class="card" onclick="openPage('1.html')">
-    <h3>🔄 Relations & Function</h3>
-    <span>Chapter 1</span>
+<!-- Filter Tabs -->
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('notes',this)">📖 Notes</button>
+  <button class="filter-btn" onclick="setFilter('test',this)">🎯 Mock Tests</button>
+  <button class="filter-btn" onclick="setFilter('maths',this)">📐 Maths</button>
+  <button class="filter-btn" onclick="setFilter('cs',this)">💻 CS</button>
+</div>
+
+<!-- Section Label -->
+<div class="section-label" style="position:relative;z-index:1;">
+  <span>All Chapters</span>
+</div>
+
+<!-- Grid -->
+<div class="grid" id="cardGrid">
+
+  <div class="card" data-color="purple" data-tags="notes maths" onclick="openPage('1.html')" data-title="Relations & Function">
+    <div class="card-badge badge-hot">🔥 HOT</div>
+    <div class="card-icon">🔄</div>
+    <div class="card-title">Relations & Function</div>
+    <div class="card-sub">Chapter 1 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:85%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('2.html')">
-    <h3>🔢 Matrices & Determinants</h3>
-    <span>Chapter 2</span>
+  <div class="card" data-color="cyan" data-tags="notes maths" onclick="openPage('2.html')" data-title="Matrices & Determinants">
+    <div class="card-badge badge-hot">🔥 HOT</div>
+    <div class="card-icon">🔢</div>
+    <div class="card-title">Matrices & Determinants</div>
+    <div class="card-sub">Chapter 2 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:70%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('3.html')">
-    <h3>🎲 Probability</h3>
-    <span>Chapter 3</span>
+  <div class="card" data-color="pink" data-tags="notes maths" onclick="openPage('3.html')" data-title="Probability">
+    <div class="card-icon">🎲</div>
+    <div class="card-title">Probability</div>
+    <div class="card-sub">Chapter 3 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:60%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('4.html')">
-    <h3>🧭 3D Geometry</h3>
-    <span>Chapter 4</span>
+  <div class="card" data-color="gold" data-tags="notes maths" onclick="openPage('4.html')" data-title="3D Geometry">
+    <div class="card-icon">🧭</div>
+    <div class="card-title">3D Geometry</div>
+    <div class="card-sub">Chapter 4 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:50%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('5.html')">
-    <h3>📊 Integration</h3>
-    <span>Chapter 5</span>
+  <div class="card" data-color="green" data-tags="notes maths" onclick="openPage('5.html')" data-title="Integration">
+    <div class="card-badge badge-hot">🔥 HOT</div>
+    <div class="card-icon">📊</div>
+    <div class="card-title">Integration</div>
+    <div class="card-sub">Chapter 5 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:40%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('6.html')">
-    <h3>📏 Application of Derivatives</h3>
-    <span>Chapter 6</span>
+  <div class="card" data-color="orange" data-tags="notes maths" onclick="openPage('6.html')" data-title="Application of Derivatives">
+    <div class="card-icon">📏</div>
+    <div class="card-title">Application of Derivatives</div>
+    <div class="card-sub">Chapter 6 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:55%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('7.html')">
-    <h3>🎯 Linear Programming</h3>
-    <span>Chapter 7</span>
-  </div>
-  
-  <div class="card" onclick="openPage('8.html')">
-    <h3>📈 Continuity & Differentiability</h3>
-    <span>Chapter 8</span>
+  <div class="card" data-color="purple" data-tags="notes maths" onclick="openPage('7.html')" data-title="Linear Programming">
+    <div class="card-icon">🎯</div>
+    <div class="card-title">Linear Programming</div>
+    <div class="card-sub">Chapter 7 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:35%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('9.html')">
-    <h3>🎯 Math MOCK Test</h3>
-    <span>Chapter 9</span>
+  <div class="card" data-color="cyan" data-tags="notes maths" onclick="openPage('8.html')" data-title="Continuity & Differentiability">
+    <div class="card-badge badge-new">✨ NEW</div>
+    <div class="card-icon">📈</div>
+    <div class="card-title">Continuity & Differentiability</div>
+    <div class="card-sub">Chapter 8 · Maths</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:20%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('10.html')">
-    <h3>🎯 Math MOCK Test pro</h3>
-    <span>Chapter 10</span>
+  <div class="card" data-color="pink" data-tags="test maths" onclick="openPage('9.html')" data-title="Math MOCK Test">
+    <div class="card-badge badge-test">TEST</div>
+    <div class="card-icon">🧪</div>
+    <div class="card-title">Math Mock Test</div>
+    <div class="card-sub">Chapter 9 · Practice</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:0%"></div></div></div>
   </div>
 
-  <div class="card" onclick="openPage('11.html')">
-    <h3>🎯 CS MOCK test</h3>
-    <span>Chapter 11</span>
+  <div class="card" data-color="gold" data-tags="test maths" onclick="openPage('10.html')" data-title="Math MOCK Test Pro">
+    <div class="card-badge badge-test">PRO</div>
+    <div class="card-icon">🏆</div>
+    <div class="card-title">Math Mock Test Pro</div>
+    <div class="card-sub">Chapter 10 · Advanced</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:0%"></div></div></div>
+  </div>
+
+  <div class="card" data-color="green" data-tags="test cs" onclick="openPage('11.html')" data-title="CS MOCK Test">
+    <div class="card-badge badge-new">CS</div>
+    <div class="card-icon">💻</div>
+    <div class="card-title">CS Mock Test</div>
+    <div class="card-sub">Chapter 11 · Computer Sci.</div>
+    <div class="card-progress"><div class="progress-track"><div class="progress-fill" style="width:0%"></div></div></div>
+  </div>
+
+  <!-- No result message -->
+  <div id="noResult" style="display:none;grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);">
+    😕 No chapters found for "<span id="searchQuery"></span>"
   </div>
 
 </div>
 
-<div class="footer">
-  © 2026 CUET Notes Hub
-</div>
+<!-- Footer -->
+<footer class="footer">
+  Made with 💜 for CUET 2026 &nbsp;·&nbsp; <span>Roushan</span>
+</footer>
+
+<!-- Scroll Top -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-// Page navigation
+/* ─── PAGE NAV ─── */
 function openPage(page){
-  document.body.style.opacity="0";
-  setTimeout(()=>window.location.href=page,300);
+  createRipple(event);
+  showToast('Opening ' + page.replace('.html','') + '...');
+  document.body.style.opacity='0';
+  document.body.style.transition='opacity .35s ease';
+  setTimeout(()=>window.location.href=page,350);
 }
 
-// Service Worker
-if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("./service-worker.js");
+/* ─── RIPPLE ─── */
+function createRipple(e){
+  const card=e.currentTarget||e.target.closest('.card');
+  if(!card)return;
+  const r=document.createElement('span');
+  const rect=card.getBoundingClientRect();
+  const size=Math.max(rect.width,rect.height)*2;
+  r.className='ripple';
+  r.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+  card.appendChild(r);
+  r.addEventListener('animationend',()=>r.remove());
+}
+document.querySelectorAll('.card').forEach(c=>c.addEventListener('click',createRipple));
+
+/* ─── SEARCH ─── */
+let activeFilter='all';
+function filterCards(){
+  const q=document.getElementById('searchBox').value.toLowerCase().trim();
+  document.getElementById('searchQuery').textContent=q;
+  let count=0;
+  document.querySelectorAll('.card[data-title]').forEach(c=>{
+    const title=c.dataset.title.toLowerCase();
+    const tags=c.dataset.tags||'';
+    const matchSearch=!q||title.includes(q)||tags.includes(q);
+    const matchFilter=activeFilter==='all'||tags.includes(activeFilter);
+    const show=matchSearch&&matchFilter;
+    c.style.display=show?'':'none';
+    if(show)count++;
   });
+  document.getElementById('noResult').style.display=count===0?'block':'none';
 }
 
-// Install button
-let deferredPrompt;
-const installBtn=document.getElementById("installBtn");
+function setFilter(f,btn){
+  activeFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
 
-window.addEventListener("beforeinstallprompt",(e)=>{
-  e.preventDefault();
-  deferredPrompt=e;
-  installBtn.style.display="inline-block";
+/* ─── COUNTDOWN ─── */
+function updateDaysLeft(){
+  const exam=new Date('2026-05-15');
+  const now=new Date();
+  const diff=Math.ceil((exam-now)/(1000*60*60*24));
+  const el=document.getElementById('daysLeft');
+  el.textContent=diff>0?diff:'🎯';
+}
+updateDaysLeft();
+
+/* ─── STREAK ─── */
+const today=new Date().toDateString();
+const lastVisit=localStorage.getItem('cuet_last_visit');
+let streak=parseInt(localStorage.getItem('cuet_streak')||'1');
+const yesterday=new Date(Date.now()-86400000).toDateString();
+if(lastVisit===yesterday){streak++;localStorage.setItem('cuet_streak',streak);}
+else if(lastVisit!==today){streak=1;localStorage.setItem('cuet_streak',1);}
+localStorage.setItem('cuet_last_visit',today);
+document.getElementById('streakCount').textContent=streak;
+
+/* ─── VISIT COUNT ─── */
+const visitKey='cuet_visits_'+today;
+const visits=(parseInt(localStorage.getItem(visitKey)||'0'))+1;
+localStorage.setItem(visitKey,visits);
+document.getElementById('visitCount').textContent=visits;
+
+/* ─── TOAST ─── */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+/* ─── SCROLL TOP ─── */
+const stBtn=document.getElementById('scrollTop');
+window.addEventListener('scroll',()=>{
+  stBtn.style.display=window.scrollY>300?'flex':'none';
 });
 
-installBtn.onclick=()=>{
-  deferredPrompt.prompt();
-};
-</script>
+/* ─── PWA ─── */
+if('serviceWorker'in navigator)
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
+let deferredPrompt;
+const installBtn=document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();deferredPrompt=e;
+  installBtn.style.display='inline-block';
+});
+installBtn.onclick=()=>deferredPrompt.prompt();
 
+/* ─── FADE IN ON LOAD ─── */
+document.body.style.opacity='0';
+window.addEventListener('load',()=>{
+  document.body.style.transition='opacity .5s ease';
+  document.body.style.opacity='1';
+});
+</script>
 </body>
 </html>
