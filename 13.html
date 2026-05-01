@@ -666,7 +666,7 @@ function buildQuizMode(cfg){
       <div class="result-emoji">${star}</div>
       <div class="result-score" style="color:${c}">${state.quizScore}/${state.quizQs.length}</div>
       <div class="result-pct">${pct}% Score</div>
-      <div style="font-size:13px;color:#64748B;margin-bottom:24px">${pct>=80?"🔥 Zabardast! CUET ready ho gaye!":pct>=60?"💪 Accha! Thoda aur karo":📚 Practice karo — ho jaayega!"}</div>
+      <div style="font-size:13px;color:#64748B;margin-bottom:24px">${pct>=80?"🔥 Zabardast! CUET ready ho gaye!":pct>=60?"💪 Accha! Thoda aur karo":"📚 Practice karo — ho jaayega!"}</div>
       <div class="result-bar"><div class="result-fill" style="width:${pct}%;background:linear-gradient(90deg,${c},${c}99)"></div></div>
       <button class="retry-btn" data-action="quiz-retry" style="background:${c};color:#000">🔄 Dobara Try Karo</button>
     </div>`;
