@@ -15,6 +15,7 @@ const CORE_ASSETS = [
   "./9.html",
   "./10.html",
   "./11.html",
+  "./12.html",
   "./manifest.json"
 ];
 
