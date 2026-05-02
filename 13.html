@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUET Master Quiz – 10 Days</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a14;
+    --panel: #0d1a2e;
+    --card: #112240;
+    --accent: #00d4ff;
+    --gold: #ffd700;
+    --green: #00ff88;
+    --red: #ff4757;
+    --purple: #a855f7;
+    --text: #e0f0ff;
+    --muted: #7a9ab8;
+    --border: rgba(0,212,255,0.2);
+    --glow: 0 0 20px rgba(0,212,255,0.3);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Rajdhani',sans-serif; min-height:100vh; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 20% 50%,rgba(0,60,120,0.15) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(100,0,180,0.1) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .stars { position:fixed; inset:0; z-index:0; pointer-events:none; background-image:radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,0.6) 0%,transparent 100%),radial-gradient(1px 1px at 30% 40%,rgba(255,255,255,0.4) 0%,transparent 100%),radial-gradient(1px 1px at 50% 70%,rgba(255,255,255,0.5) 0%,transparent 100%),radial-gradient(1px 1px at 70% 25%,rgba(255,255,255,0.3) 0%,transparent 100%),radial-gradient(1px 1px at 85% 60%,rgba(255,255,255,0.6) 0%,transparent 100%),radial-gradient(1px 1px at 15% 85%,rgba(255,255,255,0.4) 0%,transparent 100%),radial-gradient(1px 1px at 60% 10%,rgba(255,255,255,0.5) 0%,transparent 100%),radial-gradient(1px 1px at 40% 90%,rgba(255,255,255,0.3) 0%,transparent 100%),radial-gradient(1px 1px at 90% 80%,rgba(255,255,255,0.4) 0%,transparent 100%),radial-gradient(1px 1px at 25% 55%,rgba(255,255,255,0.5) 0%,transparent 100%); }
+  header { position:relative; z-index:10; text-align:center; padding:2rem 1rem 1.5rem; border-bottom:1px solid var(--border); background:linear-gradient(180deg,rgba(0,212,255,0.05) 0%,transparent 100%); }
+  .logo-tag { display:inline-block; font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--accent); letter-spacing:0.3em; border:1px solid var(--accent); padding:0.25rem 0.75rem; border-radius:2px; margin-bottom:0.75rem; animation:pulse-border 2s infinite; }
+  @keyframes pulse-border { 0%,100%{box-shadow:0 0 5px rgba(0,212,255,0.3);}50%{box-shadow:0 0 15px rgba(0,212,255,0.7);} }
+  h1 { font-family:'Orbitron',sans-serif; font-size:clamp(1.4rem,5vw,2.8rem); font-weight:900; background:linear-gradient(135deg,#00d4ff,#a855f7,#ffd700); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.1; margin-bottom:0.5rem; }
+  .subtitle { font-size:0.95rem; color:var(--muted); font-family:'Space Mono',monospace; }
+  .progress-strip { position:relative; z-index:10; background:var(--panel); padding:1rem 1.5rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+  .score-display { font-family:'Orbitron',sans-serif; font-size:1.1rem; color:var(--gold); }
+  .progress-bar-wrap { flex:1; min-width:150px; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--purple)); border-radius:3px; transition:width 0.5s cubic-bezier(0.4,0,0.2,1); box-shadow:0 0 8px rgba(0,212,255,0.5); }
+  .q-counter { font-family:'Space Mono',monospace; font-size:0.8rem; color:var(--muted); white-space:nowrap; }
+  .day-nav { position:relative; z-index:10; display:flex; gap:0.4rem; padding:1rem 1.5rem; overflow-x:auto; border-bottom:1px solid var(--border); background:var(--panel); }
+  .day-nav::-webkit-scrollbar{height:3px;} .day-nav::-webkit-scrollbar-track{background:rgba(255,255,255,0.05);} .day-nav::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+  .day-btn { flex-shrink:0; font-family:'Orbitron',sans-serif; font-size:0.6rem; padding:0.4rem 0.7rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--muted); cursor:pointer; transition:all 0.2s; position:relative; }
+  .day-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .day-btn.active{background:linear-gradient(135deg,rgba(0,212,255,0.2),rgba(168,85,247,0.2));border-color:var(--accent);color:var(--accent);box-shadow:var(--glow);}
+  .day-btn.completed::after{content:'✓';position:absolute;top:-5px;right:-5px;background:var(--green);color:#000;font-size:0.55rem;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;}
+  main { position:relative; z-index:10; max-width:860px; margin:0 auto; padding:1.5rem 1rem 5rem; }
+  .section-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.2rem; margin-top:1.5rem; }
+  .section-icon { width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+  .ca-icon{background:linear-gradient(135deg,#0040a0,#0080ff);}
+  .gk-icon{background:linear-gradient(135deg,#5500aa,#a855f7);}
+  .section-title{font-family:'Orbitron',sans-serif;font-size:0.8rem;letter-spacing:0.15em;}
+  .ca-section .section-title{color:var(--accent);}
+  .gk-section .section-title{color:var(--purple);}
+  .q-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1rem; transition:all 0.3s; position:relative; overflow:hidden; }
+  .q-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),var(--purple));border-radius:3px 0 0 3px;}
+  .gk-section .q-card::before{background:linear-gradient(180deg,var(--purple),#ff6b9d);}
+  .q-card.correct{border-color:var(--green);background:rgba(0,255,136,0.05);}
+  .q-card.wrong{border-color:var(--red);background:rgba(255,71,87,0.05);}
+  .q-num{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);margin-bottom:0.5rem;}
+  .q-text{font-size:1.05rem;font-weight:600;line-height:1.5;color:var(--text);margin-bottom:1rem;}
+  .options{display:grid;gap:0.5rem;}
+  .opt{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:0.95rem;}
+  .opt:hover:not(.disabled){background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.3);transform:translateX(3px);}
+  .opt.selected{border-color:var(--accent);background:rgba(0,212,255,0.12);}
+  .opt.correct-opt{background:rgba(0,255,136,0.12);border-color:var(--green);color:var(--green);}
+  .opt.wrong-opt{background:rgba(255,71,87,0.12);border-color:var(--red);color:var(--red);}
+  .opt.disabled{cursor:not-allowed;}
+  .opt-letter{font-family:'Orbitron',sans-serif;font-size:0.65rem;width:22px;height:22px;border-radius:4px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+  .correct-opt .opt-letter{background:var(--green);color:#000;}
+  .wrong-opt .opt-letter{background:var(--red);color:#fff;}
+  .answer-panel{margin-top:1rem;padding:1rem;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);display:none;animation:slideDown 0.3s ease;}
+  .answer-panel.show{display:block;}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  .answer-label{font-family:'Orbitron',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:var(--gold);margin-bottom:0.5rem;}
+  .answer-explain{font-size:0.9rem;color:#bdd0e8;line-height:1.6;margin-bottom:0.75rem;}
+  .trick-box{padding:0.75rem 1rem;border-radius:8px;background:linear-gradient(135deg,rgba(255,215,0,0.06),rgba(255,107,157,0.06));border:1px solid rgba(255,215,0,0.2);display:flex;gap:0.6rem;align-items:flex-start;}
+  .trick-emoji{font-size:1.2rem;flex-shrink:0;}
+  .trick-title{font-family:'Orbitron',sans-serif;font-size:0.55rem;letter-spacing:0.15em;color:var(--gold);margin-bottom:0.25rem;}
+  .trick-text{font-size:0.88rem;color:var(--gold);font-weight:600;line-height:1.5;}
+  .btn-row{display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;}
+  .btn{font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;padding:0.45rem 1rem;border-radius:6px;border:1px solid;cursor:pointer;transition:all 0.2s;letter-spacing:0.05em;}
+  .btn-check{background:linear-gradient(135deg,rgba(0,212,255,0.2),rgba(168,85,247,0.2));border-color:var(--accent);color:var(--accent);}
+  .btn-check:hover{background:linear-gradient(135deg,rgba(0,212,255,0.35),rgba(168,85,247,0.35));}
+  .btn-check:disabled{opacity:0.4;cursor:not-allowed;}
+  #result-screen{display:none;text-align:center;padding:3rem 1rem;}
+  .result-emoji{font-size:4rem;margin-bottom:1rem;animation:bounce 1s infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .result-title{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem;}
+  .result-score{font-size:3rem;font-family:'Orbitron',sans-serif;color:var(--gold);margin:1rem 0;}
+  .result-msg{color:var(--muted);font-size:1rem;margin-bottom:2rem;}
+  .result-bars{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;}
+  .r-bar{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.5rem;min-width:140px;}
+  .r-bar-val{font-family:'Orbitron',sans-serif;font-size:1.5rem;color:var(--accent);margin-bottom:0.25rem;}
+  .r-bar-label{font-size:0.85rem;color:var(--muted);}
+  .btn-next-day{font-family:'Orbitron',sans-serif;font-size:0.8rem;padding:0.75rem 2rem;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:8px;color:#000;font-weight:700;cursor:pointer;transition:all 0.3s;letter-spacing:0.1em;box-shadow:0 4px 20px rgba(0,212,255,0.3);}
+  .btn-next-day:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,255,0.5);}
+  .streak-bar{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;gap:1rem;padding:0.6rem;background:linear-gradient(90deg,rgba(255,215,0,0.05),rgba(255,107,157,0.05));border-bottom:1px solid rgba(255,215,0,0.1);font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--gold);}
+  @media(max-width:500px){.q-text{font-size:0.95rem;}.opt{font-size:0.85rem;}h1{font-size:1.4rem;}}
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.75rem 1.5rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,0.5);}
+  .toast.show{opacity:1;}
+  .toast.green{border-color:var(--green);color:var(--green);}
+  .toast.red{border-color:var(--red);color:var(--red);}
+  .tag-ca{display:inline-block;font-family:'Space Mono',monospace;font-size:0.55rem;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.4);color:var(--accent);padding:0.15rem 0.5rem;border-radius:3px;margin-bottom:0.4rem;letter-spacing:0.1em;}
+  .tag-gk{display:inline-block;font-family:'Space Mono',monospace;font-size:0.55rem;background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:var(--purple);padding:0.15rem 0.5rem;border-radius:3px;margin-bottom:0.4rem;letter-spacing:0.1em;}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<header>
+  <div class="logo-tag">CUET MASTER PREP · 10 DAYS · 2026</div>
+  <h1>CUET DAILY QUIZ</h1>
+  <div class="subtitle">10 Current Affairs (May 2025–May 2026) + 10 Static GK · Memory Tricks · English</div>
+</header>
+<div class="streak-bar">
+  <span>🔥 Streak:</span><span id="streak-count">0 Days</span>
+  <span>|</span>
+  <span>🏆 Best:</span><span id="best-score">—</span>
+</div>
+<div class="progress-strip">
+  <div class="score-display">⚡ <span id="score-now">0</span> pts</div>
+  <div class="progress-bar-wrap"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="q-counter" id="q-counter">0 / 20</div>
+</div>
+<div class="day-nav" id="day-nav"></div>
+<main id="quiz-main"></main>
+<div id="result-screen">
+  <div class="result-emoji" id="r-emoji">🎉</div>
+  <div class="result-title">DAY COMPLETE!</div>
+  <div class="result-score"><span id="r-score">0</span> / 20</div>
+  <div class="result-msg" id="r-msg"></div>
+  <div class="result-bars">
+    <div class="r-bar"><div class="r-bar-val" id="r-ca">0</div><div class="r-bar-label">Current Affairs</div></div>
+    <div class="r-bar"><div class="r-bar-val" id="r-gk">0</div><div class="r-bar-label">Static GK</div></div>
+    <div class="r-bar"><div class="r-bar-val" id="r-acc">0%</div><div class="r-bar-label">Accuracy</div></div>
+  </div>
+  <button class="btn-next-day" id="next-day-btn">NEXT DAY →</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  CUET MASTER QUIZ — 10 Days × 20 Qs (10 CA + 10 GK)
+//  CA: May 2025 – May 2026 | GK: Static (CUET 2022-2025 trend analysis)
+// ============================================================
+const DAYS = [
+
+// ─── DAY 1 ── Current Affairs: May–Aug 2025 | GK: Polity & History ──
+{day:1,
+ ca:[
+  {q:"In April–May 2025, which Indian military operation was launched against Pakistan following the Pahalgam terror attack?",opts:["Operation Sindoor","Operation Ganga","Operation Prahar","Operation Vijay"],ans:0,explain:"Operation Sindoor was launched by India on May 7, 2025 — precision strikes on 9 terror infrastructure sites in Pakistan and PoK, following the Pahalgam attack (April 22, 2025) that killed 26 tourists.",trick:"🎯 Sindoor = India drew a RED line. S = Strike back!"},
+  {q:"The Pahalgam terror attack (April 22, 2025) took place in which specific valley of Jammu & Kashmir?",opts:["Baisaran Valley","Lidder Valley","Kashmir Valley","Chenab Valley"],ans:0,explain:"The attack occurred in Baisaran Valley, Pahalgam — a meadow tourist spot nicknamed 'Mini Switzerland' in the Anantnag district.",trick:"🏔 Baisaran = Beautiful + Scarred. B-B: Beautiful meadow, Black day."},
+  {q:"India signed a Free Trade Agreement (FTA) with which country in May 2025, its first FTA with a major European nation?",opts:["United Kingdom","Germany","France","Italy"],ans:0,explain:"India–UK FTA was finalised in May 2025 after 3+ years of negotiations, covering goods, services, mobility, and investments.",trick:"🫖 UK = Tea + Trade! India-UK FTA = Forever Trade Alliance!"},
+  {q:"Which country held the G20 Presidency in 2025, hosting the summit in Johannesburg?",opts:["South Africa","Brazil","Indonesia","Saudi Arabia"],ans:0,explain:"South Africa held the G20 Presidency in 2025. Brazil had it in 2024; India had it in 2023.",trick:"🌍 SA 2025 → Brazil 2024 → India 2023. Go backwards: S-B-I!"},
+  {q:"ISRO's SpaDeX mission (Space Docking Experiment), successfully demonstrated India's first in-space docking in early 2025. What is the significance?",opts:["Key for future Indian Space Station","Mars mission prep","Moon water search","GPS satellite deployment"],ans:0,explain:"SpaDeX demonstrated autonomous docking of two spacecraft in orbit — essential technology for India's planned Bharatiya Antariksha Station (BAS) by 2035.",trick:"🛸 SpaDeX = SPACE + DOCKING eXperiment. Dock = connect = future station!"},
+  {q:"The Unified Pension Scheme (UPS) was implemented from which date for central government employees?",opts:["April 1, 2025","January 1, 2025","April 1, 2026","October 1, 2024"],ans:0,explain:"UPS was approved in August 2024 and operationalised from April 1, 2025, blending features of Old Pension Scheme and NPS.",trick:"📅 UPS starts April 1, 2025. U-P-S = United Pension Started!"},
+  {q:"India's 'Atal Setu', the longest sea bridge in India connecting Mumbai to Navi Mumbai, spans approximately how many km?",opts:["21.8 km","15 km","30 km","12 km"],ans:0,explain:"Atal Setu (Mumbai Trans Harbour Link) is 21.8 km long, opened January 12, 2024 — India's longest sea bridge.",trick:"🌉 21.8 km = TWO-ONE-EIGHT! Atal = Stable. ATS = Always The Shortest route!"},
+  {q:"Which country became the first new member to formally join BRICS as a full member in 2024, along with UAE, Egypt, Ethiopia and Saudi Arabia?",opts:["Iran","Turkey","Indonesia","Argentina"],ans:0,explain:"Iran, UAE, Egypt, Ethiopia, and Saudi Arabia all joined BRICS as full members in January 2024. Argentina declined its invitation.",trick:"🤝 BRICS+5! Iran + Egypt + UAE + Ethiopia + SA = Five New Friends!"},
+  {q:"India's 'Mission Mausam' aims to upgrade which sector using AI and next-generation Doppler radars?",opts:["Weather & climate forecasting","Solar energy","River water management","Earthquake detection"],ans:0,explain:"Mission Mausam (2024) aims to revolutionise India's meteorological infrastructure with AI-driven radars and observation networks under MoES.",trick:"🌦 Mausam = WEATHER! Mission Mausam = Mega Met Makeover!"},
+  {q:"Which Indian state first implemented the Uniform Civil Code (UCC) in 2024, becoming the first state to do so after Goa?",opts:["Uttarakhand","Gujarat","UP","Himachal Pradesh"],ans:0,explain:"Uttarakhand notified its UCC rules in 2024, making it the first state (after Goa which had its own version) to implement a comprehensive UCC.",trick:"🏔 Uttarakhand = UK = Uniform King! Mountain state leads UCC!"},
+ ],
+ gk:[
+  {q:"Fundamental Rights in the Indian Constitution are enshrined in which Articles?",opts:["Articles 12–35","Articles 1–11","Articles 36–51","Articles 52–78"],ans:0,explain:"Fundamental Rights are in Articles 12–35, Part III of the Constitution. They are justiciable — enforceable by courts.",trick:"📖 12 to 35: Remember '12 pe shuru, 35 pe khatam' = Part III Rights!"},
+  {q:"Under which Article of the Indian Constitution can the President impose National Emergency?",opts:["Article 352","Article 356","Article 360","Article 368"],ans:0,explain:"Article 352 allows the President to proclaim National Emergency (threat to India's security by war/armed rebellion/external aggression).",trick:"🚨 352 = Three Five Two = Threat! 352 → National Emergency!"},
+  {q:"Which Mughal Emperor built the Taj Mahal, and in which year was it completed?",opts:["Shah Jahan, 1653","Akbar, 1600","Aurangzeb, 1670","Jahangir, 1620"],ans:0,explain:"Shah Jahan built the Taj Mahal in memory of wife Mumtaz Mahal. Construction began 1632, completed ~1653.",trick:"🕌 Shah Jahan = Shaadi + Jaan! Built for love. SJ + TM = 1653!"},
+  {q:"The Indian National Congress was founded in 1885 by which British civil servant?",opts:["A.O. Hume","William Bentinck","Dalhousie","Ripon"],ans:0,explain:"Allan Octavian Hume (A.O. Hume) founded the INC in Bombay (Mumbai) in 1885. First session presided over by W.C. Bonnerjee.",trick:"🕊 A.O. Hume = A One Humble founder! 1885 = first step to freedom!"},
+  {q:"'Quit India Movement' was launched by Mahatma Gandhi in which year, with the famous call 'Do or Die'?",opts:["1942","1930","1919","1947"],ans:0,explain:"Quit India Movement was launched on August 8, 1942 at Bombay. Gandhi gave the 'Do or Die' slogan.",trick:"✊ 1942 = 9+4+2 = 15! '42 = QUIT + FIGHT! Do or Die = 1942!"},
+  {q:"The Preamble to the Indian Constitution describes India as 'Sovereign Socialist Secular Democratic Republic'. Which amendment added 'Socialist' and 'Secular'?",opts:["42nd Amendment, 1976","44th Amendment","74th Amendment","86th Amendment"],ans:0,explain:"The 42nd Constitutional Amendment (1976) added the words 'Socialist', 'Secular', and 'Integrity' to the Preamble.",trick:"🔑 42nd = SOCIALIST + SECULAR added! 42 = 4+2 = 6 words in Preamble key!"},
+  {q:"Who wrote the Indian national song 'Vande Mataram', and in which novel did it first appear?",opts:["Bankim Chandra Chattopadhyay, Anandamath","Rabindranath Tagore, Gitanjali","Subramania Bharati, Kavithai","Sarojini Naidu, Golden Threshold"],ans:0,explain:"Bankim Chandra wrote Vande Mataram; it first appeared in his 1882 novel Anandamath. Adopted as national song in 1950.",trick:"🌸 B-C-C = Bankim Chandra Chattopadhyay = BCC! Vande = Victory-BCC!"},
+  {q:"The Battle of Plassey (1757) was fought between the British East India Company and whom?",opts:["Siraj ud-Daulah (Nawab of Bengal)","Hyder Ali","Tipu Sultan","Marathas"],ans:0,explain:"Battle of Plassey (June 23, 1757) — Clive vs Siraj ud-Daulah (last independent Nawab of Bengal). British victory led to colonial domination.",trick:"⚔️ Plassey 1757 = P-L-A-S-S-E-Y = Please Lose And Submit Siraj Easily Yes!"},
+  {q:"Which Article of the Indian Constitution abolishes untouchability?",opts:["Article 17","Article 14","Article 21","Article 19"],ans:0,explain:"Article 17 abolishes untouchability and forbids its practice in any form. It is a non-derogable right.",trick:"🤝 17 = UNTOUCHABILITY abolished! 1+7=8 = equality for all!"},
+  {q:"The 'Directive Principles of State Policy' (DPSP) in the Indian Constitution are inspired by which country's constitution?",opts:["Ireland","USA","UK","France"],ans:0,explain:"DPSP (Articles 36–51) are borrowed from the Irish Constitution of 1937. They are non-justiciable but fundamental to governance.",trick:"🍀 Ireland = Ire + land = Ideas for DPSP! I = Ireland = Inspired DPSP!"},
+ ]
+},
+
+// ─── DAY 2 ── CA: Sep–Dec 2025 | GK: Geography & Environment ──
+{day:2,
+ ca:[
+  {q:"The 79th United Nations General Assembly (UNGA) session in 2024 was addressed by India's PM Modi with the theme 'Summit of the Future'. What was the key India proposal?",opts:["Comprehensive reform of UN Security Council","Abolish nuclear weapons","Free trade for developing nations","Global AI treaty"],ans:0,explain:"India strongly pushed for UNSC reform including permanent membership for developing nations at UNGA 79th session in September 2024.",trick:"🌐 UNSC reform = India's Big Ask! UN = Unfair → India = Improve Now!"},
+  {q:"India's first indigenously built aircraft carrier INS Vikrant was commissioned in which year?",opts:["2022","2023","2024","2021"],ans:0,explain:"INS Vikrant was commissioned on September 2, 2022 at Cochin Shipyard — India's first indigenous aircraft carrier, ending dependence on foreign carriers.",trick:"✈️🚢 Vikrant = VICTORY! 2022 = Two Zero Two Two = Total Indian Power!"},
+  {q:"The Chandrayaan-3 mission successfully soft-landed on the Moon's south pole on which date?",opts:["August 23, 2023","July 14, 2023","September 5, 2023","October 3, 2023"],ans:0,explain:"Chandrayaan-3's Vikram lander soft-landed on August 23, 2023 — India became the 1st country to land near the Moon's south pole. August 23 is now National Space Day.",trick:"🌙 23 August 2023 = 23/8/23! C-3 = Chandrayaan THREE = Third time lucky!"},
+  {q:"India's Aditya-L1 solar mission was launched on September 2, 2023. What does L1 represent?",opts:["Lagrange Point 1 between Earth & Sun","Launch Level 1","Low orbit 1","Light satellite 1"],ans:0,explain:"L1 = Lagrange Point 1, a gravitationally stable point ~1.5 million km from Earth toward the Sun. Aditya-L1 studies the solar corona and solar wind.",trick:"☀️ L1 = Lucky position 1 between Earth & Sun! Aditya = Sun in Sanskrit!"},
+  {q:"Which country won the ICC Men's T20 World Cup 2024 hosted in USA and West Indies?",opts:["India","Australia","England","South Africa"],ans:0,explain:"India won the ICC T20 World Cup 2024, defeating South Africa in the final on June 29, 2024. Rohit Sharma was captain.",trick:"🏆 India T20 WC 2024! Rohit + Virat + Bumrah = Champions! June 29!"},
+  {q:"The 'Paris Olympics 2024' was held in July–August 2024. How many medals did India win?",opts:["6 medals","4 medals","8 medals","3 medals"],ans:0,explain:"India won 6 medals at Paris 2024: 0 Gold, 1 Silver (Neeraj Chopra, javelin), 5 Bronze. India ranked 71st.",trick:"🥈 6 medals! Neeraj = Silver Star! Six = CHHAH medals in Paris!"},
+  {q:"India's National Quantum Mission (NQM) has a budget of ₹6003 crore for the period 2023–2031. It targets developing quantum computers of how many qubits?",opts:["50–1000 physical qubits","10 qubits","5000 qubits","100,000 qubits"],ans:0,explain:"NQM targets 50–1000 physical qubit quantum computers by 2031 with ₹6003 crore investment.",trick:"⚛️ NQM = 6003 cr! Quantum = Quality Matter! 50-1000 qubits = Q-range!"},
+  {q:"Which new education initiative replaced the 10+2 system with a 5+3+3+4 structure under NEP 2020?",opts:["New curricular structure under NEP 2020","Samagra Shiksha","PM SHRI","Mid-Day Meal upgrade"],ans:0,explain:"NEP 2020 restructures schooling into Foundational (5 yrs), Preparatory (3 yrs), Middle (3 yrs), and Secondary (4 yrs) stages — replacing the old 10+2.",trick:"📚 5+3+3+4 = 15 yrs! NEP 2020 = New Education Perfectly structured!"},
+  {q:"The Agni-5 MIRV (Multiple Independently Targetable Reentry Vehicle) missile was successfully tested by India in March 2024. What does MIRV mean?",opts:["One missile carrying multiple warheads to different targets","Multi-use reconnaissance vehicle","Marine Integrated Range Vehicle","Missile with Infrared Range Vision"],ans:0,explain:"MIRV allows a single ballistic missile to carry multiple nuclear warheads, each directed to a different target — making India's nuclear triad more potent.",trick:"🚀 MIRV = Multiple Revenge Vehicles in one! One rocket, many targets!"},
+  {q:"India's UPI (Unified Payments Interface) crossed how many monthly transactions in 2024, becoming the world's largest real-time payment system?",opts:["16 billion/month","5 billion/month","2 billion/month","10 billion/month"],ans:0,explain:"UPI crossed 16 billion transactions/month in 2024. It handles 48% of global real-time payment transactions.",trick:"💳 UPI = 16 Billion! U-P-I = Ultra Popular Interface! 16B = SIXTEEN BILLION!"},
+ ],
+ gk:[
+  {q:"Which is the longest river in India by length?",opts:["Ganga","Godavari","Indus","Brahmaputra"],ans:0,explain:"The Ganga (2,525 km) is India's longest river, flowing from Gangotri Glacier (Uttarakhand) to Bay of Bengal.",trick:"🌊 Ganga = GREATEST! G-G: Gangotri to Gulf = 2525 km double pair!"},
+  {q:"The Western Ghats mountain range runs parallel to which coast of India?",opts:["West (Arabian Sea coast)","East (Coromandel coast)","North","South"],ans:0,explain:"Western Ghats (Sahyadri range) runs ~1600 km parallel to India's western coast (Maharashtra, Goa, Karnataka, Kerala). UNESCO World Heritage Site.",trick:"🏔 WESTERN Ghats = WEST coast! W-W: Western = West coast! Simple!"},
+  {q:"Which Indian state has the longest coastline?",opts:["Gujarat","Andhra Pradesh","Tamil Nadu","Maharashtra"],ans:0,explain:"Gujarat has the longest coastline (~1600 km) among Indian states. Including islands, Andaman & Nicobar Islands top the list.",trick:"🌊 Gujarat = Gulf = Greatest Coastline! G-G-G: Gujarat's Greatest Gulf!"},
+  {q:"The 'Sundarbans' mangrove forest, a UNESCO World Heritage Site, is shared between India and which country?",opts:["Bangladesh","Myanmar","Sri Lanka","Nepal"],ans:0,explain:"Sundarbans spans West Bengal (India) and Bangladesh. It's the largest mangrove forest in the world and home to the Royal Bengal Tiger.",trick:"🐯 Sundarbans = Beautiful + Dangerous! S-B-B: Shared by Bengal + Bangladesh!"},
+  {q:"The Tropic of Cancer passes through how many Indian states?",opts:["8 states","6 states","10 states","5 states"],ans:0,explain:"Tropic of Cancer (23.5°N) passes through 8 Indian states: Gujarat, Rajasthan, MP, Chhattisgarh, Jharkhand, West Bengal, Tripura, Mizoram.",trick:"🗺 8 states! GR-MC-JW-TM! Remember: Gujarat-Raj-MP-CG-JH-WB-Tripura-Mizoram!"},
+  {q:"Which freshwater lake is the largest in India by surface area?",opts:["Wular Lake, J&K","Dal Lake","Chilika Lake","Loktak Lake"],ans:0,explain:"Wular Lake in Jammu & Kashmir is India's largest freshwater lake. Chilika Lake (Odisha) is the largest brackish water lake.",trick:"💧 Wular = WINNER freshwater! W = Wular = Wow, largest! J&K's crown!"},
+  {q:"The 'Silent Valley National Park' known for its biodiversity is located in which state?",opts:["Kerala","Karnataka","Tamil Nadu","Andhra Pradesh"],ans:0,explain:"Silent Valley National Park is in Palakkad district, Kerala. It was the centre of the famous Silent Valley Movement (1970s–80s) to protect rainforest.",trick:"🌿 Silent = Kerala's quiet jewel! SV = Silent Valley in K = Kerala!"},
+  {q:"India is the world's largest producer of which crop?",opts:["Milk","Rice","Cotton","Tea"],ans:0,explain:"India is the world's largest producer and consumer of milk (White Revolution). India surpassed the USA in milk production.",trick:"🥛 India = WHITE Revolution! Milk = #1! Verghese Kurien = Milk Man!"},
+  {q:"Which Indian state is the largest producer of coffee?",opts:["Karnataka","Kerala","Tamil Nadu","Andhra Pradesh"],ans:0,explain:"Karnataka produces ~70% of India's coffee, mainly in Coorg (Kodagu), Chikmagalur, and Hassan districts.",trick:"☕ Karnataka = Coffee King! K-K-K: Karnataka Kaapi (coffee) Kingdom!"},
+  {q:"The 'Montreal Protocol' (1987) deals with which environmental issue?",opts:["Protection of ozone layer","Climate change/CO2","Biodiversity conservation","Marine pollution"],ans:0,explain:"Montreal Protocol (1987) is a landmark international treaty phasing out ozone-depleting substances (CFCs, HCFCs). Most successful environmental treaty.",trick:"🌍 Montreal 1987 = M = Maximum Ozone protection! M-O = Montreal–Ozone!"},
+ ]
+},
+
+// ─── DAY 3 ── CA: Jan–Mar 2026 | GK: Science & Technology ──
+{day:3,
+ ca:[
+  {q:"India's SHINE app, launched on International Women's Day (March 8, 2026) by Indian Railways, stands for?",opts:["Sexual Harassment Incident Notification for Empowerment","Smart Help In National Emergency","Safety Help Innovation Network for Employees","System for Health Insurance & Employee"],ans:0,explain:"SHINE = Sexual Harassment Incident Notification for Empowerment. Launched by Indian Railways on March 8, 2026 to empower women employees.",trick:"✨ SHINE = She Has Independence Now Ensured! March 8 = Women's Day = SHINE!"},
+  {q:"Which agency dismantled the major drug trafficking network 'Team Kalki' in 2025–26?",opts:["Narcotics Control Bureau (NCB)","CBI","ED","RAW"],ans:0,explain:"NCB (Narcotics Control Bureau) dismantled 'Team Kalki' — a pan-India drug delivery network operating through parcel services since 2025.",trick:"💊 NCB = No Crime Bureau! Team Kalki = busted by NCB!"},
+  {q:"The Unified Pension Scheme (UPS) for central government employees guarantees what percentage of average basic pay as pension?",opts:["50% of average last 12 months pay","40% of last salary","60% of basic pay","33% of average pay"],ans:0,explain:"UPS guarantees 50% of the average basic pay over the last 12 months of service as monthly pension (for 25+ years of service).",trick:"💰 UPS = 50% guaranteed! U-P-S = Under Pension Scheme half salary ensured!"},
+  {q:"India's 'Viksit Bharat @2047' vision aims to achieve what GDP target by 2047?",opts:["$30–35 trillion (Developed Nation)","$5 trillion","$10 trillion","$20 trillion"],ans:0,explain:"Viksit Bharat @2047 targets India becoming a fully developed nation with $30–35 trillion GDP by Independence centenary.",trick:"🎯 2047 - 2024 = 23 years! VB = Very Big GDP by Birthday centenary!"},
+  {q:"The India-Middle East-Europe Economic Corridor (IMEC) was announced at which summit?",opts:["G20 New Delhi 2023","BRICS 2023","SCO 2023","ASEAN 2023"],ans:0,explain:"IMEC connecting India–UAE–Saudi Arabia–Jordan–Israel–Greece–Italy–Europe was announced at G20 New Delhi Summit, September 2023.",trick:"🛤 IMEC = I Make Economic Connections! G20 New Delhi 2023 = born here!"},
+  {q:"India's first Green Hydrogen Hub under the National Green Hydrogen Mission is being set up in which city?",opts:["Visakhapatnam (Vizag), Andhra Pradesh","Mumbai","Ahmedabad","Pune"],ans:0,explain:"Vizag (Visakhapatnam) is India's first Green Hydrogen Hub. The National Green Hydrogen Mission targets 5 MMT production by 2030.",trick:"💧 V-V-V: Vizag = Very Very Green! GH Hub = Green Hydrogen here!"},
+  {q:"Which country held the SCO (Shanghai Cooperation Organisation) Presidency in 2023 when India hosted the SCO Summit virtually?",opts:["India","China","Russia","Kazakhstan"],ans:0,explain:"India held the SCO Presidency in 2023 and hosted the SCO Summit virtually in July 2023 due to the Russia-Ukraine conflict context.",trick:"🌏 India SCO 2023! S-C-O = Strategically Coordinating with Others!"},
+  {q:"GIFT City (Gujarat International Finance Tec-City) is India's first operational International Financial Services Centre (IFSC). In which city?",opts:["Gandhinagar, Gujarat","Ahmedabad","Surat","Vadodara"],ans:0,explain:"GIFT City is in Gandhinagar, Gujarat — India's first IFSC allowing global financial activities with special regulatory framework.",trick:"🏙 GIFT = Gujarat International Finance Token! Gandhinagar = Gujarat's capital gift!"},
+  {q:"Under 'PM Surya Ghar: Muft Bijli Yojana' (2024), how many units of free electricity per month can eligible households get?",opts:["300 units","500 units","100 units","200 units"],ans:0,explain:"PM Surya Ghar provides up to 300 units/month free electricity via subsidised rooftop solar panel installation.",trick:"☀️ 300 units FREE! Sun = 300 watts daily! Surya = Solar = 300!"},
+  {q:"India's Semiconductor Mission (ISM) is under which ministry?",opts:["MeitY (Ministry of Electronics & IT)","Ministry of Finance","Ministry of Science & Technology","Ministry of Commerce"],ans:0,explain:"India Semiconductor Mission is under MeitY (Ministry of Electronics and Information Technology) with ₹76,000 crore incentive package.",trick:"💻 Semi = IT = MeitY! M-E-I-T-Y = Make Electronics In This Year!"},
+ ],
+ gk:[
+  {q:"What is the SI unit of electric current?",opts:["Ampere","Volt","Watt","Ohm"],ans:0,explain:"Ampere (A) is the SI unit of electric current, named after French physicist André-Marie Ampère (1775–1836).",trick:"⚡ Ampere = AMP! A = Actually Measures current Power! Simple!"},
+  {q:"Which gas is commonly called the 'Greenhouse Gas' responsible for most global warming?",opts:["Carbon Dioxide (CO₂)","Oxygen (O₂)","Nitrogen (N₂)","Argon"],ans:0,explain:"CO₂ is the primary greenhouse gas from human activities. Methane is more potent but CO₂ is most abundant and impactful.",trick:"🌡 CO₂ = Carbon = Climate Change! CO₂ → Greenhouse = Global warming!"},
+  {q:"The 'Mitochondria' in a cell is responsible for which function?",opts:["Energy production (ATP synthesis)","Protein synthesis","Cell division","DNA storage"],ans:0,explain:"Mitochondria produces ATP (Adenosine Triphosphate) through cellular respiration — hence called the 'Powerhouse of the Cell'.",trick:"⚡ Mito = MIGHT! Mitochondria = MIGHTY power maker! ATP = All The Power!"},
+  {q:"What is the chemical symbol and atomic number of Gold?",opts:["Au, 79","Ag, 47","Au, 47","Go, 79"],ans:0,explain:"Gold: Symbol Au (from Latin 'Aurum'), Atomic Number 79. Silver is Ag (Argentum), Atomic Number 47.",trick:"🥇 Au = AURUM = Old Latin for Gold! Au-79 = Award number 79!"},
+  {q:"Which scientist proposed the 'Theory of General Relativity' in 1915?",opts:["Albert Einstein","Isaac Newton","Stephen Hawking","Niels Bohr"],ans:0,explain:"Albert Einstein published his General Theory of Relativity in 1915, describing gravity as the curvature of space-time.",trick:"🧠 E=mc² + General Relativity = Einstein! AE = Absolutely Einstein 1915!"},
+  {q:"DNA (Deoxyribonucleic Acid) has a double-helix structure. Who discovered this in 1953?",opts:["Watson & Crick (using Franklin's X-ray data)","Darwin & Mendel","Pasteur & Koch","Hooke & Van Leeuwenhoek"],ans:0,explain:"James Watson and Francis Crick proposed the double-helix structure in 1953, using Rosalind Franklin's X-ray crystallography data. Nobel Prize 1962.",trick:"🧬 W-C = Watson-Crick = Double WINNER! 1953 = DNA discovered!"},
+  {q:"The 'Ozone layer' that protects Earth from UV radiation is mainly found in which atmospheric layer?",opts:["Stratosphere (15–50 km)","Troposphere","Mesosphere","Thermosphere"],ans:0,explain:"Ozone layer is in the stratosphere, 15–35 km above Earth. CFCs deplete it — protected by Montreal Protocol (1987).",trick:"☀️ Strato = SHIELD layer! S = Stratosphere = Sun protection!"},
+  {q:"What is the speed of light in vacuum?",opts:["3 × 10⁸ m/s (300,000 km/s)","3 × 10⁶ m/s","3 × 10¹⁰ m/s","1.5 × 10⁸ m/s"],ans:0,explain:"Speed of light (c) = 299,792,458 m/s ≈ 3 × 10⁸ m/s. It takes ~8 min 20 sec for sunlight to reach Earth.",trick:"💡 c = 3 × 10⁸! C = Crazy fast! Three with 8 zeros = speed of light!"},
+  {q:"Which planet in our solar system has the most moons?",opts:["Saturn (146+ moons)","Jupiter","Uranus","Neptune"],ans:0,explain:"Saturn surpassed Jupiter in 2023 with 146 confirmed moons (vs Jupiter's 95). Saturn's largest moon is Titan.",trick:"🪐 Saturn = MOON collector! S-S: Saturn = Seriously many moons! 146!"},
+  {q:"What is the process by which plants make food using sunlight?",opts:["Photosynthesis","Respiration","Transpiration","Osmosis"],ans:0,explain:"Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂. Plants use chlorophyll to capture sunlight and make glucose.",trick:"🌱 Photo = LIGHT! Synthesis = MAKE! Photo+Synthesis = Make food with light!"},
+ ]
+},
+
+// ─── DAY 4 ── CA: Economy & Schemes | GK: Indian History ──
+{day:4,
+ ca:[
+  {q:"India's Union Budget 2025–26 set the fiscal deficit target at what percentage of GDP?",opts:["4.4% of GDP","5.1% of GDP","3.5% of GDP","4.9% of GDP"],ans:0,explain:"Budget 2025–26 (presented February 1, 2025) set fiscal deficit at 4.4% of GDP — on a glide path toward 4.5% target.",trick:"💰 4.4% = Four Point Four = Fiscal FOUR-ward! Budget 2025 = 4.4%!"},
+  {q:"The 'PM Kisan Samman Nidhi Yojana' provides how much annual financial assistance to eligible farmers?",opts:["₹6,000 per year","₹12,000 per year","₹3,000 per year","₹10,000 per year"],ans:0,explain:"PM Kisan provides ₹6,000/year (3 instalments of ₹2,000 each) to eligible small and marginal farmer families.",trick:"🌾 6000 = SIX zeros? No — Six thousand! 3 × 2000 = 6000 per year!"},
+  {q:"Ayushman Bharat – PM Jan Arogya Yojana (PMJAY) was expanded in 2024. What is the health cover per family?",opts:["₹5 lakh per year","₹2 lakh per year","₹10 lakh per year","₹1 lakh per year"],ans:0,explain:"PMJAY provides ₹5 lakh/year health cover to ~10 crore poor families. In 2024, it was expanded to cover all citizens above 70 years.",trick:"💊 5 LAKH = Five Lakh Health! PMJAY = PM's 5L health guarantee!"},
+  {q:"India's GDP growth rate for 2024–25 as estimated by the First Advance Estimate (CSO) was approximately?",opts:["6.4%","8.2%","5.5%","7.9%"],ans:0,explain:"CSO's First Advance Estimate placed India's GDP growth at 6.4% for 2024–25 — slowdown from 8.2% in 2023–24.",trick:"📈 6.4% = Six Point FOUR! India = Fastest FOUR-ward still!"},
+  {q:"'Make in India' initiative was launched in which year and is symbolized by which animal?",opts:["2014, Lion","2016, Tiger","2014, Elephant","2019, Peacock"],ans:0,explain:"Make in India launched September 25, 2014 by PM Modi. Symbol is a lion made of cogs — representing strength and manufacturing.",trick:"🦁 MII 2014 = LION logo! Make in India = Mighty Indian Industry!"},
+  {q:"The 'National Monetisation Pipeline (NMP)' targets monetising government assets worth how much?",opts:["₹6 lakh crore (2022–25)","₹1 lakh crore","₹10 lakh crore","₹3 lakh crore"],ans:0,explain:"NMP targets ₹6 lakh crore by monetising roads, railways, airports, telecom assets over 4 years (2021–25).",trick:"💰 NMP = 6 Lakh! N-M-P = Naturally Makes Profits from 6L assets!"},
+  {q:"'One District One Product (ODOP)' scheme was pioneered by which state and later adopted nationally?",opts:["Uttar Pradesh","Gujarat","Maharashtra","Tamil Nadu"],ans:0,explain:"ODOP was pioneered by UP in 2018 and adopted nationally. Each of UP's 75 districts has a specific product to promote.",trick:"🏺 UP = Unique Products everywhere! 75 districts = 75 products = ODOP!"},
+  {q:"The 'PM Vishwakarma Yojana' (2023) provides support to which category of workers?",opts:["Traditional artisans and craftspeople","IT professionals","Gig workers","Agricultural labourers"],ans:0,explain:"PM Vishwakarma supports 18 categories of traditional artisans (carpenters, blacksmiths, potters etc.) with credit, training, and marketing support.",trick:"🔨 Vishwakarma = Hindu god of crafts! PM Vishwakarma = Craftsmen's champion!"},
+  {q:"India achieved which milestone position in the world economy by GDP (nominal) in 2024?",opts:["5th largest economy","4th","3rd","7th"],ans:0,explain:"India became the world's 5th largest economy by nominal GDP in 2022 (surpassing UK) and maintained it in 2024. Target: 3rd by 2030.",trick:"🇮🇳 5th! India > UK > France > in past! Now 5th = FIVE ALIVE!"},
+  {q:"'Digital India' programme's UMANG app provides government services on a single platform. What does UMANG stand for?",opts:["Unified Mobile Application for New-age Governance","Universal Mobile App for National Government","Unified Management Application for National Grievances","United Mobile Access for Next Gen"],ans:0,explain:"UMANG = Unified Mobile Application for New-age Governance. It provides 1,200+ government services in one app.",trick:"📱 UMANG = 'खुशी' (happiness)! Happy = access all government apps in one!"},
+ ],
+ gk:[
+  {q:"The 'Battle of Panipat' was fought three times. In which year was the FIRST Battle of Panipat?",opts:["1526","1556","1761","1576"],ans:0,explain:"1st Battle of Panipat (1526): Babur vs Ibrahim Lodi → Mughal Empire founded. 2nd: 1556 Akbar vs Hemu. 3rd: 1761 Marathas vs Ahmad Shah Abdali.",trick:"⚔️ 1st Panipat = 1526! B-I-L: Babur defeated Ibrahim Lodi = 1526!"},
+  {q:"Sardar Vallabhbhai Patel is called the 'Iron Man of India' for integrating how many princely states after Independence?",opts:["562","500","600","450"],ans:0,explain:"Sardar Patel integrated 562 princely states into the Indian Union between 1947–1950. Hyderabad (Operation Polo) was the last major integration.",trick:"💪 562! SVP = Super Vallabh Patel unified 5-6-2! Strong man!"},
+  {q:"The 'Dandi March' or 'Salt Satyagraha' was led by Gandhi in 1930 to protest against?",opts:["British salt tax (Salt Law)","Land revenue tax","Income tax","Forced labour"],ans:0,explain:"Gandhi led the 241-mile Dandi March (March 12 – April 6, 1930) to break the British salt monopoly by making salt at Dandi beach.",trick:"🧂 Salt = Dandi 1930! D-S-M: Dandi Salt March = 241 miles of courage!"},
+  {q:"The Gupta Empire is called India's 'Golden Age'. Which famous mathematician-astronomer was part of this era?",opts:["Aryabhata","Brahmagupta","Varahamihira","Bhaskaracharya"],ans:0,explain:"Aryabhata (476 CE) was a Gupta era mathematician who gave the value of pi (π), explained Earth's rotation, and wrote Aryabhatiya.",trick:"🔢 Aryabhata = ALGEBRA pioneer! A = Aryabhata = Amazing math in Gupta era!"},
+  {q:"Who was the first Governor-General of independent India?",opts:["Lord Mountbatten","C. Rajagopalachari","Jawaharlal Nehru","Dr. Rajendra Prasad"],ans:0,explain:"Lord Mountbatten was the first Governor-General of Independent India (Aug 15, 1947 – June 21, 1948). C. Rajagopalachari was the last (and first Indian) GG.",trick:"🏛 First GG = Mountbatten! M = Mountainbig British! Then Rajaji = Indian!"},
+  {q:"The Indian Constitution was adopted by the Constituent Assembly on which date?",opts:["November 26, 1949","January 26, 1950","August 15, 1947","December 9, 1946"],ans:0,explain:"Constitution was adopted/enacted on November 26, 1949 (Constitution Day). It came into force on January 26, 1950 (Republic Day).",trick:"📋 Adopted = Nov 26! Enacted = Jan 26! N-J: November adopted, January enforced!"},
+  {q:"Who founded the Maurya Empire and in which year?",opts:["Chandragupta Maurya, 322 BCE","Ashoka, 264 BCE","Bindusara, 300 BCE","Chandragupta II, 376 CE"],ans:0,explain:"Chandragupta Maurya founded the Maurya Empire in 322 BCE with the help of Chanakya (Kautilya), defeating the Nanda dynasty.",trick:"👑 CM 322 BCE! C-M = Chandragupta Maurya = Champion Maurya! 322 = three two two!"},
+  {q:"The 'Regulating Act of 1773' is significant in Indian history because?",opts:["It was the first step towards centralised British control in India","It abolished the East India Company","It gave voting rights to Indians","It established the Supreme Court"],ans:0,explain:"Regulating Act 1773 was the first constitutional step by the British government to control the East India Company — created the post of Governor-General.",trick:"📜 1773 = First British CONTROL Act! R-A = Regulating Act = Rule Announced!"},
+  {q:"Which Viceroy of India partitioned Bengal in 1905, which fuelled the Swadeshi Movement?",opts:["Lord Curzon","Lord Dufferin","Lord Ripon","Lord Lytton"],ans:0,explain:"Lord Curzon partitioned Bengal in 1905, dividing it along religious lines. It ignited the Swadeshi Movement and anti-colonial sentiment.",trick:"✂️ Curzon = CUT Bengal 1905! C-C: Curzon Cut = Catastrophic partition!"},
+  {q:"The term 'Satyagraha' coined by Gandhi means?",opts:["Truth Force / Soul Force","Non-violence","Civil disobedience","Passive resistance"],ans:0,explain:"Satyagraha (Sanskrit: Satya = truth, Agraha = insistence/force) = Truth Force or Soul Force. Coined by Gandhi in South Africa (1906).",trick:"✊ Satya = TRUTH! Agraha = FORCE! Satyagraha = TRUTH FORCE! Gandhi's superpower!"},
+ ]
+},
+
+// ─── DAY 5 ── CA: Defence & Space | GK: World Geography & Economy ──
+{day:5,
+ ca:[
+  {q:"India's Tejas Mk1A fighter aircraft was ordered by the Indian Air Force. Who manufactures it?",opts:["HAL (Hindustan Aeronautics Limited)","DRDO","BEL","ISRO"],ans:0,explain:"Tejas MK1A is manufactured by HAL (Hindustan Aeronautics Limited) — India's indigenous Light Combat Aircraft. 83 jets ordered.",trick:"✈️ HAL = Hindustan Aeronautics Limited = Home-made Awesome Lightning!"},
+  {q:"India's defence budget 2024–25 was approximately how much, making it the world's 4th largest?",opts:["₹6.21 lakh crore","₹3 lakh crore","₹10 lakh crore","₹4 lakh crore"],ans:0,explain:"India's defence budget 2024–25 was ₹6.21 lakh crore (4.79% of total expenditure) — 4th largest globally after USA, China, Russia.",trick:"🛡 6.21 lakh crore = SIX point twenty one! India = 4th defence spender!"},
+  {q:"India conducted 'Mission Divyastra' in March 2024 — successfully testing what?",opts:["Agni-5 MIRV (multiple-warhead ballistic missile)","Naval stealth submarine","Hypersonic cruise missile","Anti-satellite weapon"],ans:0,explain:"Mission Divyastra tested Agni-5 with MIRV technology — India became 4th country after USA, Russia, China to have this capability.",trick:"🚀 Divyastra = Divine Weapon! Agni-5 MIRV = Multiple warheads! 4th in world!"},
+  {q:"The DRDO-developed 'Pralay' missile is classified as?",opts:["Quasi-Ballistic surface-to-surface missile","Anti-ship missile","Air-to-air missile","Hypersonic glide vehicle"],ans:0,explain:"Pralay is India's quasi-ballistic, surface-to-surface tactical missile with 150–500 km range, capable of evading missile defence systems.",trick:"💥 Pralay = DESTRUCTION! Pralay = quasi-ballistic = tricky trajectory!"},
+  {q:"India's NISAR (NASA-ISRO Synthetic Aperture Radar) satellite is a joint mission. It will be launched in 2024–25 to study?",opts:["Earth's surface changes (landslides, earthquakes, ice sheets)","Mars atmosphere","Sun's corona","Moon's water ice"],ans:0,explain:"NISAR will observe Earth's surface every 12 days to track ecosystem changes, ice sheet collapse, natural disasters, and sea level rise.",trick:"🛰 NISAR = NASA + ISRO + SAR! Earth watcher = NISAR! Joint NASA-ISRO mission!"},
+  {q:"India's nuclear doctrine follows 'No First Use' (NFU) policy. What does this mean?",opts:["India won't use nuclear weapons first unless attacked","India will always use nuclear weapons first","India shares nuclear tech","India has no nuclear weapons"],ans:0,explain:"India's NFU policy (since 1998 Pokhran-II) states India will not use nuclear weapons first, but guarantees massive retaliation if attacked.",trick:"☢️ NFU = No First Use = Noble! India = 'You attack first, then we respond MASSIVELY!'"},
+  {q:"INS Arighat, India's second nuclear-powered ballistic missile submarine (SSBN), was commissioned in which year?",opts:["2024","2022","2025","2023"],ans:0,explain:"INS Arighat was commissioned in August 2024 — India's 2nd nuclear-capable submarine after INS Arihant (2018).",trick:"🌊 Arighat = A-RI-GHAT = Atomic Reactor In Giant Hulk of Arighat! 2024!"},
+  {q:"India's 'Exercise Tasman Saber 2023' was a joint military exercise with which country?",opts:["Australia","USA","France","Japan"],ans:0,explain:"Exercise Tasman Saber is a joint tri-service military exercise between India and Australia — strengthening Indo-Pacific security.",trick:"🦘 TASMAN = Tasmania (Australia)! Tasman Saber = India + Australia joint exercise!"},
+  {q:"The Quad (Quadrilateral Security Dialogue) summit 2024 was held in which country?",opts:["USA (Wilmington)","Japan","India","Australia"],ans:0,explain:"Quad Summit 2024 was held in Wilmington, Delaware, USA — hosted by President Biden. Members: USA, India, Japan, Australia.",trick:"🌊 QUAD 2024 = Wilmington, USA! Q-U-A-D = Quite United Against Dominance!"},
+  {q:"India's 'Nari Shakti Vandan Adhiniyam' (Women's Reservation Act) reserves how much in Lok Sabha for women?",opts:["33% (one-third)","50%","25%","20%"],ans:0,explain:"The Women's Reservation Act (128th Amendment, 2023) reserves 33% seats in Lok Sabha and state assemblies for women — will be effective after delimitation.",trick:"👩 33% = ONE-THIRD seats for women! NSV = Nari Shakti Vandan = 1/3rd!"},
+ ],
+ gk:[
+  {q:"The WTO (World Trade Organization) headquarters is located in which city?",opts:["Geneva, Switzerland","New York, USA","Paris, France","Vienna, Austria"],ans:0,explain:"WTO headquarters is in Geneva, Switzerland. Founded in 1995, replacing GATT. Current DG: Ngozi Okonjo-Iweala.",trick:"🌐 WTO = Geneva! W-G: WTO = World's Genevans Trade! Switzerland neutral = fair trade!"},
+  {q:"The United Nations was founded in which year, and how many member states does it currently have?",opts:["1945, 193 members","1945, 195 members","1919, 193 members","1950, 180 members"],ans:0,explain:"UN was founded October 24, 1945. Currently 193 member states. Palestine and Vatican have observer status.",trick:"🌍 UN 1945 = United Nations born after WWII! 193 = almost all countries!"},
+  {q:"Which is the world's largest ocean by area?",opts:["Pacific Ocean","Atlantic Ocean","Indian Ocean","Arctic Ocean"],ans:0,explain:"Pacific Ocean covers ~165 million km² (47% of all ocean water) — larger than all land areas combined.",trick:"🌊 Pacific = PEACEFUL and GIANT! P = Pacific = Planet's biggest water body!"},
+  {q:"The International Monetary Fund (IMF) and World Bank were established through which agreement?",opts:["Bretton Woods Agreement, 1944","Treaty of Versailles, 1919","Marshall Plan, 1948","GATT, 1947"],ans:0,explain:"IMF and World Bank were established through the Bretton Woods Conference (1944) in New Hampshire, USA.",trick:"💰 Bretton Woods 1944! B-W = Big Winners = IMF + WB created together!"},
+  {q:"OPEC (Organisation of Petroleum Exporting Countries) was founded in 1960. Which country currently has the world's largest proven oil reserves?",opts:["Venezuela","Saudi Arabia","USA","Russia"],ans:0,explain:"Venezuela holds the world's largest proven oil reserves (~303 billion barrels), followed by Saudi Arabia. However, Saudi Arabia is the largest oil producer.",trick:"🛢 Venezuela = Vast oil! But Saudi Arabia = Sells most! V = Very oily!"},
+  {q:"The Nile River is considered the world's longest river. Through how many countries does it flow?",opts:["11 countries","5 countries","7 countries","9 countries"],ans:0,explain:"The Nile flows through 11 countries in northeastern Africa: Tanzania, Uganda, Rwanda, Burundi, DRC, Kenya, Ethiopia, Eritrea, South Sudan, Sudan, Egypt.",trick:"🌊 NILE = 11! N-I-L-E = Naturally In Lots of Egyptian countries (11)!"},
+  {q:"The 'Amazon Rainforest' covers most of which country?",opts:["Brazil","Colombia","Peru","Venezuela"],ans:0,explain:"Brazil contains ~60% of the Amazon Rainforest. The Amazon is the world's largest tropical rainforest (~5.5 million km²).",trick:"🌿 Amazon = Brazil's backyard! B-A: Brazil = Amazon's biggest home!"},
+  {q:"GDP stands for Gross Domestic Product. Which country has the highest GDP (nominal) in the world?",opts:["USA","China","Germany","India"],ans:0,explain:"USA has world's highest nominal GDP (~$28 trillion in 2024). China is 2nd. India is 5th.",trick:"💰 USA = 1st GDP! U-S-A = Ultra Super Affluent! Always #1 economy!"},
+  {q:"The 'Kyoto Protocol' (1997) was a global treaty primarily focused on?",opts:["Reducing greenhouse gas emissions","Nuclear disarmament","Biodiversity protection","Ozone layer repair"],ans:0,explain:"Kyoto Protocol (1997) was the first binding climate treaty requiring developed nations to reduce GHG emissions. Replaced by Paris Agreement (2015).",trick:"🌡 KYOTO = K = Kabhi mat bhulo climate! 1997 = Kyoto climate treaty!"},
+  {q:"WHO (World Health Organization) was established in 1948. April 7 is celebrated as?",opts:["World Health Day","World AIDS Day","World TB Day","Earth Day"],ans:0,explain:"World Health Day is celebrated on April 7 — the date WHO was founded in 1948. Each year has a specific health theme.",trick:"🏥 WHO = April 7! W-H-D: World Health Day = WHO's birthday!"},
+ ]
+},
+
+// ─── DAY 6 ── CA: Awards, Sports & Culture | GK: Indian Polity ──
+{day:6,
+ ca:[
+  {q:"Who won the Nobel Peace Prize 2024?",opts:["Nihon Hidankyo (Japanese atomic bomb survivors)","UNRWA","Malala Yousafzai","Greta Thunberg"],ans:0,explain:"Nihon Hidankyo, a Japanese organisation of Hiroshima and Nagasaki atomic bomb survivors (Hibakusha), won the 2024 Nobel Peace Prize for a nuclear-free world.",trick:"☮️ Nihon Hidankyo = Japan's atomic survivors! Nobel = Never Again nuclear!"},
+  {q:"The Nobel Prize in Literature 2024 was awarded to which author?",opts:["Han Kang (South Korea)","Haruki Murakami","Salman Rushdie","Annie Ernaux"],ans:0,explain:"Han Kang (South Korea) won the Nobel Literature Prize 2024 for her intense poetic prose confronting historical traumas. She is the first Asian woman to win it.",trick:"📚 Han Kang = HANG on tight! South Korea's first Nobel Literature!"},
+  {q:"India won how many medals at the 2024 Paris Olympics? Who won India's only silver?",opts:["6 medals, Neeraj Chopra","5 medals, PV Sindhu","4 medals, Bajrang Punia","8 medals, Nikhat Zareen"],ans:0,explain:"India won 6 medals: Neeraj Chopra (silver in javelin), and 5 bronze (hockey, shooting, wrestling etc.)",trick:"🥈 Neeraj = Silver! 6 medals total. N-6: Neeraj gave 6-pack medals!"},
+  {q:"'Bharat Ratna 2024' was awarded to how many individuals, and who received it for the first time posthumously?",opts:["5 individuals, Karpoori Thakur & PV Narasimha Rao","3 individuals","7 individuals","2 individuals"],ans:0,explain:"Bharat Ratna 2024 was awarded to 5: LK Advani, Karpoori Thakur (posthumous), PV Narasimha Rao (posthumous), MS Swaminathan (posthumous), Chaudhary Charan Singh (posthumous).",trick:"⭐ 5 Bharat Ratna 2024! LK+KT+PV+MS+CC = Five Stars of India!"},
+  {q:"The 'Sahitya Akademi Award 2024' for Hindi literature was given to which author?",opts:["Sanjeev (for novel 'Mujhe Pehchano')","Amitav Ghosh","Vikram Seth","Arundhati Roy"],ans:0,explain:"Sanjeev won Sahitya Akademi Award 2024 for Hindi for his novel 'Mujhe Pehchano'.",trick:"📖 Sanjeev + Hindi = Sahitya Akademi 2024! S = Sanjeev's story wins!"},
+  {q:"India's 'National Sports Awards 2024' — who won the Khel Ratna Award?",opts:["D. Gukesh (Chess) & Harmanpreet Singh (Hockey)","Neeraj Chopra","PV Sindhu","Bajrang Punia"],ans:0,explain:"D. Gukesh (chess world champion at 18) and Harmanpreet Singh (hockey) received Khel Ratna (Major Dhyan Chand) Award 2024.",trick:"♟️🏑 Gukesh = Chess KING! Harmanpreet = Hockey HERO! Khel Ratna 2024!"},
+  {q:"D. Gukesh became World Chess Champion in December 2024 at what age, beating which player?",opts:["18 years, Ding Liren (China)","17 years, Magnus Carlsen","20 years, Ian Nepomniachtchi","19 years, Fabiano Caruana"],ans:0,explain:"D. Gukesh (18 years old) defeated Ding Liren of China in Singapore on December 12, 2024 — becoming the youngest World Chess Champion in history.",trick:"♟️ Gukesh 18 = YOUNGEST ever! G = Genius Grand Champion December 2024!"},
+  {q:"India hosted the first 'World Audio Visual Entertainment Summit (WAVES)' in 2025 in which city?",opts:["Mumbai","Delhi","Hyderabad","Chennai"],ans:0,explain:"WAVES 2025, India's first global media and entertainment summit, was held in Mumbai in May 2025 — positioning India as a global content hub.",trick:"🎬 WAVES = Mumbai = Bollywood! WAVES 2025 = World's Audio Visual Entertainment Summit!"},
+  {q:"The 'International Solar Alliance (ISA)' is headquartered in which city?",opts:["Gurugram (Haryana)","New Delhi","Mumbai","Pune"],ans:0,explain:"ISA (International Solar Alliance) HQ is in Gurugram, Haryana. Founded at COP21 (2015) by India and France.",trick:"☀️ ISA = India's Solar Agency! Gurugram = Gurgaon = India's Solar HQ!"},
+  {q:"India's first 'AI City' is being developed in which state as part of its IT infrastructure expansion?",opts:["Telangana (Hyderabad AI City)","Karnataka","Maharashtra","Tamil Nadu"],ans:0,explain:"Telangana is developing India's first AI City in Hyderabad's IT corridor — dedicated to AI research, startups, and data centres.",trick:"🤖 Telangana Tech = T-T = Tomorrow's AI Town! Hyderabad = India's AI capital!"},
+ ],
+ gk:[
+  {q:"The President of India is elected by which method?",opts:["Elected by Electoral College (MPs + MLAs) via proportional representation","Directly by citizens","Appointed by Prime Minister","Elected only by Lok Sabha members"],ans:0,explain:"The President is elected by an Electoral College consisting of elected MPs (Lok Sabha + Rajya Sabha) and elected MLAs of all states, using proportional representation with single transferable vote.",trick:"🏛 President = Electoral College! Not direct election! P = Picked by MPs+MLAs!"},
+  {q:"Under the Indian Constitution, who can remove a High Court Judge?",opts:["President (on address by both Houses of Parliament)","Chief Justice of India","Governor","Prime Minister"],ans:0,explain:"HC Judges can be removed by the President on an address passed by both Houses of Parliament by special majority (same as SC Judge impeachment).",trick:"⚖️ HC Judge removal = President + Parliament! P+P = Power to remove!"},
+  {q:"Which Constitutional Amendment lowered the voting age from 21 to 18 in India?",opts:["61st Amendment, 1988","42nd Amendment, 1976","73rd Amendment, 1992","86th Amendment, 2002"],ans:0,explain:"The 61st Constitutional Amendment (1988) lowered the voting age from 21 to 18 years for Lok Sabha and state assembly elections.",trick:"🗳 61st = SIX-ONE = 18 year vote! 6+1=7... no! Just remember 61 = eighteen vote!"},
+  {q:"The Right to Education (RTE) Act 2009 provides free and compulsory education to children of which age group?",opts:["6–14 years","5–16 years","3–14 years","6–18 years"],ans:0,explain:"RTE Act 2009 (enforced 2010) provides free and compulsory education to all children aged 6–14 years. Article 21A makes it a Fundamental Right.",trick:"📚 RTE = 6 to 14! R-T-E = Right To Eight-grade Education! 6+8=14!"},
+  {q:"Which Article of the Constitution of India deals with the Right to Equality?",opts:["Article 14","Article 17","Article 19","Article 21"],ans:0,explain:"Article 14 guarantees equality before law and equal protection of laws to all persons in India. It prohibits arbitrary state action.",trick:"⚖️ 14 = ONE FOUR = Equal for EVERYONE! Article 14 = Justice for all!"},
+  {q:"The Rajya Sabha is a permanent body — it is never dissolved. How many members retire every 2 years?",opts:["1/3rd members retire every 2 years","All members retire together","1/2 members retire","1/4 retire"],ans:0,explain:"Rajya Sabha has 245 members; 1/3rd retire every 2 years. Members serve 6-year terms. This ensures continuity.",trick:"🏛 RS = Rotating Seats! 1/3 every 2 years! ⅓+⅓+⅓ = 6 year cycle!"},
+  {q:"Which body in India resolves election disputes related to the President and Vice President?",opts:["Supreme Court of India","Election Commission","Parliament","High Court"],ans:0,explain:"Article 71 — Supreme Court has exclusive original jurisdiction to resolve disputes related to President and Vice President elections.",trick:"⚖️ President election dispute = Supreme Court! SC = Supreme Chief for P+VP!"},
+  {q:"'Zero Hour' in the Indian Parliament refers to?",opts:["The time after Question Hour when MPs raise urgent matters without prior notice","The time for Budget presentation","The opening session","Lunch break"],ans:0,explain:"Zero Hour (12 noon, not in Constitution rules) allows MPs to raise urgent public matters immediately after Question Hour without prior notice.",trick:"🕛 ZERO Hour = 12 noon! Zero = no notice needed! Urgent issues raised!"},
+  {q:"The 73rd Constitutional Amendment (1992) related to Panchayati Raj makes reservation mandatory for which groups?",opts:["SC/ST/Women (at least 1/3rd women)","Only OBC","Only Women","SC/ST only"],ans:0,explain:"73rd Amendment mandates reservation for SCs, STs (in proportion to population) and not less than 1/3rd seats for women in Panchayati Raj institutions.",trick:"🏘 73 = 7+3 = Gram Sabha guaranteed! SC+ST+1/3Women = Panchayat power!"},
+  {q:"What is 'Judicial Review' in the Indian Constitution?",opts:["Power of courts to invalidate laws that violate the Constitution","Power to review judge salaries","Power of Parliament to review court orders","Annual review of judicial appointments"],ans:0,explain:"Judicial Review allows courts (mainly SC and HCs) to examine legislative and executive actions and strike them down if they violate the Constitution.",trick:"⚖️ JR = Judges Rule check! J-R = Judge Reviews = courts check unconstitutional laws!"},
+ ]
+},
+
+// ─── DAY 7 ── CA: Environment & International | GK: Economy & Business ──
+{day:7,
+ ca:[
+  {q:"COP29 (UN Climate Conference 2024) was held in which city, and what was the key financial agreement?",opts:["Baku, Azerbaijan — $300 billion/year climate finance for developing nations","Dubai — $100 billion","Glasgow — $500 billion","Sharm el-Sheikh — $200 billion"],ans:0,explain:"COP29 in Baku (Nov 2024) finalised the New Collective Quantified Goal (NCQG): $300 billion/year by 2035 from developed countries for developing nations.",trick:"🌍 COP29 = Baku 2024! B-$300B: Baku = 300 Billion climate cash!"},
+  {q:"India submitted its updated Nationally Determined Contribution (NDC) pledging to reduce emission intensity of GDP by how much by 2030?",opts:["45% from 2005 levels","30% from 1990 levels","50% from 2010 levels","25% from 2000 levels"],ans:0,explain:"India's updated NDC pledges to reduce GDP emission intensity by 45% from 2005 levels by 2030 and achieve 50% non-fossil fuel installed electricity capacity.",trick:"🌿 45% = FOUR FIVE! India's climate goal = 45% emission intensity cut by 2030!"},
+  {q:"The 'ASEAN-India Summit 2023' resulted in upgrading bilateral relations to what level?",opts:["Comprehensive Strategic Partnership","Strategic Partnership","Full Alliance","Special Economic Partnership"],ans:0,explain:"India-ASEAN relations were upgraded to Comprehensive Strategic Partnership at the ASEAN-India Summit in Jakarta, September 2023.",trick:"🌏 ASEAN+India = CSP! C-S-P = Completely Strategic Partners now!"},
+  {q:"India's 'Neighbourhood First' policy includes the SAARC countries. The SAARC Secretariat is located in?",opts:["Kathmandu, Nepal","New Delhi, India","Colombo, Sri Lanka","Dhaka, Bangladesh"],ans:0,explain:"SAARC (South Asian Association for Regional Cooperation) Secretariat is in Kathmandu, Nepal, established in 1987.",trick:"🏔 SAARC = Kathmandu! K = King's city = Kathmandu = SAARC HQ!"},
+  {q:"The 'India-UAE CEPA' (Comprehensive Economic Partnership Agreement) came into force in which year?",opts:["2022","2023","2021","2024"],ans:0,explain:"India-UAE CEPA came into force on May 1, 2022 — India's fastest-negotiated trade deal (in 88 days). Target: $100 billion bilateral trade.",trick:"🇦🇪 UAE CEPA 2022! U-C-E-P-A = UAE's Comprehensive Economic Partnership Agreed!"},
+  {q:"IPCC (Intergovernmental Panel on Climate Change) released its AR6 Synthesis Report warning of what level of global warming if emissions aren't cut?",opts:["1.5–2°C above pre-industrial levels by 2040s","0.5°C","3–5°C","5°C by 2100"],ans:0,explain:"IPCC AR6 (2023) warned that Earth will likely reach 1.5°C warming by early 2030s without drastic emission cuts — with catastrophic consequences.",trick:"🌡 IPCC = 1.5°C warning! I-P-C-C = Increasingly Problematic Climate Crisis!"},
+  {q:"The 'Ramsar Convention' deals with protection of what?",opts:["Wetlands","Rainforests","Coral reefs","Migratory birds"],ans:0,explain:"Ramsar Convention (1971) is a global treaty for conservation of wetlands. India has 75+ Ramsar sites (most in Asia).",trick:"💧 RAMSAR = RAM = Wet-land RAMA! Wetlands protected = Ramsar!"},
+  {q:"India achieved 'net zero' carbon emissions in one sector by 2047 is the target. What is India's current solar installed capacity target for 2030?",opts:["500 GW renewable energy (300 GW solar)","100 GW","200 GW","1000 GW"],ans:0,explain:"India targets 500 GW total renewable energy capacity by 2030, with 300 GW from solar. Currently ~180 GW renewable capacity.",trick:"☀️ 500 GW by 2030! 3-2-0: 300 GW solar is the solar King target!"},
+  {q:"The 'Global Hunger Index 2024' ranks India at 105th out of 127 countries. India falls in which hunger category?",opts:["'Serious' hunger category","Moderate","Alarming","Low"],ans:0,explain:"India ranked 105th in GHI 2024, placed in the 'Serious' hunger category. Pakistan (109), Bangladesh (84) rank differently.",trick:"🍽 105 = Serious hunger! India 105 = 1-0-5 = One Hundred and 5 = sad but real!"},
+  {q:"India's 'Project Cheetah' reintroduced cheetahs from which country?",opts:["Namibia and South Africa","Kenya","Botswana","Tanzania"],ans:0,explain:"Project Cheetah (2022) reintroduced 8 cheetahs from Namibia at Kuno National Park (MP) in Sept 2022, and later more from South Africa.",trick:"🐆 Cheetah = Namibia! N-K-P: Namibia → Kuno National Park!"},
+ ],
+ gk:[
+  {q:"Which Indian economist and Nobel laureate is known for his work on welfare economics and social choice theory?",opts:["Amartya Sen","Manmohan Singh","Raghuram Rajan","Abhijit Banerjee"],ans:0,explain:"Amartya Sen won Nobel Prize in Economic Sciences in 1998 for contributions to welfare economics and social choice theory. Abhijit Banerjee won in 2019.",trick:"🏆 Amartya Sen = 1998 Nobel! A-S = Amartya Sen = Amazingly Smart!"},
+  {q:"The 'Reserve Bank of India' was established in which year and is headquartered in which city?",opts:["1935, Mumbai","1947, New Delhi","1921, Kolkata","1948, Mumbai"],ans:0,explain:"RBI established on April 1, 1935 (based on Hilton-Young Commission) in Kolkata; HQ moved to Mumbai in 1937.",trick:"💰 RBI 1935 = Real Bank India since 1935! April 1 = No April Fools — it's real!"},
+  {q:"What does 'SEBI' regulate in India?",opts:["Securities and capital markets (stocks, bonds)","Banking sector","Insurance sector","Real estate"],ans:0,explain:"SEBI (Securities and Exchange Board of India) regulates and develops India's securities markets — protecting investors since 1988 (statutory body from 1992).",trick:"📊 SEBI = Stock Exchange Big Inspector! Stocks = SEBI's domain!"},
+  {q:"The Goods and Services Tax (GST) was implemented in India on which date?",opts:["July 1, 2017","April 1, 2017","January 1, 2018","July 1, 2016"],ans:0,explain:"GST was implemented from July 1, 2017, replacing a complex multi-tax system with 'One Nation One Tax'. 101st Constitutional Amendment.",trick:"🛍 GST = July 1, 2017! G-S-T = Great Single Tax from July 2017!"},
+  {q:"'Inflation' measured by CPI in India — what does CPI stand for?",opts:["Consumer Price Index","Capital Price Index","Commodity Price Index","Central Price Indicator"],ans:0,explain:"CPI = Consumer Price Index. It measures retail price changes for a basket of goods/services consumed by households. RBI targets 4% CPI (±2%).",trick:"💰 CPI = Common People's Inflation! C = Consumer basket = Common aam aadmi!"},
+  {q:"NITI Aayog replaced which body in 2015?",opts:["Planning Commission","Finance Commission","Economic Advisory Council","Development Board"],ans:0,explain:"NITI Aayog (National Institution for Transforming India) replaced the Planning Commission on January 1, 2015. It's a think tank, not an allocating body.",trick:"💡 NITI = New IT Ideas! NITI Aayog = Think Tank! Replaced 65-year-old Planning Commission!"},
+  {q:"'Foreign Direct Investment (FDI)' — India received highest FDI from which country in recent years?",opts:["Mauritius","USA","Singapore","UK"],ans:0,explain:"Mauritius historically tops FDI into India (due to tax treaty route), followed by Singapore and USA. However, effective investor countries include USA, Japan, Netherlands.",trick:"🏝 Mauritius = FDI route! M-M: Mauritius = Money Moves into India!"},
+  {q:"The 'Human Development Index (HDI)' is published by which organisation annually?",opts:["UNDP (UN Development Programme)","World Bank","IMF","WHO"],ans:0,explain:"HDI is published in UNDP's annual Human Development Report. It measures life expectancy, education, and per capita income.",trick:"📊 HDI = Human Development = UNDP! U-N-D-P = United Nations Development Programme!"},
+  {q:"Which Act governs companies in India?",opts:["Companies Act 2013","Companies Act 1956","SEBI Act 1992","Indian Contract Act 1872"],ans:0,explain:"Companies Act 2013 governs incorporation, functioning, and winding up of companies in India, replacing the 1956 Act.",trick:"🏢 Companies Act = 2013! C-A = Company Acta 2013 = Modern business law!"},
+  {q:"India's 'Five Year Plans' ended with which plan? Who now coordinates long-term goals?",opts:["12th Plan ended 2017; NITI Aayog now","10th Plan","15th Plan ongoing","Planning Commission still works"],ans:0,explain:"India's 12th Five Year Plan (2012–17) was the last. NITI Aayog replaced the Planning Commission in 2015 with 15-year Vision, 7-year strategy, 3-year plans.",trick:"🎯 12th Plan = LAST plan! 2017 = Plans ENDED! NITI = New body now!"},
+ ]
+},
+
+// ─── DAY 8 ── CA: Health, Education & Social | GK: Science & Discoveries ──
+{day:8,
+ ca:[
+  {q:"India's 'National Education Policy 2020' recommends mother tongue medium of instruction up to which grade?",opts:["Grade 5 (at least)","Grade 10","Grade 8","Grade 12"],ans:0,explain:"NEP 2020 recommends using home language/mother tongue as medium of instruction up to at least Grade 5, preferably till Grade 8.",trick:"📚 NEP = Grade 5 mother tongue! N-E-P = Native Educational Plan to grade FIVE!"},
+  {q:"'PM JANMAN' (Janjati Adivasi Nyaya Maha Abhiyan) targets which specific group?",opts:["Particularly Vulnerable Tribal Groups (PVTGs)","Urban poor","Senior citizens","Migrant workers"],ans:0,explain:"PM JANMAN (2023) focuses on 75 PVTGs (Particularly Vulnerable Tribal Groups) with basic amenities — housing, roads, health, education.",trick:"🌿 JANMAN = Jungle Adivasi Need More! 75 PVTGs = PM's tribal priority!"},
+  {q:"India's 'Mission Indradhanush' covers how many vaccine-preventable diseases?",opts:["12 diseases","7 diseases","9 diseases","15 diseases"],ans:0,explain:"Mission Indradhanush (2014, intensified 2017) vaccinates against 12 diseases including polio, TB, measles, hepatitis-B, diphtheria etc.",trick:"🌈 Indradhanush = Rainbow = 7 colours BUT 12 vaccines! More than a rainbow!"},
+  {q:"'Poshan Abhiyan' (National Nutrition Mission) targets reduction of malnutrition in India by what percentage annually?",opts:["2% reduction in stunting/undernutrition per year","5% per year","1% per year","10% in 2 years"],ans:0,explain:"Poshan Abhiyan (2018) targets 2% reduction in stunting, and 2% reduction in undernutrition/anaemia per year.",trick:"🥗 POSHAN = Nutrition! 2% per year = TWO percent = Nutrition To 2%!"},
+  {q:"The 'Aspirational Districts Programme' was launched to improve key social indicators in how many backward districts?",opts:["112 districts","50 districts","200 districts","75 districts"],ans:0,explain:"Aspirational Districts Programme (2018) covers 112 most backward districts focusing on health, nutrition, education, agriculture, and infrastructure.",trick:"🏘 112 = ONE-ONE-TWO! ADP = Aspirational Developing Promise for 112 districts!"},
+  {q:"'Swachh Bharat Mission' Phase 2 targets making all cities ODF++ and achieving what additional goal?",opts:["Zero waste to landfill & complete waste segregation","100% solar energy","Plastic-free rivers","Zero open burning"],ans:0,explain:"SBM Urban 2.0 (2021–2026) targets all ULBs achieving ODF++, zero waste to landfill, and 100% source segregation.",trick:"🚽 SBM 2.0 = Zero Landfill! S-B-M = Swachh Becomes Magnificent!"},
+  {q:"India's 'e-RUPI' digital payment voucher — what is it primarily used for?",opts:["Targeted government welfare delivery (purpose-specific prepaid voucher)","Online shopping","Foreign exchange","Stock investment"],ans:0,explain:"e-RUPI is a cashless, contactless pre-paid voucher for government welfare — ensuring funds reach only the intended beneficiary for a specific purpose (medicines, vaccines etc.).",trick:"📱 e-RUPI = Electronic RUPI = Purposeful payment! Can only buy what it's meant for!"},
+  {q:"Which scheme provides free foodgrains to 81.35 crore beneficiaries (poorest Indians) under the National Food Security Act?",opts:["Pradhan Mantri Garib Kalyan Anna Yojana (PMGKAY)","PM Kisan","Annapurna","MGNREGS"],ans:0,explain:"PMGKAY was extended in 2024 for 5 more years — provides 5 kg free foodgrains/month to 81.35 crore NFSA beneficiaries.",trick:"🌾 PMGKAY = PM Garib Ko Anna Yearly! 81 crore = EIGHTY ONE crore free food!"},
+  {q:"India's 'Jal Jeevan Mission' aims to provide tap water connections to all rural households by which year?",opts:["2024 (extended to 2028)","2025","2030","2022"],ans:0,explain:"JJM originally aimed 2024 completion. With only ~78% HH covered, it was extended. Target: every rural household = Har Ghar Jal.",trick:"💧 JJM = Jal Jeevan Mission! J-J-M = Just Join More water pipes! Har Ghar Jal!"},
+  {q:"The 'PM Awas Yojana Gramin' (PMAY-G) provides housing to rural poor. What is the financial assistance per unit in plain areas?",opts:["₹1.20 lakh","₹2 lakh","₹75,000","₹1.5 lakh"],ans:0,explain:"PMAY-G provides ₹1.20 lakh per unit in plains and ₹1.30 lakh in hilly/NE states for rural housing.",trick:"🏠 PMAY-G = 1.20 lakh! ONE LAKH TWENTY THOUSAND = home for rural poor!"},
+ ],
+ gk:[
+  {q:"Who discovered penicillin, and in which year?",opts:["Alexander Fleming, 1928","Louis Pasteur, 1880","Edward Jenner, 1796","Robert Koch, 1882"],ans:0,explain:"Alexander Fleming accidentally discovered penicillin in 1928 when he noticed mould killing bacteria in his petri dish.",trick:"💊 Fleming = FIRST antibiotic! A-F-P: Alexander Fleming Penicillin 1928!"},
+  {q:"The 'Periodic Table' was created by which scientist, and in which year?",opts:["Dmitri Mendeleev, 1869","John Dalton, 1803","Antoine Lavoisier, 1789","Henry Moseley, 1913"],ans:0,explain:"Dmitri Mendeleev (Russian) created the Periodic Table in 1869, arranging elements by atomic mass and predicting undiscovered elements.",trick:"⚗️ Mendeleev = MEGA table! M = Mendeleev's 1869 masterpiece!"},
+  {q:"What is the full form of 'ISRO' and when was it established?",opts:["Indian Space Research Organisation, 1969","Indian Science & Research Organisation, 1972","Indian Satellite Research Organisation, 1969","Indian Space Rocket Organisation, 1962"],ans:0,explain:"ISRO = Indian Space Research Organisation, established August 15, 1969 under Dr. Vikram Sarabhai's vision.",trick:"🚀 ISRO = I See Rockets Often! 1969 = one year after first Moon landing (1968)!"},
+  {q:"'Somatic cells' in the human body have how many chromosomes?",opts:["46 chromosomes (23 pairs)","23 chromosomes","48 chromosomes","44 chromosomes"],ans:0,explain:"Human somatic (body) cells have 46 chromosomes (23 pairs). Gametes (egg/sperm) have 23 — half the number.",trick:"🧬 46 = FOUR SIX! Somatic = 46! S-4-6: Somatic = 46 chromosomes!"},
+  {q:"Which vitamin is produced in the human body when exposed to sunlight?",opts:["Vitamin D","Vitamin C","Vitamin A","Vitamin B12"],ans:0,explain:"Vitamin D (calciferol) is synthesized in the skin via UV-B radiation from sunlight. It's essential for calcium absorption and bone health.",trick:"☀️ D = DAYLIGHT vitamin! Sun → Skin → Vitamin D! D for Day!"},
+  {q:"Newton's Second Law of Motion states: Force = ?",opts:["F = ma (mass × acceleration)","F = mv (mass × velocity)","F = mg","F = ma²"],ans:0,explain:"Newton's 2nd Law: F = ma. Force equals mass times acceleration. This is the most fundamental equation in classical mechanics.",trick:"⚡ F = ma! F-M-A: Force Makes Acceleration! Simple and memorable!"},
+  {q:"The pH scale ranges from 0 to 14. A substance with pH 7 is considered?",opts:["Neutral","Acidic","Basic/Alkaline","Highly acidic"],ans:0,explain:"pH 7 = neutral (like pure water). Below 7 = acidic (HCl, vinegar). Above 7 = basic/alkaline (NaOH, soap).",trick:"🧪 7 = NEUTRAL! Think: Water is 7 = safe to drink = neutral!"},
+  {q:"'Black holes' — what is the boundary beyond which nothing can escape, not even light?",opts:["Event Horizon","Schwarzschild radius","Singularity","Photon sphere"],ans:0,explain:"The Event Horizon is the point of no return around a black hole. The Schwarzschild radius defines its size. Nothing — not even light — can escape beyond it.",trick:"🕳 Event Horizon = Edge of HORROR! No escape! EH = Even light Hides!"},
+  {q:"Which organ in the human body produces insulin?",opts:["Pancreas","Liver","Kidney","Adrenal gland"],ans:0,explain:"Insulin is produced by beta cells of the Islets of Langerhans in the Pancreas. It regulates blood glucose levels.",trick:"🍬 Pancreas → Insulin! P-I: Pancreas = Insulin producer! Diabetes = pancreas fails!"},
+  {q:"'Archimedes Principle' states that the buoyancy force on an object is equal to?",opts:["Weight of fluid displaced by the object","Weight of the object","Mass of fluid","Volume of the object"],ans:0,explain:"Archimedes Principle: Buoyant force = weight of fluid displaced. This explains why ships float and why objects feel lighter in water.",trick:"🛁 Archimedes shouted 'EUREKA' in his bath! Force up = weight of water pushed away!"},
+ ]
+},
+
+// ─── DAY 9 ── CA: India's Rankings & Records | GK: Important Days & Books ──
+{day:9,
+ ca:[
+  {q:"India ranked what position in the 'Global Innovation Index 2024'?",opts:["39th","55th","82nd","28th"],ans:0,explain:"India ranked 39th in Global Innovation Index (GII) 2024, up from 40th in 2023. India is the most innovative lower-middle-income economy.",trick:"🔬 GII 39! I = India = Innovative at 39! Getting better every year!"},
+  {q:"'Ease of Doing Business' (World Bank) — India improved to which rank before the index was discontinued?",opts:["63rd (2020, last edition)","100th","142nd","30th"],ans:0,explain:"India improved from 142nd (2014) to 63rd rank in World Bank's Ease of Doing Business 2020 (last edition). Index discontinued in 2021.",trick:"📊 63 from 142! India climbed 79 places! EoDB = Extremely Optimistic Development Boost!"},
+  {q:"India became the world's most populous country, surpassing China, in which year?",opts:["2023","2022","2024","2025"],ans:0,explain:"India surpassed China as the world's most populous country in 2023 with ~1.428 billion people (China: 1.426 billion), per UN data.",trick:"👥 India #1 population 2023! I = India = Incredible 1.4 Billion in 2023!"},
+  {q:"India's 'Startup Ecosystem' — India is the world's ___ largest startup ecosystem in 2024?",opts:["3rd largest","5th largest","2nd largest","10th largest"],ans:0,explain:"India has the 3rd largest startup ecosystem globally (after USA and China) with 100,000+ DPIIT-recognised startups and 100+ unicorns.",trick:"🦄 India = 3rd startup! Three = THREE things: startups, unicorns, growth!"},
+  {q:"India's first 'semiconductor fabrication plant' (fab) is being set up by which company in Gujarat?",opts:["Tata Electronics (in partnership with PSMC, Taiwan)","Infosys","HCL","Reliance"],ans:0,explain:"Tata Electronics, in partnership with PSMC (Taiwan), is setting up India's first semiconductor fab in Dholera, Gujarat — approved under the ISM.",trick:"💻 TATA + Taiwan = India's first chip fab! T-T: Tata Tech in Dholera!"},
+  {q:"The 'Pradhan Mantri Mudra Yojana (PMMY)' provides loans up to how much to micro-enterprises?",opts:["Up to ₹10 lakh (₹20 lakh from 2024)","Up to ₹50 lakh","Up to ₹5 lakh","Up to ₹1 crore"],ans:0,explain:"PMMY provides collateral-free loans up to ₹10 lakh (extended to ₹20 lakh in Budget 2024) to micro/small businesses via banks.",trick:"💰 MUDRA = Money Until Development Really Achieves! ₹10L to ₹20L loans!"},
+  {q:"India's 'Digital Public Infrastructure (DPI)' — the 'India Stack' includes all EXCEPT which?",opts:["Nuclear reactor management","Aadhaar (identity)","UPI (payments)","DigiLocker (documents)"],ans:0,explain:"India Stack (DPI) includes Aadhaar, UPI, DigiLocker, ONDC, and eSign — not nuclear reactor management.",trick:"📱 India Stack = A-U-D: Aadhaar + UPI + DigiLocker = Core DPI!"},
+  {q:"India's 'National Logistics Policy (NLP) 2022' aims to reduce logistics cost from current ~13–14% of GDP to?",opts:["Below 8% of GDP","5% of GDP","10% of GDP","15% of GDP"],ans:0,explain:"NLP 2022 targets reducing India's high logistics cost from 13–14% of GDP to less than 8% (global best is ~8%).",trick:"🚛 NLP = Logistics below 8%! N-L-P = Need Logistics at 8% Please!"},
+  {q:"India's production-linked incentive (PLI) scheme covers how many sectors?",opts:["14 sectors","10 sectors","20 sectors","8 sectors"],ans:0,explain:"PLI scheme covers 14 sectors including mobile phones, pharmaceuticals, automobiles, textiles, food processing, telecom, etc. Total outlay: ₹1.97 lakh crore.",trick:"🏭 PLI = 14 sectors! P-L-I = Produce Locally Incentivised in fourteen sectors!"},
+  {q:"India's 'CoWIN platform' was developed for which purpose and is now being offered to other countries?",opts:["COVID-19 vaccine management/registration","Health insurance","Drug licensing","Hospital management"],ans:0,explain:"CoWIN was developed for COVID-19 vaccination management (registrations, certificates). India offered CoWIN as global digital public good.",trick:"💉 CoWIN = COVID Winner! Co-WIN = won COVID registration globally!"},
+ ],
+ gk:[
+  {q:"'World Environment Day' is celebrated on which date every year?",opts:["June 5","April 22","March 21","July 11"],ans:0,explain:"World Environment Day (WED) is celebrated on June 5 annually since 1974. Hosted by different countries each year.",trick:"🌿 June 5 = J-5! Environment Day = 6th month, 5th day = 6-5 = environment!"},
+  {q:"'International Day of Yoga' is celebrated on which date, proposed by India?",opts:["June 21","August 15","October 2","January 26"],ans:0,explain:"International Day of Yoga is on June 21 (longest day in Northern Hemisphere — Summer Solstice). Proposed by PM Modi at UNGA in 2014, adopted unanimously.",trick:"🧘 Yoga = June 21! Longest day = most yoga time! J-21 = Yoga Day!"},
+  {q:"Rabindranath Tagore won the Nobel Prize in Literature for which work, and in which year?",opts:["Gitanjali, 1913","Gora, 1910","Jana Gana Mana, 1911","Ghare Baire, 1916"],ans:0,explain:"Tagore won Nobel Prize in Literature 1913 for Gitanjali (Song Offerings) — India's first Nobel laureate.",trick:"📚 T-T-T: Tagore + Thirteen (1913) + Text (Gitanjali)! Triple T!"},
+  {q:"'Discovery of India' was written by which Indian statesman while in prison?",opts:["Jawaharlal Nehru","Mahatma Gandhi","B.R. Ambedkar","Subhas Chandra Bose"],ans:0,explain:"Jawaharlal Nehru wrote 'Discovery of India' (1946) in Ahmednagar Fort prison (1942–45). Other famous books: Glimpses of World History, An Autobiography.",trick:"📖 Nehru wrote DISCOVERY in prison! N-D-I: Nehru Discovered India in jail!"},
+  {q:"'World AIDS Day' is observed on which date?",opts:["December 1","October 10","February 4","April 7"],ans:0,explain:"World AIDS Day is on December 1 every year since 1988. Red ribbon is the symbol of solidarity with HIV-positive people.",trick:"🎗 AIDS Day = December 1! D-1: December One = RED ribbon day!"},
+  {q:"The book 'Wings of Fire' is the autobiography of which Indian personality?",opts:["APJ Abdul Kalam","Vikram Sarabhai","CV Raman","Homi Bhabha"],ans:0,explain:"'Wings of Fire' (1999) is the autobiography of Dr. APJ Abdul Kalam — India's Missile Man and 11th President of India.",trick:"🚀 Wings of Fire = Kalam's rockets! APJ = Amazing Prolific Journey!"},
+  {q:"'World Teachers' Day' is celebrated on which date?",opts:["October 5","November 14","September 5","January 1"],ans:0,explain:"World Teachers' Day is on October 5 (UNESCO). In India, Teachers' Day is on September 5 (Dr. Radhakrishnan's birthday).",trick:"👨‍🏫 World = October 5! India = September 5! W-O, I-S: World October, India September!"},
+  {q:"Which Indian author wrote 'The God of Small Things', the 1997 Booker Prize winner?",opts:["Arundhati Roy","Salman Rushdie","Vikram Seth","Kiran Desai"],ans:0,explain:"Arundhati Roy won the Booker Prize in 1997 for 'The God of Small Things' — set in Kerala. Her first novel.",trick:"📚 AR = Arundhati Roy = Amazing Rare novelist! 1997 Booker = first try win!"},
+  {q:"'National Science Day' in India is celebrated on February 28 to commemorate which discovery?",opts:["Raman Effect (CV Raman, 1928)","Nuclear fission","Periodic Table","Vaccination"],ans:0,explain:"National Science Day = February 28, the day CV Raman discovered the Raman Effect (1928) — scattering of light by molecules. Nobel Prize 1930.",trick:"🔬 Feb 28 = Raman Effect! R-R: Raman's Remarkable discovery = National Science Day!"},
+  {q:"'World Press Freedom Day' is celebrated on which date?",opts:["May 3","June 5","March 21","April 7"],ans:0,explain:"World Press Freedom Day is May 3, proclaimed by UNESCO in 1993. It assesses press freedom worldwide.",trick:"📰 Press Freedom = May 3! P-M-3: Press = May Third! Free press flows in May!"},
+ ]
+},
+
+// ─── DAY 10 ── CA: May 2025 + Mixed Hot Topics | GK: Mixed Finale ──
+{day:10,
+ ca:[
+  {q:"Following Operation Sindoor (May 2025), India downgraded diplomatic ties with Pakistan. Which key step did India take?",opts:["Suspended Indus Waters Treaty (put in abeyance)","Declared war","Closed all land borders permanently","Severed all trade completely"],ans:0,explain:"India put the Indus Waters Treaty (1960) in abeyance after Operation Sindoor — a major diplomatic step as the treaty governed water sharing of Indus basin rivers.",trick:"💧 IWT suspended = India's water weapon! Sindoor → Indus Treaty abeyance!"},
+  {q:"Which state in India enacted its own 'Anti-Conversion Law' leading to controversy in 2024–25?",opts:["Uttarakhand","Goa","Kerala","Punjab"],ans:0,explain:"Uttarakhand passed the Uniform Civil Code and tightened its anti-conversion law in 2024–25, which faced legal challenges.",trick:"🏔 Uttarakhand = UCC + Anti-conversion! UK = Unique Kingdom of laws!"},
+  {q:"The 'India-France Defence Industrial Roadmap' focuses on co-developing which type of equipment?",opts:["Marine engines, aircraft, missiles, and cybersecurity tech","Nuclear reactors only","Space launch vehicles only","Tanks only"],ans:0,explain:"India-France DI Roadmap (2023) covers co-development of marine engines, combat aircraft engines, missiles, and emerging tech.",trick:"🗼 France + India = Rafale + Roadmap! F-F: France = Fighter jet Friends!"},
+  {q:"India's 'Global Biofuel Alliance (GBA)', launched at G20 2023, promotes which biofuels?",opts:["Ethanol blending (E20 target by 2025) and sustainable aviation fuel","Nuclear fuel","Solar bio-cells","Hydrogen from algae"],ans:0,explain:"GBA (co-founded by India, USA, Brazil at G20 2023) promotes ethanol blending (India targets 20% by 2025) and sustainable aviation fuels.",trick:"🌱 GBA = Green Biofuel Alliance! India = E20 ethanol goal by 2025!"},
+  {q:"India surpassed China to become the world's most populous country in 2023. India's current total fertility rate (TFR) is approximately?",opts:["2.0 (below replacement level of 2.1)","3.5","2.7","1.5"],ans:0,explain:"India's TFR fell to 2.0 in 2019-21 (below replacement level of 2.1) — signifying slowing population growth.",trick:"👶 TFR 2.0 = TWO children per woman! Below 2.1 = slowing population!"},
+  {q:"The ONDC (Open Network for Digital Commerce) platform is designed to do what?",opts:["Democratise digital commerce (like UPI for e-commerce)","Replace Amazon & Flipkart","Government online store","Export portal only"],ans:0,explain:"ONDC is an open network that allows any seller/buyer to transact without being locked into a single platform — decentralising e-commerce like UPI decentralised payments.",trick:"🛒 ONDC = Open Network = UPI for Shopping! O-N-D-C = Open New Digital Commerce!"},
+  {q:"India's first under-river Metro tunnel was inaugurated in Kolkata in 2024. Which Metro line features this?",opts:["East-West Metro (Kolkata)","Delhi Metro Line 8","Mumbai Metro Line 3","Chennai Metro Phase 2"],ans:0,explain:"Kolkata Metro's East-West corridor features India's first underwater metro tunnel under the Hooghly River — a major engineering milestone.",trick:"🚇 Kolkata = UNDERGROUND river metro! K-E-W: Kolkata's East-West underwater!"},
+  {q:"India's 'Vande Bharat Express' trains — what generation is being manufactured in 2025?",opts:["Vande Bharat 3.0 (sleeper version) under production","Only Vande Bharat 1.0","Hydrogen Vande Bharat","Vande Metro only"],ans:0,explain:"Vande Bharat Sleeper (3.0) trains are being manufactured by 2024–25 for overnight long-distance routes. Vande Metro also launched.",trick:"🚆 VB 3.0 = Vande Bharat SLEEPER! V-3: Version 3 = Vande Bharat fully grown!"},
+  {q:"India's 'Namo Drone Didi' scheme trains women to operate drones for which purpose?",opts:["Agricultural spraying and monitoring","Delivery services","Surveillance only","Photography"],ans:0,explain:"Namo Drone Didi (2023) trains women SHG members to use drones for agricultural spraying, crop monitoring and field surveys.",trick:"🚁 Drone Didi = Flying Sisters in farming! D-D = Didi's Drone in agriculture!"},
+  {q:"Which state topped in the NITI Aayog's 'SDG India Index 2023–24'?",opts:["Uttarakhand & Kerela (tied at top)","Gujarat","Tamil Nadu","Himachal Pradesh"],ans:0,explain:"Uttarakhand and Kerala tied at top in SDG India Index 2023–24 with score of 79. Both are 'front-runners' in sustainable development goals.",trick:"🏆 UK + KL = SDG Top! Uttarakhand-Kerala = United Knowledge Leaders!"},
+ ],
+ gk:[
+  {q:"The 'United Nations Security Council (UNSC)' has how many permanent members (P5)?",opts:["5 (USA, UK, France, Russia, China)","6","7","4"],ans:0,explain:"UNSC P5: USA, United Kingdom, France, Russia, China — all have veto power. Plus 10 non-permanent members (2-year terms).",trick:"🌍 P5 = Five POWERFUL nations! USA-UK-France-Russia-China = UUFRC veto power!"},
+  {q:"'India's Missile Man' — under whose leadership was India's Integrated Guided Missile Development Programme (IGMDP) launched?",opts:["Dr. APJ Abdul Kalam","Dr. Vikram Sarabhai","Dr. Homi Bhabha","Dr. R. Chidambaram"],ans:0,explain:"Dr. APJ Abdul Kalam led IGMDP, developing Agni, Prithvi, Akash, Nag, Trishul missiles. He was India's 11th President (2002–07).",trick:"🚀 Kalam = Missile Man! K = Kalam's Kalam (pen) wrote missile history!"},
+  {q:"The '73rd and 74th Constitutional Amendments' (1992) are related to?",opts:["Panchayati Raj & Urban Local Bodies respectively","Fundamental Rights","Education","GST"],ans:0,explain:"73rd Amendment → Panchayati Raj Institutions (rural self-governance). 74th Amendment → Municipalities/Urban Local Bodies. Both decentralise power.",trick:"🏘 73 = Gram (rural)! 74 = Town (urban)! 7-3-7-4 = Rural Urban democracy!"},
+  {q:"'Operation Flood' (White Revolution) in India was associated with which product and person?",opts:["Milk; Verghese Kurien (AMUL founder)","Wheat; M.S. Swaminathan","Oil seeds; V. Kurien","Sugar; None"],ans:0,explain:"Operation Flood (1970–96) = White Revolution in India's dairy sector, led by Dr. Verghese Kurien (Milkman of India/AMUL).",trick:"🥛 Kurien = Milk Man! K-O-F: Kurien's Operation Flood = White Revolution!"},
+  {q:"The 'Parliament of India' consists of which three parts?",opts:["President + Lok Sabha + Rajya Sabha","PM + Lok Sabha + Rajya Sabha","President + Supreme Court + Lok Sabha","President + Cabinet + Lok Sabha"],ans:0,explain:"Parliament = President + Lok Sabha (Lower House, 543 seats) + Rajya Sabha (Upper House, 245 seats). Per Article 79 of the Constitution.",trick:"🏛 P+L+R = President + Lok Sabha + Rajya Sabha = Parliament! PLR = Parliament!"},
+  {q:"Which city is the 'Silicon Valley of India' known for its IT industry?",opts:["Bengaluru","Hyderabad","Pune","Chennai"],ans:0,explain:"Bengaluru (Bangalore) is India's Silicon Valley — hub of Infosys, Wipro, TCS, and 10,000+ tech startups.",trick:"💻 Bengaluru = BANG! B = Bengaluru = Best tech city in India! Silicon Valley!"},
+  {q:"'Project Tiger' was launched in India in which year to protect the Bengal Tiger?",opts:["1973","1982","1992","1965"],ans:0,explain:"Project Tiger was launched in 1973 by PM Indira Gandhi. Currently 53 Tiger Reserves covering 9% of India's geographical area.",trick:"🐯 Project Tiger 1973! P-T-73: Project Tiger Seventy-Three! India's proudest wildlife!"},
+  {q:"The 'Pradhan Mantri Fasal Bima Yojana (PMFBY)' was launched in which year and provides insurance against?",opts:["2016; crop loss due to natural calamities","2014; farm equipment","2019; drought only","2020; COVID crop losses"],ans:0,explain:"PMFBY (2016) provides crop insurance to farmers against losses from natural calamities, pests, and diseases. Premium: 2% for Kharif, 1.5% for Rabi.",trick:"🌾 PMFBY 2016! Crop insurance = 2% Kharif, 1.5% Rabi! Farmer's safety net!"},
+  {q:"The 'Bharat Stage VI (BS-VI)' emission norms were implemented in India from which year?",opts:["2020","2019","2022","2025"],ans:0,explain:"India skipped BS-V and implemented BS-VI emission norms directly from April 1, 2020 — equivalent to Euro 6 standards.",trick:"🚗 BS-VI = 2020! India JUMPED from BS-IV to BS-VI — skipped V! Bold move!"},
+  {q:"The CUET (Common University Entrance Test) is conducted by which body for undergraduate admissions?",opts:["NTA (National Testing Agency)","UGC","AICTE","CBSE"],ans:0,explain:"CUET is conducted by NTA (National Testing Agency) for admission to central universities across India. Introduced in 2022.",trick:"📝 CUET = NTA does it! N-T-A = National Testing Agency = CUET conductor!"},
+ ]
+}
+
+]; // END OF DAYS
+
+// ============================================================
+//  ENGINE
+// ============================================================
+let state = JSON.parse(localStorage.getItem('cuet_quiz_state') || 'null') || {
+  currentDay: 0,
+  answers: {},  // dayIdx -> { qIdx -> selectedOpt }
+  scores: {},   // dayIdx -> score
+  streak: 0,
+  bestScore: 0
+};
+
+function saveState() {
+  localStorage.setItem('cuet_quiz_state', JSON.stringify(state));
+}
+
+function renderDayNav() {
+  const nav = document.getElementById('day-nav');
+  nav.innerHTML = '';
+  DAYS.forEach((d, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'day-btn' + (i === state.currentDay ? ' active' : '') + (state.scores[i] !== undefined ? ' completed' : '');
+    btn.textContent = `DAY ${d.day}`;
+    btn.onclick = () => { state.currentDay = i; saveState(); renderQuiz(); };
+    nav.appendChild(btn);
+  });
+}
+
+function renderQuiz() {
+  renderDayNav();
+  document.getElementById('result-screen').style.display = 'none';
+  const main = document.getElementById('quiz-main');
+  const day = DAYS[state.currentDay];
+  const dayAnswers = state.answers[state.currentDay] || {};
+
+  // Update streak/best
+  document.getElementById('streak-count').textContent = state.streak + ' Days';
+  document.getElementById('best-score').textContent = state.bestScore ? state.bestScore + '/20' : '—';
+
+  // Calculate current score
+  let score = 0, caScore = 0, gkScore = 0;
+  day.ca.forEach((q, i) => { if (dayAnswers[i] === q.ans) { score++; caScore++; } });
+  day.gk.forEach((q, i) => { if (dayAnswers[i + 10] === q.ans) { score++; gkScore++; } });
+
+  const answered = Object.keys(dayAnswers).length;
+  document.getElementById('score-now').textContent = score;
+  document.getElementById('q-counter').textContent = answered + ' / 20';
+  document.getElementById('prog-fill').style.width = (answered / 20 * 100) + '%';
+
+  // Build HTML
+  let html = '';
+
+  // CA Section
+  html += `<div class="section-header ca-section"><div class="section-icon ca-icon">📰</div><div><div class="section-title">CURRENT AFFAIRS</div><div style="font-size:0.75rem;color:var(--muted)">May 2025 – May 2026 · Hot for CUET 2026</div></div></div>`;
+  day.ca.forEach((q, qi) => {
+    html += buildCard(q, qi, dayAnswers[qi], false);
+  });
+
+  // GK Section
+  html += `<div class="section-header gk-section"><div class="section-icon gk-icon">📚</div><div><div class="section-title">STATIC GENERAL KNOWLEDGE</div><div style="font-size:0.75rem;color:var(--muted)">CUET 2022–2025 Trend Analysis</div></div></div>`;
+  day.gk.forEach((q, qi) => {
+    html += buildCard(q, qi + 10, dayAnswers[qi + 10], true);
+  });
+
+  main.innerHTML = html;
+
+  // Check if all answered → show result
+  if (answered === 20 && state.scores[state.currentDay] === undefined) {
+    setTimeout(() => showResult(score, caScore, gkScore), 600);
+  }
+}
+
+function buildCard(q, qi, selectedOpt, isGk) {
+  const answered = selectedOpt !== undefined;
+  const correct = answered && selectedOpt === q.ans;
+  let cardClass = 'q-card' + (answered ? (correct ? ' correct' : ' wrong') : '');
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let optsHtml = q.opts.map((opt, oi) => {
+    let cls = 'opt';
+    if (answered) {
+      cls += ' disabled';
+      if (oi === q.ans) cls += ' correct-opt';
+      else if (oi === selectedOpt && oi !== q.ans) cls += ' wrong-opt';
+    }
+    return `<div class="${cls}" onclick="selectAnswer(${qi},${oi})">
+      <span class="opt-letter">${letters[oi]}</span>
+      <span>${opt}</span>
+    </div>`;
+  }).join('');
+
+  let answerPanel = '';
+  if (answered) {
+    answerPanel = `<div class="answer-panel show">
+      <div class="answer-label">✦ EXPLANATION</div>
+      <div class="answer-explain">${q.explain}</div>
+      <div class="trick-box">
+        <span class="trick-emoji">🧠</span>
+        <div class="trick-content">
+          <div class="trick-title">MEMORY TRICK</div>
+          <div class="trick-text">${q.trick}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const tagClass = isGk ? 'tag-gk' : 'tag-ca';
+  const tagText = isGk ? 'STATIC GK' : 'CURRENT AFFAIRS';
+  const qNum = isGk ? (qi - 9) : (qi + 1);
+
+  return `<div class="${cardClass}" id="card-${qi}">
+    <div class="q-num">
+      <span class="${tagClass}">${tagText}</span>
+      &nbsp; Q${qNum}
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="options">${optsHtml}</div>
+    ${answerPanel}
+  </div>`;
+}
+
+function selectAnswer(qi, oi) {
+  if (!state.answers[state.currentDay]) state.answers[state.currentDay] = {};
+  if (state.answers[state.currentDay][qi] !== undefined) return; // already answered
+
+  state.answers[state.currentDay][qi] = oi;
+  saveState();
+
+  const q = qi < 10 ? DAYS[state.currentDay].ca[qi] : DAYS[state.currentDay].gk[qi - 10];
+  const correct = oi === q.ans;
+
+  showToast(correct ? '✓ Correct! +1 Point' : '✗ Wrong! Check explanation', correct ? 'green' : 'red');
+  renderQuiz();
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 2000);
+}
+
+function showResult(score, caScore, gkScore) {
+  const acc = Math.round(score / 20 * 100);
+  document.getElementById('result-screen').style.display = 'block';
+  document.getElementById('r-score').textContent = score;
+  document.getElementById('r-ca').textContent = caScore + '/10';
+  document.getElementById('r-gk').textContent = gkScore + '/10';
+  document.getElementById('r-acc').textContent = acc + '%';
+
+  const msgs = [
+    ['😢', 'Keep going! Review explanations and try again!'],
+    ['😐', 'Getting there! Focus on weak areas.'],
+    ['🙂', 'Decent effort! You can improve more.'],
+    ['😊', 'Good work! CUET is within reach!'],
+    ['🚀', 'Excellent! You are CUET-ready!'],
+    ['🏆', 'PERFECT SCORE! Unstoppable genius!']
+  ];
+  const tier = Math.min(5, Math.floor(score / 4));
+  document.getElementById('r-emoji').textContent = msgs[tier][0];
+  document.getElementById('r-msg').textContent = msgs[tier][1];
+
+  if (state.scores[state.currentDay] === undefined) {
+    state.scores[state.currentDay] = score;
+    if (score > state.bestScore) state.bestScore = score;
+    // Update streak
+    const daysDone = Object.keys(state.scores).length;
+    state.streak = Math.max(state.streak, daysDone);
+    saveState();
+  }
+
+  document.getElementById('next-day-btn').textContent =
+    state.currentDay < DAYS.length - 1 ? `NEXT DAY →` : 'RESTART ALL DAYS 🔄';
+  document.querySelector('main').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+}
+
+document.getElementById('next-day-btn').onclick = () => {
+  if (state.currentDay < DAYS.length - 1) {
+    state.currentDay++;
+  } else {
+    // Reset all
+    state = { currentDay: 0, answers: {}, scores: {}, streak: 0, bestScore: 0 };
+  }
+  saveState();
+  document.querySelector('main').style.display = 'block';
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// Init
+renderQuiz();
+</script>
+</body>
+</html>
