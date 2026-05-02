@@ -1,6 +1,6 @@
-const CACHE_NAME = "cuet-notes-maths";
+const CACHE_NAME = "cuet-notes-maths-v2"; // 🔥 version change karte rehna
 
-// App shell files (important pages)
+// App shell files
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -21,31 +21,30 @@ const CORE_ASSETS = [
   "./manifest.json"
 ];
 
-// INSTALL
+// ✅ INSTALL
 self.addEventListener("install", (event) => {
   console.log("SW: Installing...");
 
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log("SW: Caching core files");
-        return cache.addAll(CORE_ASSETS);
-      })
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log("SW: Caching core files");
+      return cache.addAll(CORE_ASSETS);
+    })
   );
 
-  self.skipWaiting();
+  self.skipWaiting(); // 🔥 new SW immediately active
 });
 
-// ACTIVATE (cleanup old caches)
+// ✅ ACTIVATE (delete old cache)
 self.addEventListener("activate", (event) => {
   console.log("SW: Activated");
 
   event.waitUntil(
-    caches.keys().then(keys => {
+    caches.keys().then((keys) => {
       return Promise.all(
-        keys.map(key => {
+        keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log("SW: Deleting old cache", key);
+            console.log("Deleting old cache:", key);
             return caches.delete(key);
           }
         })
@@ -53,39 +52,39 @@ self.addEventListener("activate", (event) => {
     })
   );
 
-  self.clients.claim();
+  self.clients.claim(); // 🔥 control all tabs
 });
 
-// FETCH (smart caching)
+// ✅ FETCH (cache-first strategy)
 self.addEventListener("fetch", (event) => {
 
-  // only handle GET
   if (event.request.method !== "GET") return;
 
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
+    caches.match(event.request).then((cachedResponse) => {
 
-      // ✅ 1. return cache if exists
+      // 1️⃣ return cache if available
       if (cachedResponse) {
         return cachedResponse;
       }
 
-      // ✅ 2. otherwise fetch from network
+      // 2️⃣ fetch from network
       return fetch(event.request)
-        .then(networkResponse => {
+        .then((networkResponse) => {
 
-          // cache new request dynamically
-          return caches.open(CACHE_NAME).then(cache => {
+          return caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, networkResponse.clone());
             return networkResponse;
           });
 
         })
         .catch(() => {
-          // ✅ 3. offline fallback
+
+          // 3️⃣ offline fallback
           if (event.request.mode === "navigate") {
             return caches.match("./index.html");
           }
+
         });
 
     })
