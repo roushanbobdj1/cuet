@@ -21,30 +21,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-thumb{background:#1C1C38;border-radius:4px}
 
-/* HEADER */
 .hdr{background:linear-gradient(135deg,#0A0A1E,#12122E);padding:14px 18px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
 .hdr-inner{max-width:750px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .logo{font-family:var(--ff-h);font-size:20px;font-weight:900;letter-spacing:-.5px}
 .logo span{background:linear-gradient(90deg,#F59E0B,#22D3EE,#4ADE80);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hdr-badges{display:flex;gap:8px;flex-wrap:wrap}
 .badge{padding:5px 11px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid;white-space:nowrap}
 
-/* SECTION TABS */
 .sec-tabs{background:#09091A;border-bottom:1px solid var(--border);overflow-x:auto}
 .sec-tabs-inner{max-width:750px;margin:0 auto;display:flex;padding:0 12px;min-width:max-content}
 .sec-btn{padding:13px 16px;border:none;background:none;cursor:pointer;font-family:var(--ff-b);font-size:13px;font-weight:600;color:var(--sub);border-bottom:3px solid transparent;transition:all .2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.sec-btn.active{color:var(--ac);border-bottom-color:var(--ac)}
 
-/* MODE TABS */
 .mode-tabs{background:#09091A;border-bottom:1px solid var(--border);padding:10px 16px;overflow-x:auto}
 .mode-tabs-inner{max-width:750px;margin:0 auto;display:flex;gap:8px;min-width:max-content}
 .mode-btn{padding:7px 15px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--sub);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--ff-b);transition:all .2s;white-space:nowrap}
-.mode-btn.active{border-color:var(--ac);background:var(--ac);color:#000}
 
-/* CONTENT */
 .content{max-width:750px;margin:0 auto;padding:16px}
 
-/* STUDY CARD */
 .study-card{background:var(--card);border-radius:18px;padding:18px 20px;border:1.5px solid var(--border);position:relative;margin-bottom:12px;transition:transform .2s,box-shadow .2s}
 .study-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
 .card-num{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
@@ -58,14 +50,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hm-text{font-size:12px;color:var(--hm);font-weight:600;line-height:1.4}
 .bm-btn{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;font-size:18px;line-height:1;padding:4px}
 
-/* FLASHCARD */
 .flip-wrap{perspective:1400px;width:100%;cursor:pointer;user-select:none;margin-bottom:20px}
 .flip-inner{transition:transform .55s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;position:relative;min-height:260px;width:100%}
 .flip-inner.flipped{transform:rotateY(180deg)}
 .flip-f,.flip-b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;text-align:center;border:1.5px solid var(--border)}
 .flip-b{transform:rotateY(180deg);background:var(--card)}
 
-/* QUIZ */
 .quiz-progress{display:flex;align-items:center;gap:10px;margin-bottom:16px}
 .prog-bar{flex:1;background:var(--border);border-radius:99px;height:7px;overflow:hidden}
 .prog-fill{height:100%;border-radius:99px;transition:width .4s ease}
@@ -86,7 +76,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .result-fill{height:100%;border-radius:12px;transition:width 1.2s ease}
 .retry-btn{padding:13px 36px;border-radius:12px;border:none;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--ff-b)}
 
-/* DAY CONTROLS */
 .day-ctrl{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 .day-title{font-family:var(--ff-h);font-size:17px;font-weight:800;color:var(--text)}
 .day-nav{display:flex;gap:8px}
@@ -94,19 +83,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .day-dots{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
 .day-dot{width:34px;height:34px;border-radius:9px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--ff-b);transition:all .2s}
 
-/* SEARCH */
 .search-wrap{position:relative;margin-bottom:16px}
 .search-wrap span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px}
 .search-input{width:100%;padding:11px 40px;border-radius:12px;border:2px solid var(--border);background:var(--card);color:var(--text);font-size:14px;font-family:var(--ff-b);outline:none}
-.search-input:focus{border-color:var(--ac)}
 .search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--sub)}
 .search-count{font-size:13px;font-weight:600;color:var(--sub);margin-bottom:12px}
 
-/* BOOKMARKS EMPTY */
 .empty-box{text-align:center;padding:60px 20px;color:var(--sub)}
 .empty-emoji{font-size:48px;margin-bottom:12px}
 
-/* ANIMATIONS */
 @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .slide-up{animation:slideUp .35s ease both}
 @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
@@ -114,7 +99,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .shake{animation:shake .3s ease}
 
-/* FLASH NAV */
 .flash-nav{display:flex;gap:12px;justify-content:center;margin-top:18px}
 .flash-btn{padding:11px 22px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--ff-b);transition:all .2s}
 .flash-dots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:16px}
@@ -206,12 +190,12 @@ const GK=[
 {id:75,q:"Mount Everest par chadhne wali pehli mahila kaun thi?",a:"Junko Tabei",h:"1975 mein Japanese mountaineer ne yeh karnaama kiya",c:"World GK"},
 {id:76,q:"Bharat ki Azaadi ki salgirah kab hai?",a:"15 August",h:"1947 mein isi din Bharat azaad hua - Independence Day",c:"History"},
 {id:77,q:"Bharat ki pehli mahila IPS officer kaun thi?",a:"Kiran Bedi",h:"1972 batch IPS - later Delhi LG bhi bani",c:"History"},
-{id:78,q:"Bhartiya Rupaye (₹) ka symbol kisne design kiya?",a:"D. Udaya Kumar",h:"IIT Bombay ke graduate - 2010 mein symbol select hua",c:"Miscellaneous"},
+{id:78,q:"Bhartiya Rupaye (Rs.) ka symbol kisne design kiya?",a:"D. Udaya Kumar",h:"IIT Bombay ke graduate - 2010 mein symbol select hua",c:"Miscellaneous"},
 {id:79,q:"G20 Summit 2023 kahan hua?",a:"Bharat (New Delhi)",h:"India ki G20 Presidency - Bharat Mandapam mein hua",c:"Current Affairs"},
 {id:80,q:"Kshetrafal mein Bharat ka sabse bada rajya kaun sa hai?",a:"Rajasthan",h:"342,239 sq km - pehle Jammu Kashmir tha lekin ab rajya nahi raha",c:"Geography"},
 {id:81,q:"International Yoga Day kab manaaya jaata hai?",a:"21 June",h:"2014 mein PM Modi ne UN mein propose kiya, 2015 se shuru",c:"Culture"},
 {id:82,q:"Operation Ganga kisliye launch kiya gaya tha?",a:"Ukraine se Bharteeyon ko nikaalane ke liye",h:"2022 mein Russia-Ukraine war ke dauran Indian students ko rescue kiya",c:"Current Affairs"},
-{id:83,q:"Kaun sa metal kamre ke taapman par liquid hota hai?",a:"Mercury (Paara)",h:"-39°C pe solid hota hai, baaki sab metals room temp pe solid hain",c:"Science & Tech"},
+{id:83,q:"Kaun sa metal kamre ke taapman par liquid hota hai?",a:"Mercury (Paara)",h:"-39 degree C pe solid hota hai, baaki sab metals room temp pe solid hain",c:"Science & Tech"},
 {id:84,q:"Duniya ki sabse gehri jheel kaun si hai?",a:"Lake Baikal",h:"Russia mein - 1642m gehri - 20% duniya ka fresh water yahan",c:"World GK"},
 {id:85,q:"Pulitzer Prize kis field mein diya jaata hai?",a:"Journalism aur Literature",h:"USA ka prestigious award - newspapers/books ke liye",c:"Awards"},
 {id:86,q:"Bharat ki pehli mahila Rashtrapati kaun thi?",a:"Pratibha Patil",h:"2007-2012 - 12vi Rashtrapati thi",c:"Polity"},
@@ -238,7 +222,7 @@ const GK=[
 {id:107,q:"Rajasthan ki rajdhani kaun si hai?",a:"Jaipur",h:"'Pink City' - historic city, tourist attraction",c:"Geography"},
 {id:108,q:"Right to Constitutional Remedies Samvidhan ke kis Article mein hai?",a:"Article 32",h:"Dr. Ambedkar ne ise Samvidhan ki 'soul' kaha tha",c:"Polity"},
 {id:109,q:"Bharat mein 'National Emergency' kab laagu ki gayi thi pehli baar?",a:"1962",h:"Indo-China war ke dauran - Nehru ke samay",c:"History"},
-{id:110,q:"Kab se India mein 'UPI' payments start hua?",a:"2016",h:"NPCI ne launch kiya - aaj duniya ka sabse zyada used payment system",c:"Economics"},
+{id:110,q:"Kab se India mein 'UPI' payments start hua?",a:"2016",h:"NPCI ne launch kiya - aaj duniya ka sabse zyada used payment system",c:"Economics"}
 ];
 
 const CA=[
@@ -294,13 +278,13 @@ const CA=[
 {id:50,q:"Bangladesh mein Sheikh Hasina ke baad kaun PM bane?",a:"Muhammad Yunus (Interim PM)",h:"August 2024 mein student protests ke baad Hasina bhaagin",c:"International"},
 {id:51,q:"World's first malaria vaccine (R21/Matrix-M) ko WHO ne kab approve kiya?",a:"2023",h:"Africa mein bacchon ke liye - Ghana, Nigeria pehle",c:"Health"},
 {id:52,q:"India mein 'Agniveer' scheme kisliye hai?",a:"Sena (Military) mein short-term recruitment ke liye",h:"4 saal service - uske baad 25% ko permanent - bada controversy",c:"National"},
-{id:53,q:"PM Kisan Samman Nidhi mein kitna paisa milta hai saal bhar mein?",a:"₹6000 per year (₹2000 har 4 mahine)",h:"Kisan samman - directly bank account mein",c:"National"},
+{id:53,q:"PM Kisan Samman Nidhi mein kitna paisa milta hai saal bhar mein?",a:"Rs. 6000 per year (Rs. 2000 har 4 mahine)",h:"Kisan samman - directly bank account mein",c:"National"},
 {id:54,q:"Jal Jeevan Mission ka goal kya hai?",a:"Har ghar nal se jal (Tap water to every household)",h:"2024 tak target tha - rural India ke liye bada programme",c:"National"},
-{id:55,q:"India ka Lakhpati Didi scheme kya karna chahta hai?",a:"3 crore mahilaon ko lakhpati banana (₹1 lakh+ income)",h:"SHG (Self Help Groups) ke zariye mahila empowerment",c:"National"},
+{id:55,q:"India ka Lakhpati Didi scheme kya karna chahta hai?",a:"3 crore mahilaon ko lakhpati banana (1 lakh+ income)",h:"SHG (Self Help Groups) ke zariye mahila empowerment",c:"National"},
 {id:56,q:"South Korea ke kaun se President ne 2024 mein martial law declare kiya?",a:"Yoon Suk-yeol",h:"December 2024 - parliament ne 6 ghante mein hi hata diya",c:"International"},
 {id:57,q:"Russia-Ukraine war kab shuru hua?",a:"February 2022",h:"Putin ne Ukraine par full-scale invasion kiya",c:"International"},
 {id:58,q:"Gaza conflict Hamas ne kab shuru kiya (Israel par attack)?",a:"7 October 2023",h:"Hamas ka surprise attack - 1200 Israelis maare",c:"International"},
-{id:59,q:"Bharat ke forest cover ka percentage kaun sa hai approximately?",a:"21% of total area",h:"~7 lakh sq km - target 33% hai jo door hai",c:"Environment"},
+{id:59,q:"Bharat ke forest cover ka percentage kaun sa hai approximately?",a:"21% of total area",h:"7 lakh sq km - target 33% hai jo door hai",c:"Environment"},
 {id:60,q:"India ka 'Net Zero' target year kab tak hai?",a:"2070",h:"Paris Agreement ke tahat promise - tough target",c:"Environment"},
 {id:61,q:"India ki Happiness Index rank 2024 mein?",a:"126th position",h:"Nordic countries sabse khush - India low rank mein",c:"Miscellaneous"},
 {id:62,q:"Man Booker Prize 2024 kise mila?",a:"Samantha Harvey ('Orbital' novel ke liye)",h:"British author - space station par novel",c:"Awards"},
@@ -312,7 +296,7 @@ const CA=[
 {id:68,q:"India ne 2024 mein National Education Policy implement ki - NEP year?",a:"NEP 2020 - 2024 mein implementation badha",h:"School se university tak bada badlaav",c:"National"},
 {id:69,q:"Nirmala Sitharaman ne Union Budget 2024-25 kaise present kiya?",a:"Lagaataar 7waan Budget (record)",h:"Longest serving Finance Minister - record 7 consecutive budgets",c:"Economy"},
 {id:70,q:"India-Pakistan tension 2025 mein kis attack ke baad badhi?",a:"Pahalgam terror attack",h:"Tourist spot par hamla - Operation Sindoor baad mein launch hua",c:"National"},
-{id:71,q:"Bharat mein 'Digital Rupee (e₹)' kaun launch karta hai?",a:"Reserve Bank of India (RBI)",h:"Central Bank Digital Currency (CBDC) - 2022 mein pilot shuru",c:"Economy"},
+{id:71,q:"Bharat mein 'Digital Rupee (e-Rupee)' kaun launch karta hai?",a:"Reserve Bank of India (RBI)",h:"Central Bank Digital Currency (CBDC) - 2022 mein pilot shuru",c:"Economy"},
 {id:72,q:"Swachh Bharat Mission kab shuru hua?",a:"2014 (2 October)",h:"Gandhi Jayanti pe - PM Modi ne Rajghat se start kiya",c:"National"},
 {id:73,q:"PM Garib Kalyan Anna Yojana (muft rashan) kab tak extend hua?",a:"December 2028",h:"COVID mein shuru - free grain to 80 crore poor people",c:"National"},
 {id:74,q:"India ka rank World Press Freedom Index 2024 mein?",a:"Around 159 (out of 180)",h:"Media freedom pe India low rank - RSF ka index",c:"Miscellaneous"},
@@ -321,11 +305,11 @@ const CA=[
 {id:77,q:"UPI transactions ne 2024 mein kaun sa milestone haasil kiya?",a:"100 billion+ transactions in a year",h:"NPCI ke data - duniya ka sabse busy payment network",c:"Economy"},
 {id:78,q:"India ke 'PM JANMAN' scheme kiske liye hai?",a:"Particularly Vulnerable Tribal Groups (PVTGs)",h:"75 most vulnerable tribal communities ke liye special focus",c:"National"},
 {id:79,q:"Para Olympics Paris 2024 mein India ke kitne medals aaye?",a:"29 medals (7 Gold, 9 Silver, 13 Bronze)",h:"Best ever performance - Avani Lekhara, Sumit Antil shine kiye",c:"Sports"},
-{id:80,q:"India mein 2024 mein ₹2000 note ke baare mein kya hua?",a:"Phase out - RBI ne waapas maangna shuru kiya",h:"May 2023 se waapas - exchange deadline thi",c:"Economy"},
+{id:80,q:"India mein 2024 mein Rs. 2000 note ke baare mein kya hua?",a:"Phase out - RBI ne waapas maangna shuru kiya",h:"May 2023 se waapas - exchange deadline thi",c:"Economy"},
 {id:81,q:"India ki 'Mission LiFE' kisliye hai?",a:"Environment ke liye Lifestyle change (Lifestyle For Environment)",h:"PM Modi ka global initiative - COP27 mein launch hua",c:"Environment"},
 {id:82,q:"ISRO ka Gaganyaan mission ka pehla unmanned test kab hua?",a:"2023 (TV-D1 test vehicle)",h:"2025 mein human spaceflight target",c:"Science & Tech"},
 {id:83,q:"India ne 2024 mein kaunse desh ke saath bada defence deal kiya?",a:"USA (F-414 engines, MQ-9B drones ke liye)",h:"Modi ke US visit mein - strategic partnership",c:"National"},
-{id:84,q:"India mein 'Semiconductor Mission' ka budget kitna rakha gaya?",a:"₹76,000 crore (approx $10 billion)",h:"Chip manufacturing ke liye - global supply chain mein place banana",c:"Economy"},
+{id:84,q:"India mein 'Semiconductor Mission' ka budget kitna rakha gaya?",a:"Rs. 76,000 crore (approx $10 billion)",h:"Chip manufacturing ke liye - global supply chain mein place banana",c:"Economy"},
 {id:85,q:"Bharat mein 5G launch kab hua officially?",a:"October 2022",h:"PM Modi ne IMC mein launch kiya - Jio aur Airtel ne deploy kiya",c:"Science & Tech"},
 {id:86,q:"India ki army ke naye Chief of Army Staff 2024 mein kaun bane?",a:"General Upendra Dwivedi",h:"June 2024 mein - Manoj Pande ke baad",c:"National"},
 {id:87,q:"World Chess Championship 2024 kahan hua?",a:"Singapore",h:"Gukesh (India) vs Ding Liren (China) - Gukesh jeete",c:"Sports"},
@@ -351,22 +335,22 @@ const CA=[
 {id:107,q:"India ka 'National Green Hydrogen Mission' ka target kitna hai?",a:"5 million tonnes per year by 2030",h:"Fossil fuels se alag - green energy ka bhavishya",c:"Environment"},
 {id:108,q:"Bharat mein 'Start Up India' programme kab shuru hua?",a:"2016",h:"PM Modi ne launch kiya - 1.3 lakh+ registered startups",c:"Economy"},
 {id:109,q:"India ki Droupadi Murmu Rashtrapati kab bani?",a:"July 2022",h:"15th President - pehli Adivasi mahila Rashtrapati",c:"National"},
-{id:110,q:"India ne PM Modi ke teesre kaalyakaal mein pehla bada diplomatic event kya kiya?",a:"Oath ceremony mein SAARC-like neighbours ko invite kiya",h:"Maldives, Bangladesh etc ke leaders aaye - neighbourhood first",c:"National"},
+{id:110,q:"India ne PM Modi ke teesre kaalyakaal mein pehla bada diplomatic event kya kiya?",a:"Oath ceremony mein SAARC-like neighbours ko invite kiya",h:"Maldives, Bangladesh etc ke leaders aaye - neighbourhood first",c:"National"}
 ];
 
 const SCI=[
 {id:1,q:"Gati ke niyam (Laws of Motion) kisne diye?",a:"Isaac Newton",h:"Newton ke 3 laws - har class mein padhte hain",c:"Physics"},
 {id:2,q:"Bala (Force) ki S.I. unit kaun si hai?",a:"Newton (N)",h:"F = ma - mass times acceleration",c:"Physics"},
-{id:3,q:"Prkaash (Light) vacuum mein kitni speed se chalti hai?",a:"3 × 10⁸ m/s (3 lakh km/s)",h:"Speed of light - 'c' se darshaya jaata hai",c:"Physics"},
+{id:3,q:"Prakaash (Light) vacuum mein kitni speed se chalti hai?",a:"3 × 10^8 m/s (3 lakh km/s)",h:"Speed of light - 'c' se darshaya jaata hai",c:"Physics"},
 {id:4,q:"'Har kriya ki barabar aur viparit pratikriya hoti hai' - Newton ka kaun sa niyam?",a:"Newton ka Teesra Niyam (Third Law)",h:"Action-Reaction pairs - rocket launch isi par kaam karta hai",c:"Physics"},
-{id:5,q:"Daab (Pressure) ki S.I. unit kaun si hai?",a:"Pascal (Pa)",h:"1 Pa = 1 N/m² - atmosphere pressure bar/atm mein bhi",c:"Physics"},
+{id:5,q:"Daab (Pressure) ki S.I. unit kaun si hai?",a:"Pascal (Pa)",h:"1 Pa = 1 N/m2 - atmosphere pressure bar/atm mein bhi",c:"Physics"},
 {id:6,q:"Gol raaste mein chalti body par kaun si bal (force) lagti hai?",a:"Abhikendra Bal (Centripetal Force)",h:"Kehndriya baal - haath se rope pe ball ghuma ke feel karo",c:"Physics"},
 {id:7,q:"Kisi sharir ki apni awastha (motion/rest) mein badlaav ka virodh karne ki pravritti?",a:"Jadatva (Inertia)",h:"Moving gadi mein jhatke pe aage jhuk jaate ho - inertia of motion",c:"Physics"},
-{id:8,q:"Kaam ya Urja (Work/Energy) ki S.I. unit kaun si hai?",a:"Joule (J)",h:"1 Joule = 1 Newton force × 1 meter distance",c:"Physics"},
+{id:8,q:"Kaam ya Urja (Work/Energy) ki S.I. unit kaun si hai?",a:"Joule (J)",h:"1 Joule = 1 Newton force x 1 meter distance",c:"Physics"},
 {id:9,q:"Vidyut Dhara (Electric Current) ki S.I. unit kaun si hai?",a:"Ampere (A)",h:"'Amp' shorthand - meter of current flow per second",c:"Physics"},
-{id:10,q:"Ohm ka niyam: V kiske barabar hai?",a:"V = I × R (Voltage = Current × Resistance)",h:"Volts = Ampere × Ohm - basic circuit formula",c:"Physics"},
+{id:10,q:"Ohm ka niyam: V kiske barabar hai?",a:"V = I x R (Voltage = Current x Resistance)",h:"Volts = Ampere x Ohm - basic circuit formula",c:"Physics"},
 {id:11,q:"AC ko DC mein convert karne wala yatra (device)?",a:"Rectifier",h:"AC voltage ko DC mein badalta hai - chargers mein hota hai",c:"Physics"},
-{id:12,q:"Vidyut Pratirodh (Electrical Resistance) ki unit?",a:"Ohm (Ω)",h:"Georg Ohm ke naam par - conductor wire ka resistance",c:"Physics"},
+{id:12,q:"Vidyut Pratirodh (Electrical Resistance) ki unit?",a:"Ohm",h:"Georg Ohm ke naam par - conductor wire ka resistance",c:"Physics"},
 {id:13,q:"Electron ki khoj kisne ki?",a:"J.J. Thomson",h:"1897 mein Cathode Ray experiments se - charge-to-mass ratio",c:"Physics"},
 {id:14,q:"Transformer kis siddhant par kaam karta hai?",a:"Paraspar Pratishthapan (Mutual Induction)",h:"Faraday ka electromagnetic induction - AC hi transform hota hai",c:"Physics"},
 {id:15,q:"Prakaash sabse tez kahan chalti hai?",a:"Vacuum (Shuunya) mein",h:"Paani/kaanch mein dhheemi ho jaati hai",c:"Physics"},
@@ -377,19 +361,19 @@ const SCI=[
 {id:20,q:"Pratibimb (Image) hamesha virtual dene wala darpan (mirror)?",a:"Udhar Darpan (Convex Mirror)",h:"Car mein side mirror - chhota image par zyada area dikhta hai",c:"Physics"},
 {id:21,q:"Swarnam (Gold) ka rasaaynik prateek (chemical symbol) kya hai?",a:"Au",h:"Latin 'Aurum' se - 79 atomic number",c:"Chemistry"},
 {id:22,q:"Sodium ka chemical symbol kya hai?",a:"Na",h:"Latin 'Natrium' se - table salt NaCl mein",c:"Chemistry"},
-{id:23,q:"Paani ka rasaaynik sootra (Chemical Formula) kya hai?",a:"H₂O",h:"2 Hydrogen + 1 Oxygen - sabse important compound",c:"Chemistry"},
+{id:23,q:"Paani ka rasaaynik sootra (Chemical Formula) kya hai?",a:"H2O",h:"2 Hydrogen + 1 Oxygen - sabse important compound",c:"Chemistry"},
 {id:24,q:"Carbon ka parmaanu sankhya (Atomic Number) kitna hai?",a:"6",h:"6 protons, 6 neutrons, 6 electrons - life ka building block",c:"Chemistry"},
 {id:25,q:"Aawartak Saaranee (Periodic Table) mein sabse halka element kaun sa hai?",a:"Hydrogen (H)",h:"Atomic number 1 - sun ka main fuel bhi",c:"Chemistry"},
-{id:26,q:"'Laughing Gas' kise kehte hain?",a:"Nitrous Oxide (N₂O)",h:"Anaesthesia mein bhi use hota hai - apni khushi se haansi",c:"Chemistry"},
+{id:26,q:"'Laughing Gas' kise kehte hain?",a:"Nitrous Oxide (N2O)",h:"Anaesthesia mein bhi use hota hai - apni khushi se haansi",c:"Chemistry"},
 {id:27,q:"Shuddh paani ka pH kitna hota hai?",a:"7 (Neutral)",h:"7 se kam = acidic, 7 se zyada = basic/alkaline",c:"Chemistry"},
-{id:28,q:"Lohe ka zang lagana (Rusting of Iron) kya hai?",a:"Rasaaynik Badlaav (Chemical Change - Oxidation)",h:"Fe + O₂ + H₂O → Fe₂O₃ (rust) - permanent change",c:"Chemistry"},
+{id:28,q:"Lohe ka zang lagana (Rusting of Iron) kya hai?",a:"Rasaaynik Badlaav (Chemical Change - Oxidation)",h:"Fe + O2 + H2O = Fe2O3 (rust) - permanent change",c:"Chemistry"},
 {id:29,q:"Sabse zyada Vidyut Rini (Electronegativity) wala element?",a:"Fluorine (F)",h:"Periodic table mein top-right corner - most reactive non-metal",c:"Chemistry"},
-{id:30,q:"Khaane waala Soda (Baking Soda) rasaaynik roop mein kya hai?",a:"Sodium Bicarbonate (NaHCO₃)",h:"Cake mein daalo - CO₂ release karta hai - phulata hai",c:"Chemistry"},
-{id:31,q:"Sirke (Vinegar) mein kaun sa acid hota hai?",a:"Acetic Acid (CH₃COOH)",h:"2-8% acetic acid - 'aml' ka naam bhi hai",c:"Chemistry"},
-{id:32,q:"'Dry Ice' kya hota hai?",a:"Solid Carbon Dioxide (CO₂)",h:"-78.5°C pe solid - direct gas ban jaata (sublimation)",c:"Chemistry"},
-{id:33,q:"LPG (Liquefied Petroleum Gas) ka main component kya hai?",a:"Butane aur Propane",h:"C₄H₁₀ aur C₃H₈ - cooking ke liye ghar mein",c:"Chemistry"},
+{id:30,q:"Khaane waala Soda (Baking Soda) rasaaynik roop mein kya hai?",a:"Sodium Bicarbonate (NaHCO3)",h:"Cake mein daalo - CO2 release karta hai - phulata hai",c:"Chemistry"},
+{id:31,q:"Sirke (Vinegar) mein kaun sa acid hota hai?",a:"Acetic Acid (CH3COOH)",h:"2-8% acetic acid - 'aml' ka naam bhi hai",c:"Chemistry"},
+{id:32,q:"'Dry Ice' kya hota hai?",a:"Solid Carbon Dioxide (CO2)",h:"-78.5 degree C pe solid - direct gas ban jaata (sublimation)",c:"Chemistry"},
+{id:33,q:"LPG (Liquefied Petroleum Gas) ka main component kya hai?",a:"Butane aur Propane",h:"C4H10 aur C3H8 - cooking ke liye ghar mein",c:"Chemistry"},
 {id:34,q:"Diamond aur Graphite dono kisliye allotrope hain?",a:"Carbon ke",h:"Ek hi element ke alag forms - diamond hard, graphite soft",c:"Chemistry"},
-{id:35,q:"Neembu (Lemon) mein kaun sa acid hota hai?",a:"Citric Acid",h:"Vitamin C bhi hota hai - C₆H₈O₇",c:"Chemistry"},
+{id:35,q:"Neembu (Lemon) mein kaun sa acid hota hai?",a:"Citric Acid",h:"Vitamin C bhi hota hai - C6H8O7",c:"Chemistry"},
 {id:36,q:"Manav shareer ka sabse bada angg (organ) kaun sa hai?",a:"Twacha (Skin)",h:"2 sq meters - 3 layers - protection, temperature control",c:"Biology"},
 {id:37,q:"Ek vyask (adult) manav ke shareer mein kitni haddiyan hoti hain?",a:"206 haddiyan",h:"Janm ke waqt 270 - merge hoti hain baad mein",c:"Biology"},
 {id:38,q:"Universal recipient blood group kaun sa hai?",a:"AB+ (AB Positive)",h:"Kisi bhi group ka blood le sakta hai - rare group",c:"Biology"},
@@ -399,8 +383,8 @@ const SCI=[
 {id:42,q:"Vitamin D ki kami se kaun si bimari hoti hai?",a:"Rickets (Rakiti)",h:"Haddiyon mein calcium nahi jata - tedhi haddiyan",c:"Biology"},
 {id:43,q:"Manav shareer ki sabse badi granthi (gland) kaun si hai?",a:"Yakrit (Liver)",h:"Detox karta hai - bile banata hai - 500+ functions",c:"Biology"},
 {id:44,q:"Manav Hriday (Heart) mein kitne kaksha (chambers) hote hain?",a:"4 kaksha",h:"2 Atria + 2 Ventricles - left side oxygenated, right unoxygenated",c:"Biology"},
-{id:45,q:"Normal manav shareer ka taapman (temperature) kitna hota hai?",a:"37°C (98.6°F)",h:"Bakhaar mein 38°C se upar - hypothermia mein 35°C se neeche",c:"Biology"},
-{id:46,q:"Paudhe (Plants) khaana kaise banate hain?",a:"Prakash Sangleshn (Photosynthesis)",h:"Sunlight + CO₂ + H₂O → Glucose + O₂",c:"Biology"},
+{id:45,q:"Normal manav shareer ka taapman (temperature) kitna hota hai?",a:"37 degree C (98.6 degree F)",h:"Bakhaar mein 38 degree C se upar - hypothermia mein 35 degree C se neeche",c:"Biology"},
+{id:46,q:"Paudhe (Plants) khaana kaise banate hain?",a:"Prakash Sangleshn (Photosynthesis)",h:"Sunlight + CO2 + H2O = Glucose + O2",c:"Biology"},
 {id:47,q:"Chlorophyll kahan paaya jaata hai?",a:"Chloroplast mein",h:"Green color isi ki wajah se - sunlight absorb karta hai",c:"Biology"},
 {id:48,q:"Fungi (Kawaak) ka adhyayan (study) kya kehlaata hai?",a:"Mycology",h:"Mushroom, yeast, mold - mushroom sabse simple example",c:"Biology"},
 {id:49,q:"Keede-makodon (Insects) ka adhyayan kya kehlaata hai?",a:"Entomology",h:"6 legs, 3 body parts - sabse zyada species count mein",c:"Biology"},
@@ -411,11 +395,11 @@ const SCI=[
 {id:54,q:"Malaria kaun sa parasite se hota hai?",a:"Plasmodium (Anopheles maaddi machhar se phailta hai)",h:"Symptoms: thand ke saath bukhar - quinine treatment",c:"Biology"},
 {id:55,q:"Dengue kaun sa machhar se phailta hai?",a:"Aedes Aegypti machhar",h:"Din mein kaatta hai - clean water mein breeds",c:"Biology"},
 {id:56,q:"Antibiotic Penicillin kisne khoji?",a:"Alexander Fleming",h:"1928 mein - dirty petri dish se - Nobel Prize 1945",c:"Biology"},
-{id:57,q:"BCG vaccine kisliye di jaati hai?",a:"Tuberculosis (TB) se bachav ke liye",h:"Bacillus Calmette-Guérin - janm ke baad dete hain",c:"Biology"},
+{id:57,q:"BCG vaccine kisliye di jaati hai?",a:"Tuberculosis (TB) se bachav ke liye",h:"Bacillus Calmette-Guerin - janm ke baad dete hain",c:"Biology"},
 {id:58,q:"Ozone Layer kaun si vaayumandal ki parat (layer) mein hai?",a:"Stratosphere",h:"15-35 km height - UV rays se bachati hai",c:"Environment"},
 {id:59,q:"Ozone naash (Ozone Depletion) karne wale kaun se substances hain?",a:"CFCs (Chlorofluorocarbons)",h:"AC, refrigerator mein - Montreal Protocol se ban hua",c:"Environment"},
-{id:60,q:"Greenhouse Effect mainly kaun si gas se hoti hai?",a:"Carbon Dioxide (CO₂)",h:"CO₂, Methane, N₂O - global warming ka kaaran",c:"Environment"},
-{id:61,q:"Acid Varaish (Acid Rain) kaun si gas se hoti hai?",a:"Sulphur Dioxide (SO₂) aur Nitrogen Oxides (NOₓ)",h:"Factories se nikalti gases - paani se H₂SO₄ aur HNO₃ banti",c:"Environment"},
+{id:60,q:"Greenhouse Effect mainly kaun si gas se hoti hai?",a:"Carbon Dioxide (CO2)",h:"CO2, Methane, N2O - global warming ka kaaran",c:"Environment"},
+{id:61,q:"Acid Varsha (Acid Rain) kaun si gas se hoti hai?",a:"Sulphur Dioxide (SO2) aur Nitrogen Oxides (NOx)",h:"Factories se nikalti gases - paani se H2SO4 aur HNO3 banti",c:"Environment"},
 {id:62,q:"Vishwa Paryavaran Diwas (World Environment Day) kab hota hai?",a:"5 June",h:"UNEP ne 1973 se celebrate karna shuru kiya",c:"Environment"},
 {id:63,q:"Prithvi Diwas (Earth Day) kab hota hai?",a:"22 April",h:"1970 se - Senator Gaylord Nelson ne shuru kiya USA mein",c:"Environment"},
 {id:64,q:"Great Barrier Reef kahan hai?",a:"Australia",h:"Duniya ka sabse bada coral reef - climate change se danger",c:"Environment"},
@@ -425,29 +409,29 @@ const SCI=[
 {id:68,q:"Chandrayaan-3 Chaand ke kis dhruv (pole) ke paas utara?",a:"Dakshin Dhruv (South Pole)",h:"Pehli baar kisi ne south pole ke paas land kiya",c:"Space & Tech"},
 {id:69,q:"Bharat ka pehla Mars mission kya tha?",a:"Mangalyaan (Mars Orbiter Mission)",h:"2013 mein launch, 2014 mein Mars orbit - pehli baar mein success",c:"Space & Tech"},
 {id:70,q:"Surya ke sabse paas wala graha kaun sa hai?",a:"Budh (Mercury)",h:"88 din mein Surya ki parikrama - temperature fluctuation bahut zyada",c:"Space & Tech"},
-{id:71,q:"Prithvi ki sarface par sabse zyada paaya jaane wala element?",a:"Oxygen (Praanvayu)",h:"46% crust - mostly oxides form mein - haawa mein N₂ zyada hai",c:"Science Mix"},
-{id:72,q:"Vaayumandal mein sabse zyada gas kaun si hai?",a:"Nitrogen (N₂) - 78%",h:"Phir Oxygen 21% - baaki 1% CO₂, Argon etc",c:"Science Mix"},
+{id:71,q:"Prithvi ki sarface par sabse zyada paaya jaane wala element?",a:"Oxygen (Praanvayu)",h:"46% crust - mostly oxides form mein - haawa mein N2 zyada hai",c:"Science Mix"},
+{id:72,q:"Vaayumandal mein sabse zyada gas kaun si hai?",a:"Nitrogen (N2) - 78%",h:"Phir Oxygen 21% - baaki 1% CO2, Argon etc",c:"Science Mix"},
 {id:73,q:"Dhwani (Sound) kahan se nahi guzar sakti?",a:"Vacuum (Shuunya) mein",h:"Dhwani ko medium chahiye - space mein silence hai",c:"Physics"},
-{id:74,q:"Newton ke gravitation law mein gravitational force kaisi hoti hai?",a:"Doori ke varg ke viprit anupaati (Inversely proportional to square of distance)",h:"Door ho jao - gravitation zyada tezi se ghata hai - 1/r² relation",c:"Physics"},
-{id:75,q:"'Father of Modern Physics' kise kehte hain?",a:"Albert Einstein",h:"E=mc², Relativity theory - Nobel Prize 1921 Photoelectric effect ke liye",c:"Physics"},
+{id:74,q:"Newton ke gravitation law mein gravitational force kaisi hoti hai?",a:"Doori ke varg ke viprit anupaati (Inversely proportional to square of distance)",h:"Door ho jao - gravitation zyada tezi se ghata hai - 1/r2 relation",c:"Physics"},
+{id:75,q:"'Father of Modern Physics' kise kehte hain?",a:"Albert Einstein",h:"E=mc2, Relativity theory - Nobel Prize 1921 Photoelectric effect ke liye",c:"Physics"},
 {id:76,q:"Kisi drav (liquid) ka gaas (gas) mein badalna?",a:"Vaashtpan (Evaporation/Vaporization)",h:"Sweating = cooling kyunki evaporation latent heat leta hai",c:"Physics"},
 {id:77,q:"Black Hole ek aisi jagah hai jahan?",a:"Gravity itni zyada hai ki roshni bhi nahi nikal sakti",h:"Event horizon se kuch bhi escape nahi karta",c:"Space & Tech"},
-{id:78,q:"Hubble Space Telescope kahan hai?",a:"Prithvi ki Parikaaksha (Earth's orbit) mein",h:"540km altitude - 1990 se - nebulae aur galaxies ki photos",c:"Space & Tech"},
+{id:78,q:"Hubble Space Telescope kahan hai?",a:"Prithvi ki Parikaksha (Earth's orbit) mein",h:"540km altitude - 1990 se - nebulae aur galaxies ki photos",c:"Space & Tech"},
 {id:79,q:"Photon kya hai?",a:"Prakaash (Light) ka kanik (Particle)",h:"Zero mass, light speed - Einstein ne 1905 mein explain kiya",c:"Physics"},
 {id:80,q:"Sabse adhik paaya jaane wala dhatu (metal) Prithvi ki crust mein?",a:"Aluminium",h:"8% - bauxite se milta hai - tin foil, cans mein use",c:"Chemistry"},
 {id:81,q:"Stainless Steel mein kya hota hai?",a:"Iron + Carbon + Chromium (Nickel bhi)",h:"Chromium oxide layer banti hai jo zang nahi laagti",c:"Chemistry"},
-{id:82,q:"Bleaching powder mein kya hota hai?",a:"Calcium Hypochlorite [Ca(OCl)₂]",h:"Chlorine gas + Ca(OH)₂ se banta hai - disinfectant",c:"Chemistry"},
+{id:82,q:"Bleaching powder mein kya hota hai?",a:"Calcium Hypochlorite [Ca(OCl)2]",h:"Chlorine gas + Ca(OH)2 se banta hai - disinfectant",c:"Chemistry"},
 {id:83,q:"Koshika vibhajan (Cell Division) ki process kya kehlaati hai?",a:"Mitosis (somatic cells) aur Meiosis (sex cells)",h:"Mitosis exact copy, Meiosis half genetic material",c:"Biology"},
 {id:84,q:"Manav aankh ki antatwachaa (retina) mein konsi cells hoti hain?",a:"Rods (darkness) aur Cones (color)",h:"120 million rods, 6 million cones - macula mein concentrated",c:"Biology"},
-{id:85,q:"Blood mein haemoglobin kya karta hai?",a:"Oxygen carry karta hai",h:"Iron-containing protein - lungs se tissues tak O₂ le jaata",c:"Biology"},
+{id:85,q:"Blood mein haemoglobin kya karta hai?",a:"Oxygen carry karta hai",h:"Iron-containing protein - lungs se tissues tak O2 le jaata",c:"Biology"},
 {id:86,q:"Dengue fever ke lakshan kaun se hain?",a:"Tez bukhar, sir dard, body pain, rash",h:"'Breakbone fever' bhi kehte - platelets gir jaate hain",c:"Biology"},
 {id:87,q:"Iodine ki kami se kaun si bimari hoti hai?",a:"Goitre (Goytar - Gale ki sujan)",h:"Thyroid gland badh jaati hai - iodized salt solution",c:"Biology"},
 {id:88,q:"ORS (Oral Rehydration Salt) kisliye use hota hai?",a:"Dast/Dehyadration mein",h:"WHO formula - salt + sugar + water - cholera treatment mein kaam aata",c:"Biology"},
-{id:89,q:"Photosynthesis mein kaun si gas release hoti hai?",a:"Oxygen (O₂)",h:"6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂ - hamare liye oxygen",c:"Biology"},
+{id:89,q:"Photosynthesis mein kaun si gas release hoti hai?",a:"Oxygen (O2)",h:"6CO2 + 6H2O = C6H12O6 + 6O2 - hamare liye oxygen",c:"Biology"},
 {id:90,q:"Manav naak se kaun si smell detect hoti hai - process?",a:"Ghranendriya (Olfactory receptors) se - nose cells ke zariye",h:"7 million olfactory neurons - 1 trillion smells distinguish kar sakte",c:"Biology"},
-{id:91,q:"CNG ka poora naam kya hai?",a:"Compressed Natural Gas",h:"Mainly methane (CH₄) - green fuel hai",c:"Chemistry"},
-{id:92,q:"Light Year mein approximately kitne km hote hain?",a:"9.46 × 10¹² km (9.46 trillion km)",h:"1 LY = distance light travels in 1 year",c:"Space & Tech"},
-{id:93,q:"Big Bang Theory kya batati hai?",a:"Brahmand (Universe) ki utpatti",h:"~13.8 billion saal pehle - expansion abhi bhi chal rahi hai",c:"Space & Tech"},
+{id:91,q:"CNG ka poora naam kya hai?",a:"Compressed Natural Gas",h:"Mainly methane (CH4) - green fuel hai",c:"Chemistry"},
+{id:92,q:"Light Year mein approximately kitne km hote hain?",a:"9.46 x 10^12 km (9.46 trillion km)",h:"1 LY = distance light travels in 1 year",c:"Space & Tech"},
+{id:93,q:"Big Bang Theory kya batati hai?",a:"Brahmand (Universe) ki utpatti",h:"13.8 billion saal pehle - expansion abhi bhi chal rahi hai",c:"Space & Tech"},
 {id:94,q:"ISS ka poora naam kya hai?",a:"International Space Station",h:"400km orbit mein - multiple countries jointly operate karti hain",c:"Space & Tech"},
 {id:95,q:"Kaun si gas ko 'Inert Gas' ya 'Noble Gas' mein sabse common kehte hain?",a:"Argon (Ar)",h:"Vaayumandal mein 0.93% - light bulbs mein use hoti hai",c:"Chemistry"},
 {id:96,q:"Manav ka sabse bada internal angg (internal organ) kaun sa hai?",a:"Yakrit (Liver)",h:"Skin baahar ka organ, Liver andar ka sabse bada - 1.5 kg",c:"Biology"},
@@ -455,16 +439,16 @@ const SCI=[
 {id:98,q:"Kaun sa planet 'Gas Giant' nahi hai?",a:"Prithvi (Earth), Mangal (Mars), Budh (Mercury), Shukra (Venus)",h:"Ye sab 'Terrestrial planets' hain - rocky surface hai",c:"Space & Tech"},
 {id:99,q:"Graho ko orbit mein rakhne wali bal (force) kaun si hai?",a:"Gravity (Gurutvaakarshn)",h:"Newton ka Universal Gravitation - sun khichta hai planet ko",c:"Space & Tech"},
 {id:100,q:"Kaun se vaayumandal ki parat mein hum rehte hain?",a:"Troposphere",h:"0-12km - yahan hi weather hota hai - temperature girta hai upar jaane par",c:"Science Mix"},
-{id:101,q:"Prakaash (Light) ki tarang-daairghya (wavelength) ki unit?",a:"Nanometre (nm) ya Angstrom (Å)",h:"Visible light 380-700 nm range mein - UV shorter, IR longer",c:"Physics"},
+{id:101,q:"Prakaash (Light) ki tarang-daairghya (wavelength) ki unit?",a:"Nanometre (nm) ya Angstrom",h:"Visible light 380-700 nm range mein - UV shorter, IR longer",c:"Physics"},
 {id:102,q:"Ultrasound ki frequency kitni hoti hai?",a:"20,000 Hz (20 kHz) se zyada",h:"Chammgadad 100,000 Hz - medical imaging mein 2-18 MHz use",c:"Physics"},
 {id:103,q:"SONAR kis siddhant par kaam karta hai?",a:"Dhwani ki pratidhwani (Echo/Reflection of sound)",h:"Submarine ke liye - Sound Navigation And Ranging",c:"Physics"},
-{id:104,q:"Prati glass optical fiber mein prakaash kis tarike se jaata hai?",a:"Sampurna Aaantraa Paravartana (Total Internal Reflection)",h:"Koi light leak nahi hoti - isi liye data fast jata hai",c:"Physics"},
-{id:105,q:"Paani ka 'polar molecule' hona kya matlab hai?",a:"Alag corners par positive aur negative charge hona",h:"H₂O - O negatively charged, H positively - hydrogen bonding",c:"Chemistry"},
+{id:104,q:"Optical fiber mein prakaash kis tarike se jaata hai?",a:"Sampurna Aaantraa Paravartana (Total Internal Reflection)",h:"Koi light leak nahi hoti - isi liye data fast jata hai",c:"Physics"},
+{id:105,q:"Paani ka 'polar molecule' hona kya matlab hai?",a:"Alag corners par positive aur negative charge hona",h:"H2O - O negatively charged, H positively - hydrogen bonding",c:"Chemistry"},
 {id:106,q:"Harit Kranti (Green Revolution) mein kaun si fasal main thi?",a:"Gehu (Wheat) aur Chawal (Rice)",h:"High Yielding Varieties - Borlaug ki variety - Harita Revolution",c:"Science Mix"},
 {id:107,q:"Kaun sa Vitamin paani mein ghulta hai (Water Soluble)?",a:"Vitamin B complex aur Vitamin C",h:"Fat soluble hain A, D, E, K - store hote hain body mein",c:"Biology"},
-{id:108,q:"Kaun si gas sabse zyada greenhouse effect deti hai by volume?",a:"Water Vapour (Jalbashp)",h:"By total impact - par anthropogenic = CO₂ main culprit",c:"Environment"},
-{id:109,q:"Newton ki Gravitational unit 'G' ki value kitni hai?",a:"6.674 × 10⁻¹¹ N·m²/kg²",h:"Universal Gravitational Constant - chhoti value - gravitation weak force",c:"Physics"},
-{id:110,q:"Kisi dhatu (metal) ko agar peetaa jaaye to patla ho jaata hai - yeh property?",a:"Namniyata (Malleability)",h:"Gold sabse malleable - ductility = wire ban jaata hai",c:"Chemistry"},
+{id:108,q:"Kaun si gas sabse zyada greenhouse effect deti hai by volume?",a:"Water Vapour (Jalbashp)",h:"By total impact - par anthropogenic = CO2 main culprit",c:"Environment"},
+{id:109,q:"Newton ki Gravitational unit 'G' ki value kitni hai?",a:"6.674 x 10^-11 N.m2/kg2",h:"Universal Gravitational Constant - chhoti value - gravitation weak force",c:"Physics"},
+{id:110,q:"Kisi dhatu (metal) ko agar peetaa jaaye to patla ho jaata hai - yeh property?",a:"Namniyata (Malleability)",h:"Gold sabse malleable - ductility = wire ban jaata hai",c:"Chemistry"}
 ];
 
 /* ═══════════════ CONFIG ═══════════════ */
@@ -475,85 +459,86 @@ const SECTIONS={
 };
 
 /* ═══════════════ STATE ═══════════════ */
-let state={
-  sec:"gk", mode:"study", day:0,
-  flashIdx:0, isFlipped:false,
+var state={
+  sec:"gk",mode:"study",day:0,
+  flashIdx:0,isFlipped:false,
   bookmarks:new Set(),
   search:"",
-  quizQs:[], quizOpts:[], quizIdx:0, quizScore:0,
-  quizSelected:null, quizDone:false, quizAnim:""
+  quizQs:[],quizOpts:[],quizIdx:0,quizScore:0,
+  quizSelected:null,quizDone:false,quizAnim:""
 };
 
 /* ═══════════════ HELPERS ═══════════════ */
-function shuffle(a){return[...a].sort(()=>Math.random()-.5)}
-function getDaily10(data,day){const s=day*10;return data.slice(s,s+10)}
+function shuffle(a){return[].concat(a).sort(function(){return Math.random()-.5});}
+function getDaily10(data,day){var s=day*10;return data.slice(s,s+10);}
 function getOpts(data,item){
-  const w=shuffle(data.filter(d=>d.id!==item.id)).slice(0,3).map(d=>d.a);
-  return shuffle([item.a,...w]);
+  var w=shuffle(data.filter(function(d){return d.id!==item.id;})).slice(0,3).map(function(d){return d.a;});
+  return shuffle([item.a].concat(w));
 }
 function initQuiz(){
-  const d=SECTIONS[state.sec].data;
+  var d=SECTIONS[state.sec].data;
   state.quizQs=getDaily10(d,state.day);
-  state.quizOpts=state.quizQs.map(q=>getOpts(d,q));
+  state.quizOpts=state.quizQs.map(function(q){return getOpts(d,q);});
   state.quizIdx=0;state.quizScore=0;state.quizSelected=null;
   state.quizDone=false;state.quizAnim="";
 }
-function colorVar(sec){return SECTIONS[sec].color}
-function ac(){return colorVar(state.sec)}
+function ac(){return SECTIONS[state.sec].color;}
 
 /* ═══════════════ RENDER ═══════════════ */
 function render(){
   document.getElementById("app").innerHTML=buildApp();
   attachEvents();
-  document.querySelectorAll(".slide-up").forEach((el,i)=>{el.style.animationDelay=i*.04+"s"});
+  var cards=document.querySelectorAll(".slide-up");
+  for(var i=0;i<cards.length;i++){
+    cards[i].style.animationDelay=(i*0.04)+"s";
+  }
 }
 
 function buildApp(){
-  const cfg=SECTIONS[state.sec];
-  const totalBm=state.bookmarks.size;
-  const daily10=getDaily10(cfg.data,state.day);
-  const bmItems=cfg.data.filter(d=>state.bookmarks.has(state.sec+"-"+d.id));
+  var cfg=SECTIONS[state.sec];
+  var totalBm=state.bookmarks.size;
+  var daily10=getDaily10(cfg.data,state.day);
+  var bmItems=cfg.data.filter(function(d){return state.bookmarks.has(state.sec+"-"+d.id);});
+  var c=ac();
 
+  var html="";
   // Header
-  let html=`
-  <div class="hdr">
-    <div class="hdr-inner">
-      <div>
-        <div class="logo" style="font-family:var(--ff-h)">🧠 <span>CUET GK Master 2026</span></div>
-        <div style="font-size:11px;color:#4B5563;margin-top:2px">GK · Current Affairs · Science — 🇮🇳 Hinglish Explanation</div>
-      </div>
-      <div class="hdr-badges">
-        <div class="badge" style="color:${ac()};border-color:${ac()}22;background:${ac()}11">⭐ ${totalBm} Saved</div>
-        <div class="badge" style="color:#94A3B8;border-color:#1C1C38">📅 Day ${state.day+1}/11</div>
-      </div>
-    </div>
-  </div>`;
+  html+='<div class="hdr"><div class="hdr-inner">';
+  html+='<div><div class="logo">🧠 <span>CUET GK Master 2026</span></div>';
+  html+='<div style="font-size:11px;color:#4B5563;margin-top:2px">GK · Current Affairs · Science — 🇮🇳 Hinglish Explanation</div></div>';
+  html+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
+  html+='<div class="badge" style="color:'+c+';border-color:'+c+'22;background:'+c+'11">⭐ '+totalBm+' Saved</div>';
+  html+='<div class="badge" style="color:#94A3B8;border-color:#1C1C38">📅 Day '+(state.day+1)+'/11</div>';
+  html+='</div></div></div>';
 
   // Section Tabs
-  html+=`<div class="sec-tabs"><div class="sec-tabs-inner">`;
-  Object.entries(SECTIONS).forEach(([k,c])=>{
-    const active=state.sec===k;
-    html+=`<button class="sec-btn ${active?"active":""}" data-sec="${k}" style="--ac:${c.color};${active?"color:"+c.color:""}">
-      ${c.icon} ${c.short}
-    </button>`;
-  });
-  html+=`</div></div>`;
+  html+='<div class="sec-tabs"><div class="sec-tabs-inner">';
+  var secKeys=Object.keys(SECTIONS);
+  for(var i=0;i<secKeys.length;i++){
+    var k=secKeys[i];
+    var sc=SECTIONS[k];
+    var active=state.sec===k;
+    html+='<button class="sec-btn'+(active?" active":"")+'" data-sec="'+k+'" style="'+(active?"color:"+sc.color+";border-bottom:3px solid "+sc.color:"border-bottom:3px solid transparent")+'">';
+    html+=sc.icon+" "+sc.short+"</button>";
+  }
+  html+="</div></div>";
 
   // Mode Tabs
-  const modes={study:"📖 Study",flash:"🃏 Flashcard",quiz:"🧠 Quiz",all:"📋 Sab 110",bookmarks:`⭐ Saved (${bmItems.length})`};
-  html+=`<div class="mode-tabs"><div class="mode-tabs-inner" style="--ac:${ac()}">`;
-  Object.entries(modes).forEach(([k,label])=>{
-    const active=state.mode===k;
-    html+=`<button class="mode-btn ${active?"active":""}" data-mode="${k}">${label}</button>`;
-  });
-  html+=`</div></div>`;
+  var modes={study:"📖 Study",flash:"🃏 Flashcard",quiz:"🧠 Quiz",all:"📋 Sab 110",bookmarks:"⭐ Saved ("+bmItems.length+")"};
+  html+='<div class="mode-tabs"><div class="mode-tabs-inner">';
+  var mKeys=Object.keys(modes);
+  for(var i=0;i<mKeys.length;i++){
+    var mk=mKeys[i];
+    var mactive=state.mode===mk;
+    html+='<button class="mode-btn'+(mactive?" active":"")+'" data-mode="'+mk+'" style="'+(mactive?"border-color:"+c+";background:"+c+";color:#000":"")+'">'+modes[mk]+"</button>";
+  }
+  html+="</div></div>";
 
   // Content
-  html+=`<div class="content">`;
-
+  html+='<div class="content">';
   if(state.mode==="study"){
     html+=buildDayHeader(daily10);
-    html+=daily10.map(item=>buildStudyCard(item,cfg)).join("");
+    for(var i=0;i<daily10.length;i++){html+=buildStudyCard(daily10[i],cfg);}
   } else if(state.mode==="flash"){
     html+=buildFlashMode(daily10,cfg);
   } else if(state.mode==="quiz"){
@@ -563,262 +548,281 @@ function buildApp(){
   } else if(state.mode==="bookmarks"){
     html+=buildBookmarksMode(bmItems,cfg);
   }
-
-  html+=`</div>
-  <div style="text-align:center;padding:18px 0 36px;font-size:11px;color:#1E293B">
-    CUET UG 2026 · 330 Total Items · 🇮🇳 Hinglish Support
-  </div>`;
+  html+="</div>";
+  html+='<div style="text-align:center;padding:18px 0 36px;font-size:11px;color:#1E293B">CUET UG 2026 · 330 Total Items · 🇮🇳 Hinglish Support</div>';
   return html;
 }
 
 function buildDayHeader(daily10){
-  const c=ac();
-  return `
-  <div class="day-ctrl">
-    <div class="day-title">${SECTIONS[state.sec].icon} Day ${state.day+1} — Q${state.day*10+1}–${state.day*10+10}</div>
-    <div class="day-nav">
-      <button class="nav-btn" data-action="prev-day" style="border-color:${state.day===0?"#1C1C38":"#2D3748"};color:${state.day===0?"#374151":"#CBD5E1"};background:${state.day===0?"#0E0E1E":"#12122A"}" ${state.day===0?"disabled":""}>← Prev</button>
-      <button class="nav-btn" data-action="next-day" style="border-color:transparent;background:${state.day===10?"#1C1C38":c};color:${state.day===10?"#374151":"#000"}" ${state.day===10?"disabled":""}>Next →</button>
-    </div>
-  </div>
-  <div class="day-dots">
-    ${Array.from({length:11},(_,i)=>`<button class="day-dot" data-day="${i}" style="background:${i===state.day?c:i<state.day?c+"44":"#1C1C2E"};color:${i===state.day?"#000":i<state.day?c:"#475569"}">${i+1}</button>`).join("")}
-  </div>`;
+  var c=ac();
+  var html='<div class="day-ctrl">';
+  html+='<div class="day-title">'+SECTIONS[state.sec].icon+' Day '+(state.day+1)+' — Q'+(state.day*10+1)+'–'+(state.day*10+10)+'</div>';
+  html+='<div class="day-nav">';
+  html+='<button class="nav-btn" data-action="prev-day" style="border-color:'+(state.day===0?"#1C1C38":"#2D3748")+';color:'+(state.day===0?"#374151":"#CBD5E1")+';background:'+(state.day===0?"#0E0E1E":"#12122A")+'"'+(state.day===0?' disabled':'')+'>← Prev</button>';
+  html+='<button class="nav-btn" data-action="next-day" style="border-color:transparent;background:'+(state.day===10?"#1C1C38":c)+';color:'+(state.day===10?"#374151":"#000")+'"'+(state.day===10?' disabled':'')+'>Next →</button>';
+  html+='</div></div>';
+  html+='<div class="day-dots">';
+  for(var i=0;i<11;i++){
+    html+='<button class="day-dot" data-day="'+i+'" style="background:'+(i===state.day?c:i<state.day?c+"44":"#1C1C2E")+';color:'+(i===state.day?"#000":i<state.day?c:"#475569")+'">'+(i+1)+"</button>";
+  }
+  html+="</div>";
+  return html;
 }
 
 function buildStudyCard(item,cfg){
-  const key=state.sec+"-"+item.id;
-  const bm=state.bookmarks.has(key);
-  const c=cfg.color;
-  return `
-  <div class="study-card slide-up">
-    <button class="bm-btn" data-bm="${key}">${bm?"⭐":"☆"}</button>
-    <div class="card-top">
-      <div class="card-num" style="background:${c}18;color:${c}">${String(item.id).padStart(2,"0")}</div>
-      <div style="flex:1;padding-right:28px">
-        <div class="cat-badge" style="color:${c};border-color:${c}33;background:${c}0D">${item.c}</div>
-        <div class="question">${item.q}</div>
-      </div>
-    </div>
-    <div class="ans-box" style="background:${c}14">
-      <div class="ans-label" style="color:${c}">Uttar (Answer)</div>
-      <div class="ans-text">${item.a}</div>
-    </div>
-    <div class="hm-badge">
-      <span style="font-size:14px">🇮🇳</span>
-      <span class="hm-text">${item.h}</span>
-    </div>
-  </div>`;
+  var key=state.sec+"-"+item.id;
+  var bm=state.bookmarks.has(key);
+  var c=cfg.color;
+  var html='<div class="study-card slide-up">';
+  html+='<button class="bm-btn" data-bm="'+key+'">'+(bm?"⭐":"☆")+"</button>";
+  html+='<div class="card-top">';
+  html+='<div class="card-num" style="background:'+c+'18;color:'+c+'">'+String(item.id).padStart(2,"0")+"</div>";
+  html+='<div style="flex:1;padding-right:28px">';
+  html+='<div class="cat-badge" style="color:'+c+';border-color:'+c+'33;background:'+c+'0D">'+item.c+"</div>";
+  html+='<div class="question">'+item.q+"</div>";
+  html+="</div></div>";
+  html+='<div class="ans-box" style="background:'+c+'14">';
+  html+='<div class="ans-label" style="color:'+c+'">Uttar (Answer)</div>';
+  html+='<div class="ans-text">'+item.a+"</div></div>";
+  html+='<div class="hm-badge"><span style="font-size:14px">🇮🇳</span><span class="hm-text">'+item.h+"</span></div>";
+  html+="</div>";
+  return html;
 }
 
 function buildFlashMode(daily10,cfg){
-  const item=daily10[state.flashIdx];
-  const c=cfg.color;
-  const key=`${state.sec}-${state.day}-${state.flashIdx}`;
-  const flipped=state.isFlipped;
-  return `
-  <div class="flash-day-row">
-    <span style="font-size:12px;color:#64748B;font-weight:600">Day:</span>
-    <select class="day-select" id="flash-day-sel" style="background:#0E0E1E;color:#F0F4FF;border-color:${c}44">
-      ${Array.from({length:11},(_,i)=>`<option value="${i}" ${i===state.day?"selected":""}>Day ${i+1}</option>`).join("")}
-    </select>
-  </div>
-  <div class="flash-counter" style="color:${c}">${state.flashIdx+1} / ${daily10.length}</div>
-  <div class="flip-wrap" id="flip-card">
-    <div class="flip-inner ${flipped?"flipped":""}">
-      <div class="flip-f" style="background:linear-gradient(135deg,${c}DD,${c})">
-        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.65;margin-bottom:10px">Question</div>
-        <div style="font-family:var(--ff-h);font-size:16px;font-weight:700;line-height:1.4">${item.q}</div>
-        <div style="font-size:10px;opacity:.5;margin-top:14px">tap to reveal ✨</div>
-      </div>
-      <div class="flip-b" style="border-color:${c}44">
-        <div class="cat-badge" style="color:${c};border-color:${c}33;background:${c}18;margin-bottom:12px">${item.c}</div>
-        <div style="font-family:var(--ff-h);font-size:20px;font-weight:800;color:#F0F4FF;margin-bottom:10px">${item.a}</div>
-        <div class="hm-badge"><span>🇮🇳</span><span class="hm-text">${item.h}</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="flash-nav">
-    <button class="flash-btn" data-action="flash-prev" style="border:1.5px solid ${state.flashIdx===0?"#1C1C38":"#2D3748"};background:${state.flashIdx===0?"#0E0E1E":"#12122A"};color:${state.flashIdx===0?"#374151":"#CBD5E1"}" ${state.flashIdx===0?"disabled":""}>← Prev</button>
-    <button class="flash-btn" data-action="flash-flip" style="border:2px solid ${c};background:transparent;color:${c}">Flip 🔄</button>
-    <button class="flash-btn" data-action="flash-next" style="border:none;background:${state.flashIdx===daily10.length-1?"#1C1C38":c};color:${state.flashIdx===daily10.length-1?"#374151":"#000"}" ${state.flashIdx===daily10.length-1?"disabled":""}>Next →</button>
-  </div>
-  <div class="flash-dots">
-    ${daily10.map((_,i)=>`<div class="flash-dot" data-fidx="${i}" style="background:${i===state.flashIdx?c:"#1C1C38"}"></div>`).join("")}
-  </div>`;
+  var item=daily10[state.flashIdx];
+  var c=cfg.color;
+  var flipped=state.isFlipped;
+  var html='<div class="flash-day-row">';
+  html+='<span style="font-size:12px;color:#64748B;font-weight:600">Day:</span>';
+  html+='<select class="day-select" id="flash-day-sel" style="background:#0E0E1E;color:#F0F4FF;border:1px solid '+c+'44">';
+  for(var i=0;i<11;i++){
+    html+='<option value="'+i+'"'+(i===state.day?' selected':'')+'>Day '+(i+1)+"</option>";
+  }
+  html+="</select></div>";
+  html+='<div class="flash-counter" style="color:'+c+'">'+(state.flashIdx+1)+" / "+daily10.length+"</div>";
+  html+='<div class="flip-wrap" id="flip-card">';
+  html+='<div class="flip-inner'+(flipped?" flipped":"")+'">';
+  html+='<div class="flip-f" style="background:linear-gradient(135deg,'+c+'DD,'+c+')">';
+  html+='<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.65;margin-bottom:10px">Question</div>';
+  html+='<div style="font-family:var(--ff-h);font-size:16px;font-weight:700;line-height:1.4">'+item.q+"</div>";
+  html+='<div style="font-size:10px;opacity:.5;margin-top:14px">tap to reveal ✨</div>';
+  html+="</div>";
+  html+='<div class="flip-b" style="border-color:'+c+'44">';
+  html+='<div class="cat-badge" style="color:'+c+';border-color:'+c+'33;background:'+c+'18;margin-bottom:12px">'+item.c+"</div>";
+  html+='<div style="font-family:var(--ff-h);font-size:20px;font-weight:800;color:#F0F4FF;margin-bottom:10px">'+item.a+"</div>";
+  html+='<div class="hm-badge"><span>🇮🇳</span><span class="hm-text">'+item.h+"</span></div>";
+  html+="</div></div></div>";
+  html+='<div class="flash-nav">';
+  html+='<button class="flash-btn" data-action="flash-prev" style="border:1.5px solid '+(state.flashIdx===0?"#1C1C38":"#2D3748")+';background:'+(state.flashIdx===0?"#0E0E1E":"#12122A")+';color:'+(state.flashIdx===0?"#374151":"#CBD5E1")+'"'+(state.flashIdx===0?' disabled':'')+'>← Prev</button>';
+  html+='<button class="flash-btn" data-action="flash-flip" style="border:2px solid '+c+';background:transparent;color:'+c+'">Flip 🔄</button>';
+  html+='<button class="flash-btn" data-action="flash-next" style="border:none;background:'+(state.flashIdx===daily10.length-1?"#1C1C38":c)+';color:'+(state.flashIdx===daily10.length-1?"#374151":"#000")+'"'+(state.flashIdx===daily10.length-1?' disabled':'')+'>Next →</button>';
+  html+="</div>";
+  html+='<div class="flash-dots">';
+  for(var i=0;i<daily10.length;i++){
+    html+='<div class="flash-dot" data-fidx="'+i+'" style="background:'+(i===state.flashIdx?c:"#1C1C38")+'"></div>';
+  }
+  html+="</div>";
+  return html;
 }
 
 function buildQuizMode(cfg){
-  const c=cfg.color;
-  let html=`
-  <div class="flash-day-row">
-    <span style="font-size:12px;color:#64748B;font-weight:600">Day:</span>
-    <select class="day-select" id="quiz-day-sel" style="background:#0E0E1E;color:#F0F4FF;border-color:${c}44">
-      ${Array.from({length:11},(_,i)=>`<option value="${i}" ${i===state.day?"selected":""}>Day ${i+1}</option>`).join("")}
-    </select>
-  </div>`;
+  var c=cfg.color;
+  var html='<div class="flash-day-row">';
+  html+='<span style="font-size:12px;color:#64748B;font-weight:600">Day:</span>';
+  html+='<select class="day-select" id="quiz-day-sel" style="background:#0E0E1E;color:#F0F4FF;border:1px solid '+c+'44">';
+  for(var i=0;i<11;i++){
+    html+='<option value="'+i+'"'+(i===state.day?' selected':'')+'>Day '+(i+1)+"</option>";
+  }
+  html+="</select></div>";
 
   if(state.quizDone){
-    const pct=Math.round((state.quizScore/state.quizQs.length)*100);
-    const star=pct>=80?"🏆":pct>=60?"😊":"💪";
-    html+=`
-    <div class="result-box slide-up">
-      <div class="result-emoji">${star}</div>
-      <div class="result-score" style="color:${c}">${state.quizScore}/${state.quizQs.length}</div>
-      <div class="result-pct">${pct}% Score</div>
-      <div style="font-size:13px;color:#64748B;margin-bottom:24px">${pct>=80?"🔥 Zabardast! CUET ready ho gaye!":pct>=60?"💪 Accha! Thoda aur karo":    "📚 Practice karo — ho jaayega!"}</div>
-      <div class="result-bar"><div class="result-fill" style="width:${pct}%;background:linear-gradient(90deg,${c},${c}99)"></div></div>
-      <button class="retry-btn" data-action="quiz-retry" style="background:${c};color:#000">🔄 Dobara Try Karo</button>
-    </div>`;
+    var pct=Math.round((state.quizScore/state.quizQs.length)*100);
+    var star=pct>=80?"🏆":pct>=60?"😊":"💪";
+    var msg=pct>=80?"Zabardast! CUET ready ho gaye!":pct>=60?"Accha! Thoda aur karo":"Practice karo — ho jaayega!";
+    html+='<div class="result-box slide-up">';
+    html+='<div class="result-emoji">'+star+"</div>";
+    html+='<div class="result-score" style="color:'+c+'">'+state.quizScore+"/"+state.quizQs.length+"</div>";
+    html+='<div class="result-pct">'+pct+"% Score</div>";
+    html+='<div style="font-size:13px;color:#64748B;margin-bottom:24px">'+msg+"</div>";
+    html+='<div class="result-bar"><div class="result-fill" style="width:'+pct+"%;background:linear-gradient(90deg,"+c+","+c+'99)"></div></div>';
+    html+='<button class="retry-btn" data-action="quiz-retry" style="background:'+c+';color:#000">🔄 Dobara Try Karo</button>';
+    html+="</div>";
   } else if(state.quizQs.length===0){
-    html+=`<div style="text-align:center;padding:30px;color:#64748B">Loading...</div>`;
+    html+='<div style="text-align:center;padding:30px;color:#64748B">Loading...</div>';
   } else {
-    const q=state.quizQs[state.quizIdx];
-    const opts=state.quizOpts[state.quizIdx]||[];
-    const prgW=((state.quizIdx)/state.quizQs.length)*100;
-    const letters=["A","B","C","D"];
-    html+=`
-    <div class="quiz-progress">
-      <div class="prog-bar"><div class="prog-fill" style="width:${prgW}%;background:${c}"></div></div>
-      <span style="font-size:13px;font-weight:700;color:${c};min-width:45px;text-align:right">${state.quizIdx+1}/${state.quizQs.length}</span>
-      <span style="font-size:13px;font-weight:700;color:#34D399;min-width:30px">✅${state.quizScore}</span>
-    </div>
-    <div class="q-card ${state.quizAnim}" style="background:${c}10;border-color:${c}30">
-      <div class="q-label" style="color:${c}">${q.c}</div>
-      <div class="q-text">${q.q}</div>
-    </div>
-    <div class="opts">
-      ${opts.map((opt,i)=>{
-        let cls="opt-btn";
-        let letterbg=c+"22",lettercolor=c,lettercontent=letters[i];
-        if(state.quizSelected!==null){
-          if(opt===q.a){cls+=" correct";letterbg="#22C55E";lettercolor="#fff";lettercontent="✓";}
-          else if(opt===state.quizSelected){cls+=" wrong";letterbg="#EF4444";lettercolor="#fff";lettercontent="✗";}
-        }
-        return `<button class="${cls}" data-opt="${encodeURIComponent(opt)}" ${state.quizSelected!==null?"disabled":""}>
-          <span class="opt-letter" style="background:${letterbg};color:${lettercolor}">${lettercontent}</span>
-          ${opt}
-        </button>`;
-      }).join("")}
-    </div>`;
+    var q=state.quizQs[state.quizIdx];
+    var opts=state.quizOpts[state.quizIdx]||[];
+    var prgW=((state.quizIdx)/state.quizQs.length)*100;
+    var letters=["A","B","C","D"];
+    html+='<div class="quiz-progress">';
+    html+='<div class="prog-bar"><div class="prog-fill" style="width:'+prgW+"%;background:"+c+'"></div></div>';
+    html+='<span style="font-size:13px;font-weight:700;color:'+c+';min-width:45px;text-align:right">'+(state.quizIdx+1)+"/"+state.quizQs.length+"</span>";
+    html+='<span style="font-size:13px;font-weight:700;color:#34D399;min-width:30px">✅'+state.quizScore+"</span>";
+    html+="</div>";
+    html+='<div class="q-card '+state.quizAnim+'" style="background:'+c+'10;border-color:'+c+'30">';
+    html+='<div class="q-label" style="color:'+c+'">'+q.c+"</div>";
+    html+='<div class="q-text">'+q.q+"</div>";
+    html+="</div>";
+    html+='<div class="opts">';
+    for(var i=0;i<opts.length;i++){
+      var opt=opts[i];
+      var cls="opt-btn";
+      var letterbg=c+"22",lettercolor=c,lettercontent=letters[i];
+      if(state.quizSelected!==null){
+        if(opt===q.a){cls+=" correct";letterbg="#22C55E";lettercolor="#fff";lettercontent="✓";}
+        else if(opt===state.quizSelected){cls+=" wrong";letterbg="#EF4444";lettercolor="#fff";lettercontent="✗";}
+      }
+      html+='<button class="'+cls+'" data-opt="'+encodeURIComponent(opt)+'"'+(state.quizSelected!==null?' disabled':'')+' style="'+(state.quizSelected===null?'cursor:pointer':'')+'"> ';
+      html+='<span class="opt-letter" style="background:'+letterbg+';color:'+lettercolor+'">'+lettercontent+"</span>";
+      html+=opt+"</button>";
+    }
+    html+="</div>";
   }
   return html;
 }
 
 function buildAllMode(cfg){
-  const c=cfg.color;
-  const q=state.search.trim().toLowerCase();
-  const filtered=q?cfg.data.filter(d=>Object.values(d).some(v=>String(v).toLowerCase().includes(q))):cfg.data;
-  return `
-  <div class="search-wrap">
-    <span>🔍</span>
-    <input class="search-input" id="search-inp" placeholder="Search karo - question, answer, hinglish..." value="${state.search}" style="--ac:${c}">
-    ${state.search?`<button class="search-clear" id="search-clear">✕</button>`:""}
-  </div>
-  <div class="search-count">${filtered.length} / 110 dikh rahe hain</div>
-  ${filtered.map(item=>buildStudyCard(item,cfg)).join("")}
-  ${filtered.length===0?`<div class="empty-box"><div class="empty-emoji">🔍</div><div style="font-size:15px;font-weight:600">"${state.search}" ke liye kuch nahi mila</div></div>`:""}`;
+  var c=cfg.color;
+  var q=state.search.trim().toLowerCase();
+  var filtered=q?cfg.data.filter(function(d){
+    return Object.values(d).some(function(v){return String(v).toLowerCase().indexOf(q)!==-1;});
+  }):cfg.data;
+  var html='<div class="search-wrap">';
+  html+='<span>🔍</span>';
+  html+='<input class="search-input" id="search-inp" placeholder="Search karo - question, answer, hinglish..." value="'+state.search.replace(/"/g,"&quot;")+'" style="--ac:'+c+'">';
+  if(state.search){html+='<button class="search-clear" id="search-clear">✕</button>';}
+  html+="</div>";
+  html+='<div class="search-count">'+filtered.length+" / 110 dikh rahe hain</div>";
+  for(var i=0;i<filtered.length;i++){html+=buildStudyCard(filtered[i],cfg);}
+  if(filtered.length===0){
+    html+='<div class="empty-box"><div class="empty-emoji">🔍</div>';
+    html+='<div style="font-size:15px;font-weight:600">"'+state.search+'" ke liye kuch nahi mila</div></div>';
+  }
+  return html;
 }
 
 function buildBookmarksMode(bmItems,cfg){
-  const c=cfg.color;
-  return `
-  <div style="font-family:var(--ff-h);font-size:17px;font-weight:800;color:#F0F4FF;margin-bottom:16px">
-    ⭐ Saved ${cfg.short} (${bmItems.length})
-  </div>
-  ${bmItems.length===0?`
-  <div class="empty-box">
-    <div class="empty-emoji">⭐</div>
-    <div style="font-size:16px;font-weight:600;color:#4B5563;margin-bottom:8px">Kuch save nahi kiya abhi tak!</div>
-    <div style="font-size:13px">Study cards mein ☆ dabao - save ho jaayega</div>
-  </div>`:bmItems.map(item=>buildStudyCard(item,cfg)).join("")}`;
+  var c=cfg.color;
+  var html='<div style="font-family:var(--ff-h);font-size:17px;font-weight:800;color:#F0F4FF;margin-bottom:16px">⭐ Saved '+cfg.short+" ("+bmItems.length+")</div>";
+  if(bmItems.length===0){
+    html+='<div class="empty-box"><div class="empty-emoji">⭐</div>';
+    html+='<div style="font-size:16px;font-weight:600;color:#4B5563;margin-bottom:8px">Kuch save nahi kiya abhi tak!</div>';
+    html+='<div style="font-size:13px">Study cards mein ☆ dabao - save ho jaayega</div></div>';
+  } else {
+    for(var i=0;i<bmItems.length;i++){html+=buildStudyCard(bmItems[i],cfg);}
+  }
+  return html;
 }
 
 /* ═══════════════ EVENTS ═══════════════ */
 function attachEvents(){
   // Section tabs
-  document.querySelectorAll("[data-sec]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      state.sec=btn.dataset.sec;state.mode="study";state.day=0;
-      state.flashIdx=0;state.isFlipped=false;state.search="";
-      state.quizQs=[];render();
-    });
-  });
-  // Mode tabs
-  document.querySelectorAll("[data-mode]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      state.mode=btn.dataset.mode;state.flashIdx=0;state.isFlipped=false;state.search="";
-      if(state.mode==="quiz"){initQuiz();}
-      render();
-    });
-  });
-  // Day dots
-  document.querySelectorAll("[data-day]").forEach(btn=>{
-    btn.addEventListener("click",()=>{state.day=parseInt(btn.dataset.day);render();});
-  });
-  // Day nav
-  const pa=document.querySelector("[data-action='prev-day']");
-  const na=document.querySelector("[data-action='next-day']");
-  if(pa)pa.addEventListener("click",()=>{if(state.day>0){state.day--;render();}});
-  if(na)na.addEventListener("click",()=>{if(state.day<10){state.day++;render();}});
-  // Flash day select
-  const fds=document.getElementById("flash-day-sel");
-  if(fds)fds.addEventListener("change",e=>{state.day=parseInt(e.target.value);state.flashIdx=0;state.isFlipped=false;render();});
-  // Quiz day select
-  const qds=document.getElementById("quiz-day-sel");
-  if(qds)qds.addEventListener("change",e=>{state.day=parseInt(e.target.value);initQuiz();render();});
-  // Flashcard flip
-  const fc=document.getElementById("flip-card");
-  if(fc)fc.addEventListener("click",()=>{state.isFlipped=!state.isFlipped;render();});
-  const fb=document.querySelector("[data-action='flash-flip']");
-  if(fb)fb.addEventListener("click",e=>{e.stopPropagation();state.isFlipped=!state.isFlipped;render();});
-  const fp=document.querySelector("[data-action='flash-prev']");
-  if(fp)fp.addEventListener("click",e=>{e.stopPropagation();if(state.flashIdx>0){state.flashIdx--;state.isFlipped=false;render();}});
-  const fn=document.querySelector("[data-action='flash-next']");
-  if(fn)fn.addEventListener("click",e=>{e.stopPropagation();const d=SECTIONS[state.sec].data;const dq=getDaily10(d,state.day);if(state.flashIdx<dq.length-1){state.flashIdx++;state.isFlipped=false;render();}});
-  document.querySelectorAll("[data-fidx]").forEach(dot=>{
-    dot.addEventListener("click",()=>{state.flashIdx=parseInt(dot.dataset.fidx);state.isFlipped=false;render();});
-  });
-  // Quiz options
-  document.querySelectorAll("[data-opt]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      if(state.quizSelected!==null)return;
-      const opt=decodeURIComponent(btn.dataset.opt);
-      state.quizSelected=opt;
-      const q=state.quizQs[state.quizIdx];
-      if(opt===q.a){state.quizScore++;state.quizAnim="pop";}
-      else{state.quizAnim="shake";}
-      render();
-      setTimeout(()=>{
-        state.quizAnim="";
-        if(state.quizIdx+1>=state.quizQs.length){state.quizDone=true;}
-        else{state.quizIdx++;state.quizSelected=null;}
+  var secBtns=document.querySelectorAll("[data-sec]");
+  for(var i=0;i<secBtns.length;i++){
+    (function(btn){
+      btn.addEventListener("click",function(){
+        state.sec=btn.getAttribute("data-sec");state.mode="study";state.day=0;
+        state.flashIdx=0;state.isFlipped=false;state.search="";state.quizQs=[];
         render();
-      },1300);
-    });
-  });
-  // Quiz retry
-  const qr=document.querySelector("[data-action='quiz-retry']");
-  if(qr)qr.addEventListener("click",()=>{initQuiz();render();});
-  // Bookmarks
-  document.querySelectorAll("[data-bm]").forEach(btn=>{
-    btn.addEventListener("click",e=>{
+      });
+    })(secBtns[i]);
+  }
+  // Mode tabs
+  var modeBtns=document.querySelectorAll("[data-mode]");
+  for(var i=0;i<modeBtns.length;i++){
+    (function(btn){
+      btn.addEventListener("click",function(){
+        state.mode=btn.getAttribute("data-mode");state.flashIdx=0;state.isFlipped=false;state.search="";
+        if(state.mode==="quiz"){initQuiz();}
+        render();
+      });
+    })(modeBtns[i]);
+  }
+  // Day dots
+  var dayDots=document.querySelectorAll("[data-day]");
+  for(var i=0;i<dayDots.length;i++){
+    (function(btn){
+      btn.addEventListener("click",function(){state.day=parseInt(btn.getAttribute("data-day"));render();});
+    })(dayDots[i]);
+  }
+  // Day nav
+  var pa=document.querySelector("[data-action='prev-day']");
+  var na=document.querySelector("[data-action='next-day']");
+  if(pa)pa.addEventListener("click",function(){if(state.day>0){state.day--;render();}});
+  if(na)na.addEventListener("click",function(){if(state.day<10){state.day++;render();}});
+  // Flash day select
+  var fds=document.getElementById("flash-day-sel");
+  if(fds)fds.addEventListener("change",function(e){state.day=parseInt(e.target.value);state.flashIdx=0;state.isFlipped=false;render();});
+  // Quiz day select
+  var qds=document.getElementById("quiz-day-sel");
+  if(qds)qds.addEventListener("change",function(e){state.day=parseInt(e.target.value);initQuiz();render();});
+  // Flashcard flip
+  var fc=document.getElementById("flip-card");
+  if(fc)fc.addEventListener("click",function(){state.isFlipped=!state.isFlipped;render();});
+  var fb=document.querySelector("[data-action='flash-flip']");
+  if(fb)fb.addEventListener("click",function(e){e.stopPropagation();state.isFlipped=!state.isFlipped;render();});
+  var fp=document.querySelector("[data-action='flash-prev']");
+  if(fp)fp.addEventListener("click",function(e){e.stopPropagation();if(state.flashIdx>0){state.flashIdx--;state.isFlipped=false;render();}});
+  var fn=document.querySelector("[data-action='flash-next']");
+  if(fn){
+    fn.addEventListener("click",function(e){
       e.stopPropagation();
-      const k=btn.dataset.bm;
-      if(state.bookmarks.has(k))state.bookmarks.delete(k);
-      else state.bookmarks.add(k);
-      render();
+      var dq=getDaily10(SECTIONS[state.sec].data,state.day);
+      if(state.flashIdx<dq.length-1){state.flashIdx++;state.isFlipped=false;render();}
     });
-  });
+  }
+  var flashDots=document.querySelectorAll("[data-fidx]");
+  for(var i=0;i<flashDots.length;i++){
+    (function(dot){
+      dot.addEventListener("click",function(){state.flashIdx=parseInt(dot.getAttribute("data-fidx"));state.isFlipped=false;render();});
+    })(flashDots[i]);
+  }
+  // Quiz options
+  var optBtns=document.querySelectorAll("[data-opt]");
+  for(var i=0;i<optBtns.length;i++){
+    (function(btn){
+      btn.addEventListener("click",function(){
+        if(state.quizSelected!==null)return;
+        var opt=decodeURIComponent(btn.getAttribute("data-opt"));
+        state.quizSelected=opt;
+        var q=state.quizQs[state.quizIdx];
+        if(opt===q.a){state.quizScore++;state.quizAnim="pop";}
+        else{state.quizAnim="shake";}
+        render();
+        setTimeout(function(){
+          state.quizAnim="";
+          if(state.quizIdx+1>=state.quizQs.length){state.quizDone=true;}
+          else{state.quizIdx++;state.quizSelected=null;}
+          render();
+        },1300);
+      });
+    })(optBtns[i]);
+  }
+  // Quiz retry
+  var qr=document.querySelector("[data-action='quiz-retry']");
+  if(qr)qr. addEventListener("click",function(){initQuiz();render();});
+  // Bookmarks
+  var bmBtns=document.querySelectorAll("[data-bm]");
+  for(var i=0;i<bmBtns.length;i++){
+    (function(btn){
+      btn.addEventListener("click",function(e){
+        e.stopPropagation();
+        var k=btn.getAttribute("data-bm");
+        if(state.bookmarks.has(k)){state.bookmarks.delete(k);}else{state.bookmarks.add(k);}
+        render();
+      });
+    })(bmBtns[i]);
+  }
   // Search
-  const si=document.getElementById("search-inp");
-  if(si)si.addEventListener("input",e=>{state.search=e.target.value;render();});
-  const sc=document.getElementById("search-clear");
-  if(sc)sc.addEventListener("click",()=>{state.search="";render();});
+  var si=document.getElementById("search-inp");
+  if(si)si.addEventListener("input",function(e){state.search=e.target.value;render();});
+  var sc=document.getElementById("search-clear");
+  if(sc)sc.addEventListener("click",function(){state.search="";render();});
 }
 
 /* ═══════════════ BOOT ═══════════════ */
 render();
 </script>
 </body>
-</html>
+</html> esme jitna question hai English me ro answer ko v
